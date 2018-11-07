@@ -31,6 +31,7 @@ class WebServiceManager: Any {
                             completionHandler(.Error("Returned object is not Food type"))
                             return
                         }
+                        food.barcode = barcode
                         completionHandler(.Success(food))
                     case .failure(_):
                         completionHandler(.Error("food doesn't have nutrients"))

@@ -22,6 +22,7 @@ struct Nutrient {
 
 class Food {
     
+    var barcode: String = ""
     var imageURL: String = ""
     var name: String = ""
     var nutrients: [Nutrient] = []
