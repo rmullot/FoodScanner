@@ -50,7 +50,7 @@ class ScannerViewController: UIViewController {
             if let videoPreviewLayer = videoPreviewLayer {
                 videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
                 videoPreviewLayer.frame = cameraView.layer.bounds
-                videoPreviewLayer.connection?.videoOrientation = .portrait
+                videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation == UIDeviceOrientation.portrait ? .portrait : .landscapeLeft
                 cameraView.layer.addSublayer(videoPreviewLayer)
                 cameraView.bringSubviewToFront(lampButton)
             }
@@ -84,7 +84,11 @@ class ScannerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        videoPreviewLayer?.frame = self.cameraView.bounds
+        if let videoPreviewLayer = videoPreviewLayer {
+            videoPreviewLayer.frame = self.cameraView.bounds
+            videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation == UIDeviceOrientation.portrait ? .portrait : .landscapeLeft
+        }
+       
     }
     
     @IBAction func toggleLampEvent() {
