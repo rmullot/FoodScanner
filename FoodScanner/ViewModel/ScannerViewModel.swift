@@ -19,7 +19,7 @@ class ScannerViewModel {
         if self.barcode != barcode {
             self.barcode = barcode
             
-             // TODO REALM
+            //TODO: Integrate REALM
             WebServiceManager.sharedInstance.getFoodDescription(barcode: barcode) { result in
                 switch result {
                 case .Success(let food):
@@ -27,7 +27,7 @@ class ScannerViewModel {
                    NavigationManager.sharedInstance.navigateToFoodDescription(food: food)
                    break
                 case .Error(_): break
-                    
+                    //TODO: To rebuild the system of error
                 }
                 
             }

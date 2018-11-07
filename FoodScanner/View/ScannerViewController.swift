@@ -20,15 +20,10 @@ class ScannerViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var lampButton: UIButton!
     
-    var viewModel: ScannerViewModel! {
-        didSet {
-            // TODO
-        }
-    }
+    var viewModel = ScannerViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = ScannerViewModel()
         messageLabel.layer.shadowColor = UIColor.black.cgColor
         messageLabel.layer.shadowRadius = 1.0
         messageLabel.layer.shadowOpacity = 1.0
@@ -53,6 +48,11 @@ class ScannerViewController: UIViewController {
                 videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation == UIDeviceOrientation.portrait ? .portrait : .landscapeLeft
                 cameraView.layer.addSublayer(videoPreviewLayer)
                 cameraView.bringSubviewToFront(lampButton)
+                let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTapEvent(sender:)))
+                singleTapGestureRecognizer.numberOfTapsRequired = 1
+                singleTapGestureRecognizer.isEnabled = true
+                singleTapGestureRecognizer.cancelsTouchesInView = false
+                cameraView.addGestureRecognizer(singleTapGestureRecognizer)
             }
             
         } catch {
@@ -85,7 +85,7 @@ class ScannerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if let videoPreviewLayer = videoPreviewLayer {
-            videoPreviewLayer.frame = self.cameraView.bounds
+            videoPreviewLayer.frame = cameraView.bounds
             videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation == UIDeviceOrientation.portrait ? .portrait : .landscapeLeft
         }
        
@@ -96,7 +96,49 @@ class ScannerViewController: UIViewController {
         lampButton.backgroundColor = viewModel.lampActivated ? UIColor.white : UIColor.black
         lampButton.setTitleColor(viewModel.lampActivated ? UIColor.blue : UIColor.white, for: .normal)
     }
+    
+    @objc func singleTapEvent(sender: UITapGestureRecognizer) {
+        searchBar.resignFirstResponder()
+        if let barcode = searchBar.text {
+            checkBarcode(barcode: barcode)
+        }
+    }
+    
+    private func checkBarcode(barcode: String) {
+        if barcode.isNumeric {
+            messageLabel.text = barcode
+            searchBar.text = barcode
+            viewModel.getFoodInformations(barcode: barcode)
+        } else {
+            messageLabel.text = "data received but not a valid digital barcode"
+            searchBar.text = ""
+        }
+    }
 
+}
+
+extension ScannerViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text.isEmpty {
+            return true
+        } else {
+            return text.isNumeric
+        }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        messageLabel.text = "No bar code is detected"
+        searchBar.resignFirstResponder()
+    }
 }
 
 extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
@@ -116,14 +158,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             barCodeFrameView.frame = barCodeObject.bounds
             
             if let barcode = metadataObj.stringValue {
-                if barcode.isNumeric {
-                    messageLabel.text = barcode
-                    searchBar.text = barcode
-                    viewModel.getFoodInformations(barcode: barcode)
-                } else {
-                    messageLabel.text = "data received but not a valid digital barcode"
-                    searchBar.text = ""
-                }
+                checkBarcode(barcode: barcode)
             }
         }
     }
