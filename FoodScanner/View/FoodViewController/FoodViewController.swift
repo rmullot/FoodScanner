@@ -62,13 +62,11 @@ extension FoodViewController : UICollectionViewDataSource {
                 cellChart.viewModel = viewModel
                 cell = cellChart
             }
-            break
         case DescriptionTypeCell.descriptionNutrients.rawValue:
             if let cellNutrients = desriptionCollectionView.dequeueReusableCell(withReuseIdentifier: NutrientsCollectionViewCell.cellID, for: indexPath) as? NutrientsCollectionViewCell {
                 cellNutrients.viewModel = viewModel
                 cell = cellNutrients
             }
-            break
         default:
             break
         }
@@ -99,10 +97,8 @@ extension FoodViewController: UICollectionViewDelegateFlowLayout {
             switch indexPath.row {
             case DescriptionTypeCell.descriptionChart.rawValue:
                 size = CGSize(width: width, height: ChartCollectionViewCell.heightCell)
-                break
             case DescriptionTypeCell.descriptionNutrients.rawValue:
                 size = CGSize(width: width, height: CGFloat(viewModel.nutrientsCount) * NutrientTableViewCell.heightRow)
-                break
             default:
                 break
             }

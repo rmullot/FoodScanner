@@ -9,8 +9,22 @@
 import Foundation
 
 class ScannerViewModel {
+    
+    var propertyChanged:((_ key: String) -> Void)?
+    
+    enum PropertyKeys: String {
+        case statusMessage = "statusMessage"
+    }
+    
     private var food: Food?
     private var barcode: String = ""
+    
+    
+    private(set)var statusMessage: String = "" {
+        didSet {
+            propertyChanged?(PropertyKeys.statusMessage.rawValue)
+        }
+    }
     
     var lampActivated : Bool = false
     
@@ -18,23 +32,20 @@ class ScannerViewModel {
     func getFoodInformations(barcode: String) {
         if self.barcode != barcode {
             self.barcode = barcode
-            
+            self.food = nil
+            self.statusMessage = barcode
             //TODO: Integrate REALM
             WebServiceManager.sharedInstance.getFoodDescription(barcode: barcode) { result in
                 switch result {
                 case .Success(let food):
                    self.food = food
                    NavigationManager.sharedInstance.navigateToFoodDescription(food: food)
-                   break
-                case .Error(_): break
-                    //TODO: To rebuild the system of error
+                case .Error(let message):
+                    self.statusMessage = message
                 }
-                
             }
-        } else {
-            if let food = food {
-                 NavigationManager.sharedInstance.navigateToFoodDescription(food: food)
-            }
+        } else if let food = food {
+            NavigationManager.sharedInstance.navigateToFoodDescription(food: food)
         }
        
     }
@@ -42,5 +53,22 @@ class ScannerViewModel {
     func toggleLamp() {
         lampActivated = !lampActivated
         CameraTool.toggleTorch(on: lampActivated)
+    }
+    
+    func forceSwitchOffLamp() {
+        lampActivated = false
+        CameraTool.toggleTorch(on: lampActivated)
+    }
+    
+    func rebootStatusMessage() {
+        statusMessage = "No bar code is detected"
+    }
+    
+    func isValidBarcode(_ text : String) -> Bool {
+        if text.isEmpty {
+            return true
+        } else {
+            return text.isNumeric
+        }
     }
 }

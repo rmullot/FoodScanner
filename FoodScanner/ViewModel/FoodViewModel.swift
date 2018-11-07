@@ -39,13 +39,12 @@ class FoodViewModel {
     
     var nutrientsData: [PieChartDataEntry] {
         get {
-            
             guard let food = food, food.nutrients.count > 0 else { return [] }
 
             var tmp: [PieChartDataEntry] = []
             food.nutrients.forEach { nutrient in
-                guard nutrient.type == .mainNutrient else { return }
-                let dataEntry = PieChartDataEntry(value: Double(nutrient.quantity), label: nutrient.name)
+                guard nutrient.type == .mainNutrient, nutrient.quantity > 0 else { return }
+                let dataEntry = PieChartDataEntry(value: nutrient.quantity, label: nutrient.name)
                 tmp.append(dataEntry)
             }
             return tmp

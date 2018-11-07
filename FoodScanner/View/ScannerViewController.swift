@@ -14,6 +14,7 @@ class ScannerViewController: UIViewController {
     private var captureSession = AVCaptureSession()
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     private var barCodeFrameView: UIView?
+    private var captureMetadataOutput = AVCaptureMetadataOutput()
     
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var cameraView: UIView!
@@ -24,6 +25,7 @@ class ScannerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.propertyChanged = { [weak self] key in self?.viewModelPropertyChanged(key) }
         messageLabel.layer.shadowColor = UIColor.black.cgColor
         messageLabel.layer.shadowRadius = 1.0
         messageLabel.layer.shadowOpacity = 1.0
@@ -44,15 +46,17 @@ class ScannerViewController: UIViewController {
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             if let videoPreviewLayer = videoPreviewLayer {
                 videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                videoPreviewLayer.frame = cameraView.layer.bounds
-                videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation == UIDeviceOrientation.portrait ? .portrait : .landscapeLeft
+                refreshCameraFrame()
                 cameraView.layer.addSublayer(videoPreviewLayer)
-                cameraView.bringSubviewToFront(lampButton)
+                
                 let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTapEvent(sender:)))
                 singleTapGestureRecognizer.numberOfTapsRequired = 1
                 singleTapGestureRecognizer.isEnabled = true
-                singleTapGestureRecognizer.cancelsTouchesInView = false
+                singleTapGestureRecognizer.cancelsTouchesInView = true
                 cameraView.addGestureRecognizer(singleTapGestureRecognizer)
+                
+                cameraView.bringSubviewToFront(lampButton)
+
             }
             
         } catch {
@@ -62,7 +66,6 @@ class ScannerViewController: UIViewController {
         }
         
         // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
-        let captureMetadataOutput = AVCaptureMetadataOutput()
         captureSession.addOutput(captureMetadataOutput)
         
         // Set delegate and use the default dispatch queue to execute the call back
@@ -82,13 +85,28 @@ class ScannerViewController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        captureMetadataOutput.setMetadataObjectsDelegate(nil, queue: DispatchQueue.main)
+        viewModel.forceSwitchOffLamp()
+        barCodeFrameView?.frame = CGRect.zero
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+        refreshCameraFrame()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if let videoPreviewLayer = videoPreviewLayer {
-            videoPreviewLayer.frame = cameraView.bounds
-            videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation == UIDeviceOrientation.portrait ? .portrait : .landscapeLeft
-        }
+        refreshCameraFrame()
        
+    }
+    
+    private func refreshCameraFrame() {
+        if let videoPreviewLayer = videoPreviewLayer {
+            videoPreviewLayer.frame = cameraView.layer.bounds
+            videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation == UIDeviceOrientation.landscapeRight || UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft ? .landscapeLeft : .portrait
+        }
     }
     
     @IBAction func toggleLampEvent() {
@@ -106,12 +124,19 @@ class ScannerViewController: UIViewController {
     
     private func checkBarcode(barcode: String) {
         if barcode.isNumeric {
-            messageLabel.text = barcode
             searchBar.text = barcode
             viewModel.getFoodInformations(barcode: barcode)
         } else {
-            messageLabel.text = "data received but not a valid digital barcode"
             searchBar.text = ""
+        }
+    }
+    
+    private func viewModelPropertyChanged(_ key: String) {
+        switch key {
+        case ScannerViewModel.PropertyKeys.statusMessage.rawValue:
+            messageLabel.text = viewModel.statusMessage
+        default:
+            break
         }
     }
 
@@ -120,11 +145,7 @@ class ScannerViewController: UIViewController {
 extension ScannerViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text.isEmpty {
-            return true
-        } else {
-            return text.isNumeric
-        }
+        return viewModel.isValidBarcode(text)
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -136,7 +157,7 @@ extension ScannerViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        messageLabel.text = "No bar code is detected"
+        viewModel.rebootStatusMessage()
         searchBar.resignFirstResponder()
     }
 }
@@ -147,7 +168,6 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         // Check if the metadataObjects array is not nil and it contains at least one object.
         if metadataObjects.count == 0 {
             barCodeFrameView?.frame = CGRect.zero
-            messageLabel.text = "No bar code is detected"
             return
         }
         

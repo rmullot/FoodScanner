@@ -107,19 +107,15 @@ class WebServiceManager: Any {
 extension WebServiceManager: ReachabilityManagerDelegate {
 
     public func onlineModeChanged(_ newMode: OnlineMode) {
-        if(self.onlineMode != newMode)
-        {
+        if self.onlineMode != newMode {
             onlineMode = newMode
-            switch(newMode){
+            switch newMode {
                 case .offline:
                         ErrorManager.showAlertWith(title: "Error", message: "Network not detected or lost")
-                break
                 case .onlineSlow:
                     print("bad Network")
-                break
                 case .online:
                     print("Network OK")
-                break
             }
         }
     }
