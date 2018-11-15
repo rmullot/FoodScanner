@@ -6,7 +6,7 @@ target 'FoodScanner' do
   use_frameworks!
 
   # Pods for FoodScanner
-  pod 'RealmSwift'
+  pod 'RealmSwift', '~> 3.11.1'
   pod 'Charts', '~> 3.1.1'
   pod 'ChartsRealm', '~> 3.1.1'
   target 'FoodScannerTests' do

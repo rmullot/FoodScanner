@@ -130,7 +130,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChartCollectionViewCellID" id="QOk-60-AsJ" customClass="ChartCollectionViewCell" customModule="FoodScanner" customModuleProvider="target">
+                                    <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChartCollectionViewCellID" id="QOk-60-AsJ" customClass="ChartCollectionViewCell" customModule="FoodScanner" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="150" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -143,6 +143,7 @@
                                                 </view>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="RqJ-u2-cP1" secondAttribute="bottom" id="2mk-qY-XBo"/>
                                             <constraint firstItem="RqJ-u2-cP1" firstAttribute="top" secondItem="QOk-60-AsJ" secondAttribute="top" id="J8W-fx-xwP"/>
@@ -154,7 +155,7 @@
                                             <outlet property="pieChartView" destination="RqJ-u2-cP1" id="Q2b-r3-Osw"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NutrientsCollectionViewCellID" id="5OG-9l-vEV" customClass="NutrientsCollectionViewCell" customModule="FoodScanner" customModuleProvider="target">
+                                    <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NutrientsCollectionViewCellID" id="5OG-9l-vEV" customClass="NutrientsCollectionViewCell" customModule="FoodScanner" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="460" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -168,7 +169,7 @@
                                                         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NutrientTableViewCellID" id="pTy-MJ-Or2" customClass="NutrientTableViewCell" customModule="FoodScanner" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
-                                                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pTy-MJ-Or2" id="2HA-Sr-ja9">
+                                                            <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pTy-MJ-Or2" id="2HA-Sr-ja9">
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
@@ -178,8 +179,9 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exw-0r-7rG">
+                                                                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exw-0r-7rG">
                                                                         <rect key="frame" x="300" y="11.5" width="40" height="21"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="8Hj-sE-H3F"/>
                                                                         </constraints>
@@ -188,6 +190,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstItem="RcP-9h-hMI" firstAttribute="centerY" secondItem="2HA-Sr-ja9" secondAttribute="centerY" id="DNn-dg-MIw"/>
                                                                     <constraint firstAttribute="trailingMargin" secondItem="exw-0r-7rG" secondAttribute="trailing" constant="20" id="GZd-Z4-pHS"/>
@@ -196,6 +199,7 @@
                                                                     <constraint firstItem="exw-0r-7rG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RcP-9h-hMI" secondAttribute="trailing" constant="20" id="mzH-WL-wRY"/>
                                                                 </constraints>
                                                             </tableViewCellContentView>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <connections>
                                                                 <outlet property="quantityLabel" destination="exw-0r-7rG" id="jk4-Vg-hX2"/>
                                                                 <outlet property="typeLabel" destination="RcP-9h-hMI" id="26V-xt-4ed"/>
@@ -209,6 +213,7 @@
                                                 </tableView>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="obp-hP-eDg" secondAttribute="trailing" id="CUN-Yu-TDj"/>
                                             <constraint firstItem="obp-hP-eDg" firstAttribute="top" secondItem="5OG-9l-vEV" secondAttribute="top" id="LTZ-bA-t56"/>
@@ -221,12 +226,13 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FoodCollectionReusableViewID" id="Uqe-3P-je5" customClass="FoodCollectionReusableView" customModule="FoodScanner" customModuleProvider="target">
+                                <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FoodCollectionReusableViewID" id="Uqe-3P-je5" customClass="FoodCollectionReusableView" customModule="FoodScanner" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Otg-G3-siK">
+                                        <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Otg-G3-siK">
                                             <rect key="frame" x="160" y="15" width="187" height="120"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="120" id="ahg-ru-Dp4"/>
                                             </constraints>
@@ -234,7 +240,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0g9-Zj-aPt">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0g9-Zj-aPt">
                                             <rect key="frame" x="20" y="15" width="120" height="120"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="Kt3-wc-DQ5"/>
@@ -242,6 +248,7 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="Otg-G3-siK" secondAttribute="trailing" constant="20" id="DSn-d4-HXC"/>
                                         <constraint firstItem="Otg-G3-siK" firstAttribute="leading" secondItem="0g9-Zj-aPt" secondAttribute="trailing" constant="20" id="E9p-fF-RtC"/>
@@ -269,6 +276,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qRp-nF-zLY"/>
                     </view>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="desriptionCollectionView" destination="jge-yy-9kv" id="V54-9z-aBL"/>
                     </connections>

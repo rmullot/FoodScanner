@@ -13,12 +13,12 @@ enum Result<T>{
     case Error(String)
 }
 
-class WebServiceManager: Any {
+class WebServiceManager {
     public var onlineMode: OnlineMode = .online
     static let sharedInstance = WebServiceManager()
     
     func getFoodDescription(barcode:String,completionHandler: @escaping (Result<Food>) -> Void){
-       
+
         let urlString = "https://world.openfoodfacts.org/api/v0/product/\(barcode).json"
         self.getDataWith(urlString: urlString, completion: { (result) in
             switch result {
@@ -27,22 +27,43 @@ class WebServiceManager: Any {
                     switch(result)
                     {
                     case .success(let food):
-                        guard let food  = food as? Food else {
-                            completionHandler(.Error("Returned object is not Food type"))
+                        guard var food  = food as? FoodStruct else {
+                            completionHandler(.Error("Returned object is not FoodStruct type"))
                             return
                         }
                         food.barcode = barcode
-                        completionHandler(.Success(food))
+                        RealmManager.sharedInstance.updateFood(foodStruct: food) {
+                            RealmManager.sharedInstance.getFood(withBarcode:barcode, completionHandler: { cachedFood in
+                                guard let cachedFood = cachedFood else {
+                                    completionHandler(.Error("food is not in Realm"))
+                                    return
+                                }
+                                completionHandler(.Success(cachedFood))
+                                
+                            })
+                        }
+                        
                     case .failure(_):
-                        completionHandler(.Error("food doesn't have nutrients"))
+                        // We try at least to check if we have something in cache
+                        RealmManager.sharedInstance.getFood(withBarcode:barcode, completionHandler: { cachedFood in
+                            if let cachedFood = cachedFood {
+                                completionHandler(.Success(cachedFood))
+                                return
+                            }
+                            completionHandler(.Error("food doesn't have nutrients"))
+                        })
                     }
                 })
-                // TODO REALM
-                
                 
             case .Error(let message):
+                RealmManager.sharedInstance.getFood(withBarcode:barcode, completionHandler: { cachedFood in
+                    if let cachedFood = cachedFood {
+                        completionHandler(.Success(cachedFood))
+                        return
+                    }
                     ErrorManager.showAlertWith(title: "Error canceled data", message: message)
                     return completionHandler(.Error(message))
+                })
             }
         })
     }
@@ -120,4 +141,3 @@ extension WebServiceManager: ReachabilityManagerDelegate {
         }
     }
 }
-

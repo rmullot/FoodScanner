@@ -43,7 +43,7 @@ class FoodViewModel {
 
             var tmp: [PieChartDataEntry] = []
             food.nutrients.forEach { nutrient in
-                guard nutrient.type == .mainNutrient, nutrient.quantity > 0 else { return }
+                guard nutrient.type == NutrientType.mainNutrient.rawValue, nutrient.quantity > 0 else { return }
                 let dataEntry = PieChartDataEntry(value: nutrient.quantity, label: nutrient.name)
                 tmp.append(dataEntry)
             }
@@ -60,7 +60,7 @@ class FoodViewModel {
     func getQuantityNutrient(index: Int) -> String {
         guard let nutrients = food?.nutrients, index < nutrients.count else { return "" }
         let nutrient = nutrients[index]
-        return nutrient.type == .calories ? "\(Int(nutrient.quantity))kCal" : "\(nutrient.quantity)g pour 100g"
+        return nutrient.type == NutrientType.calories.rawValue ? "\(Int(nutrient.quantity))kCal" : "\(nutrient.quantity)g pour 100g"
     }
     
     func getNameNutrient(index: Int) -> String  {

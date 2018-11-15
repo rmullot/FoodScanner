@@ -24,9 +24,6 @@ class FoodViewController: UIViewController {
         }()
     }
     
-    private var heightNutriments: CGFloat = 1000.0
-    private let heightFooter: CGFloat = 74.0
-    
     var viewModel: FoodViewModel! {
         didSet {
             if let desriptionCollectionView = desriptionCollectionView {
@@ -98,7 +95,7 @@ extension FoodViewController: UICollectionViewDelegateFlowLayout {
             case DescriptionTypeCell.descriptionChart.rawValue:
                 size = CGSize(width: width, height: ChartCollectionViewCell.heightCell)
             case DescriptionTypeCell.descriptionNutrients.rawValue:
-                size = CGSize(width: width, height: CGFloat(viewModel.nutrientsCount) * NutrientTableViewCell.heightRow)
+                size = CGSize(width: width, height: viewModel.nutrientsCount == 0 ? NutrientTableViewCell.heightRow: CGFloat(viewModel.nutrientsCount) * NutrientTableViewCell.heightRow)
             default:
                 break
             }

@@ -7,25 +7,29 @@
 //
 
 import Foundation
+import RealmSwift
 
-enum NutrientType : Int {
-    case calories = 0
-    case mainNutrient = 1
-    case subNutrient = 2
-}
-
-struct Nutrient {
-    var quantity: Double = 0
-    var name: String = ""
-    var type: NutrientType = NutrientType.mainNutrient
-}
-
-class Food {
+final class Food: Object {
     
+    @objc dynamic var barcode: String = ""
+    @objc dynamic var imageURL: String = ""
+    @objc dynamic var name: String = ""
+    @objc dynamic var lastUpdate: TimeInterval = 0
+    var nutrients: List<Nutrient> = List<Nutrient>()
+    
+    override static func primaryKey() -> String? {
+        return "barcode"
+    }
+    
+    static func ==(lhs: Food, rhs: Food) -> Bool {
+        return (lhs.barcode == rhs.barcode && lhs.lastUpdate == rhs.lastUpdate)
+    }
+}
+
+struct FoodStruct {
     var barcode: String = ""
     var imageURL: String = ""
     var name: String = ""
-    var nutrients: [Nutrient] = []
-    
+    var lastUpdate: TimeInterval = 0
+    var nutrients: [NutrientStruct] = []
 }
-

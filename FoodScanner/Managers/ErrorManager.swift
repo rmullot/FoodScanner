@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ErrorManager: Any {
+class ErrorManager {
     static func showAlertWith(title: String, message: String, style: UIAlertController.Style = .alert) {
         DispatchQueue.main.async() {
             if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {

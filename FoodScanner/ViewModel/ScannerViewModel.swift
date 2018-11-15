@@ -31,10 +31,10 @@ class ScannerViewModel {
     
     func getFoodInformations(barcode: String) {
         if self.barcode != barcode {
-            self.barcode = barcode
             self.food = nil
+            self.barcode = barcode
             self.statusMessage = barcode
-            //TODO: Integrate REALM
+
             WebServiceManager.sharedInstance.getFoodDescription(barcode: barcode) { result in
                 switch result {
                 case .Success(let food):

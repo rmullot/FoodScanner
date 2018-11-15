@@ -14,6 +14,7 @@ struct FoodJSON {
     static let fats = "fat_100g"
     static let fibers = "fiber_100g"
     static let imageURL = "image_small_url"
+    static let lastUpdate = "last_modified_t"
     static let name = "product_name"
     static let nutrients = "nutriments"
     static let product = "product"
