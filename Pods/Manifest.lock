@@ -5,6 +5,7 @@ PODS:
   - ChartsRealm (3.1.1):
     - Charts (~> 3.1.1)
     - RealmSwift (~> 3.7.1)
+  - FTLinearActivityIndicator (1.1.2)
   - Realm (3.7.6):
     - Realm/Headers (= 3.7.6)
   - Realm/Headers (3.7.6)
@@ -14,14 +15,16 @@ PODS:
 DEPENDENCIES:
   - Charts (~> 3.1.1)
   - ChartsRealm (~> 3.1.1)
-  - RealmSwift
+  - FTLinearActivityIndicator (~> 1.1.2)
+  - RealmSwift (~> 3.7.1)
 
 SPEC CHECKSUMS:
   Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
   ChartsRealm: 35728e98e8d365a45c54fa7a1fa47663d2539887
+  FTLinearActivityIndicator: 795016cde13c7d7e9ee28e23f05025c6aedbafce
   Realm: 9eaecad54712d6246d08ba34c10f354e4715d7d3
   RealmSwift: 1fe08b4ebaeeaacf17f9ba0343f7b25c9fc31fa6
 
-PODFILE CHECKSUM: a4a27370f1f2e97de34f897adc5cb63d190e2f92
+PODFILE CHECKSUM: 174c481f6579d22c138c0b53ed8b65825492f011
 
 COCOAPODS: 1.4.0

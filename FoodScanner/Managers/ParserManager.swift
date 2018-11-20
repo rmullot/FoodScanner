@@ -25,7 +25,7 @@ class ParserManager {
     
     private init() { }
     
-    //MARK: - Restaurant
+    //MARK: - Food
     static func parseFoodFromJSON(_ json:[String: Any], completionHandler: ParserCallback? = nil) {
         
         var resultObject: FoodStruct = FoodStruct()

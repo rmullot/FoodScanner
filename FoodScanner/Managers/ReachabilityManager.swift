@@ -54,18 +54,19 @@ extension OnlineMode: RawRepresentable {
 // MARK: - Reachability Manager
 
 public final class ReachabilityManager {
+    
     // MARK: Properties
-    public static let sharedInstance = ReachabilityManager()
+    static let sharedInstance = ReachabilityManager()
     
-    public fileprivate(set) var delegates = MulticastDelegate<ReachabilityManagerDelegate>()
+    private(set) var delegates = MulticastDelegate<ReachabilityManagerDelegate>()
     
-    fileprivate var reachability: Reachability? = nil
+    private var reachability: Reachability? = nil
     
-    fileprivate let telephonyInfo = CTTelephonyNetworkInfo()
+    private let telephonyInfo = CTTelephonyNetworkInfo()
     
-    fileprivate var _onlineMode: OnlineMode = .online
+    private var _onlineMode: OnlineMode = .online
     
-    public fileprivate(set) var onlineMode: OnlineMode {
+    private(set) var onlineMode: OnlineMode {
         set {
             _onlineMode = newValue
             self.delegates.invoke { (delegate) in
@@ -78,9 +79,9 @@ public final class ReachabilityManager {
         }
     }
     
-    fileprivate let changeOperatingModeDelay: Double = 2.0 //in seconds
+    private let changeOperatingModeDelay: Double = 2.0 //in seconds
     
-    fileprivate var changeOperatinModeClosure: DispatchQueue.CancellableClosure? = nil
+    private var changeOperatinModeClosure: DispatchQueue.CancellableClosure? = nil
 
     
     private init()
@@ -116,6 +117,7 @@ public final class ReachabilityManager {
     }
 
     // MARK: Reachability changed
+    
     @objc public dynamic func refreshReachability() {
         if let reachability = self.reachability {
             NotificationCenter.default.post(name: ReachabilityChangedNotification, object:reachability)
@@ -123,13 +125,7 @@ public final class ReachabilityManager {
     }
     
     @objc dynamic func reachabilityChanged(_ note: Notification) {
-        guard let noteReachability = note.object as? Reachability else {
-            return
-        }
-        guard let reachability = self.reachability else {
-            return
-        }
-        guard reachability === noteReachability else {
+        guard let noteReachability = note.object as? Reachability, let reachability = self.reachability, reachability === noteReachability else {
             return
         }
 
@@ -171,16 +167,12 @@ public final class ReachabilityManager {
     }
     
     public func changeOnlineMode(_ onlineMode: OnlineMode) {
-        if let closure = changeOperatinModeClosure
-        {
+        if let closure = changeOperatinModeClosure {
             closure!()
         }
-        if(onlineMode == .online || onlineMode == .onlineSlow)
-        {
+        if(onlineMode == .online || onlineMode == .onlineSlow) {
             self.onlineMode = onlineMode
-        }
-        else
-        {
+        } else {
             changeOperatinModeClosure = DispatchQueue.main.cancellableAsyncAfter(secondsDeadline: changeOperatingModeDelay) {
                 self.onlineMode = onlineMode
             }
