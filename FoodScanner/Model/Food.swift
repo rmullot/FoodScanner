@@ -67,6 +67,6 @@ struct FoodStruct: Codable {
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.saturatedFats, name: "Sucres", type: NutrientType.subNutrient.rawValue))
         nutrients = nutrientsStructTmp.filter({ nutrient in
             return nutrient.quantity > 0
-        })
+        }).sorted(by: { (nutrient1, nutrient2) in return nutrient1.name < nutrient2.name })
     }
 }
