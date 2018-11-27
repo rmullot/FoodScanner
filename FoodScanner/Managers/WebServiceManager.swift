@@ -27,11 +27,10 @@ class WebServiceManager {
                     switch(result)
                     {
                     case .success(let food):
-                        guard var food  = food as? FoodStruct else {
+                        guard let food  = food as? FoodStruct else {
                             completionHandler(.Error("Returned object is not FoodStruct type"))
                             return
                         }
-                        food.barcode = barcode
                         RealmManager.sharedInstance.updateFood(foodStruct: food) {
                             RealmManager.sharedInstance.getFood(withBarcode:barcode, completionHandler: { cachedFood in
                                 guard let cachedFood = cachedFood else {
@@ -43,14 +42,14 @@ class WebServiceManager {
                             })
                         }
                         
-                    case .failure(_):
+                    case .failure(_ , let message):
                         // We try at least to check if we have something in cache
                         RealmManager.sharedInstance.getFood(withBarcode:barcode, completionHandler: { cachedFood in
                             if let cachedFood = cachedFood {
                                 completionHandler(.Success(cachedFood))
                                 return
                             }
-                            completionHandler(.Error("food doesn't have nutrients"))
+                            completionHandler(.Error(message))
                         })
                     }
                 })
@@ -84,7 +83,7 @@ class WebServiceManager {
     }
     
     
-    private func getDataWith(urlString:String,completion: @escaping (Result<[String: Any]>) -> Void) {
+    private func getDataWith(urlString:String,completion: @escaping (Result<Data>) -> Void) {
         guard let url = URL(string: urlString) else {
             return completion(.Error("Invalid URL, we can't update your feed")) }
         
@@ -94,26 +93,10 @@ class WebServiceManager {
                 NetworkActivityManager.sharedInstance.requestFinished()
                 guard error == nil else {
                     return completion(.Error(error!.localizedDescription)) }
-                guard let data = data else {
-                    return completion(.Error(error?.localizedDescription ?? "There are no new Items to show")) }
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers]) as? [String: AnyObject] {
-                        guard let itemsJsonArray = json[FoodJSON.product] as? [String: AnyObject] else {
-                            if let status = json[FoodJSON.status] as? UInt, status == 0 {
-                                return completion(.Error("product not found"))
-                            }
-                            return completion(.Error("JSON invalid from \(urlString)"))
-                            
-                        }
-                        return completion(.Success(itemsJsonArray))
-                        
-                    }
-                } catch let error {
-                    return completion(.Error(error.localizedDescription))
-                }
+                guard let data = data else { return completion(.Error(error?.localizedDescription ?? "There are no new Items to show")) }
+                    return completion(.Success(data))
             }
-           
-            }.resume()
+        }.resume()
     }
      private init() {
         ReachabilityManager.sharedInstance.delegates.add(self)

@@ -25,7 +25,6 @@
 		7A6307C42187323500845E47 /* FoodCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6307C32187323500845E47 /* FoodCollectionReusableView.swift */; };
 		7A6307C72187545400845E47 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6307C62187545400845E47 /* NavigationManager.swift */; };
 		7A6307CA21876EC000845E47 /* ParserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6307C921876EC000845E47 /* ParserManager.swift */; };
-		7A6307CC218771B000845E47 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6307CB218771B000845E47 /* Globals.swift */; };
 		7AC16F2F217E1E3300C4B381 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F2E217E1E3300C4B381 /* AppDelegate.swift */; };
 		7AC16F31217E1E3300C4B381 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F30217E1E3300C4B381 /* ScannerViewController.swift */; };
 		7AC16F34217E1E3300C4B381 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AC16F32217E1E3300C4B381 /* Main.storyboard */; };
@@ -85,7 +84,6 @@
 		7A6307C32187323500845E47 /* FoodCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionReusableView.swift; sourceTree = "<group>"; };
 		7A6307C62187545400845E47 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		7A6307C921876EC000845E47 /* ParserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserManager.swift; sourceTree = "<group>"; };
-		7A6307CB218771B000845E47 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		7AC16F2B217E1E3300C4B381 /* FoodScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AC16F2E217E1E3300C4B381 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AC16F30217E1E3300C4B381 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				7A197A2321926A5F00A6A947 /* FoodScanner.entitlements */,
-				7A6307CB218771B000845E47 /* Globals.swift */,
 				7A6307B421867C1900845E47 /* View */,
 				7A6307B121867BFC00845E47 /* ViewModel */,
 				7A6307AE21867BE600845E47 /* Model */,
@@ -631,7 +628,6 @@
 				7AC16F7B217E1ECC00C4B381 /* MutexCounter.swift in Sources */,
 				7AC16F7F217E1ECC00C4B381 /* Reachability.swift in Sources */,
 				7A6307C72187545400845E47 /* NavigationManager.swift in Sources */,
-				7A6307CC218771B000845E47 /* Globals.swift in Sources */,
 				7A6307BA2186957F00845E47 /* String+Regex.swift in Sources */,
 				7AC16F7A217E1ECC00C4B381 /* Tool.swift in Sources */,
 				7A6307C42187323500845E47 /* FoodCollectionReusableView.swift in Sources */,
@@ -824,7 +820,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 935H49K6QK;
 				INFOPLIST_FILE = FoodScanner/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -841,7 +840,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 935H49K6QK;
 				INFOPLIST_FILE = FoodScanner/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -857,7 +859,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -874,7 +880,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -890,7 +900,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -906,7 +920,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
