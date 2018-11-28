@@ -23,6 +23,14 @@ final class Nutrient: Object {
     
 }
 
+enum MainNutrientName: String {
+    case proteins = "Protéines"
+    case carbohydrates = "Glucides"
+    case fats = "Lipides"
+    case fibers = "Fibres"
+    case salt = "Sel"
+}
+
 struct NutrientStruct: Codable {
     var quantity: Double = 0
     var name: String = ""

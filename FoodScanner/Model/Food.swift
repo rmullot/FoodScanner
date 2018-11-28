@@ -57,12 +57,12 @@ struct FoodStruct: Codable {
         lastUpdate = try values.decode(TimeInterval.self, forKey: .lastUpdate)
         nutrientsJSON =  try values.decode(NutrientJSONStruct.self, forKey: .nutrientsJSON)
         var nutrientsStructTmp :[NutrientStruct] = []
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.carbohydrates, name: "Glucides", type: NutrientType.mainNutrient.rawValue))
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.proteins, name: "Protéines", type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.carbohydrates, name: MainNutrientName.carbohydrates.rawValue, type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.proteins, name: MainNutrientName.proteins.rawValue, type: NutrientType.mainNutrient.rawValue))
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.energies, name: "Calories", type: NutrientType.calories.rawValue))
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fats, name: "Lipides", type: NutrientType.mainNutrient.rawValue))
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fibers, name: "Fibres", type: NutrientType.mainNutrient.rawValue))
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fibers, name: "Sel", type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fats, name: MainNutrientName.fats.rawValue, type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fibers, name: MainNutrientName.fibers.rawValue, type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fibers, name: MainNutrientName.salt.rawValue, type: NutrientType.mainNutrient.rawValue))
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.saturatedFats, name: "Lipides Saturées", type: NutrientType.subNutrient.rawValue))
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.saturatedFats, name: "Sucres", type: NutrientType.subNutrient.rawValue))
         nutrients = nutrientsStructTmp.filter({ nutrient in

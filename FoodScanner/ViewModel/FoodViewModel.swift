@@ -51,6 +51,28 @@ class FoodViewModel {
         }
     }
     
+    var nutrientsColorIndex: [Int] {
+        get {
+            guard let food = food, food.nutrients.count > 0 else { return [] }
+            
+            var colorIndex: [Int] = []
+            food.nutrients.forEach { nutrient in
+                guard nutrient.type == NutrientType.mainNutrient.rawValue, nutrient.quantity > 0 else { return }
+                switch nutrient.name {
+                case MainNutrientName.carbohydrates.rawValue: colorIndex.append(0)
+                case MainNutrientName.fats.rawValue: colorIndex.append(1)
+                case MainNutrientName.fibers.rawValue: colorIndex.append(2)
+                case MainNutrientName.proteins.rawValue: colorIndex.append(3)
+                case MainNutrientName.salt.rawValue: colorIndex.append(4)
+                default:
+                    break
+                }
+                
+            }
+            return colorIndex
+        }
+    }
+    
     var descriptionChart: String {
         get {
             return "Ratio nutriments pour 100g"
