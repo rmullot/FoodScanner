@@ -63,7 +63,7 @@ class ChartCollectionViewCell: UICollectionViewCell {
         pieChartView.noDataText = "No data available"
         pieChartView.legend.enabled = true
         
-        let pieChartDataSet = PieChartDataSet(values: viewModel.nutrientsData, label: viewModel.descriptionChart)
+        let pieChartDataSet = PieChartDataSet(entries: viewModel.nutrientsData, label: viewModel.descriptionChart)
         pieChartDataSet.valueLineVariableLength = true
         pieChartDataSet.xValuePosition = .outsideSlice
         var colors: [UIColor] = []

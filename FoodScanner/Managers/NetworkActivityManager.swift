@@ -16,7 +16,7 @@ open class NetworkActivityManager {
     
     fileprivate let maxActivityDuration: Double = 120 //in seconds
     
-    fileprivate var disableActivityIndicatorClosure: DispatchQueue.CancellableClosure
+    fileprivate var disableActivityIndicatorClosure: DispatchQueue.CancellableClosure = nil
     
     private init() {}
     
@@ -92,6 +92,5 @@ open class NetworkActivityManager {
         countRequest.setValue(0)
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
-    
   
 }

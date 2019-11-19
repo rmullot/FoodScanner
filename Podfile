@@ -6,10 +6,10 @@ target 'FoodScanner' do
   use_frameworks!
 
   # Pods for FoodScanner
-  pod 'RealmSwift', '~> 3.7.1'
-  pod 'Charts', '~> 3.1.1'
-  pod 'ChartsRealm', '~> 3.1.1'
-  pod 'FTLinearActivityIndicator', '~> 1.1.2'
+  pod 'RealmSwift'
+  pod 'Charts'
+  pod 'ChartsRealm'
+  pod 'FTLinearActivityIndicator'
   target 'FoodScannerTests' do
     inherit! :search_paths
     # Pods for testing

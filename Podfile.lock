@@ -1,30 +1,38 @@
 PODS:
-  - Charts (3.1.1):
-    - Charts/Core (= 3.1.1)
-  - Charts/Core (3.1.1)
-  - ChartsRealm (3.1.1):
-    - Charts (~> 3.1.1)
-    - RealmSwift (~> 3.7.1)
-  - FTLinearActivityIndicator (1.1.2)
-  - Realm (3.7.6):
-    - Realm/Headers (= 3.7.6)
-  - Realm/Headers (3.7.6)
-  - RealmSwift (3.7.6):
-    - Realm (= 3.7.6)
+  - Charts (3.4.0):
+    - Charts/Core (= 3.4.0)
+  - Charts/Core (3.4.0)
+  - ChartsRealm (3.4.0):
+    - Charts (~> 3.4.0)
+    - RealmSwift (~> 3.18.0)
+  - FTLinearActivityIndicator (1.3)
+  - Realm (3.18.0):
+    - Realm/Headers (= 3.18.0)
+  - Realm/Headers (3.18.0)
+  - RealmSwift (3.18.0):
+    - Realm (= 3.18.0)
 
 DEPENDENCIES:
-  - Charts (~> 3.1.1)
-  - ChartsRealm (~> 3.1.1)
-  - FTLinearActivityIndicator (~> 1.1.2)
-  - RealmSwift (~> 3.7.1)
+  - Charts
+  - ChartsRealm
+  - FTLinearActivityIndicator
+  - RealmSwift
+
+SPEC REPOS:
+  trunk:
+    - Charts
+    - ChartsRealm
+    - FTLinearActivityIndicator
+    - Realm
+    - RealmSwift
 
 SPEC CHECKSUMS:
-  Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
-  ChartsRealm: 35728e98e8d365a45c54fa7a1fa47663d2539887
-  FTLinearActivityIndicator: 795016cde13c7d7e9ee28e23f05025c6aedbafce
-  Realm: 9eaecad54712d6246d08ba34c10f354e4715d7d3
-  RealmSwift: 1fe08b4ebaeeaacf17f9ba0343f7b25c9fc31fa6
+  Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
+  ChartsRealm: 2ae8bf478211a94b3b6dd20738db0b9b132eb66b
+  FTLinearActivityIndicator: c89ccc2ef18279a155820c0e81f09ce2e90a2dc9
+  Realm: 7b3d04740facf45e958a514b466a32b04f1113d6
+  RealmSwift: c817b5f374668cf08f649afb05f55d92a787649c
 
-PODFILE CHECKSUM: 174c481f6579d22c138c0b53ed8b65825492f011
+PODFILE CHECKSUM: 9fe23f4c9d8e5f5b5526ff455c04d2d63a61efa9
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.8.4

@@ -134,7 +134,7 @@ open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDat
     
     @objc public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, stackValueField: String)
     {
-        self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField)
+        self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: xValueField, yValueField: yValueField, stackValueField: stackValueField, label: nil)
     }
     
     public convenience init(realm: Realm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, stackValueField: String)
@@ -318,9 +318,9 @@ open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDat
     
     // MARK: - NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! RealmBarDataSet
+        let copy = super.copy(with: zone) as! RealmBarDataSet
         copy._stackSize = _stackSize
         copy.stackLabels = stackLabels
         copy.barShadowColor = barShadowColor

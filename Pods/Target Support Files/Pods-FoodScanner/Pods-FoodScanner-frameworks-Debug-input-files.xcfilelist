@@ -1,0 +1,6 @@
+${PODS_ROOT}/Target Support Files/Pods-FoodScanner/Pods-FoodScanner-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Charts/Charts.framework
+${BUILT_PRODUCTS_DIR}/ChartsRealm/ChartsRealm.framework
+${BUILT_PRODUCTS_DIR}/FTLinearActivityIndicator/FTLinearActivityIndicator.framework
+${BUILT_PRODUCTS_DIR}/Realm/Realm.framework
+${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework

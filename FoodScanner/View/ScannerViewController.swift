@@ -32,8 +32,23 @@ class ScannerViewController: UIViewController {
         messageLabel.layer.shadowOffset = CGSize(width: 2, height: 2)
         messageLabel.layer.masksToBounds = false
         
+        let numberToolbar = UIToolbar(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        numberToolbar.barStyle = .default
+        numberToolbar.items = [
+        UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelNumberPad)),
+        UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+        UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneWithNumberPad))]
+        numberToolbar.sizeToFit()
+        searchBar.inputAccessoryView = numberToolbar
+        
         
         guard let captureDevice = CameraTool.bestDevice(in: .back) else { return }
+        
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(singleTapEvent(sender:)))
+        singleTapGestureRecognizer.numberOfTapsRequired = 1
+        singleTapGestureRecognizer.isEnabled = true
+        singleTapGestureRecognizer.cancelsTouchesInView = true
+        cameraView.addGestureRecognizer(singleTapGestureRecognizer)
         
         do {
             // Get an instance of the AVCaptureDeviceInput class using the previous device object.
@@ -46,25 +61,16 @@ class ScannerViewController: UIViewController {
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             if let videoPreviewLayer = videoPreviewLayer {
                 videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                refreshCameraFrame()
                 cameraView.layer.addSublayer(videoPreviewLayer)
-                
-                let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTapEvent(sender:)))
-                singleTapGestureRecognizer.numberOfTapsRequired = 1
-                singleTapGestureRecognizer.isEnabled = true
-                singleTapGestureRecognizer.cancelsTouchesInView = true
-                cameraView.addGestureRecognizer(singleTapGestureRecognizer)
-                
-                cameraView.bringSubviewToFront(lampButton)
-
             }
-            
+            refreshCameraFrame()
+            cameraView.bringSubviewToFront(lampButton)
         } catch {
             // If any error occurs, simply print it out and don't continue any more.
             print(error)
             return
         }
-        
+   
         // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
         captureSession.addOutput(captureMetadataOutput)
         
@@ -86,12 +92,14 @@ class ScannerViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         captureMetadataOutput.setMetadataObjectsDelegate(nil, queue: DispatchQueue.main)
         viewModel.forceSwitchOffLamp()
         barCodeFrameView?.frame = CGRect.zero
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
         refreshCameraFrame()
     }
@@ -116,10 +124,19 @@ class ScannerViewController: UIViewController {
     }
     
     @objc func singleTapEvent(sender: UITapGestureRecognizer) {
+      doneWithNumberPad()
+    }
+    
+    @objc func cancelNumberPad() {
+        //Cancel with number pad
         searchBar.resignFirstResponder()
-        if let barcode = searchBar.text {
-            checkBarcode(barcode: barcode)
-        }
+    }
+    @objc func doneWithNumberPad() {
+        //Done with number pad
+          searchBar.resignFirstResponder()
+              if let barcode = searchBar.text {
+                  checkBarcode(barcode: barcode)
+              }
     }
     
     private func checkBarcode(barcode: String) {

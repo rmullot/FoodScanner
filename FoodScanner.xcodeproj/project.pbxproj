@@ -322,7 +322,6 @@
 				7AC16F28217E1E3300C4B381 /* Frameworks */,
 				7AC16F29217E1E3300C4B381 /* Resources */,
 				95ED06C31980EFD05F7902BA /* [CP] Embed Pods Frameworks */,
-				268CAD223DBAB4ACC5D569A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -341,8 +340,6 @@
 				7AC16F3E217E1E3400C4B381 /* Sources */,
 				7AC16F3F217E1E3400C4B381 /* Frameworks */,
 				7AC16F40217E1E3400C4B381 /* Resources */,
-				31E2DCC7E4A41045C2A7C097 /* [CP] Embed Pods Frameworks */,
-				03701D866229D943B8C4EB6E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -362,8 +359,6 @@
 				7AC16F49217E1E3400C4B381 /* Sources */,
 				7AC16F4A217E1E3400C4B381 /* Frameworks */,
 				7AC16F4B217E1E3400C4B381 /* Resources */,
-				913AFB8DEDD83EC6F310CC8E /* [CP] Embed Pods Frameworks */,
-				3BD726B03D439736E2D754BE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -387,6 +382,7 @@
 				TargetAttributes = {
 					7AC16F2A217E1E3300C4B381 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1120;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -404,10 +400,12 @@
 					};
 					7AC16F41217E1E3400C4B381 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1120;
 						TestTargetID = 7AC16F2A217E1E3300C4B381;
 					};
 					7AC16F4C217E1E3400C4B381 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1120;
 						TestTargetID = 7AC16F2A217E1E3300C4B381;
 					};
 				};
@@ -460,66 +458,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		03701D866229D943B8C4EB6E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FoodScannerTests/Pods-FoodScannerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		268CAD223DBAB4ACC5D569A6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FoodScanner/Pods-FoodScanner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		31E2DCC7E4A41045C2A7C097 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FoodScannerTests/Pods-FoodScannerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3BD726B03D439736E2D754BE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FoodScannerUITests/Pods-FoodScannerUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8386C73577BB57B72D2B1BD0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -536,21 +474,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		913AFB8DEDD83EC6F310CC8E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FoodScannerUITests/Pods-FoodScannerUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9304818CF26F3D201BDD71EE /* [CP] Check Pods Manifest.lock */ = {
@@ -576,25 +499,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FoodScanner/Pods-FoodScanner-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
-				"${BUILT_PRODUCTS_DIR}/ChartsRealm/ChartsRealm.framework",
-				"${BUILT_PRODUCTS_DIR}/FTLinearActivityIndicator/FTLinearActivityIndicator.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FoodScanner/Pods-FoodScanner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChartsRealm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FTLinearActivityIndicator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FoodScanner/Pods-FoodScanner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FoodScanner/Pods-FoodScanner-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FoodScanner/Pods-FoodScanner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F27C4D8E0A5A02321B156C63 /* [CP] Check Pods Manifest.lock */ = {
@@ -826,7 +740,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -846,7 +760,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -866,7 +780,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FoodScanner.app/FoodScanner";
 			};
@@ -887,7 +801,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FoodScanner.app/FoodScanner";
 			};
@@ -907,7 +821,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FoodScanner;
 			};
@@ -927,7 +841,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScannerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FoodScanner;
 			};

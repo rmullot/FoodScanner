@@ -74,7 +74,7 @@ class RealmManager {
                             nutrientRealm.name = nutrient.name
                             food.nutrients.append(nutrientRealm)
                         })
-                        realm.add(food,update: true)
+                        realm.add(food,update: .all)
                         
                         DispatchQueue.main.async {
                             completionHandler()

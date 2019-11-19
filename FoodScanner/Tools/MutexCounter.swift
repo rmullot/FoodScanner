@@ -46,8 +46,7 @@ class MutexCounter {
     }
     
     func mutexConfig(){
-        mutex.wait()
         defer { mutex.signal() }
-        
+        mutex.wait()
     }
 }
