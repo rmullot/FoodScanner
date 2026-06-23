@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import Charts
+import DGCharts
 
 
-class ChartCollectionViewCell: UICollectionViewCell {
+final class ChartCollectionViewCell: UICollectionViewCell {
     
     private enum ColorChart: Int {
         case carbohydrates = 0
@@ -50,16 +50,20 @@ class ChartCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var pieChartView : PieChartView!
     
-    weak var viewModel: FoodViewModel! {
+    var viewModel: FoodViewModel? {
         didSet {
-            self.setChart()
+            if viewModel != nil {
+                self.setChart()
+            }
+           
         }
     }
     
     private func setChart() {
+        guard let viewModel else { return }
         pieChartView.usePercentValuesEnabled = true
         pieChartView.centerText = "FOOD Scanner"
-        pieChartView.chartDescription?.text = ""
+        pieChartView.chartDescription.text = ""
         pieChartView.noDataText = "No data available"
         pieChartView.legend.enabled = true
         

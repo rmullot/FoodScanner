@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Charts
+import DGCharts
 
 class FoodViewModel {
     private var food: Food? = nil

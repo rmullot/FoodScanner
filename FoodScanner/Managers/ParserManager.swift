@@ -7,6 +7,7 @@
 //
 
 import RealmSwift
+import Foundation
 
 public enum ParserResult {
     case success(Any?)

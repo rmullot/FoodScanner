@@ -25,6 +25,8 @@ class ScannerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+#warning("ROMAIN: TO DELETE MOCK")
+        searchBar.text = "3250392423360"
         viewModel.propertyChanged = { [weak self] key in self?.viewModelPropertyChanged(key) }
         messageLabel.layer.shadowColor = UIColor.black.cgColor
         messageLabel.layer.shadowRadius = 1.0

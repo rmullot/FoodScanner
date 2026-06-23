@@ -16,10 +16,12 @@ class FoodCollectionReusableView: UICollectionReusableView {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var photo: UIImageView!
     
-    weak var viewModel: FoodViewModel! {
+    weak var viewModel: FoodViewModel? {
         didSet {
-            nameLabel.text = viewModel.name
-            photo.loadImageUsingCacheWithURLString(viewModel.imageUrl, placeHolder: nil)
+            if let viewModel {
+                nameLabel.text = viewModel.name
+                photo.loadImageUsingCacheWithURLString(viewModel.imageUrl, placeHolder: nil)
+            }
         }
     }
 }

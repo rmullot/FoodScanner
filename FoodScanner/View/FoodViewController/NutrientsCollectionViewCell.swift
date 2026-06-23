@@ -8,15 +8,17 @@
 
 import UIKit
 
-class NutrientsCollectionViewCell: UICollectionViewCell {
+final class NutrientsCollectionViewCell: UICollectionViewCell {
     
     static let cellID = "NutrientsCollectionViewCellID"
     
     @IBOutlet weak var tableView: UITableView!
     
-    weak var viewModel: FoodViewModel! {
+    weak var viewModel: FoodViewModel? {
         didSet {
-            tableView.reloadData()
+            if viewModel != nil {
+                tableView.reloadData()
+            }
         }
     }
 }
@@ -29,13 +31,13 @@ extension NutrientsCollectionViewCell: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.nutrientsCount
+        return viewModel?.nutrientsCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: NutrientTableViewCell.cellID, for: indexPath) as? NutrientTableViewCell {
-            cell.typeLabel.text = viewModel.getNameNutrient(index:indexPath.row)
-            cell.quantityLabel.text = viewModel.getQuantityNutrient(index:indexPath.row)
+            cell.typeLabel.text = viewModel?.getNameNutrient(index:indexPath.row)
+            cell.quantityLabel.text = viewModel?.getQuantityNutrient(index:indexPath.row)
             return cell
         }
         return UITableViewCell()

@@ -24,9 +24,9 @@ class FoodViewController: UIViewController {
         }()
     }
     
-    var viewModel: FoodViewModel! {
+    weak var viewModel: FoodViewModel? {
         didSet {
-            if let desriptionCollectionView = desriptionCollectionView {
+            if viewModel != nil, let desriptionCollectionView = desriptionCollectionView {
                 desriptionCollectionView.reloadData()
             }
         }
@@ -34,6 +34,9 @@ class FoodViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        desriptionCollectionView.register(NutrientsCollectionViewCell.self, forCellWithReuseIdentifier: NutrientsCollectionViewCell.cellID)
+        desriptionCollectionView.register(ChartCollectionViewCell.self, forCellWithReuseIdentifier: ChartCollectionViewCell.cellID)
+        desriptionCollectionView.register(FoodCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FoodCollectionReusableView.cellID)
     }
     
 }
@@ -95,7 +98,7 @@ extension FoodViewController: UICollectionViewDelegateFlowLayout {
             case DescriptionTypeCell.descriptionChart.rawValue:
                 size = CGSize(width: width, height: ChartCollectionViewCell.heightCell)
             case DescriptionTypeCell.descriptionNutrients.rawValue:
-                size = CGSize(width: width, height: viewModel.nutrientsCount == 0 ? NutrientTableViewCell.heightRow: CGFloat(viewModel.nutrientsCount) * NutrientTableViewCell.heightRow)
+                size = CGSize(width: width, height: viewModel?.nutrientsCount == 0 ? NutrientTableViewCell.heightRow: CGFloat(viewModel?.nutrientsCount ?? 0) * NutrientTableViewCell.heightRow)
             default:
                 break
             }
