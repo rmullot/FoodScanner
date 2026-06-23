@@ -12,7 +12,7 @@ import DGCharts
 class FoodViewModel {
     private var food: Food? = nil
     
-    init(food: Food) {
+    init(food: Food?) {
         self.food = food
     }
     

@@ -49,14 +49,14 @@ struct NutrientJSONStruct: Codable {
     var sugars: Double = 0
     
     enum CodingKeys: String, CodingKey {
-        case carbohydrates = "carbohydrates_100g"
-        case energies = "energy_100g"
-        case fibers = "fiber_100g"
-        case proteins = "proteins_100g"
-        case salt = "salt_100g"
-        case fats = "fat_100g"
-        case saturatedFats = "saturated-fat_100g"
-        case sugars = "sugars_100g"
+        case carbohydrates = "carbohydrates_prepared_100g"
+        case energies = "energy-kcal_prepared_100g"
+        case fibers = "fiber_prepared_100g"
+        case proteins = "proteins_prepared_100g"
+        case salt = "salt_prepared_100g"
+        case fats = "fat_prepared_100g"
+        case saturatedFats = "saturated-fat_prepared_100g"
+        case sugars = "sugars_prepared_100g"
     }
     
     init(from decoder: Decoder) throws {

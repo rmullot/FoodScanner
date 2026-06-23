@@ -119,7 +119,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jge-yy-9kv">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jge-yy-9kv" userLabel="Description Collection View">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Gjk-jk-FeY">
@@ -151,7 +151,7 @@
                                         </constraints>
                                         <size key="customSize" width="375" height="300"/>
                                         <connections>
-                                            <outlet property="pieChartView" destination="RqJ-u2-cP1" id="U4D-uS-Sl3"/>
+                                            <outlet property="pieChartView" destination="RqJ-u2-cP1" id="GFD-C7-thO"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NutrientsCollectionViewCellID" id="5OG-9l-vEV" customClass="NutrientsCollectionViewCell" customModule="FoodScanner" customModuleProvider="target">
@@ -277,7 +277,7 @@
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="desriptionCollectionView" destination="jge-yy-9kv" id="V54-9z-aBL"/>
+                        <outlet property="descriptionCollectionView" destination="jge-yy-9kv" id="RxA-r4-dXk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hk4-6P-8M5" userLabel="First Responder" sceneMemberID="firstResponder"/>

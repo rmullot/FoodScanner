@@ -11,7 +11,7 @@ import UIKit
 
 class FoodViewController: UIViewController {
     
-    @IBOutlet weak var desriptionCollectionView: UICollectionView!
+    @IBOutlet weak var descriptionCollectionView: UICollectionView!
     
     fileprivate enum DescriptionTypeCell:Int {
         case descriptionChart = 0
@@ -24,19 +24,12 @@ class FoodViewController: UIViewController {
         }()
     }
     
-    weak var viewModel: FoodViewModel? {
+    var viewModel: FoodViewModel = FoodViewModel(food: nil) {
         didSet {
-            if viewModel != nil, let desriptionCollectionView = desriptionCollectionView {
-                desriptionCollectionView.reloadData()
+            if let descriptionCollectionView = descriptionCollectionView {
+                descriptionCollectionView.reloadData()
             }
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        desriptionCollectionView.register(NutrientsCollectionViewCell.self, forCellWithReuseIdentifier: NutrientsCollectionViewCell.cellID)
-        desriptionCollectionView.register(ChartCollectionViewCell.self, forCellWithReuseIdentifier: ChartCollectionViewCell.cellID)
-        desriptionCollectionView.register(FoodCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FoodCollectionReusableView.cellID)
     }
     
 }
@@ -58,12 +51,12 @@ extension FoodViewController : UICollectionViewDataSource {
         var cell = UICollectionViewCell()
         switch indexPath.row {
         case DescriptionTypeCell.descriptionChart.rawValue:
-            if let cellChart = desriptionCollectionView.dequeueReusableCell(withReuseIdentifier: ChartCollectionViewCell.cellID, for: indexPath) as? ChartCollectionViewCell {
+            if let cellChart = descriptionCollectionView.dequeueReusableCell(withReuseIdentifier: ChartCollectionViewCell.cellID, for: indexPath) as? ChartCollectionViewCell {
                 cellChart.viewModel = viewModel
                 cell = cellChart
             }
         case DescriptionTypeCell.descriptionNutrients.rawValue:
-            if let cellNutrients = desriptionCollectionView.dequeueReusableCell(withReuseIdentifier: NutrientsCollectionViewCell.cellID, for: indexPath) as? NutrientsCollectionViewCell {
+            if let cellNutrients = descriptionCollectionView.dequeueReusableCell(withReuseIdentifier: NutrientsCollectionViewCell.cellID, for: indexPath) as? NutrientsCollectionViewCell {
                 cellNutrients.viewModel = viewModel
                 cell = cellNutrients
             }
@@ -98,7 +91,7 @@ extension FoodViewController: UICollectionViewDelegateFlowLayout {
             case DescriptionTypeCell.descriptionChart.rawValue:
                 size = CGSize(width: width, height: ChartCollectionViewCell.heightCell)
             case DescriptionTypeCell.descriptionNutrients.rawValue:
-                size = CGSize(width: width, height: viewModel?.nutrientsCount == 0 ? NutrientTableViewCell.heightRow: CGFloat(viewModel?.nutrientsCount ?? 0) * NutrientTableViewCell.heightRow)
+                size = CGSize(width: width, height: viewModel.nutrientsCount == 0 ? NutrientTableViewCell.heightRow: CGFloat(viewModel.nutrientsCount) * NutrientTableViewCell.heightRow)
             default:
                 break
             }

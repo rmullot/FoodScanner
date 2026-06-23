@@ -103,7 +103,7 @@ public class Reachability {
     fileprivate var notifierRunning = false
     fileprivate var reachabilityRef: SCNetworkReachability?
     
-    fileprivate let reachabilitySerialQueue = DispatchQueue(label: "uk.co.ashleymills.reachability")
+    fileprivate let reachabilitySerialQueue = DispatchQueue(label: "uk.co.ashleymills.reachability", qos: .background)
     
     required public init(reachabilityRef: SCNetworkReachability) {
         reachableOnWWAN = true
