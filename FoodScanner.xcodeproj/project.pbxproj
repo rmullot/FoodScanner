@@ -77,7 +77,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		02AC262F2FEAE33500CF77F7 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
+		02AC26322FEAE55300CF77F7 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = SOURCE_ROOT; };
+		02AC26352FEAE5A500CF77F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		7A197A2321926A5F00A6A947 /* FoodScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FoodScanner.entitlements; sourceTree = "<group>"; };
 		7A197A2421926A5F00A6A947 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		7A2832912197304100160306 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
@@ -215,7 +216,8 @@
 		7AC16F2D217E1E3300C4B381 /* FoodScanner */ = {
 			isa = PBXGroup;
 			children = (
-				02AC262F2FEAE33500CF77F7 /* CLAUDE.md */,
+				02AC26352FEAE5A500CF77F7 /* README.md */,
+				02AC26322FEAE55300CF77F7 /* CLAUDE.md */,
 				7A197A2321926A5F00A6A947 /* FoodScanner.entitlements */,
 				7A6307B421867C1900845E47 /* View */,
 				7A6307B121867BFC00845E47 /* ViewModel */,
