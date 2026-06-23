@@ -147,19 +147,15 @@ public final class ReachabilityManager {
             }
             
             //handle slow / fast mode here
-            if #available(iOS 12, *) {
-                //TODO: Why serviceCurrentRadioAccessTechnology is always nil ?
-                if let currentRadioAccessTechnology = telephonyInfo.serviceCurrentRadioAccessTechnology  {
-                    currentRadioAccessTechnology.keys.forEach { (key) in
-                        print("\(key)\n")
-                    }
-                } else {
-                    oldRadioAccess()
+            //TODO: Why serviceCurrentRadioAccessTechnology is always nil ?
+            if let currentRadioAccessTechnology = telephonyInfo.serviceCurrentRadioAccessTechnology  {
+                currentRadioAccessTechnology.keys.forEach { (key) in
+                    print("\(key)\n")
                 }
+            } else {
+                oldRadioAccess()
             }
-            else {
-               oldRadioAccess()
-            }
+            
             
         } else {
             changeOnlineMode(.offline)
