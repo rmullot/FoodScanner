@@ -1,3 +1,12 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
@@ -27,6 +36,7 @@ xcuserdata/
 *.ipa
 *.dSYM.zip
 *.dSYM
+*.xcworkspace/xcuserdata/
 
 ## Playgrounds
 timeline.xctimeline
@@ -66,4 +76,12 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
-.DS_Store
+
+# Claude Code local/private files
+.claude/settings.local.json
+.claude/*.local.json
+CLAUDE.local.md
+
+# SwiftGen generated code (keep the folder itself so sandboxed script phases don't need to create it)
+FoodScanner/Generated/*
+!FoodScanner/Generated/.gitkeep

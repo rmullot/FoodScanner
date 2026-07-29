@@ -130,33 +130,19 @@ public final class ReachabilityManager {
         }
 
         if reachability.isReachable {
-            
-            let oldRadioAccess = {
-                if let currentRadioAccessTechnology = self.telephonyInfo.currentRadioAccessTechnology  {
-                    switch(currentRadioAccessTechnology){
-                    case CTRadioAccessTechnologyEdge, CTRadioAccessTechnologyCDMA1x,
-                         CTRadioAccessTechnologyGPRS:
-                        //slow mode
-                        self.changeOnlineMode(.onlineSlow)
-                    default:
-                        //fast mode
-                        self.changeOnlineMode(.online)
-                    }
-                }
-                else { self.changeOnlineMode(.online) }
-            }
-            
+
             //handle slow / fast mode here
-            //TODO: Why serviceCurrentRadioAccessTechnology is always nil ?
-            if let currentRadioAccessTechnology = telephonyInfo.serviceCurrentRadioAccessTechnology  {
-                currentRadioAccessTechnology.keys.forEach { (key) in
-                    print("\(key)\n")
+            if let radioAccessTechnologies = telephonyInfo.serviceCurrentRadioAccessTechnology, !radioAccessTechnologies.isEmpty {
+                let isSlow = radioAccessTechnologies.values.contains { technology in
+                    technology == CTRadioAccessTechnologyEdge ||
+                    technology == CTRadioAccessTechnologyCDMA1x ||
+                    technology == CTRadioAccessTechnologyGPRS
                 }
+                changeOnlineMode(isSlow ? .onlineSlow : .online)
             } else {
-                oldRadioAccess()
+                changeOnlineMode(.online)
             }
-            
-            
+
         } else {
             changeOnlineMode(.offline)
         }

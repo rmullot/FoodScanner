@@ -11,7 +11,7 @@ import UIKit
 class ErrorManager {
     static func showAlertWith(title: String, message: String, style: UIAlertController.Style = .alert) {
         DispatchQueue.main.async() {
-            if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
+            if let rootViewController = UIApplication.keyWindow?.rootViewController {
                 let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
                 let action = UIAlertAction(title: "OK", style: .default) { (action) in
                     rootViewController.dismiss(animated: true, completion: nil)
