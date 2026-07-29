@@ -12,6 +12,9 @@
 		02AC26262FEAC82F00CF77F7 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 02AC26252FEAC82F00CF77F7 /* DGChartsDynamic */; };
 		02AC26292FEAC99700CF77F7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A197A2421926A5F00A6A947 /* HealthKit.framework */; };
 		02AC262C2FEACAB800CF77F7 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 02AC262B2FEACAB800CF77F7 /* DGChartsDynamic */; };
+		2AFEE22CAE8D461085D98B9D /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 02AC261B2FEAC60F00CF77F7 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1AC4A237107F4ADCB226A21D /* DGChartsDynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 02AC26252FEAC82F00CF77F7 /* DGChartsDynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		42113B9CAF554CBD9D32AF0E /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C31C6B71E4F40C78BAB909C /* Storyboards.swift */; };
 		68B5EA339EE04DD2AE2D74CA /* UIApplication+KeyWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557212EF0235449FAFF8682B /* UIApplication+KeyWindow.swift */; };
 		7A2832922197304100160306 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2832912197304100160306 /* RealmManager.swift */; };
 		7A283294219B535F00160306 /* Nutrient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A283293219B535F00160306 /* Nutrient.swift */; };
@@ -47,7 +50,6 @@
 		7AD6CF4C2192084400836A04 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AD6CF4B2192084400836A04 /* Launch Screen.storyboard */; };
 		82DAFB7526524CB4AF5BBB2F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80808FECA3C64513A39D1CA1 /* SceneDelegate.swift */; };
 		A64FC6924E694D48BE0B7B56 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796933C05C734C5798D12718 /* Assets.swift */; };
-		42113B9CAF554CBD9D32AF0E /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C31C6B71E4F40C78BAB909C /* Storyboards.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2AFEE22CAE8D461085D98B9D /* RealmSwift in Embed Frameworks */,
+				1AC4A237107F4ADCB226A21D /* DGChartsDynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +89,7 @@
 		02AC26352FEAE5A500CF77F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		557212EF0235449FAFF8682B /* UIApplication+KeyWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+KeyWindow.swift"; sourceTree = "<group>"; };
 		783DB80712EC43AE8EC3CD1D /* .gitignore */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		796933C05C734C5798D12718 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		7A197A2321926A5F00A6A947 /* FoodScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FoodScanner.entitlements; sourceTree = "<group>"; };
 		7A197A2421926A5F00A6A947 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		7A2832912197304100160306 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
@@ -126,7 +131,6 @@
 		7AC16F71217E1ECC00C4B381 /* CwlMutex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CwlMutex.swift; sourceTree = "<group>"; };
 		7AD6CF4B2192084400836A04 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		80808FECA3C64513A39D1CA1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		796933C05C734C5798D12718 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		9C31C6B71E4F40C78BAB909C /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 		A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = SOURCE_ROOT; };
@@ -300,15 +304,6 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		BED289B68EE64C55881A4B94 /* Generated */ = {
-			isa = PBXGroup;
-			children = (
-				796933C05C734C5798D12718 /* Assets.swift */,
-				9C31C6B71E4F40C78BAB909C /* Storyboards.swift */,
-			);
-			path = Generated;
-			sourceTree = "<group>";
-		};
 		7AC16F6B217E1ECC00C4B381 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,6 +330,15 @@
 				A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */,
 			);
 			name = SwiftLint;
+			sourceTree = "<group>";
+		};
+		BED289B68EE64C55881A4B94 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				796933C05C734C5798D12718 /* Assets.swift */,
+				9C31C6B71E4F40C78BAB909C /* Storyboards.swift */,
+			);
+			path = Generated;
 			sourceTree = "<group>";
 		};
 		BF418EDA8E34E07EA5B8B582 /* Git */ = {
@@ -752,14 +756,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FoodScanner/FoodScanner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 935H49K6QK;
+				DEVELOPMENT_TEAM = 8JCA7TZP65;
 				INFOPLIST_FILE = FoodScanner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScanner";
+				PRODUCT_BUNDLE_IDENTIFIER = MULLOTRomainEI.FoodScanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -772,14 +776,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FoodScanner/FoodScanner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 935H49K6QK;
+				DEVELOPMENT_TEAM = 8JCA7TZP65;
 				INFOPLIST_FILE = FoodScanner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Romain-MULLOT.FoodScanner";
+				PRODUCT_BUNDLE_IDENTIFIER = MULLOTRomainEI.FoodScanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
