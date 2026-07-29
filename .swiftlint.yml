@@ -1,0 +1,43 @@
+excluded:
+  - FoodScanner/Open Source Code
+  - FoodScanner/Generated
+  - .build
+  - DerivedData
+  - FoodScanner.xcodeproj
+
+disabled_rules:
+  - todo
+  - trailing_whitespace
+  - identifier_name
+  - type_name
+  - cyclomatic_complexity
+  - function_body_length
+  - nesting
+
+opt_in_rules:
+  - empty_count
+  - fatal_error_message
+
+line_length:
+  warning: 160
+  error: 250
+  ignores_urls: true
+  ignores_comments: true
+  ignores_function_declarations: true
+
+file_length:
+  warning: 600
+  error: 1000
+
+type_body_length:
+  warning: 400
+  error: 700
+
+large_tuple:
+  warning: 4
+
+force_cast: warning
+force_try: warning
+force_unwrapping: warning
+
+reporter: "xcode"
