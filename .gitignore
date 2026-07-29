@@ -82,5 +82,6 @@ fastlane/test_output
 .claude/*.local.json
 CLAUDE.local.md
 
-# SwiftGen generated code
-FoodScanner/Generated/
+# SwiftGen generated code (keep the folder itself so sandboxed script phases don't need to create it)
+FoodScanner/Generated/*
+!FoodScanner/Generated/.gitkeep

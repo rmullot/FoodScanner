@@ -1,4 +1,5 @@
 input_dir: FoodScanner
+output_dir: FoodScanner
 
 xcassets:
   inputs:
@@ -11,5 +12,5 @@ storyboards:
   inputs:
     - View/Base.lproj
   outputs:
-    - templateName: swift5
+    - templateName: scenes-swift5
       output: Generated/Storyboards.swift

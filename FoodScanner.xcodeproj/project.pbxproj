@@ -46,6 +46,8 @@
 		7AC16F80217E1ECC00C4B381 /* CwlMutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F71217E1ECC00C4B381 /* CwlMutex.swift */; };
 		7AD6CF4C2192084400836A04 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AD6CF4B2192084400836A04 /* Launch Screen.storyboard */; };
 		82DAFB7526524CB4AF5BBB2F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80808FECA3C64513A39D1CA1 /* SceneDelegate.swift */; };
+		A64FC6924E694D48BE0B7B56 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796933C05C734C5798D12718 /* Assets.swift */; };
+		42113B9CAF554CBD9D32AF0E /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C31C6B71E4F40C78BAB909C /* Storyboards.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,27 +67,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		FD3112CBC9C6438D372EDE99 /* SwiftGen */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftGen;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "SWIFTGEN_BIN=\"\"\nif [ -x \"${BUILD_DIR%/Build/*}/SourcePackages/artifacts/swiftgen/SwiftGenPlugin/bin/swiftgen\" ]; then\n  SWIFTGEN_BIN=\"${BUILD_DIR%/Build/*}/SourcePackages/artifacts/swiftgen/SwiftGenPlugin/bin/swiftgen\"\nelif which swiftgen > /dev/null 2>&1; then\n  SWIFTGEN_BIN=\"$(which swiftgen)\"\nelif [ -x /opt/homebrew/bin/swiftgen ]; then\n  SWIFTGEN_BIN=/opt/homebrew/bin/swiftgen\nelif [ -x /usr/local/bin/swiftgen ]; then\n  SWIFTGEN_BIN=/usr/local/bin/swiftgen\nelif which mint > /dev/null 2>&1; then\n  SWIFTGEN_BIN=\"mint run swiftgen\"\nfi\n\nif [ -z \"$SWIFTGEN_BIN\" ]; then\n  echo \"warning: swiftgen not found (checked PATH, Homebrew, Mint). Skipping code generation. Install with 'brew install swiftgen' to enable.\"\n  exit 0\nfi\n\nif ! mkdir -p \"${SRCROOT}/FoodScanner/Generated\" 2>/tmp/swiftgen-mkdir-err.log; then\n  echo \"warning: could not create FoodScanner/Generated (sandboxed script build phase, e.g. ENABLE_USER_SCRIPT_SANDBOXING). Skipping SwiftGen code generation. Disable script sandboxing or run swiftgen manually to enable.\"\n  exit 0\nfi\n\nif ! $SWIFTGEN_BIN config run --config \"${SRCROOT}/swiftgen.yml\" 2>/tmp/swiftgen-run-err.log; then\n  echo \"warning: swiftgen run failed, skipping code generation. See /tmp/swiftgen-run-err.log\"\n  exit 0\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		02AC262E2FEACAB800CF77F7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -104,8 +85,6 @@
 		02AC26352FEAE5A500CF77F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		557212EF0235449FAFF8682B /* UIApplication+KeyWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+KeyWindow.swift"; sourceTree = "<group>"; };
 		783DB80712EC43AE8EC3CD1D /* .gitignore */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
-		A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
-		B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = SOURCE_ROOT; };
 		7A197A2321926A5F00A6A947 /* FoodScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FoodScanner.entitlements; sourceTree = "<group>"; };
 		7A197A2421926A5F00A6A947 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		7A2832912197304100160306 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
@@ -147,6 +126,10 @@
 		7AC16F71217E1ECC00C4B381 /* CwlMutex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CwlMutex.swift; sourceTree = "<group>"; };
 		7AD6CF4B2192084400836A04 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		80808FECA3C64513A39D1CA1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		796933C05C734C5798D12718 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		9C31C6B71E4F40C78BAB909C /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
+		A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
+		B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,22 +168,6 @@
 				02AC26322FEAE55300CF77F7 /* CLAUDE.md */,
 			);
 			name = Claude;
-			sourceTree = "<group>";
-		};
-		92DE9DCB8F0270266182516B /* SwiftLint */ = {
-			isa = PBXGroup;
-			children = (
-				A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */,
-			);
-			name = SwiftLint;
-			sourceTree = "<group>";
-		};
-		CE337641215D8C09931E7067 /* SwiftGen */ = {
-			isa = PBXGroup;
-			children = (
-				B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */,
-			);
-			name = SwiftGen;
 			sourceTree = "<group>";
 		};
 		7A6307AE21867BE600845E47 /* Model */ = {
@@ -283,6 +250,7 @@
 				7AC16F67217E1ECC00C4B381 /* Tools */,
 				7AC16F2E217E1E3300C4B381 /* AppDelegate.swift */,
 				80808FECA3C64513A39D1CA1 /* SceneDelegate.swift */,
+				BED289B68EE64C55881A4B94 /* Generated */,
 				7AC16F38217E1E3400C4B381 /* Assets.xcassets */,
 				7AC16F3D217E1E3400C4B381 /* Info.plist */,
 			);
@@ -332,6 +300,15 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		BED289B68EE64C55881A4B94 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				796933C05C734C5798D12718 /* Assets.swift */,
+				9C31C6B71E4F40C78BAB909C /* Storyboards.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 		7AC16F6B217E1ECC00C4B381 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,12 +329,28 @@
 			path = "Open Source Code";
 			sourceTree = "<group>";
 		};
+		92DE9DCB8F0270266182516B /* SwiftLint */ = {
+			isa = PBXGroup;
+			children = (
+				A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */,
+			);
+			name = SwiftLint;
+			sourceTree = "<group>";
+		};
 		BF418EDA8E34E07EA5B8B582 /* Git */ = {
 			isa = PBXGroup;
 			children = (
 				783DB80712EC43AE8EC3CD1D /* .gitignore */,
 			);
 			name = Git;
+			sourceTree = "<group>";
+		};
+		CE337641215D8C09931E7067 /* SwiftGen */ = {
+			isa = PBXGroup;
+			children = (
+				B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */,
+			);
+			name = SwiftGen;
 			sourceTree = "<group>";
 		};
 		DA100B61B12F5E40FF5F2CE7 /* Frameworks */ = {
@@ -434,7 +427,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 2650;
+				LastUpgradeCheck = 2660;
 				ORGANIZATIONNAME = "Romain Mullot";
 				TargetAttributes = {
 					7AC16F2A217E1E3300C4B381 = {
@@ -520,6 +513,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FD3112CBC9C6438D372EDE99 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/swiftgen.yml",
+				"$(SRCROOT)/FoodScanner/Assets.xcassets",
+				"$(SRCROOT)/FoodScanner/View/Base.lproj/Main.storyboard",
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/FoodScanner/Generated/Assets.swift",
+				"$(SRCROOT)/FoodScanner/Generated/Storyboards.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFTGEN_BIN=\"\"\n# Apple Silicon (M1/M2/M3/M4 \"Mx\") Macs install Homebrew under /opt/homebrew;\n# Intel Macs use /usr/local. Check both explicit locations before falling back\n# to PATH, since Xcode's script-phase PATH does not always include Homebrew's\n# bin dir (especially under arch translation or a minimal login shell).\nif [ -x \"${BUILD_DIR%/Build/*}/SourcePackages/artifacts/swiftgen/SwiftGenPlugin/bin/swiftgen\" ]; then\n  SWIFTGEN_BIN=\"${BUILD_DIR%/Build/*}/SourcePackages/artifacts/swiftgen/SwiftGenPlugin/bin/swiftgen\"\nelif [ -x /opt/homebrew/bin/swiftgen ]; then\n  SWIFTGEN_BIN=/opt/homebrew/bin/swiftgen\nelif [ -x /usr/local/bin/swiftgen ]; then\n  SWIFTGEN_BIN=/usr/local/bin/swiftgen\nelif which swiftgen > /dev/null 2>&1; then\n  SWIFTGEN_BIN=\"$(which swiftgen)\"\nelif which mint > /dev/null 2>&1; then\n  SWIFTGEN_BIN=\"mint run swiftgen\"\nfi\n\nif [ -z \"$SWIFTGEN_BIN\" ]; then\n  echo \"warning: swiftgen not found (checked SPM artifacts, /opt/homebrew, /usr/local, PATH, Mint). Skipping code generation. Install with 'brew install swiftgen' to enable.\"\n  exit 0\nfi\n\nif ! mkdir -p \"${SRCROOT}/FoodScanner/Generated\" 2>/tmp/swiftgen-mkdir-err.log; then\n  echo \"warning: could not create FoodScanner/Generated (sandboxed script build phase, e.g. ENABLE_USER_SCRIPT_SANDBOXING). Skipping SwiftGen code generation. Disable script sandboxing or run swiftgen manually to enable.\"\n  exit 0\nfi\n\nif ! $SWIFTGEN_BIN config run --config \"${SRCROOT}/swiftgen.yml\" 2>/tmp/swiftgen-run-err.log; then\n  echo \"warning: swiftgen run failed, skipping code generation. See /tmp/swiftgen-run-err.log\"\n  exit 0\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7AC16F27217E1E3300C4B381 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -554,6 +574,8 @@
 				7AC16F2F217E1E3300C4B381 /* AppDelegate.swift in Sources */,
 				82DAFB7526524CB4AF5BBB2F /* SceneDelegate.swift in Sources */,
 				68B5EA339EE04DD2AE2D74CA /* UIApplication+KeyWindow.swift in Sources */,
+				A64FC6924E694D48BE0B7B56 /* Assets.swift in Sources */,
+				42113B9CAF554CBD9D32AF0E /* Storyboards.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,6 +626,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -668,6 +691,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -936,11 +960,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 02AC26222FEAC82F00CF77F7 /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = DGChartsDynamic;
-		};
-		AD3162B656770D643D94F037 /* SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1E74540B7649D0400A3E83AE /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = SwiftLintBuildToolPlugin;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
