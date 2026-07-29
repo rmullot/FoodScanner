@@ -21,7 +21,7 @@ class NavigationManager: NavigationManagerProtocol {
     static let sharedInstance = NavigationManager()
     
     private var navigationController: UINavigationController {
-        guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else {
+        guard let navigationController = UIApplication.keyWindow?.rootViewController as? UINavigationController else {
             fatalError()
         }
         return navigationController
