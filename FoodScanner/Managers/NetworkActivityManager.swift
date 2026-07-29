@@ -31,10 +31,6 @@ open class NetworkActivityManager {
             return count
         }
         let count = countRequest.incrementAndGet()
-        if(!UIApplication.shared.isNetworkActivityIndicatorVisible)
-        {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        }
         if let closure = disableActivityIndicatorClosure
         {
             closure()
@@ -72,7 +68,6 @@ open class NetworkActivityManager {
                 closure()
             }
             countRequest.setValue(0)
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
         }
         return count
@@ -90,7 +85,6 @@ open class NetworkActivityManager {
             closure()
         }
         countRequest.setValue(0)
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
   
 }
