@@ -1,0 +1,38 @@
+{
+  "colors": [
+    {
+      "color": {
+        "color-space": "srgb",
+        "components": {
+          "alpha": "1.000",
+          "red": "0xFB",
+          "green": "0xF7",
+          "blue": "0xEF"
+        }
+      },
+      "idiom": "universal"
+    },
+    {
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ],
+      "color": {
+        "color-space": "srgb",
+        "components": {
+          "alpha": "1.000",
+          "red": "0x24",
+          "green": "0x20",
+          "blue": "0x1A"
+        }
+      },
+      "idiom": "universal"
+    }
+  ],
+  "info": {
+    "author": "foodscanner",
+    "version": 1
+  }
+}
