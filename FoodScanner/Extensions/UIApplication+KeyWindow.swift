@@ -1,6 +1,8 @@
 //
 //  UIApplication+KeyWindow.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 07/29/2026.
 //
 
 import UIKit

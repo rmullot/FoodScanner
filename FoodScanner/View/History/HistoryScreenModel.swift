@@ -1,9 +1,11 @@
 //
 //  HistoryScreenModel.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
-//  ObservableObject exposant les produits déjà consultés (FoodSummary,
-//  Sendable) : lecture cache via RealmManager, jamais d'objet Realm managé.
+//  ObservableObject exposing already viewed products (FoodSummary,
+//  Sendable): cache read via RealmManager, never a managed Realm object.
 //
 
 import Foundation

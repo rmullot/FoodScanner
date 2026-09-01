@@ -1,7 +1,15 @@
+//
+//  FSButton.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 
-/// Bouton pilule de la charte. Trois rôles, jamais moins de 44 pt de haut,
-/// et un libellé qui passe en deux lignes plutôt que de tronquer en AX5.
+/// Design system pill button. Three roles, never less than 44 pt tall,
+/// and a label that wraps to two lines rather than truncating at AX5.
 public struct FSButton: View {
 
     public enum Role { case primary, outline, quiet }
@@ -83,7 +91,7 @@ public struct FSButton: View {
     }
 }
 
-/// Bouton icône seul : cible tactile garantie, libellé VoiceOver obligatoire.
+/// Icon-only button: guaranteed touch target, mandatory VoiceOver label.
 public struct FSIconButton: View {
     private let systemImage: String
     private let label: String
@@ -119,7 +127,7 @@ struct FSPressStyle: ButtonStyle {
     }
 }
 
-/// Puce d'information (allergène, mention, filtre).
+/// Info chip (allergen, notice, filter).
 public struct FSTag: View {
     public enum Tone { case neutral, leaf, alert }
 

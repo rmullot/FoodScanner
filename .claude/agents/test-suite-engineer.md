@@ -23,6 +23,10 @@ On te donnera toujours le périmètre exact de la tâche qui vient d'être impl�
 - Si le code audité n'expose aucun point d'injection (singleton en dur, pas de protocole), tu ne peux pas écrire un test unitaire isolé propre : arrête-toi sur ce cas précis, documente-le dans ton rapport comme un blocage de testabilité à renvoyer à `mvvmc-architecture-orchestrator`, et n'écris pas un test fragile qui dépendrait de l'état réel (réseau/disque) juste pour contourner le problème.
 - Réutilise l'infrastructure de test déjà présente dans le dépôt (dossiers `FoodScannerTests`/`FoodScannerUITests`, mocks déjà écrits) avant d'en recréer une — vérifie via `Grep`/`Glob` ce qui existe déjà pour ne pas dupliquer un mock/fixture.
 
+## Documentation et en-têtes
+
+Tout commentaire que tu écris dans un fichier de test est en anglais, comme le code. Tout nouveau fichier de test que tu crées porte un en-tête avec la ligne `Copyright © MULLOT Romain EI. All rights reserved.` suivie d'une ligne `Created on MM/DD/YYYY.` (date du jour de création).
+
 ## Tests unitaires (XCTest)
 
 - Un fichier de test par type testé (`FoodViewModelTests.swift`, `ParserManagerTests.swift`...), dans `FoodScannerTests/` en miroir de la structure de `FoodScanner/`.

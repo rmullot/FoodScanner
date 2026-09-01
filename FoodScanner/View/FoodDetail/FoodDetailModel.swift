@@ -1,10 +1,12 @@
 //
 //  FoodDetailModel.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
-//  Adaptateur ObservableObject exposant un FoodStruct aux vues SwiftUI de la
-//  fiche produit. Ne crée/mute jamais d'objet Realm : reçoit uniquement des
-//  structs Codable déjà converties (par RealmManager ou le parsing réseau).
+//  ObservableObject adapter exposing a FoodStruct to the product sheet's
+//  SwiftUI views. Never creates/mutates a Realm object: only receives
+//  Codable structs already converted (by RealmManager or network parsing).
 //
 
 import Foundation
@@ -33,10 +35,10 @@ final class FoodDetailModel: ObservableObject {
         return "\(Int(calories.quantity)) kCal pour 100 g"
     }
 
-    /// Résout la miniature via le cache image partagé. Ne fait rien si déjà
-    /// chargée ou si le produit n'a pas d'URL d'image — l'écran (`.task`)
-    /// pilote quand cet appel a lieu, `FoodDetailModel` ne se relance pas
-    /// silencieusement tout seul.
+    /// Resolves the thumbnail via the shared image cache. Does nothing if
+    /// already loaded or if the product has no image URL — the screen
+    /// (`.task`) drives when this call happens, `FoodDetailModel` never
+    /// silently retriggers itself.
     func loadThumbnail() async {
         guard thumbnail == nil, let imageURL else { return }
         guard let uiImage = await ImageCacheManager.sharedInstance.image(for: imageURL) else { return }

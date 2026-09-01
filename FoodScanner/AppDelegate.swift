@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        // L'indicateur d'activité réseau est désormais piloté par NetworkActivityManager
-        // (ObservableObject) et affiché directement dans les écrans SwiftUI concernés.
+        // The network activity indicator is now driven by NetworkActivityManager
+        // (ObservableObject) and displayed directly in the relevant SwiftUI screens.
         return true
     }
 

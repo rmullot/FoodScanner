@@ -16,9 +16,9 @@ enum WebServiceError: Error {
 class WebServiceManager {
     static let sharedInstance = WebServiceManager()
 
-    /// Récupère un produit distant, le persiste via `RealmManager` puis relit la version
-    /// mise en cache (Sendable) à retourner à l'appelant. En cas d'échec réseau/parsing,
-    /// retombe sur le cache Realm existant pour ce code-barres, sinon relance l'erreur.
+    /// Fetches a remote product, persists it via `RealmManager`, then reads back the
+    /// cached (Sendable) version to return to the caller. On network/parsing failure,
+    /// falls back to the existing Realm cache for this barcode, otherwise rethrows the error.
     func getFoodDescription(barcode: String) async throws -> FoodStruct {
         do {
             let data = try await getData(urlString: "https://world.openfoodfacts.org/api/v0/product/\(barcode).json")
@@ -37,9 +37,9 @@ class WebServiceManager {
         }
     }
 
-    /// Best-effort : l'annulation fine des requêtes en vol se fait désormais côté appelant
-    /// via `Task.cancel()`. Cette méthode reste pour couper les tâches URLSession en cours
-    /// et réinitialiser l'indicateur d'activité réseau.
+    /// Best-effort: fine-grained cancellation of in-flight requests is now done by the caller
+    /// via `Task.cancel()`. This method remains to cut off ongoing URLSession tasks
+    /// and reset the network activity indicator.
     func cancelRequests() {
         URLSession.shared.getTasksWithCompletionHandler { (dataTask, uploadTask, downloadTask) in
             for task in dataTask {

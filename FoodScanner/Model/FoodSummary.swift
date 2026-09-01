@@ -1,9 +1,11 @@
 //
 //  FoodSummary.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
-//  Résumé léger d'un produit, pensé pour traverser les frontières async/actor
-//  (historique, listes) sans jamais exposer un objet Realm managé.
+//  Lightweight summary of a product, designed to cross async/actor
+//  boundaries (history, lists) without ever exposing a managed Realm object.
 //
 
 import Foundation

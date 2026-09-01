@@ -1,9 +1,11 @@
 //
 //  SettingsScreenModel.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
-//  Réglages accessibilité, persistés via @AppStorage (contraste élevé,
-//  réduction des animations, taille du texte).
+//  Accessibility settings, persisted via @AppStorage (high contrast,
+//  reduce animations, text size).
 //
 
 import Foundation

@@ -52,7 +52,7 @@ struct FoodStruct: Codable {
         case nutrientsJSON = "nutriments"
     }
 
-    /// Construction manuelle (previews/fixtures), en plus du décodage JSON ci-dessous.
+    /// Manual construction (previews/fixtures), in addition to the JSON decoding below.
     init(barcode: String = "", imageURL: String = "", name: String = "", lastUpdate: TimeInterval = 0,
          nutriscoreGrade: String? = nil, nutrients: [NutrientStruct] = []) {
         self.barcode = barcode

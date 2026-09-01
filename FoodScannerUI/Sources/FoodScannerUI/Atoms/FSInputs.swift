@@ -1,7 +1,15 @@
+//
+//  FSInputs.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 
-/// Champ de saisie du code-barres. Clavier numérique, gros caractères,
-/// validation visible, et un pavé numérique maison pour les doigts pressés.
+/// Barcode entry field. Numeric keyboard, large characters,
+/// visible validation, and a custom keypad for hurried fingers.
 public struct FSBarcodeField: View {
     @Binding private var code: String
     private let onSubmit: (String) -> Void
@@ -75,8 +83,8 @@ public struct FSBarcodeField: View {
     }
 }
 
-/// Pavé numérique accessible : 12 touches de 64 pt, retour haptique,
-/// libellés VoiceOver explicites.
+/// Accessible numeric keypad: 12 keys of 64 pt, haptic feedback,
+/// explicit VoiceOver labels.
 public struct FSKeypad: View {
     @Binding private var code: String
     private let onValidate: () -> Void
@@ -134,7 +142,7 @@ public struct FSKeypad: View {
     }
 }
 
-/// Ligne de réglage avec interrupteur, explication et cible pleine largeur.
+/// Settings row with a toggle, explanation, and full-width target.
 public struct FSToggleRow: View {
     private let title: String
     private let explanation: String?
@@ -177,7 +185,7 @@ public struct FSToggleRow: View {
     }
 }
 
-/// Curseur de taille de texte, avec aperçu immédiat de l'échelle choisie.
+/// Text size slider, with an immediate preview of the chosen scale.
 public struct FSTextSizeSlider: View {
     @Binding private var scale: Double
 

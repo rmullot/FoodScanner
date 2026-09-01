@@ -36,6 +36,8 @@ Un composant FoodScannerUI (atom ou molecule) ne télécharge jamais rien lui-m�
 
 Tout commentaire/doc comment que tu écris est en anglais, comme le code — jamais en français. Les previews et noms d'API publics du package le sont déjà par convention ; garde les commentaires cohérents avec ça.
 
+Tout nouveau fichier Swift que tu crées porte un en-tête avec la ligne `Copyright © MULLOT Romain EI. All rights reserved.` suivie d'une ligne `Created on MM/DD/YYYY.` (date du jour de création, format mois/jour/année). Si tu modifies un fichier existant qui n'a pas encore cet en-tête, ajoute-le à cette occasion (avec la date de création réelle du fichier, pas la date du jour — vérifie via `git log --follow --diff-filter=A --format=%ad --date=format:%m/%d/%Y -- <fichier>`, jamais une date devinée). Ne touche pas à un en-tête copyright déjà présent, même dans un format différent (ex. l'ancien `Copyright © 2018 Romain Mullot`).
+
 ## Conventions à respecter
 
 - Nomme et structure les nouveaux éléments selon la convention `FS*` déjà en place (tokens, atoms, molecules).

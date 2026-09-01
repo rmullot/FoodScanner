@@ -1,11 +1,13 @@
 //
 //  ScannerScreenView.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
-//  Écran Scanner : remplace ScannerViewController (AVFoundation) + saisie
-//  manuelle UISearchBar/UIToolbar par FSBarcodeField/FSKeypad. Succès de
-//  scan/saisie pousse ProductSheetView -> NutrientsScreenView via une
-//  NavigationStack locale à cet onglet.
+//  Scanner screen: replaces ScannerViewController (AVFoundation) + manual
+//  UISearchBar/UIToolbar entry with FSBarcodeField/FSKeypad. A successful
+//  scan/entry pushes ProductSheetView -> NutrientsScreenView via a
+//  NavigationStack local to this tab.
 //
 
 import SwiftUI
@@ -34,8 +36,8 @@ struct ScannerScreenView: View {
                         .accessibilityElement(children: .ignore)
                         .accessibilityLabel("Requête réseau en cours")
                         .frame(maxWidth: .infinity, alignment: .topTrailing)
-                        // Masqué tant que FSScanStatusBanner occupe le haut de l'écran,
-                        // pour éviter tout chevauchement visuel avec le bandeau.
+                        // Hidden while FSScanStatusBanner occupies the top of the screen,
+                        // to avoid any visual overlap with the banner.
                         .opacity(model.banner == nil ? 1 : 0)
                 }
 
@@ -45,19 +47,19 @@ struct ScannerScreenView: View {
                         .padding(.top, FSMetrics.space3)
                 }
 
-                // Panneau ancré en bas via VStack+Spacer : sa position de repos est
-                // toujours au-dessus de la safe area fournie par RootTabBarController
-                // (donc au-dessus de la tabbar). Le contenu qui peut grandir (champ +
-                // FSKeypad) est isolé dans un `ScrollView` borné à une fraction de la
-                // hauteur RÉELLEMENT disponible (mesurée via `GeometryReader`, comme le
-                // fait déjà FSSceneFooter dans FoodScannerUI — jamais `UIScreen.main`,
-                // non fiable en Split View/paysage) : quand FSKeypad apparaît, la zone
-                // défile plutôt que de déborder du panneau — sans ce plafond, le
-                // panneau dépassait la hauteur écran et les boutons pavé/lampe se
-                // retrouvaient rendus sous la tabbar (invisibles, cachés derrière
-                // elle). Ces boutons restent hors du ScrollView, donc toujours
-                // visibles et jamais recouverts par la tabbar, quel que soit l'état
-                // du clavier/pavé.
+                // Panel anchored to the bottom via VStack+Spacer: its resting position is
+                // always above the safe area provided by RootTabBarController
+                // (i.e. above the tab bar). Content that can grow (field +
+                // FSKeypad) is confined to a `ScrollView` bounded to a fraction of the
+                // ACTUALLY available height (measured via `GeometryReader`, as
+                // FSSceneFooter already does in FoodScannerUI — never `UIScreen.main`,
+                // unreliable in Split View/landscape): when FSKeypad appears, the area
+                // scrolls instead of overflowing the panel — without this cap, the
+                // panel would exceed the screen height and the keypad/flashlight
+                // buttons would end up rendered under the tab bar (invisible, hidden
+                // behind it). These buttons stay outside the ScrollView, so they
+                // remain always visible and never covered by the tab bar, regardless
+                // of the keyboard/keypad state.
                 GeometryReader { proxy in
                     VStack {
                         Spacer()
@@ -82,10 +84,10 @@ struct ScannerScreenView: View {
                                 FSButton(showsKeypad ? "Masquer le pavé" : "Pavé numérique",
                                          role: .quiet,
                                          systemImage: "square.grid.3x3") {
-                                    // On ferme le clavier système avant d'afficher le FSKeypad :
-                                    // les deux ne doivent jamais être visibles en même temps,
-                                    // sinon leur hauteur cumulée peut repousser le panneau
-                                    // au-delà de la safe area (sous la tabbar).
+                                    // Dismiss the system keyboard before showing FSKeypad:
+                                    // the two must never be visible at the same time,
+                                    // otherwise their combined height can push the panel
+                                    // past the safe area (under the tab bar).
                                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
                                                                      to: nil, from: nil, for: nil)
                                     showsKeypad.toggle()

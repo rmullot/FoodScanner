@@ -1,6 +1,14 @@
+//
+//  FSNutrientViews.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 
-/// Ligne de nutriment : pastille à motif, nom, barre proportionnelle, valeur.
+/// Nutrient row: patterned swatch, name, proportional bar, value.
 public struct FSNutrientRow: View {
     private let nutrient: FSNutrient
     private let grams: Double
@@ -62,8 +70,8 @@ public struct FSNutrientRow: View {
     }
 }
 
-/// Anneau de répartition des nutriments : un motif distinct par segment,
-/// score et total au centre.
+/// Nutrient breakdown ring: a distinct pattern per segment,
+/// score and total at the center.
 public struct FSNutrientRing: View {
     public struct Segment: Identifiable {
         public let nutrient: FSNutrient
@@ -148,7 +156,7 @@ public struct FSNutrientRing: View {
     }
 }
 
-/// Légende de l'anneau : motif, nom, et l'aliment de saison dont vient la couleur.
+/// Ring legend: pattern, name, and the seasonal food the color comes from.
 public struct FSNutrientLegend: View {
     private let nutrients: [FSNutrient]
     @FSResolvedSeason private var season

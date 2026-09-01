@@ -1,13 +1,15 @@
 //
 //  ImageCacheManager.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
-//  Cache d'images basé sur Swift Concurrency : un `actor` mémorise les
-//  images déjà téléchargées (NSCache) et déduplique les téléchargements
-//  concurrents d'une même URL (une seule requête réseau en vol par URL,
-//  les appelants suivants attendent la même Task). Remplace le
-//  téléchargement à la volée par écran (ex. `AsyncImage`) qui ne partage
-//  aucun cache entre deux apparitions du même produit.
+//  Image cache based on Swift Concurrency: an `actor` memorizes already
+//  downloaded images (NSCache) and deduplicates concurrent downloads of
+//  the same URL (a single in-flight network request per URL, subsequent
+//  callers await the same Task). Replaces per-screen on-the-fly
+//  downloading (e.g. `AsyncImage`) which shares no cache between two
+//  appearances of the same product.
 //
 
 import UIKit
@@ -52,7 +54,7 @@ actor ImageCacheManager {
         return result
     }
 
-    /// Pré-décode l'image hors de l'écran (évite le coût de décodage JPEG/PNG au premier affichage).
+    /// Pre-decodes the image off-screen (avoids the JPEG/PNG decoding cost on first display).
     private static func decoded(_ image: UIImage) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: image.size, format: .init(for: .init(displayScale: image.scale)))
         return renderer.image { _ in image.draw(at: .zero) }

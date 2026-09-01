@@ -1,10 +1,12 @@
 //
 //  CameraPreviewView.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
-//  UIViewRepresentable enveloppant AVCaptureSession/AVCaptureVideoPreviewLayer,
-//  en reprenant le comportement de l'ex-ScannerViewController : auto-détection
-//  de code-barres + tap-to-focus, comportement d'interaction inchangé.
+//  UIViewRepresentable wrapping AVCaptureSession/AVCaptureVideoPreviewLayer,
+//  reproducing the behavior of the former ScannerViewController: barcode
+//  auto-detection + tap-to-focus, interaction behavior unchanged.
 //
 
 import SwiftUI
@@ -40,9 +42,9 @@ final class CameraPreviewUIView: UIView {
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     private var captureMetadataOutput = AVCaptureMetadataOutput()
     private var barCodeFrameView: UIView?
-    // AVCaptureSession.startRunning()/stopRunning() sont bloquants et ne doivent
-    // jamais être appelés sur le thread principal (cf. avertissement runtime
-    // AVFoundation) : on les exécute sur cette file dédiée.
+    // AVCaptureSession.startRunning()/stopRunning() are blocking and must
+    // never be called on the main thread (see AVFoundation runtime warning):
+    // we run them on this dedicated queue.
     private let sessionQueue = DispatchQueue(label: "com.foodscanner.cameraSession")
 
     override init(frame: CGRect) {

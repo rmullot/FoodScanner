@@ -5,9 +5,9 @@
 //  Created by Romain Mullot on 22/10/2018.
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
-//  Compteur de requêtes en vol exposé via `@Published var isActive`, confiné
-//  au main actor : consommable directement par une vue SwiftUI
-//  (@ObservedObject) sans passer par un indicateur UIKit global.
+//  In-flight request counter exposed via `@Published var isActive`, confined
+//  to the main actor: directly consumable by a SwiftUI view (@ObservedObject)
+//  without going through a global UIKit indicator.
 //
 
 import Foundation

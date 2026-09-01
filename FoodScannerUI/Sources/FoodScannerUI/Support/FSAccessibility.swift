@@ -1,9 +1,17 @@
+//
+//  FSAccessibility.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
 #endif
 
-/// Retours haptiques nommés par intention, pas par moteur.
+/// Haptic feedback named by intent, not by engine.
 public enum FSHaptics {
     public enum Intent { case scanSuccess, scanFailure, selection, warning }
 
@@ -23,8 +31,8 @@ public enum FSHaptics {
     }
 }
 
-/// Annonces VoiceOver : à utiliser pour tout changement d'état non focalisé
-/// (score reçu, produit introuvable, passage hors ligne).
+/// VoiceOver announcements: use for any unfocused state change
+/// (score received, product not found, switch to offline).
 public enum FSAnnounce {
     public static func say(_ message: String) {
         #if canImport(UIKit)
@@ -37,7 +45,7 @@ public enum FSAnnounce {
 }
 
 public extension View {
-    /// Anime uniquement si l'utilisateur n'a pas demandé la réduction des animations.
+    /// Animates only if the user has not requested reduced animations.
     func fsAnimation<V: Equatable>(_ animation: Animation, value: V) -> some View {
         modifier(FSRespectfulAnimation(animation: animation, value: value))
     }
@@ -53,8 +61,8 @@ private struct FSRespectfulAnimation<V: Equatable>: ViewModifier {
     }
 }
 
-/// Vrai quand le corps de texte dépasse la taille standard : les composants
-/// basculent alors leurs lignes en disposition verticale.
+/// True when the body text exceeds the standard size: components then
+/// switch their rows to a vertical layout.
 struct FSStackedLayoutKey {
     static func isStacked(_ size: DynamicTypeSize) -> Bool { size >= .accessibility1 }
 }

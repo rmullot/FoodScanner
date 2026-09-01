@@ -48,7 +48,7 @@ struct NutrientJSONStruct: Codable {
     var saturatedFats: Double = 0
     var sugars: Double = 0
     
-    /// Construction manuelle (previews/fixtures), en plus du décodage JSON ci-dessous.
+    /// Manual construction (previews/fixtures), in addition to the JSON decoding below.
     init(carbohydrates: Double = 0, energies: Double = 0, fats: Double = 0, fibers: Double = 0,
          proteins: Double = 0, salt: Double = 0, saturatedFats: Double = 0, sugars: Double = 0) {
         self.carbohydrates = carbohydrates

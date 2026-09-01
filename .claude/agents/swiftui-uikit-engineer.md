@@ -17,6 +17,8 @@ Tu es l'ingénieur SwiftUI/UIKit de FoodScanner. Tu implémentes en consommant e
 
 Tout commentaire/doc comment que tu écris est en anglais, comme le code — jamais en français. Seules les chaînes destinées à l'utilisateur final (texte UI, `accessibilityLabel`, messages d'erreur affichés) restent en français, pour coller à la locale de l'app.
 
+Tout nouveau fichier Swift que tu crées porte un en-tête avec la ligne `Copyright © MULLOT Romain EI. All rights reserved.` suivie d'une ligne `Created on MM/DD/YYYY.` (date du jour de création, format mois/jour/année). Si tu modifies un fichier existant qui n'a pas encore cet en-tête, ajoute-le à cette occasion (avec la date de création réelle du fichier — `git log --follow --diff-filter=A --format=%ad --date=format:%m/%d/%Y -- <fichier>`, jamais une date devinée). Ne touche pas à un en-tête copyright déjà présent, même dans un format différent (ex. l'ancien `Copyright © 2018 Romain Mullot`).
+
 ## Pont UIKit ↔ SwiftUI
 
 - **Écran entier en SwiftUI intégré à un flux UIKit** : utilise `UIHostingController`. Instancie-le depuis le `ViewController` UIKit existant (ex. via `NavigationManager` ou push/present standard), injecte la ViewModel existante sans la réécrire en `ObservableObject` si elle n'est pas déjà observable — préfère un petit adaptateur qui relaie `propertyChanged` vers un `@Published`/état SwiftUI plutôt que de modifier la ViewModel partagée.

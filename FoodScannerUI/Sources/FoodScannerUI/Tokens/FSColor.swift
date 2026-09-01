@@ -1,12 +1,20 @@
+//
+//  FSColor.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
 #endif
 
-/// Tous les tokens couleur vivent dans `Resources/FoodScannerUI.xcassets`
-/// avec une variante Any (printemps-été) et une variante Dark (automne-hiver).
-/// Les couleurs du Nutri-Score sont volontairement hors thème : la charte
-/// officielle impose les mêmes aplats en clair comme en sombre.
+/// All color tokens live in `Resources/FoodScannerUI.xcassets`
+/// with an Any variant (spring-summer) and a Dark variant (autumn-winter).
+/// Nutri-Score colors are intentionally out of theme: the official chart
+/// mandates the same flat colors in both light and dark.
 public extension Color {
 
     // MARK: Surfaces
@@ -15,35 +23,35 @@ public extension Color {
     static let fsSurfaceRaised = Color.fsAsset("fsSurfaceRaised")
     static let fsAccentSoft = Color.fsAsset("fsAccentSoft")
 
-    // MARK: Texte
+    // MARK: Text
     static let fsInk = Color.fsAsset("fsInk")
     static let fsInkSecondary = Color.fsAsset("fsInkSecondary")
     static let fsInkOnAccent = Color.fsAsset("fsInkOnAccent")
 
-    // MARK: Traits
+    // MARK: Strokes
     static let fsBorder = Color.fsAsset("fsBorder")
     static let fsFocus = Color.fsAsset("fsFocus")
 
-    // MARK: Saison
-    /// Rouge fraise en clair, orange potimarron en sombre.
+    // MARK: Season
+    /// Strawberry red in light, squash orange in dark.
     static let fsAccent = Color.fsAsset("fsAccent")
-    /// Vert feuille (petit pois / chou).
+    /// Leaf green (pea / cabbage).
     static let fsLeaf = Color.fsAsset("fsLeaf")
-    /// Jaune citron en clair, miel-bougie en sombre.
+    /// Lemon yellow in light, honey-candle in dark.
     static let fsSun = Color.fsAsset("fsSun")
-    /// Brun châtaigne / écorce.
+    /// Chestnut brown / bark.
     static let fsBark = Color.fsAsset("fsBark")
 
-    // MARK: Nutriments (couleurs d'aliments de saison)
-    /// Glucides : blé en clair, courge en sombre.
+    // MARK: Nutrients (seasonal food colors)
+    /// Carbs: wheat in light, squash in dark.
     static let fsCarbs = Color.fsAsset("fsCarbs")
-    /// Lipides : huile d'olive en clair, noix en sombre.
+    /// Fat: olive oil in light, walnut in dark.
     static let fsFat = Color.fsAsset("fsFat")
-    /// Protéines : haricot rouge en clair, chou en sombre.
+    /// Protein: kidney bean in light, cabbage in dark.
     static let fsProtein = Color.fsAsset("fsProtein")
-    /// Sel / minéraux.
+    /// Salt / minerals.
     static let fsSalt = Color.fsAsset("fsSalt")
-    /// Fibres : petit pois en clair, châtaigne en sombre.
+    /// Fiber: pea in light, chestnut in dark.
     static let fsFiber = Color.fsAsset("fsFiber")
 
     private static func fsAsset(_ name: String) -> Color {
@@ -51,7 +59,7 @@ public extension Color {
     }
 }
 
-/// Aplats officiels du Nutri-Score. Identiques dans les deux thèmes.
+/// Official Nutri-Score flat colors. Identical in both themes.
 public extension Color {
     static let fsScoreA = Color(hex: 0x038141)
     static let fsScoreB = Color(hex: 0x85BB2F)
@@ -61,7 +69,7 @@ public extension Color {
 }
 
 extension Bundle {
-    /// Fonctionne comme package SPM comme en simple dossier de sources dans l'app.
+    /// Works both as an SPM package and as a plain sources folder in the app.
     static var fsModule: Bundle {
         #if SWIFT_PACKAGE
         return .module
