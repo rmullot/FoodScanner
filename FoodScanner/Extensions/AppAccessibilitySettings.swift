@@ -1,6 +1,8 @@
 //
 //  AppAccessibilitySettings.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Propagates app-wide the accessibility settings chosen in
 //  SettingsScreenView (@AppStorage "settings.textScale",

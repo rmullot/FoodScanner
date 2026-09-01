@@ -1,6 +1,8 @@
 //
 //  HistoryScreenView.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  History screen: FSHistoryRow + FSOfflineBanner + FSSceneFooter.
 //  Tap -> shared product sheet (cache read only, no network request).

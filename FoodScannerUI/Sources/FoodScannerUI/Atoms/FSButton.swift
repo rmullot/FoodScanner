@@ -1,3 +1,11 @@
+//
+//  FSButton.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 
 /// Design system pill button. Three roles, never less than 44 pt tall,

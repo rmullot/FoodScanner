@@ -1,6 +1,8 @@
 //
 //  NutrientsScreenView.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Écran Nutriments : "Score puis barres" (FSScoreBadge + FSNutrientRow),
 //  remplace ChartCollectionViewCell/NutrientsCollectionViewCell/NutrientTableViewCell.

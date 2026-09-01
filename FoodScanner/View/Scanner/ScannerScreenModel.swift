@@ -1,6 +1,8 @@
 //
 //  ScannerScreenModel.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Native ObservableObject replacing ScannerViewModel (propertyChanged/PropertyKeys).
 //  Calls the async Managers directly; no managed Realm object crosses this

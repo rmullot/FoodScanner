@@ -1,6 +1,8 @@
 //
 //  FoodDetailModel.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  ObservableObject adapter exposing a FoodStruct to the product sheet's
 //  SwiftUI views. Never creates/mutates a Realm object: only receives

@@ -1,3 +1,11 @@
+//
+//  FSGalleryView.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 
 /// Design system gallery: one tab per atoms/molecules, one tab

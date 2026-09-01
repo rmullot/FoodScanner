@@ -1,6 +1,8 @@
 //
 //  ImageCacheManager.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Image cache based on Swift Concurrency: an `actor` memorizes already
 //  downloaded images (NSCache) and deduplicates concurrent downloads of

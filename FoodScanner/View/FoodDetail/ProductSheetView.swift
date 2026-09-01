@@ -1,6 +1,8 @@
 //
 //  ProductSheetView.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Product sheet: replaces FoodCollectionReusableView. Passive view, purely
 //  fed by FoodDetailModel.

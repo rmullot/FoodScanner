@@ -1,6 +1,8 @@
 //
 //  FoodBridge.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Bridge between the app's Codable structs (FoodStruct/NutrientStruct) and
 //  the FoodScannerUI design system types. Lives on the app side (not in the

@@ -1,6 +1,8 @@
 //
 //  RealmEncryptionKeyStore.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Generates and persists the 64-byte AES-256 key Realm uses to encrypt its
 //  file on disk. The key itself lives in the Keychain (not in the Realm

@@ -1,6 +1,8 @@
 //
 //  ScannerScreenView.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  Scanner screen: replaces ScannerViewController (AVFoundation) + manual
 //  UISearchBar/UIToolbar entry with FSBarcodeField/FSKeypad. A successful

@@ -1,3 +1,11 @@
+//
+//  FSMascot.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 
 /// The design system's food mascots, drawn in `Path`/`Canvas`

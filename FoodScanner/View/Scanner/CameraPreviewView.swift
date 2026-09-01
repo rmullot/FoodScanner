@@ -1,6 +1,8 @@
 //
 //  CameraPreviewView.swift
 //  FoodScanner
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
 //
 //  UIViewRepresentable wrapping AVCaptureSession/AVCaptureVideoPreviewLayer,
 //  reproducing the behavior of the former ScannerViewController: barcode

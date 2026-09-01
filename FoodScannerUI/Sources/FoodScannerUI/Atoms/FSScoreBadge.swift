@@ -1,3 +1,11 @@
+//
+//  FSScoreBadge.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import SwiftUI
 
 /// The Nutri-Score. The flat colors are the official chart's and do not
