@@ -65,20 +65,29 @@ struct ScannerScreenView: View {
                         Spacer()
 
                         VStack(spacing: FSMetrics.space3) {
-                            ScrollView {
-                                VStack(spacing: FSMetrics.space3) {
-                                    FSBarcodeField(code: $code) { submitted in
-                                        model.getFoodInformations(barcode: submitted)
-                                    }
+                            // The whole field+keypad panel is collapsed by default and only
+                            // appears once the user taps "Pavé numérique" — it must never be
+                            // open on first launch. It grows bottom-to-top on appear and
+                            // retracts top-to-bottom on disappear (the `.move(edge: .bottom)`
+                            // transition below, since the panel is anchored to the bottom of
+                            // the card) rather than just vanishing instantly. Driven by
+                            // `.appAnimation(value: showsKeypad)` further down so it's skipped
+                            // when the system or app "Reduce animations" setting is on.
+                            if showsKeypad {
+                                ScrollView {
+                                    VStack(spacing: FSMetrics.space3) {
+                                        FSBarcodeField(code: $code) { submitted in
+                                            model.getFoodInformations(barcode: submitted)
+                                        }
 
-                                    if showsKeypad {
                                         FSKeypad(code: $code) {
                                             model.getFoodInformations(barcode: code)
                                         }
                                     }
                                 }
+                                .frame(maxHeight: proxy.size.height * 0.55)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
                             }
-                            .frame(maxHeight: showsKeypad ? proxy.size.height * 0.55 : nil)
 
                             HStack {
                                 FSButton(showsKeypad ? "Masquer le pavé" : "Pavé numérique",
@@ -98,6 +107,7 @@ struct ScannerScreenView: View {
                                 }
                             }
                         }
+                        .appAnimation(.easeInOut, value: showsKeypad)
                         .padding(FSMetrics.space4)
                         .fsCard(radius: FSMetrics.radiusLarge)
                         .padding(.horizontal, FSMetrics.space3)
