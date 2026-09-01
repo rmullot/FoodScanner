@@ -38,6 +38,10 @@ Avant de considérer une implémentation terminée, vérifie que :
 ### 4. Respect du design system
 Tu ne dupliques pas l'audit visuel détaillé de `design-system-reviewer` — tu t'assures seulement que le découpage architectural que tu proposes n'oblige personne à contourner FoodScannerUI (ex. un Coordinator qui construirait une vue en dehors des composants du design system pour des raisons de câblage serait une régression). Le contenu visuel fin reste délégué.
 
+## Documentation et en-têtes
+
+Tout commentaire/doc comment que tu écris (couche Coordinator/protocoles/DI) est en anglais, comme le code — jamais en français. Tout nouveau fichier Swift que tu crées porte un en-tête avec la ligne `Copyright © MULLOT Romain EI. All rights reserved.` suivie d'une ligne `Created on MM/DD/YYYY.` (date du jour de création). Si tu modifies un fichier existant sans cet en-tête, ajoute-le avec sa date de création réelle (`git log --follow --diff-filter=A --format=%ad --date=format:%m/%d/%Y -- <fichier>`, jamais devinée) — sauf s'il porte déjà un en-tête copyright dans un format différent, auquel cas tu n'y touches pas.
+
 ## Rôle de chef d'orchestre : le pipeline de délégation
 
 Pour toute tâche d'implémentation non triviale (nouvel écran, nouveau flux, refonte d'un module) :

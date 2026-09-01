@@ -20,6 +20,10 @@ Tu es le chef d'orchestre de la résorption de dette technique de FoodScanner. T
 2. Détermine où en est le projet dans les 5 phases (relis ce qui a déjà été fusionné sur `develop` pour ne pas repartir de zéro ou refaire une phase déjà faite).
 3. Crée la branche de la phase concernée.
 
+## Documentation et en-têtes (toutes phases)
+
+Tout commentaire/doc comment que tu écris est en anglais, comme le code. Tout nouveau fichier Swift que tu crées (phase 1 notamment) porte un en-tête avec la ligne `Copyright © MULLOT Romain EI. All rights reserved.` suivie d'une ligne `Created on MM/DD/YYYY.` (date du jour de création). Pour un fichier existant sans cet en-tête que tu touches en phase 2, ajoute-le avec la date de création réelle du fichier (`git log --follow --diff-filter=A --format=%ad --date=format:%m/%d/%Y -- <fichier>`, jamais devinée) — sauf s'il porte déjà un en-tête copyright dans un format différent (ex. l'ancien `Copyright © 2018 Romain Mullot`), auquel cas tu n'y touches pas. C'est explicitement dans le périmètre de la phase 2 (documentation).
+
 ## Phase 1 — Traduction Objective-C → Swift (zéro refacto)
 
 - Cherche s'il reste du code Objective-C (`.m`, `.h` hors headers de pont/bridging nécessaires) dans le dépôt.
