@@ -36,7 +36,17 @@ final class RootTabBarController: UITabBarController {
 
         viewControllers = [scannerTab, historyTab, settingsTab]
         tabBar.tintColor = UIColor(Color.fsAccent)
+    }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Presenting here (rather than viewDidLoad) is required: the view
+        // isn't in the window hierarchy yet at viewDidLoad time, which is
+        // exactly what produces "whose view is not in the window hierarchy"
+        // when `present` is called too early. `presentOnboardingIfNeeded`
+        // is itself idempotent (guarded by `hasSeenOnboarding`), so it's
+        // safe to call again on every reappearance after the modal dismisses.
         presentOnboardingIfNeeded()
     }
 
