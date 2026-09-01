@@ -2,9 +2,13 @@
 //  RootTabBarController.swift
 //  FoodScanner
 //
-//  3-tab root (Scanner / History / Settings), each a UIHostingController in
-//  its own UINavigationController. Replaces the push-based storyboard
-//  navigation (NavigationManager) and the storyboard SceneDelegate.
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 09/01/2026.
+//
+//  3-tab root (Scanner / History / Settings), each a UIHostingController
+//  hosted directly in the tab — no wrapping UINavigationController (see the
+//  comment on `embed` below). Replaces the push-based storyboard navigation
+//  (NavigationManager) and the storyboard SceneDelegate.
 //
 
 import UIKit
