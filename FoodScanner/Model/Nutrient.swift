@@ -48,6 +48,19 @@ struct NutrientJSONStruct: Codable {
     var saturatedFats: Double = 0
     var sugars: Double = 0
     
+    /// Construction manuelle (previews/fixtures), en plus du décodage JSON ci-dessous.
+    init(carbohydrates: Double = 0, energies: Double = 0, fats: Double = 0, fibers: Double = 0,
+         proteins: Double = 0, salt: Double = 0, saturatedFats: Double = 0, sugars: Double = 0) {
+        self.carbohydrates = carbohydrates
+        self.energies = energies
+        self.fats = fats
+        self.fibers = fibers
+        self.proteins = proteins
+        self.salt = salt
+        self.saturatedFats = saturatedFats
+        self.sugars = sugars
+    }
+
     enum CodingKeys: String, CodingKey {
         case carbohydrates = "carbohydrates_prepared_100g"
         case energies = "energy-kcal_prepared_100g"

@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-dee87b75-7256-4d1a-a086-2c490a2d26ae/styles.css">
+<script src="_ds/organic-dee87b75-7256-4d1a-a086-2c490a2d26ae/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e7ddcb;font-family:"Figtree",system-ui,sans-serif}
+a{color:#8c491a}a:hover{color:#643312}
+.dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(32,30,29,.12);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 22px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#201e1d;color:#f9f4ed;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 "Figtree",system-ui,sans-serif;color:#201e1d}
+.dv-opts{display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(32,30,29,.1);color:#201e1d;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:500 12px/1.35 "Figtree",system-ui,sans-serif;color:rgba(32,30,29,.6);max-width:420px}
+.dv-opt:target .dv-oid{background:#c67139;color:#fff}
+.dv-row{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start}
+.dv-cap{font:500 11.5px/1.4 "Figtree",system-ui,sans-serif;color:rgba(32,30,29,.55);max-width:402px}
+.dv-next{margin:24px 0 0;font:12.5px/1.6 "Figtree",system-ui,sans-serif;color:rgba(32,30,29,.55)}
+</style>
+</helmet>
+
+<section class="dv-turn" style="background:#f5ead8">
+<div style="max-width:920px">
+<div style="font:600 11px/1 'Figtree';letter-spacing:.12em;text-transform:uppercase;color:#8c491a">Brief · design accessible</div>
+<h1 style="font-family:'Caprasimo',system-ui;font-weight:400;font-size:44px;line-height:1.08;margin:12px 0 18px;color:#201e1d">FoodScanner, repensé pour tous</h1>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 40px;font:16px/1.55 'Figtree';color:#474238">
+<div>
+<div style="font-weight:700;color:#201e1d;margin-bottom:6px">Ce que fait l'app aujourd'hui</div>
+<p style="margin:0">Lu dans le dépôt : <code>ScannerViewController</code> (aperçu caméra AVFoundation, <code>UISearchBar</code> minimal en pavé numérique, bouton « LAMP » noir 60×60 arrondi à 30, label d'état blanc sur fond blanc — invisible en pratique) et <code>FoodViewController</code> (en-tête 150 pt photo + nom, cellule graphique 300 pt avec camembert DGCharts, lignes nutriments de 44 pt). Données Open Food Facts, cache Realm hors-ligne.</p>
+</div>
+<div>
+<div style="font-weight:700;color:#201e1d;margin-bottom:6px">Les quatre obstacles</div>
+<p style="margin:0">Camembert à étiquettes de 12 pt et couleurs proches (rouge #FF2600 / brun #851C0D) : illisible en basse vision et en daltonisme. Aucun libellé d'accessibilité, aucun retour sonore ou haptique. Cibles de 44 pt en haut de l'écran, hors de portée du pouce. Textes de 17 pt fixes, aucun mode sombre, aucun contraste renforcé.</p>
+</div>
+<div>
+<div style="font-weight:700;color:#201e1d;margin-bottom:6px">Les partis pris</div>
+<p style="margin:0">Corps de texte à 19 pt minimum, cibles de 60 pt ancrées en bas d'écran. Chaque valeur nutritionnelle est portée par trois canaux : couleur, motif et texte. Un score A–E lisible d'un coup d'œil précède les chiffres. Chaque écran s'ouvre sur une phrase-résumé que le lecteur d'écran annonce et que l'œil lit en premier. Scan confirmé par bannière pleine largeur + haptique + annonce vocale, puis validation par l'utilisateur.</p>
+</div>
+<div>
+<div style="font-weight:700;color:#201e1d;margin-bottom:6px">Périmètre</div>
+<p style="margin:0">Un seul design partagé iOS / Android, décliné en thème clair et sombre — les motifs propres à chaque plateforme (barre d'onglets, retour, typographie système) sont notés sur chaque écran plutôt que dupliqués. Français en langue principale, anglais en second niveau. Neuf écrans, plus trois axes de variation.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="dv-turn" id="t1" style="background:#efe4d1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Base existante, parcours accessible clair et sombre, variations</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Recréation de l'app actuelle, d'après le dépôt — point de départ, pas une proposition</div>
+<div class="dv-row">
+<div style="display:flex;flex-direction:column;gap:8px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:#fff;display:flex;flex-direction:column;font-family:-apple-system,system-ui">
+<div style="height:44px;margin-top:59px;background:rgba(249,249,249,.94);border-bottom:.5px solid rgba(60,60,67,.29);flex:none"></div>
+<div style="height:56px;flex:none;display:flex;align-items:center;padding:0 8px">
+<div style="flex:1;height:36px;border-radius:10px;background:rgba(118,118,128,.12);display:flex;align-items:center;gap:6px;padding:0 8px">
+<svg width="15" height="15" viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.6" fill="none" stroke="rgba(60,60,67,.6)" stroke-width="1.7"></circle><path d="M10 10l4 4" stroke="rgba(60,60,67,.6)" stroke-width="1.9" stroke-linecap="round"></path></svg>
+<span style="font-size:17px;color:rgba(60,60,67,.6)">Search for a product</span>
+</div>
+</div>
+<div style="position:relative;flex:1;background:#fff">
+<div style="position:absolute;top:0;left:0;right:0;height:60px;display:flex;align-items:center;justify-content:center;padding:0 8px">
+<span style="font-size:17px;color:#fff;text-shadow:2px 2px 1px rgba(0,0,0,1);text-align:center">No bar code has been detected yet.</span>
+</div>
+<div style="position:absolute;top:150px;left:60px;width:260px;height:150px;border:2px solid #00ff00"></div>
+<div style="position:absolute;right:20px;bottom:20px;width:60px;height:60px;border-radius:30px;background:#000;display:flex;align-items:center;justify-content:center">
+<span style="font-size:18px;color:#fff">LAMP</span>
+</div>
+</div>
+</div>
+</x-import>
+<div class="dv-cap">Scanner. Le label d'état est blanc sur fond blanc et n'existe qu'à travers son ombre portée ; le bouton LAMP fait 60×60 pt, coin 30 ; la barre de recherche minimale n'accepte que le pavé numérique.</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:#fff;display:flex;flex-direction:column;font-family:-apple-system,system-ui">
+<div style="height:44px;margin-top:59px;background:rgba(249,249,249,.94);border-bottom:.5px solid rgba(60,60,67,.29);flex:none;display:flex;align-items:center;padding:0 8px;gap:6px">
+<svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#007AFF" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span style="font-size:17px;color:#007AFF">Back</span>
+</div>
+<div style="flex:1;overflow:hidden">
+<div style="height:150px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:.5px solid rgba(60,60,67,.2)">
+<div style="width:110px;height:118px;background:#efefef;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="34" height="34" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" fill="none" stroke="#b9b9b9" stroke-width="1.6"></rect><circle cx="8" cy="10" r="2" fill="#b9b9b9"></circle><path d="M4 17l5-5 4 4 3-3 4 4" fill="none" stroke="#b9b9b9" stroke-width="1.6"></path></svg>
+</div>
+<span style="font-size:17px;color:#000;line-height:1.25">Nutella pâte à tartiner noisettes-cacao 400g</span>
+</div>
+<div style="height:300px;position:relative;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;top:8px;left:16px;font-size:12px;font-weight:700;color:#000">Ratio nutriments pour 100g</div>
+<div style="width:190px;height:190px;border-radius:50%;background:conic-gradient(#851C0D 0 51%,#FF9300 51% 82%,#AB7942 82% 86%,#FF2600 86% 96%,#5D11F7 96% 100%);display:flex;align-items:center;justify-content:center">
+<div style="width:74px;height:74px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;color:#000">FOOD<br>Scanner</div>
+</div>
+<div style="position:absolute;bottom:10px;left:0;right:0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;font-size:11px;color:#000">
+<span style="display:flex;align-items:center;gap:4px"><i style="width:9px;height:9px;background:#851C0D;display:block"></i>Glucides</span>
+<span style="display:flex;align-items:center;gap:4px"><i style="width:9px;height:9px;background:#FF9300;display:block"></i>Lipides</span>
+<span style="display:flex;align-items:center;gap:4px"><i style="width:9px;height:9px;background:#AB7942;display:block"></i>Fibres</span>
+<span style="display:flex;align-items:center;gap:4px"><i style="width:9px;height:9px;background:#FF2600;display:block"></i>Protéines</span>
+<span style="display:flex;align-items:center;gap:4px"><i style="width:9px;height:9px;background:#5D11F7;display:block"></i>Sel</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 16px;border-bottom:.5px solid rgba(60,60,67,.2);font-size:17px"><span>Énergie</span><span>539kCal</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 16px;border-bottom:.5px solid rgba(60,60,67,.2);font-size:17px"><span>Glucides</span><span>57.5g pour 100g</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 16px;border-bottom:.5px solid rgba(60,60,67,.2);font-size:17px"><span>Lipides</span><span>30.9g pour 100g</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 16px;border-bottom:.5px solid rgba(60,60,67,.2);font-size:17px"><span>Fibres</span><span>0.0g pour 100g</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 16px;border-bottom:.5px solid rgba(60,60,67,.2);font-size:17px"><span>Protéines</span><span>6.3g pour 100g</span></div>
+</div>
+</div>
+</x-import>
+<div class="dv-cap">Fiche produit. En-tête de 150 pt (photo + nom sur 17 pt), camembert de 300 pt avec libellés à 12 pt hors des parts, puis lignes de 44 pt « nom / valeur ».</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Parcours accessible complet — thème clair, palette printemps-été. Corps à 19 pt, cibles de 60 pt en bas d'écran, triple codage couleur / motif / texte</div>
+<div class="dv-row">
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:66px 22px 0;flex:none">
+<div style="font:700 12px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:#8c491a">FoodScanner</div>
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:34px;line-height:1.08;margin:14px 0 0">Bienvenue</h1>
+<div style="display:flex;align-items:center;gap:10px;margin-top:14px"><svg width="54" height="54" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.6" rx="12" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 43.4c-8.4 0-14.6-6.2-14.6-14.2 0-7.4 6.2-12.6 14.6-12.6s14.6 5.2 14.6 12.6c0 8-6.2 14.2-14.6 14.2Z" fill="#e04a30" stroke="#7a1c12" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M12.6 26.6q3.4-5 11.4-5.2" stroke="#ff9078" stroke-width="3" stroke-linecap="round" fill="none" opacity=".65"></path>
+<g fill="#ffe6a6"><ellipse cx="15.6" cy="32" rx="1.05" ry="1.7"></ellipse><ellipse cx="20.6" cy="37.4" rx="1.05" ry="1.7"></ellipse><ellipse cx="30.4" cy="34" rx="1.05" ry="1.7"></ellipse><ellipse cx="33" cy="27.6" rx="1.05" ry="1.7"></ellipse><ellipse cx="27" cy="40.4" rx="1.05" ry="1.7"></ellipse></g>
+<path d="M24 17.6c-4.6 0-8.6-1-11.4-2.9 2.2-2.2 5-3.2 7.4-2.6-1.6-2.4-1.4-4.6.2-6.2 2 1 3.4 2.6 4 4.6 1.4-2.2 3.6-3.4 6-3.2-.2 2.2-1.2 4-2.8 5.2 2.6-.2 5 .8 7 2.8-3.2 1.6-6.6 2.3-10.4 2.3Z" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.8" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 34.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse></svg><svg width="54" height="54" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.2" rx="11" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><path d="M11 31.5q-4 .6-5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31.5q4 .6 5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M8 30.5c0-7.6 7.2-13.4 16-13.4s16 5.8 16 13.4-7.2 12.6-16 12.6S8 38.1 8 30.5Z" fill="#7d9152" stroke="#3f5024" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M11.4 26.4q5-5.6 12.6-5.8" stroke="#bcd08f" stroke-width="2.8" stroke-linecap="round" fill="none" opacity=".65"></path>
+<circle cx="15" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle><circle cx="33" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle>
+<circle cx="24" cy="31" r="6.4" fill="#c6da96" stroke="#3f5024" stroke-width="1.4"></circle>
+<path d="M24 17.2v-4.6q3.6-.6 4.8-3.4" stroke="#3f5024" stroke-width="2.4" fill="none" stroke-linecap="round"></path><ellipse cx="20.9" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="27.1" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="21.599999999999998" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="27.8" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="20.4" cy="28.9" r="1.15" fill="#fff"></circle><circle cx="26.6" cy="28.9" r="1.15" fill="#fff"></circle><path d="M20.4 34q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.1q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse><ellipse cx="33.8" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse></svg><svg width="54" height="54" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="29.6" rx="15" ry="12.4" fill="#f0c73f" stroke="#8a6314" stroke-width="2.2"></ellipse>
+<path d="M38.6 29.6q3.4.2 4.4 1.8-1.6 1.2-4.4 1.2M9.4 29.6q-3.4.2-4.4 1.8 1.6 1.2 4.4 1.2" fill="#f0c73f" stroke="#8a6314" stroke-width="2"></path>
+<path d="M12.4 24.6q4.4-4.6 11.6-4.8" stroke="#fbe6a0" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8"></path>
+<path d="M24 17.4q2.6-4.8 8-4.4-.4 4.4-5.4 5.6" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.7" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.3" r="1.15" fill="#fff"></circle><path d="M20.4 34.4q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.5q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse></svg><span style="font-size:15px;line-height:1.3;color:#645c50">Vos guides de saison : fraise, petit pois, citron</span></div>
+<p style="font-size:19px;line-height:1.5;margin:14px 0 0;color:#474238;text-wrap:pretty">Scannez un code-barres, écoutez ou lisez ce que contient le produit. Rien n'est chronométré, tout se refait.</p>
+</div>
+<div style="padding:26px 22px 0;display:flex;flex-direction:column;gap:16px;flex:1">
+<div style="display:flex;gap:14px;align-items:flex-start;background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="width:44px;height:44px;border-radius:22px;background:#f7e2b2;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#8c491a" stroke-width="2.75" stroke-linecap="round"><path d="M4 6v12M8 6v12M12 6v12M16 6v12M20 6v12"></path></g></svg>
+</div>
+<div><div style="font-size:19px;font-weight:700">Visez, ça se déclenche</div><div style="font-size:17px;color:#645c50;line-height:1.4">Pas besoin d'appuyer. Vibration et son à la lecture.</div></div>
+</div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="width:44px;height:44px;border-radius:22px;background:#e1eecc;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#56633f" stroke-width="2.75" stroke-linecap="round" fill="none"><path d="M4 9v6M9 5v14M14 8v8M19 11v2"></path></g></svg>
+</div>
+<div><div style="font-size:19px;font-weight:700">Résumé parlé</div><div style="font-size:17px;color:#645c50;line-height:1.4">Une phrase claire avant les chiffres, lue à voix haute.</div></div>
+</div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="width:44px;height:44px;border-radius:22px;background:#f7e2b2;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#8c491a" stroke-width="2.75" stroke-linecap="round" fill="none"><path d="M5 7h14M5 12h14M5 17h9"></path></g></svg>
+</div>
+<div><div style="font-size:19px;font-weight:700">À votre main</div><div style="font-size:17px;color:#645c50;line-height:1.4">Taille du texte, contraste, motifs, mode une main.</div></div>
+</div>
+</div>
+<div style="padding:0 22px 46px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#b2622d;color:#fff;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#8c491a">Autoriser la caméra</button>
+<button style="height:60px;border:2px solid #8c491a;border-radius:999px;background:transparent;color:#8c491a;font-family:var(--font-body);font-size:19px;font-weight:600;cursor:pointer" style-hover="background:rgba(198,113,57,.12)">Saisir un code à la main</button>
+<p style="margin:2px 0 0;font-size:15px;color:#645c50;text-align:center">Tout est modifiable ensuite dans Accessibilité.</p>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 16px 0;flex:none">
+<div style="background:#e1eecc;border:2px solid #56633f;border-radius:var(--radius-md);padding:14px 16px;display:flex;gap:12px;align-items:center">
+<svg width="26" height="26" viewBox="0 0 24 24" style="flex:none"><g stroke="#3d472b" stroke-width="2.75" stroke-linecap="round" fill="none"><path d="M4 7V5h3M20 7V5h-3M4 17v2h3M20 17v2h-3M3 12h18"></path></g></svg>
+<div><div style="font-size:19px;font-weight:700;color:#272e1b">Visez le code-barres</div><div style="font-size:16px;color:#3d472b">Aucun code détecté pour l'instant</div></div>
+</div>
+</div>
+<div style="flex:1;padding:14px 16px 0;display:flex;flex-direction:column">
+<div style="position:relative;flex:1;border-radius:var(--radius-lg);background:#2e2b25;overflow:hidden">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(249,244,237,.05) 0 12px,transparent 12px 30px)"></div>
+<div style="position:absolute;left:36px;right:36px;top:50%;transform:translateY(-50%);height:150px;border-radius:14px;box-shadow:0 0 0 3px #f6a06b">
+<div style="position:absolute;left:14px;right:14px;top:50%;height:3px;background:#f6a06b;opacity:.85"></div>
+</div>
+<div style="position:absolute;top:16px;left:16px;background:rgba(32,30,29,.72);border-radius:999px;padding:8px 14px;display:flex;gap:8px;align-items:center">
+<span style="width:10px;height:10px;border-radius:5px;background:#aebf92;display:block"></span>
+<span style="font-size:15px;font-weight:600;color:#f9f4ed">Annonces vocales activées</span>
+</div>
+<div style="position:absolute;bottom:58px;left:0;right:0;display:flex;justify-content:center"><svg width="61" height="61" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.2" rx="11" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><path d="M11 31.5q-4 .6-5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31.5q4 .6 5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M8 30.5c0-7.6 7.2-13.4 16-13.4s16 5.8 16 13.4-7.2 12.6-16 12.6S8 38.1 8 30.5Z" fill="#7d9152" stroke="#3f5024" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M11.4 26.4q5-5.6 12.6-5.8" stroke="#bcd08f" stroke-width="2.8" stroke-linecap="round" fill="none" opacity=".65"></path>
+<circle cx="15" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle><circle cx="33" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle>
+<circle cx="24" cy="31" r="6.4" fill="#c6da96" stroke="#3f5024" stroke-width="1.4"></circle>
+<path d="M24 17.2v-4.6q3.6-.6 4.8-3.4" stroke="#3f5024" stroke-width="2.4" fill="none" stroke-linecap="round"></path><ellipse cx="20.9" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="27.1" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="21.599999999999998" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="27.8" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="20.4" cy="28.9" r="1.15" fill="#fff"></circle><circle cx="26.6" cy="28.9" r="1.15" fill="#fff"></circle><path d="M20.4 34q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.1q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse><ellipse cx="33.8" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse></svg></div>
+<div style="position:absolute;bottom:16px;left:16px;right:16px;font-size:16px;line-height:1.4;color:#f9f4ed;text-align:center">Tenez l'emballage à 15 cm environ</div>
+</div>
+</div>
+<div style="padding:16px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#b2622d;color:#fff;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:#8c491a">
+<svg width="22" height="22" viewBox="0 0 24 24"><g stroke="#fff" stroke-width="2.75" stroke-linecap="round" fill="none"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M8 9h8M8 13h5"></path></g></svg>
+Saisir le code à la main</button>
+<div style="display:flex;gap:12px">
+<button style="flex:1;height:60px;border:2px solid #8c491a;border-radius:999px;background:transparent;color:#8c491a;font-family:var(--font-body);font-size:18px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:rgba(198,113,57,.12)">
+<svg width="20" height="20" viewBox="0 0 24 24"><path d="M13 2L5 14h5l-1 8 8-12h-5l1-8z" fill="none" stroke="#8c491a" stroke-width="2.5" stroke-linejoin="round"></path></svg>Torche</button>
+<button style="flex:1;height:60px;border:2px solid #56633f;border-radius:999px;background:transparent;color:#3d472b;font-family:var(--font-body);font-size:18px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:rgba(122,138,94,.14)">
+<svg width="20" height="20" viewBox="0 0 24 24"><g stroke="#3d472b" stroke-width="2.5" fill="none" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></g></svg>Historique</button>
+</div>
+<div style="height:26px"></div>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="background:#56633f;padding:70px 22px 24px;flex:none">
+<div style="display:flex;gap:12px;align-items:center">
+<div style="width:44px;height:44px;border-radius:22px;background:#f0fae1;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#3d472b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</div>
+<div>
+<div style="font-family:var(--font-heading);font-weight:400;font-size:28px;color:#f0fae1;line-height:1.1">Produit trouvé</div>
+<div style="font-size:16px;color:#e1eecc">Vibration courte + « bip » à la lecture</div>
+</div>
+</div>
+</div>
+<div style="flex:1;padding:24px 22px 0">
+<div style="font-size:16px;color:#645c50;letter-spacing:.06em">CODE 3017620422003</div>
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;line-height:1.14;margin:8px 0 0">Pâte à tartiner noisettes-cacao, 400 g</h1>
+<div style="display:flex;gap:10px;align-items:center;margin-top:18px">
+<div style="width:56px;height:56px;border-radius:16px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:30px;flex:none">E</div>
+<div style="font-size:18px;line-height:1.35;color:#474238">Note nutritionnelle <strong>E sur E</strong> — la moins favorable des cinq.</div>
+</div>
+<div style="margin-top:22px;background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="font-size:16px;font-weight:700;color:#8c491a;letter-spacing:.06em;text-transform:uppercase">Annonce lue</div>
+<p style="margin:8px 0 0;font-size:18px;line-height:1.45;color:#201e1d">« Pâte à tartiner noisettes-cacao. Note E. Très riche en sucres et en matières grasses. Appuyez sur Voir la fiche pour les détails. »</p>
+</div>
+</div>
+<div style="padding:0 22px 46px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#b2622d;color:#fff;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#8c491a">Voir la fiche</button>
+<button style="height:60px;border:2px solid #8c491a;border-radius:999px;background:transparent;color:#8c491a;font-family:var(--font-body);font-size:19px;font-weight:600;cursor:pointer" style-hover="background:rgba(198,113,57,.12)">Scanner un autre produit</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:66px 22px 0;flex:none">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:0">Saisir le code</h1>
+<p style="font-size:18px;color:#645c50;margin:10px 0 0">13 chiffres, sous le code-barres.</p>
+<div style="margin-top:18px;background:var(--color-neutral-100);border:2.5px solid #8c491a;border-radius:var(--radius-md);padding:18px 18px 14px">
+<div style="font-family:ui-monospace,Menlo,monospace;font-size:30px;letter-spacing:.08em;color:#201e1d">3017 620 422<span style="opacity:.32">•••</span><span style="display:inline-block;width:2px;height:30px;background:#b2622d;vertical-align:-5px;margin-left:2px"></span></div>
+<div style="display:flex;justify-content:space-between;margin-top:10px;font-size:16px;color:#645c50"><span>10 sur 13</span><span>Effacer tout</span></div>
+</div>
+</div>
+<div style="flex:1;padding:18px 16px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start">
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">1</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">2</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">3</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">4</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">5</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">6</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">7</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">8</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">9</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:transparent;font-family:var(--font-body);font-size:17px;font-weight:600;color:#645c50;cursor:pointer" style-hover="background:rgba(32,30,29,.06)">Annuler</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:var(--color-neutral-100);font-family:var(--font-body);font-size:30px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:#ffe1d0">0</button>
+<button style="height:72px;border:1.5px solid rgba(32,30,29,.18);border-radius:20px;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:rgba(32,30,29,.06)">
+<svg width="30" height="24" viewBox="0 0 30 24"><path d="M10 2h17a2 2 0 012 2v16a2 2 0 01-2 2H10L1 12 10 2z" fill="none" stroke="#645c50" stroke-width="2"></path><path d="M14 8l8 8M22 8l-8 8" stroke="#645c50" stroke-width="2.4" stroke-linecap="round"></path></svg>
+</button>
+</div>
+<div style="padding:12px 16px 40px;flex:none">
+<button style="width:100%;height:64px;border:none;border-radius:999px;background:#b2622d;color:#fff;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#8c491a">Chercher ce produit</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 0;flex:none;display:flex;align-items:center;gap:10px">
+<button style="width:52px;height:52px;border-radius:26px;border:2px solid rgba(32,30,29,.2);background:var(--color-neutral-100);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="background:#ffe1d0">
+<svg width="14" height="22" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#201e1d" stroke-width="2.75" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+<span style="font-size:18px;font-weight:600;color:#645c50">Scanner</span>
+</div>
+<div style="flex:1;overflow:hidden;padding:16px 20px 0">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:28px;line-height:1.14;margin:0">Pâte à tartiner noisettes-cacao</h1>
+<div style="font-size:17px;color:#645c50;margin-top:6px">400 g · pour 100 g · 539 kcal</div>
+<div style="margin-top:18px;background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:18px">
+<div style="display:flex;gap:8px;align-items:stretch">
+<div style="flex:1;height:52px;border-radius:12px 4px 4px 12px;background:#038141;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#fff">A</div>
+<div style="flex:1;height:52px;border-radius:4px;background:#85BB2F;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#fff">B</div>
+<div style="flex:1;height:52px;border-radius:4px;background:#FECB02;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#1d1d1b">C</div>
+<div style="flex:1;height:52px;border-radius:4px;background:#EE8100;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#fff">D</div>
+<div style="flex:1.5;height:52px;border-radius:4px 12px 12px 4px;background:#E63E11;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:30px;color:#fff;box-shadow:0 0 0 3px #201e1d">E</div>
+</div>
+<div style="display:flex;gap:12px;align-items:center;margin-top:14px;background:#e8f0dc;border-radius:14px;padding:10px 12px"><svg width="52" height="52" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.6" rx="12" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 43.4c-8.4 0-14.6-6.2-14.6-14.2 0-7.4 6.2-12.6 14.6-12.6s14.6 5.2 14.6 12.6c0 8-6.2 14.2-14.6 14.2Z" fill="#e04a30" stroke="#7a1c12" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M12.6 26.6q3.4-5 11.4-5.2" stroke="#ff9078" stroke-width="3" stroke-linecap="round" fill="none" opacity=".65"></path>
+<g fill="#ffe6a6"><ellipse cx="15.6" cy="32" rx="1.05" ry="1.7"></ellipse><ellipse cx="20.6" cy="37.4" rx="1.05" ry="1.7"></ellipse><ellipse cx="30.4" cy="34" rx="1.05" ry="1.7"></ellipse><ellipse cx="33" cy="27.6" rx="1.05" ry="1.7"></ellipse><ellipse cx="27" cy="40.4" rx="1.05" ry="1.7"></ellipse></g>
+<path d="M24 17.6c-4.6 0-8.6-1-11.4-2.9 2.2-2.2 5-3.2 7.4-2.6-1.6-2.4-1.4-4.6.2-6.2 2 1 3.4 2.6 4 4.6 1.4-2.2 3.6-3.4 6-3.2-.2 2.2-1.2 4-2.8 5.2 2.6-.2 5 .8 7 2.8-3.2 1.6-6.6 2.3-10.4 2.3Z" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.8" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 34.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse></svg><span style="font-size:16px;line-height:1.35;color:#2f3a20">De saison en ce moment : la fraise, notée <strong>A</strong>.</span></div>
+<p style="margin:14px 0 0;font-size:19px;line-height:1.45;color:#201e1d;text-wrap:pretty"><strong>Note E sur E.</strong> Très riche en sucres et en matières grasses. À consommer en petite quantité.</p>
+<button style="margin-top:14px;width:100%;height:56px;border:2px solid #8c491a;border-radius:999px;background:transparent;color:#8c491a;font-family:var(--font-body);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:rgba(198,113,57,.12)">
+<svg width="22" height="22" viewBox="0 0 24 24"><g stroke="#8c491a" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="M4 9v6M8.5 5.5v13M13 8v8M17.5 10.5v3M21 11.5v1"></path></g></svg>
+Écouter le résumé</button>
+</div>
+<div style="margin-top:18px;display:flex;gap:16px;align-items:center">
+<svg width="132" height="132" viewBox="0 0 160 160" style="flex:none">
+<defs>
+<pattern id="fsHatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#e8dca8"></rect><rect width="3" height="7" fill="#6e7f4f"></rect></pattern>
+<pattern id="fsDots" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#e7b7ae"></rect><circle cx="4" cy="4" r="2.1" fill="#8f2f24"></circle></pattern>
+</defs>
+<g transform="rotate(-90 80 80)" fill="none" stroke-width="26">
+<circle cx="80" cy="80" r="60" stroke="#a97527" stroke-dasharray="228.9 148.1"></circle>
+<circle cx="80" cy="80" r="60" stroke="url(#fsHatch)" stroke-dasharray="122.9 254.1" stroke-dashoffset="-228.9"></circle>
+<circle cx="80" cy="80" r="60" stroke="url(#fsDots)" stroke-dasharray="24.9 352.1" stroke-dashoffset="-351.8"></circle>
+</g>
+<text x="80" y="74" text-anchor="middle" style="font:700 15px 'Figtree';fill:#201e1d">100 g</text>
+<text x="80" y="94" text-anchor="middle" style="font:400 13px 'Figtree';fill:#645c50">3 nutriments</text>
+</svg>
+<div style="display:flex;flex-direction:column;gap:10px;flex:1">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:#a97527;display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1">Glucides</span><span style="font-size:17px;font-variant-numeric:tabular-nums">57,5 g</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:repeating-linear-gradient(45deg,#6e7f4f 0 3px,#e8dca8 3px 7px);display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1">Lipides</span><span style="font-size:17px;font-variant-numeric:tabular-nums">30,9 g</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:radial-gradient(circle at 50% 50%,#8f2f24 0 2.2px,#e7b7ae 2.2px) 0 0/8px 8px;display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1">Protéines</span><span style="font-size:17px;font-variant-numeric:tabular-nums">6,3 g</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:var(--color-neutral-300);display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1;color:#645c50">Fibres, sel</span><span style="font-size:17px;color:#645c50">≈ 0 g</span></div>
+</div>
+</div>
+</div>
+<div style="padding:14px 20px 42px;flex:none">
+<button style="width:100%;height:60px;border:none;border-radius:999px;background:#b2622d;color:#fff;font-family:var(--font-body);font-size:19px;font-weight:700;cursor:pointer" style-hover="background:#8c491a">Tous les nutriments (8)</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 14px;flex:none;border-bottom:1.5px solid rgba(32,30,29,.14)">
+<div style="display:flex;align-items:center;gap:10px">
+<button style="width:52px;height:52px;border-radius:26px;border:2px solid rgba(32,30,29,.2);background:var(--color-neutral-100);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="background:#ffe1d0">
+<svg width="14" height="22" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#201e1d" stroke-width="2.75" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+<div><h1 style="font-family:var(--font-heading);font-weight:400;font-size:26px;margin:0">Nutriments</h1><div style="font-size:16px;color:#645c50">Valeurs pour 100 g</div></div>
+</div>
+</div>
+<div style="flex:1;overflow:auto">
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(32,30,29,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:#201e1d;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Énergie</div><div style="height:8px;border-radius:4px;background:#201e1d;width:100%;margin-top:6px"></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">539 kcal</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(32,30,29,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:#a97527;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Glucides</div><div style="height:8px;border-radius:4px;background:rgba(32,30,29,.12);margin-top:6px"><div style="width:96%;height:8px;border-radius:4px;background:#a97527"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">57,5 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(32,30,29,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:rgba(32,30,29,.06);border:2px solid #a97527;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:18px;font-weight:600;padding-left:2px">dont sucres</div><div style="height:8px;border-radius:4px;background:rgba(32,30,29,.12);margin-top:6px"><div style="width:94%;height:8px;border-radius:4px;background:repeating-linear-gradient(90deg,#a97527 0 6px,#c0b6a5 6px 9px)"></div></div></div>
+<span style="font-size:19px;font-weight:600;font-variant-numeric:tabular-nums">56,3 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(32,30,29,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:repeating-linear-gradient(45deg,#6e7f4f 0 3px,#e8dca8 3px 7px);flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Lipides</div><div style="height:8px;border-radius:4px;background:rgba(32,30,29,.12);margin-top:6px"><div style="width:52%;height:8px;border-radius:4px;background:repeating-linear-gradient(45deg,#6e7f4f 0 4px,#e8dca8 4px 8px)"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">30,9 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(32,30,29,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:rgba(32,30,29,.06);border:2px solid #6e7f4f;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:18px;font-weight:600;padding-left:2px">dont acides gras saturés</div><div style="height:8px;border-radius:4px;background:rgba(32,30,29,.12);margin-top:6px"><div style="width:18%;height:8px;border-radius:4px;background:#6e7f4f"></div></div></div>
+<span style="font-size:19px;font-weight:600;font-variant-numeric:tabular-nums">10,6 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(32,30,29,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:radial-gradient(circle at 50% 50%,#8f2f24 0 2.2px,#e7b7ae 2.2px) 0 0/8px 8px;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Protéines</div><div style="height:8px;border-radius:4px;background:rgba(32,30,29,.12);margin-top:6px"><div style="width:11%;height:8px;border-radius:4px;background:#8f2f24"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">6,3 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(32,30,29,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:var(--color-neutral-300);flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Fibres</div><div style="font-size:16px;color:#645c50">Non renseigné par la base</div></div>
+<span style="font-size:19px;color:#645c50">—</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px">
+<span style="width:26px;height:26px;border-radius:8px;background:repeating-linear-gradient(90deg,#645c50 0 3px,#dcd3c4 3px 6px);flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Sel</div><div style="height:8px;border-radius:4px;background:rgba(32,30,29,.12);margin-top:6px"><div style="width:3%;height:8px;border-radius:4px;background:#645c50"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">0,1 g</span>
+</div>
+<div style="margin:22px 20px 8px;border:1.5px solid rgba(32,30,29,.14);border-radius:20px;overflow:hidden"><svg viewBox="0 0 340 176" width="100%" role="img" aria-label="Les mascottes de printemps analysent une etiquette nutritionnelle en laboratoire" style="display:block">
+<defs>
+<linearGradient id="lbLw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2f7e8"></stop><stop offset="1" stop-color="#dbe6c8"></stop></linearGradient>
+<radialGradient id="lbLg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f7db8a" stop-opacity=".8"></stop><stop offset="1" stop-color="#f7db8a" stop-opacity="0"></stop></radialGradient>
+</defs>
+<rect width="340" height="176" fill="url(#lbLw)"></rect>
+<g stroke="#c3d3aa" stroke-width="1" opacity=".5"><path d="M0 22h340M0 54h340M0 86h340M40 0v120M100 0v120M160 0v120M220 0v120M280 0v120"></path></g>
+<ellipse cx="176" cy="34" rx="86" ry="42" fill="url(#lbLg)"></ellipse>
+<path d="M176 0v14" stroke="#8a9270" stroke-width="2.4"></path><path d="M158 30q18-18 36 0z" fill="#f7db8a" stroke="#8a9270" stroke-width="2"></path><circle cx="176" cy="32" r="3.4" fill="#f7db8a"></circle>
+<g><rect x="14" y="40" width="104" height="7" rx="2" fill="#b58a44"></rect>
+<g stroke="#8a9270" stroke-width="1.6" fill="#eef4e4"><rect x="22" y="20" width="18" height="20" rx="3"></rect><rect x="50" y="14" width="20" height="26" rx="3"></rect><rect x="80" y="24" width="18" height="16" rx="3"></rect></g>
+<circle cx="31" cy="33" r="4" fill="#e04a30"></circle><circle cx="60" cy="30" r="5.4" fill="#7d9152"></circle><circle cx="89" cy="33" r="3.6" fill="#f0c73f"></circle>
+<rect x="22" y="35" width="18" height="5" fill="#e04a30" opacity=".5"></rect><rect x="50" y="34" width="20" height="6" fill="#7d9152" opacity=".5"></rect></g>
+<g><rect x="240" y="18" width="86" height="58" rx="5" fill="#3f4a2c" stroke="#8a9270" stroke-width="2"></rect>
+<g fill="#eef4e4"><rect x="250" y="52" width="10" height="16" rx="2"></rect><rect x="266" y="42" width="10" height="26" rx="2"></rect><rect x="282" y="58" width="10" height="10" rx="2"></rect><rect x="298" y="34" width="10" height="34" rx="2"></rect><rect x="250" y="26" width="42" height="4" rx="2"></rect></g>
+<path d="M246 72h74" stroke="#eef4e4" stroke-width="1.6" opacity=".7"></path></g>
+<rect x="0" y="120" width="340" height="56" fill="#cdbe9b"></rect><rect x="0" y="120" width="340" height="8" fill="#e0d3b4"></rect>
+<g stroke="#b6a583" stroke-width="1.4" opacity=".7"><path d="M0 140h340M0 158h340M60 128v48M170 128v48M262 128v48"></path></g>
+<g><rect x="30" y="128" width="52" height="34" rx="4" fill="#f9f4ed" stroke="#8a9270" stroke-width="1.6" transform="rotate(-6 56 145)"></rect>
+<g stroke="#5a5240" stroke-width="2.6" stroke-linecap="round" transform="rotate(-6 56 145)"><path d="M38 138h30M38 145h36M38 152h20"></path></g>
+<circle cx="86" cy="132" r="13" fill="none" stroke="#8a9270" stroke-width="4"></circle><path d="M95 141l10 10" stroke="#8a9270" stroke-width="5" stroke-linecap="round"></path><circle cx="86" cy="132" r="13" fill="#cfe4f2" opacity=".28"></circle></g>
+<g><path d="M226 82h30l-4 24 12 26h-46l12-26-4-24z" fill="#eef4e4" stroke="#8a9270" stroke-width="2.4"></path>
+<path d="M227 114h28l9 18h-46l9-18z" fill="#a97527"></path>
+<circle cx="240" cy="108" r="3" fill="#f7f3ea" opacity=".9"></circle><circle cx="248" cy="98" r="2.2" fill="#f7f3ea" opacity=".8"></circle><circle cx="235" cy="94" r="1.8" fill="#f7f3ea" opacity=".7"></circle>
+<path d="M238 78q4-6 0-11M248 78q4-6 0-11" stroke="#8a9270" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".6"></path></g>
+<g><g transform="translate(120 96) scale(0.86)"><path d="M4 8h40v30H4z" fill="#f7f3ea" stroke="#c3b79c" stroke-width="1.6"></path><path d="M24 8l-7 9 7 4 7-4-7-9z" fill="#e6dcc6"></path><circle cx="24" cy="26" r="1.6" fill="#c3b79c"></circle><circle cx="24" cy="32" r="1.6" fill="#c3b79c"></circle></g><g transform="translate(120 84) scale(0.86)"><ellipse cx="24" cy="45.6" rx="12" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 43.4c-8.4 0-14.6-6.2-14.6-14.2 0-7.4 6.2-12.6 14.6-12.6s14.6 5.2 14.6 12.6c0 8-6.2 14.2-14.6 14.2Z" fill="#e04a30" stroke="#7a1c12" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M12.6 26.6q3.4-5 11.4-5.2" stroke="#ff9078" stroke-width="3" stroke-linecap="round" fill="none" opacity=".65"></path>
+<g fill="#ffe6a6"><ellipse cx="15.6" cy="32" rx="1.05" ry="1.7"></ellipse><ellipse cx="20.6" cy="37.4" rx="1.05" ry="1.7"></ellipse><ellipse cx="30.4" cy="34" rx="1.05" ry="1.7"></ellipse><ellipse cx="33" cy="27.6" rx="1.05" ry="1.7"></ellipse><ellipse cx="27" cy="40.4" rx="1.05" ry="1.7"></ellipse></g>
+<path d="M24 17.6c-4.6 0-8.6-1-11.4-2.9 2.2-2.2 5-3.2 7.4-2.6-1.6-2.4-1.4-4.6.2-6.2 2 1 3.4 2.6 4 4.6 1.4-2.2 3.6-3.4 6-3.2-.2 2.2-1.2 4-2.8 5.2 2.6-.2 5 .8 7 2.8-3.2 1.6-6.6 2.3-10.4 2.3Z" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.8" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 34.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse></g><g transform="translate(120 84) scale(0.86)"><rect x="10" y="20" width="28" height="3.4" rx="1.7" fill="#6b6252"></rect><ellipse cx="17.4" cy="22" rx="6" ry="5.2" fill="#cfe4f2" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><ellipse cx="30.6" cy="22" rx="6" ry="5.2" fill="#cfe4f2" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><path d="M13 19.4q2.4-2.2 5-2.4M26.2 19.4q2.4-2.2 5-2.4" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8"></path></g></g>
+<g><g transform="translate(166 102) scale(0.78)"><path d="M4 8h40v30H4z" fill="#f7f3ea" stroke="#c3b79c" stroke-width="1.6"></path><path d="M24 8l-7 9 7 4 7-4-7-9z" fill="#e6dcc6"></path><circle cx="24" cy="26" r="1.6" fill="#c3b79c"></circle><circle cx="24" cy="32" r="1.6" fill="#c3b79c"></circle></g><g transform="translate(166 92) scale(0.78)"><ellipse cx="24" cy="45.2" rx="11" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><path d="M11 31.5q-4 .6-5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31.5q4 .6 5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M8 30.5c0-7.6 7.2-13.4 16-13.4s16 5.8 16 13.4-7.2 12.6-16 12.6S8 38.1 8 30.5Z" fill="#7d9152" stroke="#3f5024" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M11.4 26.4q5-5.6 12.6-5.8" stroke="#bcd08f" stroke-width="2.8" stroke-linecap="round" fill="none" opacity=".65"></path>
+<circle cx="15" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle><circle cx="33" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle>
+<circle cx="24" cy="31" r="6.4" fill="#c6da96" stroke="#3f5024" stroke-width="1.4"></circle>
+<path d="M24 17.2v-4.6q3.6-.6 4.8-3.4" stroke="#3f5024" stroke-width="2.4" fill="none" stroke-linecap="round"></path><ellipse cx="20.9" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="27.1" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="21.599999999999998" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="27.8" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="20.4" cy="28.9" r="1.15" fill="#fff"></circle><circle cx="26.6" cy="28.9" r="1.15" fill="#fff"></circle><path d="M20.4 34q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.1q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse><ellipse cx="33.8" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse></g><g transform="translate(166 92) scale(0.78)"><rect x="10" y="20" width="28" height="3.4" rx="1.7" fill="#6b6252"></rect><ellipse cx="17.4" cy="22" rx="6" ry="5.2" fill="#cfe4f2" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><ellipse cx="30.6" cy="22" rx="6" ry="5.2" fill="#cfe4f2" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><path d="M13 19.4q2.4-2.2 5-2.4M26.2 19.4q2.4-2.2 5-2.4" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8"></path></g></g>
+<g><g transform="translate(288 98) scale(0.82)"><path d="M4 8h40v30H4z" fill="#f7f3ea" stroke="#c3b79c" stroke-width="1.6"></path><path d="M24 8l-7 9 7 4 7-4-7-9z" fill="#e6dcc6"></path><circle cx="24" cy="26" r="1.6" fill="#c3b79c"></circle><circle cx="24" cy="32" r="1.6" fill="#c3b79c"></circle></g><g transform="translate(288 86) scale(0.82)"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="29.6" rx="15" ry="12.4" fill="#f0c73f" stroke="#8a6314" stroke-width="2.2"></ellipse>
+<path d="M38.6 29.6q3.4.2 4.4 1.8-1.6 1.2-4.4 1.2M9.4 29.6q-3.4.2-4.4 1.8 1.6 1.2 4.4 1.2" fill="#f0c73f" stroke="#8a6314" stroke-width="2"></path>
+<path d="M12.4 24.6q4.4-4.6 11.6-4.8" stroke="#fbe6a0" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8"></path>
+<path d="M24 17.4q2.6-4.8 8-4.4-.4 4.4-5.4 5.6" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.7" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.3" r="1.15" fill="#fff"></circle><path d="M20.4 34.4q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.5q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse></g><g transform="translate(288 86) scale(0.82)"><rect x="10" y="20" width="28" height="3.4" rx="1.7" fill="#6b6252"></rect><ellipse cx="17.4" cy="22" rx="6" ry="5.2" fill="#cfe4f2" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><ellipse cx="30.6" cy="22" rx="6" ry="5.2" fill="#cfe4f2" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><path d="M13 19.4q2.4-2.2 5-2.4M26.2 19.4q2.4-2.2 5-2.4" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8"></path></g></g>
+<g><path d="M196 60h56a6 6 0 016 6v16a6 6 0 01-6 6h-40l-10 9v-9h-6a6 6 0 01-6-6V66a6 6 0 016-6z" fill="#f9f4ed" stroke="#8a9270" stroke-width="2"></path>
+<text x="224" y="80" text-anchor="middle" style="font:700 15px 'Figtree';fill:#5a5240">57,5 g !</text></g>
+</svg><div style="padding:12px 14px;font-size:15px;line-height:1.4;color:#4a5336">Chaque valeur est relevée sur la base Open Food Facts, puis vérifiée ligne par ligne. Un doute ? Signalez-le, la fiche est corrigée pour tout le monde.</div></div><div style="height:40px"></div>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 12px;flex:none">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:0">Historique</h1>
+<div style="margin-top:12px;display:flex;gap:10px;align-items:center;background:#eee7db;border:1.5px solid #a19786;border-radius:var(--radius-md);padding:12px 14px">
+<svg width="22" height="22" viewBox="0 0 24 24" style="flex:none"><g stroke="#474238" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="M4 5l16 14M6.5 10a9 9 0 0111 0M9.5 13.5a5 5 0 016 0"></path><circle cx="12" cy="17.5" r="1.2" fill="#474238" stroke="none"></circle></g></svg>
+<span style="font-size:17px;color:#474238">Hors ligne — 12 produits déjà consultés restent lisibles</span>
+</div>
+</div>
+<div style="flex:1;overflow:auto;padding:6px 20px 0">
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(32,30,29,.12)">
+<div style="width:50px;height:50px;border-radius:14px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:24px;flex:none">E</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Pâte à tartiner noisettes-cacao</div><div style="font-size:16px;color:#645c50">Il y a 2 minutes · en mémoire</div></div>
+<svg width="9" height="16" viewBox="0 0 8 14" style="flex:none"><path d="M1 1l6 6-6 6" stroke="#645c50" stroke-width="2.4" fill="none" stroke-linecap="round"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(32,30,29,.12)">
+<div style="width:50px;height:50px;border-radius:14px;background:#038141;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:24px;flex:none">A</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Lentilles vertes cuisinées</div><div style="font-size:16px;color:#645c50">Hier · en mémoire</div></div>
+<svg width="9" height="16" viewBox="0 0 8 14" style="flex:none"><path d="M1 1l6 6-6 6" stroke="#645c50" stroke-width="2.4" fill="none" stroke-linecap="round"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(32,30,29,.12)">
+<div style="width:50px;height:50px;border-radius:14px;background:#FECB02;color:#1d1d1b;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:24px;flex:none">C</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Pain de mie complet</div><div style="font-size:16px;color:#645c50">Hier · en mémoire</div></div>
+<svg width="9" height="16" viewBox="0 0 8 14" style="flex:none"><path d="M1 1l6 6-6 6" stroke="#645c50" stroke-width="2.4" fill="none" stroke-linecap="round"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(32,30,29,.12);opacity:.55">
+<div style="width:50px;height:50px;border-radius:14px;background:var(--color-neutral-300);color:#474238;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none">?</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Code 5410041000122</div><div style="font-size:16px;color:#645c50">Fiche incomplète hors ligne</div></div>
+</div>
+<div style="margin:18px 0 8px;border:1.5px solid rgba(32,30,29,.14);border-radius:20px;overflow:hidden"><svg viewBox="0 0 340 176" width="100%" role="img" aria-label="Les mascottes de printemps en pique-nique sous un arbre" style="display:block">
+<defs><linearGradient id="pkSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6f2"></stop><stop offset="1" stop-color="#eef4dc"></stop></linearGradient>
+<radialGradient id="pkSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f7db8a" stop-opacity=".95"></stop><stop offset="1" stop-color="#f7db8a" stop-opacity="0"></stop></radialGradient></defs>
+<rect width="340" height="176" fill="url(#pkSky)"></rect>
+<circle cx="284" cy="30" r="46" fill="url(#pkSun)"></circle><circle cx="284" cy="30" r="16" fill="#f0c73f"></circle>
+<g fill="#fff" opacity=".85"><ellipse cx="70" cy="26" rx="22" ry="9"></ellipse><ellipse cx="86" cy="21" rx="14" ry="8"></ellipse><ellipse cx="176" cy="16" rx="16" ry="7"></ellipse></g>
+<g stroke="#6f7f8c" stroke-width="1.8" fill="none" opacity=".55"><path d="M214 26q4-4 8 0 4-4 8 0"></path><path d="M236 40q3-3 6 0 3-3 6 0"></path></g>
+<path d="M0 96q60-20 118-8 58 12 110-4 44-14 112-2v34H0z" fill="#a7c07c"></path>
+<path d="M0 118q54-14 116-6 62 8 114-4 42-10 110 2v22H0z" fill="#8ea963"></path>
+<g><path d="M34 116V64" stroke="#7a5232" stroke-width="11" stroke-linecap="round"></path><path d="M34 88q-12-6-14-16M34 78q12-6 15-15" stroke="#7a5232" stroke-width="5" fill="none" stroke-linecap="round"></path>
+<g fill="#5f7a3a"><circle cx="24" cy="42" r="22"></circle><circle cx="52" cy="34" r="18"></circle><circle cx="14" cy="24" r="15"></circle><circle cx="44" cy="58" r="15"></circle></g>
+<g fill="#7d9c4e"><circle cx="30" cy="34" r="12"></circle><circle cx="52" cy="46" r="9"></circle><circle cx="10" cy="40" r="8"></circle></g>
+<g fill="#d2432c"><circle cx="46" cy="24" r="3"></circle><circle cx="18" cy="52" r="2.6"></circle><circle cx="58" cy="42" r="2.6"></circle></g></g>
+<path d="M52 176q28-46 122-46t122 46H52z" fill="#f4ead4" stroke="#d9c9a8" stroke-width="2"></path>
+<g fill="#d2432c" opacity=".42"><path d="M96 150h22l-3 10H93z"></path><path d="M140 150h22l-1 10h-22z"></path><path d="M184 150h22l1 10h-22z"></path><path d="M228 150h22l3 10h-22z"></path><path d="M74 166h24l-4 10H70z"></path><path d="M118 166h24l-2 10h-24z"></path><path d="M162 166h24v10h-24z"></path><path d="M206 166h24l2 10h-24z"></path><path d="M250 166h24l4 10h-24z"></path></g>
+<g><path d="M244 108h44l-6 30h-32l-6-30z" fill="#b58a44" stroke="#7a5232" stroke-width="2.2"></path>
+<g stroke="#8a6633" stroke-width="1.6"><path d="M250 116h32M252 126h28M258 108v30M272 108v30"></path></g>
+<path d="M248 108q6-16 18-16t18 16" fill="none" stroke="#7a5232" stroke-width="4"></path>
+<path d="M256 100q10-10 22-2" stroke="#c98f4e" stroke-width="7" stroke-linecap="round" fill="none"></path></g>
+<g><path d="M206 116h22l-3 26h-16l-3-26z" fill="#f3d98f" stroke="#c9a548" stroke-width="2"></path><path d="M207 124h20l-2 18h-16l-2-18z" fill="#f0c73f" opacity=".8"></path><path d="M224 112l6-14" stroke="#d2432c" stroke-width="3" stroke-linecap="round"></path></g>
+<ellipse cx="186" cy="146" rx="15" ry="5" fill="#f9f4ed" stroke="#d9c9a8" stroke-width="1.6"></ellipse><circle cx="186" cy="144" r="5" fill="#e04a30"></circle>
+<g transform="translate(56 96) scale(1.05)"><ellipse cx="24" cy="45.6" rx="12" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 43.4c-8.4 0-14.6-6.2-14.6-14.2 0-7.4 6.2-12.6 14.6-12.6s14.6 5.2 14.6 12.6c0 8-6.2 14.2-14.6 14.2Z" fill="#e04a30" stroke="#7a1c12" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M12.6 26.6q3.4-5 11.4-5.2" stroke="#ff9078" stroke-width="3" stroke-linecap="round" fill="none" opacity=".65"></path>
+<g fill="#ffe6a6"><ellipse cx="15.6" cy="32" rx="1.05" ry="1.7"></ellipse><ellipse cx="20.6" cy="37.4" rx="1.05" ry="1.7"></ellipse><ellipse cx="30.4" cy="34" rx="1.05" ry="1.7"></ellipse><ellipse cx="33" cy="27.6" rx="1.05" ry="1.7"></ellipse><ellipse cx="27" cy="40.4" rx="1.05" ry="1.7"></ellipse></g>
+<path d="M24 17.6c-4.6 0-8.6-1-11.4-2.9 2.2-2.2 5-3.2 7.4-2.6-1.6-2.4-1.4-4.6.2-6.2 2 1 3.4 2.6 4 4.6 1.4-2.2 3.6-3.4 6-3.2-.2 2.2-1.2 4-2.8 5.2 2.6-.2 5 .8 7 2.8-3.2 1.6-6.6 2.3-10.4 2.3Z" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.8" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 34.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse></g><g transform="translate(108 106) scale(1.1)"><ellipse cx="24" cy="45.2" rx="11" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><path d="M11 31.5q-4 .6-5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31.5q4 .6 5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M8 30.5c0-7.6 7.2-13.4 16-13.4s16 5.8 16 13.4-7.2 12.6-16 12.6S8 38.1 8 30.5Z" fill="#7d9152" stroke="#3f5024" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M11.4 26.4q5-5.6 12.6-5.8" stroke="#bcd08f" stroke-width="2.8" stroke-linecap="round" fill="none" opacity=".65"></path>
+<circle cx="15" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle><circle cx="33" cy="31" r="5" fill="#b3c983" stroke="#3f5024" stroke-width="1.4"></circle>
+<circle cx="24" cy="31" r="6.4" fill="#c6da96" stroke="#3f5024" stroke-width="1.4"></circle>
+<path d="M24 17.2v-4.6q3.6-.6 4.8-3.4" stroke="#3f5024" stroke-width="2.4" fill="none" stroke-linecap="round"></path><ellipse cx="20.9" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="27.1" cy="30.2" rx="2.6" ry="3.1" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="21.599999999999998" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="27.8" cy="31.099999999999998" r="2.3" fill="#241608"></circle><circle cx="20.4" cy="28.9" r="1.15" fill="#fff"></circle><circle cx="26.6" cy="28.9" r="1.15" fill="#fff"></circle><path d="M20.4 34q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.1q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse><ellipse cx="33.8" cy="33" rx="2.5" ry="1.6" fill="#e7a58f" opacity=".75"></ellipse></g><g transform="translate(150 98) scale(1.05)"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="29.6" rx="15" ry="12.4" fill="#f0c73f" stroke="#8a6314" stroke-width="2.2"></ellipse>
+<path d="M38.6 29.6q3.4.2 4.4 1.8-1.6 1.2-4.4 1.2M9.4 29.6q-3.4.2-4.4 1.8 1.6 1.2 4.4 1.2" fill="#f0c73f" stroke="#8a6314" stroke-width="2"></path>
+<path d="M12.4 24.6q4.4-4.6 11.6-4.8" stroke="#fbe6a0" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8"></path>
+<path d="M24 17.4q2.6-4.8 8-4.4-.4 4.4-5.4 5.6" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.7" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.3" r="1.15" fill="#fff"></circle><path d="M20.4 34.4q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.5q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse></g>
+<g stroke="#3a2418" stroke-width="1.4" fill="#f2a2c0" opacity=".9"><path d="M300 96q-6-8-12-2 6 2 12 2Zm0 0q6-8 12-2-6 2-12 2Z"></path></g>
+<g fill="#f7db8a"><circle cx="322" cy="120" r="3"></circle><circle cx="314" cy="132" r="2.4"></circle></g>
+</svg><div style="padding:12px 14px;font-size:15px;line-height:1.4;color:#4a5336">Tout reste sur votre téléphone : les 12 dernières fiches sont lisibles hors ligne, en pique-nique comme en rayon.</div></div>
+</div>
+<div style="padding:14px 20px 42px;flex:none">
+<button style="width:100%;height:64px;border:none;border-radius:999px;background:#b2622d;color:#fff;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#8c491a">Scanner un produit</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 8px;flex:none">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:0">Accessibilité</h1>
+</div>
+<div style="flex:1;overflow:auto;padding:12px 20px 40px;display:flex;flex-direction:column;gap:14px">
+<div style="background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:18px">
+<div style="font-size:19px;font-weight:700">Taille du texte</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+<span style="font-size:16px;color:#645c50">A</span>
+<div style="flex:1;height:10px;border-radius:5px;background:rgba(32,30,29,.14);position:relative">
+<div style="width:62%;height:10px;border-radius:5px;background:#b2622d"></div>
+<div style="position:absolute;left:62%;top:-11px;width:32px;height:32px;border-radius:16px;background:#fff;border:3px solid #b2622d;transform:translateX(-16px)"></div>
+</div>
+<span style="font-size:26px;color:#201e1d;font-weight:700">A</span>
+</div>
+<div style="margin-top:14px;font-size:17px;color:#645c50">Aperçu : <span style="font-size:22px;color:#201e1d">57,5 g de glucides</span></div>
+</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:6px 18px">
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(32,30,29,.1)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Contraste renforcé</div><div style="font-size:16px;color:#645c50">Bords nets, aplats plus profonds</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#56633f;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#fff"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(32,30,29,.1)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Motifs sur les couleurs</div><div style="font-size:16px;color:#645c50">Hachures et points sur les nutriments</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#56633f;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#fff"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(32,30,29,.1)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Annonces vocales</div><div style="font-size:16px;color:#645c50">Résumé lu à chaque scan</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#56633f;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#fff"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(32,30,29,.1)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Retour haptique</div><div style="font-size:16px;color:#645c50">Vibration à la lecture du code</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#56633f;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#fff"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Confirmer avant d'ouvrir</div><div style="font-size:16px;color:#645c50">Une étape de validation après le scan</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:rgba(32,30,29,.2);position:relative;flex:none"><div style="position:absolute;left:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#fff"></div></div>
+</div>
+</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:18px">
+<div style="font-size:19px;font-weight:700">Main de préférence</div>
+<div style="display:flex;gap:8px;margin-top:12px;background:rgba(32,30,29,.07);border-radius:999px;padding:4px">
+<div style="flex:1;height:52px;border-radius:999px;background:#f9f4ed;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700">Gauche</div>
+<div style="flex:1;height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#645c50">Droite</div>
+<div style="flex:1;height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#645c50">Deux</div>
+</div>
+<div style="margin-top:12px;font-size:16px;color:#645c50">Les actions principales se rangent du côté choisi.</div>
+</div>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="background:#8c491a;padding:70px 22px 22px;flex:none;display:flex;gap:12px;align-items:center">
+<div style="width:44px;height:44px;border-radius:22px;background:#ffe1d0;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="26" height="26" viewBox="0 0 24 24"><g stroke="#643312" stroke-width="3" fill="none" stroke-linecap="round"><path d="M12 7v7"></path><circle cx="12" cy="18" r="1.1" fill="#643312" stroke="none"></circle></g></svg>
+</div>
+<div>
+<div style="font-family:var(--font-heading);font-weight:400;font-size:26px;color:#fff;line-height:1.12">Produit introuvable</div>
+<div style="font-size:16px;color:#ffe1d0">Code 5410041000122</div>
+</div>
+</div>
+<div style="flex:1;padding:24px 22px 0">
+<div style="display:flex;justify-content:center;margin:0 0 14px"><svg width="99" height="99" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><ellipse cx="30" cy="43" rx="3.6" ry="2.4" fill="#8a6314"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#8a6314" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="29.6" rx="15" ry="12.4" fill="#f0c73f" stroke="#8a6314" stroke-width="2.2"></ellipse>
+<path d="M38.6 29.6q3.4.2 4.4 1.8-1.6 1.2-4.4 1.2M9.4 29.6q-3.4.2-4.4 1.8 1.6 1.2 4.4 1.2" fill="#f0c73f" stroke="#8a6314" stroke-width="2"></path>
+<path d="M12.4 24.6q4.4-4.6 11.6-4.8" stroke="#fbe6a0" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8"></path>
+<path d="M24 17.4q2.6-4.8 8-4.4-.4 4.4-5.4 5.6" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.7" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.3" r="1.15" fill="#fff"></circle><path d="M20.4 34.4q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.5q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.6" rx="2.5" ry="1.6" fill="#e8a06a" opacity=".75"></ellipse></svg></div>
+<p style="font-size:19px;line-height:1.5;margin:0;color:#201e1d;text-wrap:pretty">Ce code n'est pas dans la base et n'a jamais été consulté sur cet appareil. Rien n'a été perdu — vous pouvez réessayer ou passer au produit suivant.</p>
+<div style="margin-top:20px;background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:10px;align-items:flex-start"><span style="width:26px;height:26px;border-radius:13px;background:#eee7db;color:#474238;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">1</span><span style="font-size:17px;line-height:1.4">Vérifiez les 13 chiffres saisis</span></div>
+<div style="display:flex;gap:10px;align-items:flex-start"><span style="width:26px;height:26px;border-radius:13px;background:#eee7db;color:#474238;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">2</span><span style="font-size:17px;line-height:1.4">Le réseau est coupé : la fiche s'affichera au retour de la connexion</span></div>
+<div style="display:flex;gap:10px;align-items:flex-start"><span style="width:26px;height:26px;border-radius:13px;background:#eee7db;color:#474238;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">3</span><span style="font-size:17px;line-height:1.4">Certains emballages n'ont aucune donnée publique</span></div>
+</div>
+</div>
+<div style="padding:0 22px 46px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#b2622d;color:#fff;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#8c491a">Réessayer le scan</button>
+<button style="height:60px;border:2px solid #8c491a;border-radius:999px;background:transparent;color:#8c491a;font-family:var(--font-body);font-size:19px;font-weight:600;cursor:pointer" style-hover="background:rgba(198,113,57,.12)">Corriger le code à la main</button>
+</div>
+</div>
+</x-import>
+
+</div>
+<div class="dv-cap" style="max-width:none">Ordre de lecture : accueil et permissions · scanner · scan confirmé · saisie manuelle · fiche produit · nutriments · historique hors ligne · réglages d'accessibilité · produit introuvable.</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Les neuf mêmes écrans en thème sombre, palette automne-hiver — fonds chauds et non noirs, accents remontés d'un cran dans la gamme pour tenir le contraste</div>
+<div class="dv-row">
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 16px 0;flex:none">
+<div style="background:#3d472b;border:2px solid #aebf92;border-radius:var(--radius-md);padding:14px 16px;display:flex;gap:12px;align-items:center">
+<svg width="26" height="26" viewBox="0 0 24 24" style="flex:none"><g stroke="#e1eecc" stroke-width="2.75" stroke-linecap="round" fill="none"><path d="M4 7V5h3M20 7V5h-3M4 17v2h3M20 17v2h-3M3 12h18"></path></g></svg>
+<div><div style="font-size:19px;font-weight:700;color:#f0fae1">Visez le code-barres</div><div style="font-size:16px;color:#ccdbb2">Aucun code détecté pour l'instant</div></div>
+</div>
+</div>
+<div style="flex:1;padding:14px 16px 0;display:flex;flex-direction:column">
+<div style="position:relative;flex:1;border-radius:var(--radius-lg);background:#000;overflow:hidden;border:1px solid rgba(249,244,237,.14)">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(249,244,237,.06) 0 12px,transparent 12px 30px)"></div>
+<div style="position:absolute;left:36px;right:36px;top:50%;transform:translateY(-50%);height:150px;border-radius:14px;box-shadow:0 0 0 3px #ffc6a5">
+<div style="position:absolute;left:14px;right:14px;top:50%;height:3px;background:#ffc6a5"></div>
+</div>
+<div style="position:absolute;top:16px;left:16px;background:rgba(249,244,237,.14);border-radius:999px;padding:8px 14px;display:flex;gap:8px;align-items:center">
+<span style="width:10px;height:10px;border-radius:5px;background:#aebf92;display:block"></span>
+<span style="font-size:15px;font-weight:600;color:#f9f4ed">Annonces vocales activées</span>
+</div>
+<div style="position:absolute;bottom:58px;left:0;right:0;display:flex;justify-content:center"><svg width="61" height="61" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.4" rx="12.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><ellipse cx="30" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="30.4" rx="15.4" ry="12.6" fill="#e0872f" stroke="#8f4d11" stroke-width="2.2"></ellipse>
+<path d="M15.4 19.6q-3 10.8 0 21.6M32.6 19.6q3 10.8 0 21.6M24 18v24.8" stroke="#b9611a" stroke-width="1.9" fill="none"></path>
+<path d="M12.6 25.4q4.4-4.6 11.4-5" stroke="#f6b877" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"></path>
+<path d="M24 18.2v-5.4q4.2.2 5.8-3" stroke="#4f6a2c" stroke-width="3" fill="none" stroke-linecap="round"></path><ellipse cx="18.6" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="28.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="28.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 35.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 37.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse><ellipse cx="33.8" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse></svg></div>
+<div style="position:absolute;bottom:16px;left:16px;right:16px;font-size:16px;line-height:1.4;color:#dcd3c4;text-align:center">Tenez l'emballage à 15 cm environ</div>
+</div>
+</div>
+<div style="padding:16px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:#ffc6a5">
+<svg width="22" height="22" viewBox="0 0 24 24"><g stroke="#2e2b25" stroke-width="2.75" stroke-linecap="round" fill="none"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M8 9h8M8 13h5"></path></g></svg>
+Saisir le code à la main</button>
+<div style="display:flex;gap:12px">
+<button style="flex:1;height:60px;border:2px solid #ffc6a5;border-radius:999px;background:transparent;color:#ffc6a5;font-family:var(--font-body);font-size:18px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:rgba(246,160,107,.18)">
+<svg width="20" height="20" viewBox="0 0 24 24"><path d="M13 2L5 14h5l-1 8 8-12h-5l1-8z" fill="none" stroke="#ffc6a5" stroke-width="2.5" stroke-linejoin="round"></path></svg>Torche</button>
+<button style="flex:1;height:60px;border:2px solid #aebf92;border-radius:999px;background:transparent;color:#ccdbb2;font-family:var(--font-body);font-size:18px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:rgba(174,191,146,.18)">
+<svg width="20" height="20" viewBox="0 0 24 24"><g stroke="#ccdbb2" stroke-width="2.5" fill="none" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></g></svg>Historique</button>
+</div>
+<div style="height:26px"></div>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="background:#3d472b;padding:70px 22px 24px;flex:none;display:flex;gap:12px;align-items:center">
+<div style="width:44px;height:44px;border-radius:22px;background:#aebf92;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#272e1b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</div>
+<div>
+<div style="font-family:var(--font-heading);font-weight:400;font-size:28px;color:#f0fae1;line-height:1.1">Produit trouvé</div>
+<div style="font-size:16px;color:#ccdbb2">Vibration courte + « bip » à la lecture</div>
+</div>
+</div>
+<div style="flex:1;padding:24px 22px 0">
+<div style="font-size:16px;color:#c0b6a5;letter-spacing:.06em">CODE 3017620422003</div>
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;line-height:1.14;margin:8px 0 0;color:#f9f4ed">Pâte à tartiner noisettes-cacao, 400 g</h1>
+<div style="display:flex;gap:10px;align-items:center;margin-top:18px">
+<div style="width:56px;height:56px;border-radius:16px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:30px;flex:none">E</div>
+<div style="font-size:18px;line-height:1.35;color:#dcd3c4">Note nutritionnelle <strong style="color:#f9f4ed">E sur E</strong> — la moins favorable des cinq.</div>
+</div>
+<div style="margin-top:22px;background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="font-size:16px;font-weight:700;color:#ffc6a5;letter-spacing:.06em;text-transform:uppercase">Annonce lue</div>
+<p style="margin:8px 0 0;font-size:18px;line-height:1.45;color:#f9f4ed">« Pâte à tartiner noisettes-cacao. Note E. Très riche en sucres et en matières grasses. Appuyez sur Voir la fiche pour les détails. »</p>
+</div>
+</div>
+<div style="padding:0 22px 46px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#ffc6a5">Voir la fiche</button>
+<button style="height:60px;border:2px solid #ffc6a5;border-radius:999px;background:transparent;color:#ffc6a5;font-family:var(--font-body);font-size:19px;font-weight:600;cursor:pointer" style-hover="background:rgba(246,160,107,.18)">Scanner un autre produit</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 0;flex:none;display:flex;align-items:center;gap:10px">
+<button style="width:52px;height:52px;border-radius:26px;border:2px solid rgba(249,244,237,.28);background:#2e2b25;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="background:#474238">
+<svg width="14" height="22" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#f9f4ed" stroke-width="2.75" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+<span style="font-size:18px;font-weight:600;color:#c0b6a5">Scanner</span>
+</div>
+<div style="flex:1;overflow:hidden;padding:16px 20px 0">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:28px;line-height:1.14;margin:0;color:#f9f4ed">Pâte à tartiner noisettes-cacao</h1>
+<div style="font-size:17px;color:#c0b6a5;margin-top:6px">400 g · pour 100 g · 539 kcal</div>
+<div style="margin-top:18px;background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:18px">
+<div style="display:flex;gap:8px;align-items:stretch">
+<div style="flex:1;height:52px;border-radius:12px 4px 4px 12px;background:#038141;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#fff">A</div>
+<div style="flex:1;height:52px;border-radius:4px;background:#85BB2F;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#fff">B</div>
+<div style="flex:1;height:52px;border-radius:4px;background:#FECB02;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#1d1d1b">C</div>
+<div style="flex:1;height:52px;border-radius:4px;background:#EE8100;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:22px;color:#fff">D</div>
+<div style="flex:1.5;height:52px;border-radius:4px 12px 12px 4px;background:#E63E11;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:30px;color:#fff;box-shadow:0 0 0 3px #f9f4ed">E</div>
+</div>
+<div style="display:flex;gap:12px;align-items:center;margin-top:14px;background:#33301f;border-radius:14px;padding:10px 12px"><svg width="52" height="52" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.4" rx="12.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><ellipse cx="30" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="30.4" rx="15.4" ry="12.6" fill="#e0872f" stroke="#8f4d11" stroke-width="2.2"></ellipse>
+<path d="M15.4 19.6q-3 10.8 0 21.6M32.6 19.6q3 10.8 0 21.6M24 18v24.8" stroke="#b9611a" stroke-width="1.9" fill="none"></path>
+<path d="M12.6 25.4q4.4-4.6 11.4-5" stroke="#f6b877" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"></path>
+<path d="M24 18.2v-5.4q4.2.2 5.8-3" stroke="#4f6a2c" stroke-width="3" fill="none" stroke-linecap="round"></path><ellipse cx="18.6" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="28.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="28.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 35.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 37.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse><ellipse cx="33.8" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse></svg><span style="font-size:16px;line-height:1.35;color:#e6e0cd">De saison en ce moment : le potimarron, noté <strong>A</strong>.</span></div>
+<p style="margin:14px 0 0;font-size:19px;line-height:1.45;color:#f9f4ed;text-wrap:pretty"><strong>Note E sur E.</strong> Très riche en sucres et en matières grasses. À consommer en petite quantité.</p>
+<button style="margin-top:14px;width:100%;height:56px;border:2px solid #ffc6a5;border-radius:999px;background:transparent;color:#ffc6a5;font-family:var(--font-body);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:rgba(246,160,107,.18)">
+<svg width="22" height="22" viewBox="0 0 24 24"><g stroke="#ffc6a5" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="M4 9v6M8.5 5.5v13M13 8v8M17.5 10.5v3M21 11.5v1"></path></g></svg>
+Écouter le résumé</button>
+</div>
+<div style="margin-top:18px;display:flex;gap:16px;align-items:center">
+<svg width="132" height="132" viewBox="0 0 160 160" style="flex:none">
+<defs>
+<pattern id="fsHatchD" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#e8c39a"></rect><rect width="3" height="7" fill="#7a5232"></rect></pattern>
+<pattern id="fsDotsD" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#aebf92"></rect><circle cx="4" cy="4" r="2.1" fill="#1b1813"></circle></pattern>
+</defs>
+<g transform="rotate(-90 80 80)" fill="none" stroke-width="26">
+<circle cx="80" cy="80" r="60" stroke="#e0b36a" stroke-dasharray="228.9 148.1"></circle>
+<circle cx="80" cy="80" r="60" stroke="url(#fsHatchD)" stroke-dasharray="122.9 254.1" stroke-dashoffset="-228.9"></circle>
+<circle cx="80" cy="80" r="60" stroke="url(#fsDotsD)" stroke-dasharray="24.9 352.1" stroke-dashoffset="-351.8"></circle>
+</g>
+<text x="80" y="74" text-anchor="middle" style="font:700 15px 'Figtree';fill:#f9f4ed">100 g</text>
+<text x="80" y="94" text-anchor="middle" style="font:400 13px 'Figtree';fill:#c0b6a5">3 nutriments</text>
+</svg>
+<div style="display:flex;flex-direction:column;gap:10px;flex:1">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:#e0b36a;display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1">Glucides</span><span style="font-size:17px;font-variant-numeric:tabular-nums">57,5 g</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:repeating-linear-gradient(45deg,#7a5232 0 3px,#e8c39a 3px 7px);display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1">Lipides</span><span style="font-size:17px;font-variant-numeric:tabular-nums">30,9 g</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:radial-gradient(circle at 50% 50%,#1b1813 0 2.2px,#aebf92 2.2px) 0 0/8px 8px;display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1">Protéines</span><span style="font-size:17px;font-variant-numeric:tabular-nums">6,3 g</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:#645c50;display:block;flex:none"></span><span style="font-size:17px;font-weight:600;flex:1;color:#c0b6a5">Fibres, sel</span><span style="font-size:17px;color:#c0b6a5">≈ 0 g</span></div>
+</div>
+</div>
+</div>
+<div style="padding:14px 20px 42px;flex:none">
+<button style="width:100%;height:60px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:19px;font-weight:700;cursor:pointer" style-hover="background:#ffc6a5">Tous les nutriments (8)</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 14px;flex:none;border-bottom:1.5px solid rgba(249,244,237,.16);display:flex;align-items:center;gap:10px">
+<button style="width:52px;height:52px;border-radius:26px;border:2px solid rgba(249,244,237,.28);background:#2e2b25;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="background:#474238">
+<svg width="14" height="22" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#f9f4ed" stroke-width="2.75" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+<div><h1 style="font-family:var(--font-heading);font-weight:400;font-size:26px;margin:0;color:#f9f4ed">Nutriments</h1><div style="font-size:16px;color:#c0b6a5">Valeurs pour 100 g</div></div>
+</div>
+<div style="flex:1;overflow:auto">
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(249,244,237,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:#f9f4ed;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Énergie</div><div style="height:8px;border-radius:4px;background:#f9f4ed;margin-top:6px"></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">539 kcal</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(249,244,237,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:#e0b36a;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Glucides</div><div style="height:8px;border-radius:4px;background:rgba(249,244,237,.16);margin-top:6px"><div style="width:96%;height:8px;border-radius:4px;background:#e0b36a"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">57,5 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(249,244,237,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:transparent;border:2px solid #e0b36a;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:18px;font-weight:600">dont sucres</div><div style="height:8px;border-radius:4px;background:rgba(249,244,237,.16);margin-top:6px"><div style="width:94%;height:8px;border-radius:4px;background:repeating-linear-gradient(90deg,#e0b36a 0 6px,#645c50 6px 9px)"></div></div></div>
+<span style="font-size:19px;font-weight:600;font-variant-numeric:tabular-nums">56,3 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(249,244,237,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:repeating-linear-gradient(45deg,#7a5232 0 3px,#e8c39a 3px 7px);flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Lipides</div><div style="height:8px;border-radius:4px;background:rgba(249,244,237,.16);margin-top:6px"><div style="width:52%;height:8px;border-radius:4px;background:repeating-linear-gradient(45deg,#7a5232 0 4px,#e8c39a 4px 8px)"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">30,9 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(249,244,237,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:transparent;border:2px solid #e8c39a;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:18px;font-weight:600">dont acides gras saturés</div><div style="height:8px;border-radius:4px;background:rgba(249,244,237,.16);margin-top:6px"><div style="width:18%;height:8px;border-radius:4px;background:#e8c39a"></div></div></div>
+<span style="font-size:19px;font-weight:600;font-variant-numeric:tabular-nums">10,6 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(249,244,237,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:radial-gradient(circle at 50% 50%,#1b1813 0 2.2px,#aebf92 2.2px) 0 0/8px 8px;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Protéines</div><div style="height:8px;border-radius:4px;background:rgba(249,244,237,.16);margin-top:6px"><div style="width:11%;height:8px;border-radius:4px;background:#aebf92"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">6,3 g</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px;border-bottom:1px solid rgba(249,244,237,.12)">
+<span style="width:26px;height:26px;border-radius:8px;background:#645c50;flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Fibres</div><div style="font-size:16px;color:#c0b6a5">Non renseigné par la base</div></div>
+<span style="font-size:19px;color:#c0b6a5">—</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:72px">
+<span style="width:26px;height:26px;border-radius:8px;background:repeating-linear-gradient(90deg,#c0b6a5 0 3px,#474238 3px 6px);flex:none;display:block"></span>
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Sel</div><div style="height:8px;border-radius:4px;background:rgba(249,244,237,.16);margin-top:6px"><div style="width:3%;height:8px;border-radius:4px;background:#c0b6a5"></div></div></div>
+<span style="font-size:19px;font-weight:700;font-variant-numeric:tabular-nums">0,1 g</span>
+</div>
+<div style="margin:22px 20px 8px;border:1.5px solid rgba(249,244,237,.16);border-radius:20px;overflow:hidden"><svg viewBox="0 0 340 176" width="100%" role="img" aria-label="Les mascottes d automne analysent une etiquette nutritionnelle en laboratoire" style="display:block">
+<defs>
+<linearGradient id="lbDw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d3826"></stop><stop offset="1" stop-color="#2a2619"></stop></linearGradient>
+<radialGradient id="lbDg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f0a24a" stop-opacity=".8"></stop><stop offset="1" stop-color="#f0a24a" stop-opacity="0"></stop></radialGradient>
+</defs>
+<rect width="340" height="176" fill="url(#lbDw)"></rect>
+<g stroke="#4d4732" stroke-width="1" opacity=".5"><path d="M0 22h340M0 54h340M0 86h340M40 0v120M100 0v120M160 0v120M220 0v120M280 0v120"></path></g>
+<ellipse cx="176" cy="34" rx="86" ry="42" fill="url(#lbDg)"></ellipse>
+<path d="M176 0v14" stroke="#b3a888" stroke-width="2.4"></path><path d="M158 30q18-18 36 0z" fill="#f0c73f" stroke="#b3a888" stroke-width="2"></path><circle cx="176" cy="32" r="3.4" fill="#f0a24a"></circle>
+<g><rect x="14" y="40" width="104" height="7" rx="2" fill="#7a5232"></rect>
+<g stroke="#b3a888" stroke-width="1.6" fill="#454a36"><rect x="22" y="20" width="18" height="20" rx="3"></rect><rect x="50" y="14" width="20" height="26" rx="3"></rect><rect x="80" y="24" width="18" height="16" rx="3"></rect></g>
+<circle cx="31" cy="33" r="4" fill="#e0872f"></circle><circle cx="60" cy="30" r="5.4" fill="#6e8145"></circle><circle cx="89" cy="33" r="3.6" fill="#b07a3e"></circle>
+<rect x="22" y="35" width="18" height="5" fill="#e0872f" opacity=".5"></rect><rect x="50" y="34" width="20" height="6" fill="#6e8145" opacity=".5"></rect></g>
+<g><rect x="240" y="18" width="86" height="58" rx="5" fill="#232a1a" stroke="#b3a888" stroke-width="2"></rect>
+<g fill="#dfe8c8"><rect x="250" y="52" width="10" height="16" rx="2"></rect><rect x="266" y="42" width="10" height="26" rx="2"></rect><rect x="282" y="58" width="10" height="10" rx="2"></rect><rect x="298" y="34" width="10" height="34" rx="2"></rect><rect x="250" y="26" width="42" height="4" rx="2"></rect></g>
+<path d="M246 72h74" stroke="#dfe8c8" stroke-width="1.6" opacity=".7"></path></g>
+<rect x="0" y="120" width="340" height="56" fill="#4a4230"></rect><rect x="0" y="120" width="340" height="8" fill="#5f5540"></rect>
+<g stroke="#39321f" stroke-width="1.4" opacity=".7"><path d="M0 140h340M0 158h340M60 128v48M170 128v48M262 128v48"></path></g>
+<g><rect x="30" y="128" width="52" height="34" rx="4" fill="#e6e0cd" stroke="#b3a888" stroke-width="1.6" transform="rotate(-6 56 145)"></rect>
+<g stroke="#4a4230" stroke-width="2.6" stroke-linecap="round" transform="rotate(-6 56 145)"><path d="M38 138h30M38 145h36M38 152h20"></path></g>
+<circle cx="86" cy="132" r="13" fill="none" stroke="#b3a888" stroke-width="4"></circle><path d="M95 141l10 10" stroke="#b3a888" stroke-width="5" stroke-linecap="round"></path><circle cx="86" cy="132" r="13" fill="#cfe4f2" opacity=".28"></circle></g>
+<g><path d="M226 82h30l-4 24 12 26h-46l12-26-4-24z" fill="#454a36" stroke="#b3a888" stroke-width="2.4"></path>
+<path d="M227 114h28l9 18h-46l9-18z" fill="#e0b36a"></path>
+<circle cx="240" cy="108" r="3" fill="#f2ead2" opacity=".9"></circle><circle cx="248" cy="98" r="2.2" fill="#f2ead2" opacity=".8"></circle><circle cx="235" cy="94" r="1.8" fill="#f2ead2" opacity=".7"></circle>
+<path d="M238 78q4-6 0-11M248 78q4-6 0-11" stroke="#b3a888" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".6"></path></g>
+<g><g transform="translate(120 96) scale(0.86)"><path d="M4 8h40v30H4z" fill="#f7f3ea" stroke="#c3b79c" stroke-width="1.6"></path><path d="M24 8l-7 9 7 4 7-4-7-9z" fill="#e6dcc6"></path><circle cx="24" cy="26" r="1.6" fill="#c3b79c"></circle><circle cx="24" cy="32" r="1.6" fill="#c3b79c"></circle></g><g transform="translate(120 84) scale(0.86)"><ellipse cx="24" cy="45.4" rx="12.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><ellipse cx="30" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="30.4" rx="15.4" ry="12.6" fill="#e0872f" stroke="#8f4d11" stroke-width="2.2"></ellipse>
+<path d="M15.4 19.6q-3 10.8 0 21.6M32.6 19.6q3 10.8 0 21.6M24 18v24.8" stroke="#b9611a" stroke-width="1.9" fill="none"></path>
+<path d="M12.6 25.4q4.4-4.6 11.4-5" stroke="#f6b877" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"></path>
+<path d="M24 18.2v-5.4q4.2.2 5.8-3" stroke="#4f6a2c" stroke-width="3" fill="none" stroke-linecap="round"></path><ellipse cx="18.6" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="28.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="28.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 35.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 37.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse><ellipse cx="33.8" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse></g><g transform="translate(120 84) scale(0.86)"><rect x="10" y="20" width="28" height="3.4" rx="1.7" fill="#6b6252"></rect><ellipse cx="17.4" cy="22" rx="6" ry="5.2" fill="#9fc0d6" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><ellipse cx="30.6" cy="22" rx="6" ry="5.2" fill="#9fc0d6" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><path d="M13 19.4q2.4-2.2 5-2.4M26.2 19.4q2.4-2.2 5-2.4" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8"></path></g></g>
+<g><g transform="translate(166 102) scale(0.78)"><path d="M4 8h40v30H4z" fill="#f7f3ea" stroke="#c3b79c" stroke-width="1.6"></path><path d="M24 8l-7 9 7 4 7-4-7-9z" fill="#e6dcc6"></path><circle cx="24" cy="26" r="1.6" fill="#c3b79c"></circle><circle cx="24" cy="32" r="1.6" fill="#c3b79c"></circle></g><g transform="translate(166 92) scale(0.78)"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><ellipse cx="30" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 13.4c8.4 0 14.8 7 14.8 15.4 0 7.6-6.6 12.6-14.8 12.6S9.2 36.4 9.2 28.8C9.2 20.4 15.6 13.4 24 13.4Z" fill="#b07a3e" stroke="#4f2c0d" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M10.2 33.4q6 4.2 13.8 4.2 7.8 0 13.8-4.2-1.6 7.8-13.8 7.8-12.2 0-13.8-7.8Z" fill="#7c4c1c"></path>
+<path d="M13.6 23.4q4-5.4 10.4-5.8" stroke="#d9a86e" stroke-width="3" stroke-linecap="round" fill="none" opacity=".75"></path>
+<path d="M24 13.6V8.6" stroke="#4f2c0d" stroke-width="2.6" stroke-linecap="round"></path><ellipse cx="18.6" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="25.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="25.3" r="1.15" fill="#fff"></circle><path d="M20.4 32.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 34.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse><ellipse cx="33.8" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse></g><g transform="translate(166 92) scale(0.78)"><rect x="10" y="20" width="28" height="3.4" rx="1.7" fill="#6b6252"></rect><ellipse cx="17.4" cy="22" rx="6" ry="5.2" fill="#9fc0d6" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><ellipse cx="30.6" cy="22" rx="6" ry="5.2" fill="#9fc0d6" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><path d="M13 19.4q2.4-2.2 5-2.4M26.2 19.4q2.4-2.2 5-2.4" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8"></path></g></g>
+<g><g transform="translate(288 98) scale(0.82)"><path d="M4 8h40v30H4z" fill="#f7f3ea" stroke="#c3b79c" stroke-width="1.6"></path><path d="M24 8l-7 9 7 4 7-4-7-9z" fill="#e6dcc6"></path><circle cx="24" cy="26" r="1.6" fill="#c3b79c"></circle><circle cx="24" cy="32" r="1.6" fill="#c3b79c"></circle></g><g transform="translate(288 86) scale(0.82)"><ellipse cx="24" cy="45.2" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><circle cx="24" cy="29.4" r="14.6" fill="#6e8145" stroke="#3f5024" stroke-width="2.2"></circle>
+<path d="M24 15q7 4 7.4 14.4M24 15q-7 4-7.4 14.4M9.6 31q5.6 3 14.4 3t14.4-3" stroke="#9bb072" stroke-width="2.1" fill="none"></path>
+<circle cx="24" cy="30.4" r="8" fill="#b3c983" stroke="#3f5024" stroke-width="1.5"></circle>
+<path d="M13.2 23.6q4-5 10.8-5.6" stroke="#c6da96" stroke-width="2.8" stroke-linecap="round" fill="none" opacity=".6"></path><ellipse cx="20.5" cy="29.8" rx="3" ry="3.5" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="27.5" cy="29.8" rx="3" ry="3.5" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="21.2" cy="30.7" r="2.3" fill="#241608"></circle><circle cx="28.2" cy="30.7" r="2.3" fill="#241608"></circle><circle cx="20" cy="28.5" r="1.15" fill="#fff"></circle><circle cx="27" cy="28.5" r="1.15" fill="#fff"></circle><path d="M20.4 34.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#dda07f" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#dda07f" opacity=".75"></ellipse></g><g transform="translate(288 86) scale(0.82)"><rect x="10" y="20" width="28" height="3.4" rx="1.7" fill="#6b6252"></rect><ellipse cx="17.4" cy="22" rx="6" ry="5.2" fill="#9fc0d6" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><ellipse cx="30.6" cy="22" rx="6" ry="5.2" fill="#9fc0d6" opacity=".55" stroke="#6b6252" stroke-width="1.6"></ellipse><path d="M13 19.4q2.4-2.2 5-2.4M26.2 19.4q2.4-2.2 5-2.4" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8"></path></g></g>
+<g><path d="M196 60h56a6 6 0 016 6v16a6 6 0 01-6 6h-40l-10 9v-9h-6a6 6 0 01-6-6V66a6 6 0 016-6z" fill="#e6e0cd" stroke="#b3a888" stroke-width="2"></path>
+<text x="224" y="80" text-anchor="middle" style="font:700 15px 'Figtree';fill:#4a4230">57,5 g !</text></g>
+</svg><div style="padding:12px 14px;font-size:15px;line-height:1.4;color:#c0b6a5">Chaque valeur est relevée sur la base Open Food Facts, puis vérifiée ligne par ligne. Un doute ? Signalez-le, la fiche est corrigée pour tout le monde.</div></div><div style="height:40px"></div>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 8px;flex:none">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:0;color:#f9f4ed">Accessibilité</h1>
+</div>
+<div style="flex:1;overflow:auto;padding:12px 20px 40px;display:flex;flex-direction:column;gap:14px">
+<div style="background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:18px">
+<div style="font-size:19px;font-weight:700">Taille du texte</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+<span style="font-size:16px;color:#c0b6a5">A</span>
+<div style="flex:1;height:10px;border-radius:5px;background:rgba(249,244,237,.2);position:relative">
+<div style="width:62%;height:10px;border-radius:5px;background:#f6a06b"></div>
+<div style="position:absolute;left:62%;top:-11px;width:32px;height:32px;border-radius:16px;background:#1b1813;border:3px solid #f6a06b;transform:translateX(-16px)"></div>
+</div>
+<span style="font-size:26px;font-weight:700">A</span>
+</div>
+<div style="margin-top:14px;font-size:17px;color:#c0b6a5">Aperçu : <span style="font-size:22px;color:#f9f4ed">57,5 g de glucides</span></div>
+</div>
+<div style="background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:6px 18px">
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(249,244,237,.12)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Contraste renforcé</div><div style="font-size:16px;color:#c0b6a5">Bords nets, aplats plus profonds</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#aebf92;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#1b1813"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(249,244,237,.12)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Motifs sur les couleurs</div><div style="font-size:16px;color:#c0b6a5">Hachures et points sur les nutriments</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#aebf92;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#1b1813"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(249,244,237,.12)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Annonces vocales</div><div style="font-size:16px;color:#c0b6a5">Résumé lu à chaque scan</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#aebf92;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#1b1813"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid rgba(249,244,237,.12)">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Retour haptique</div><div style="font-size:16px;color:#c0b6a5">Vibration à la lecture du code</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#aebf92;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#1b1813"></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:68px">
+<div style="flex:1"><div style="font-size:19px;font-weight:700">Thème</div><div style="font-size:16px;color:#c0b6a5">Suivre le réglage du téléphone</div></div>
+<div style="width:60px;height:34px;border-radius:17px;background:#aebf92;position:relative;flex:none"><div style="position:absolute;right:3px;top:3px;width:28px;height:28px;border-radius:14px;background:#1b1813"></div></div>
+</div>
+</div>
+<div style="background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:18px">
+<div style="font-size:19px;font-weight:700">Main de préférence</div>
+<div style="display:flex;gap:8px;margin-top:12px;background:rgba(249,244,237,.1);border-radius:999px;padding:4px">
+<div style="flex:1;height:52px;border-radius:999px;background:#474238;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700">Gauche</div>
+<div style="flex:1;height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#c0b6a5">Droite</div>
+<div style="flex:1;height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#c0b6a5">Deux</div>
+</div>
+</div>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:66px 22px 0;flex:none">
+<div style="font:700 12px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:#ffc6a5">FoodScanner</div>
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:34px;line-height:1.08;margin:14px 0 0;color:#f9f4ed">Bienvenue</h1>
+<div style="display:flex;align-items:center;gap:10px;margin-top:14px"><svg width="54" height="54" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.4" rx="12.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><ellipse cx="30" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="30.4" rx="15.4" ry="12.6" fill="#e0872f" stroke="#8f4d11" stroke-width="2.2"></ellipse>
+<path d="M15.4 19.6q-3 10.8 0 21.6M32.6 19.6q3 10.8 0 21.6M24 18v24.8" stroke="#b9611a" stroke-width="1.9" fill="none"></path>
+<path d="M12.6 25.4q4.4-4.6 11.4-5" stroke="#f6b877" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"></path>
+<path d="M24 18.2v-5.4q4.2.2 5.8-3" stroke="#4f6a2c" stroke-width="3" fill="none" stroke-linecap="round"></path><ellipse cx="18.6" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="28.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="28.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 35.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 37.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse><ellipse cx="33.8" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse></svg><svg width="54" height="54" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><ellipse cx="30" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 13.4c8.4 0 14.8 7 14.8 15.4 0 7.6-6.6 12.6-14.8 12.6S9.2 36.4 9.2 28.8C9.2 20.4 15.6 13.4 24 13.4Z" fill="#b07a3e" stroke="#4f2c0d" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M10.2 33.4q6 4.2 13.8 4.2 7.8 0 13.8-4.2-1.6 7.8-13.8 7.8-12.2 0-13.8-7.8Z" fill="#7c4c1c"></path>
+<path d="M13.6 23.4q4-5.4 10.4-5.8" stroke="#d9a86e" stroke-width="3" stroke-linecap="round" fill="none" opacity=".75"></path>
+<path d="M24 13.6V8.6" stroke="#4f2c0d" stroke-width="2.6" stroke-linecap="round"></path><ellipse cx="18.6" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="25.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="25.3" r="1.15" fill="#fff"></circle><path d="M20.4 32.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 34.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse><ellipse cx="33.8" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse></svg><svg width="54" height="54" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.2" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><circle cx="24" cy="29.4" r="14.6" fill="#6e8145" stroke="#3f5024" stroke-width="2.2"></circle>
+<path d="M24 15q7 4 7.4 14.4M24 15q-7 4-7.4 14.4M9.6 31q5.6 3 14.4 3t14.4-3" stroke="#9bb072" stroke-width="2.1" fill="none"></path>
+<circle cx="24" cy="30.4" r="8" fill="#b3c983" stroke="#3f5024" stroke-width="1.5"></circle>
+<path d="M13.2 23.6q4-5 10.8-5.6" stroke="#c6da96" stroke-width="2.8" stroke-linecap="round" fill="none" opacity=".6"></path><ellipse cx="20.5" cy="29.8" rx="3" ry="3.5" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="27.5" cy="29.8" rx="3" ry="3.5" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="21.2" cy="30.7" r="2.3" fill="#241608"></circle><circle cx="28.2" cy="30.7" r="2.3" fill="#241608"></circle><circle cx="20" cy="28.5" r="1.15" fill="#fff"></circle><circle cx="27" cy="28.5" r="1.15" fill="#fff"></circle><path d="M20.4 34.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#dda07f" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#dda07f" opacity=".75"></ellipse></svg><span style="font-size:15px;line-height:1.3;color:#c0b6a5">Vos guides de saison : potimarron, chataigne, chou</span></div>
+<p style="font-size:19px;line-height:1.5;margin:14px 0 0;color:#dcd3c4;text-wrap:pretty">Scannez un code-barres, écoutez ou lisez ce que contient le produit. Rien n'est chronométré, tout se refait.</p>
+</div>
+<div style="padding:26px 22px 0;display:flex;flex-direction:column;gap:16px;flex:1">
+<div style="display:flex;gap:14px;align-items:flex-start;background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="width:44px;height:44px;border-radius:22px;background:#a97527;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#ffc6a5" stroke-width="2.75" stroke-linecap="round"><path d="M4 6v12M8 6v12M12 6v12M16 6v12M20 6v12"></path></g></svg>
+</div>
+<div><div style="font-size:19px;font-weight:700">Visez, ça se déclenche</div><div style="font-size:17px;color:#c0b6a5;line-height:1.4">Pas besoin d'appuyer. Vibration et son à la lecture.</div></div>
+</div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="width:44px;height:44px;border-radius:22px;background:#3d472b;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#ccdbb2" stroke-width="2.75" stroke-linecap="round" fill="none"><path d="M4 9v6M9 5v14M14 8v8M19 11v2"></path></g></svg>
+</div>
+<div><div style="font-size:19px;font-weight:700">Résumé parlé</div><div style="font-size:17px;color:#c0b6a5;line-height:1.4">Une phrase claire avant les chiffres, lue à voix haute.</div></div>
+</div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="width:44px;height:44px;border-radius:22px;background:#a97527;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#ffc6a5" stroke-width="2.75" stroke-linecap="round" fill="none"><path d="M5 7h14M5 12h14M5 17h9"></path></g></svg>
+</div>
+<div><div style="font-size:19px;font-weight:700">À votre main</div><div style="font-size:17px;color:#c0b6a5;line-height:1.4">Taille du texte, contraste, motifs, mode une main.</div></div>
+</div>
+</div>
+<div style="padding:0 22px 46px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#ffc6a5">Autoriser la caméra</button>
+<button style="height:60px;border:2px solid #ffc6a5;border-radius:999px;background:transparent;color:#ffc6a5;font-family:var(--font-body);font-size:19px;font-weight:600;cursor:pointer" style-hover="background:rgba(246,160,107,.18)">Saisir un code à la main</button>
+<p style="margin:2px 0 0;font-size:15px;color:#c0b6a5;text-align:center">Tout est modifiable ensuite dans Accessibilité.</p>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:66px 22px 0;flex:none">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:0;color:#f9f4ed">Saisir le code</h1>
+<p style="font-size:18px;color:#c0b6a5;margin:10px 0 0">13 chiffres, sous le code-barres.</p>
+<div style="margin-top:18px;background:#2e2b25;border:2.5px solid #f6a06b;border-radius:var(--radius-md);padding:18px 18px 14px">
+<div style="font-family:ui-monospace,Menlo,monospace;font-size:30px;letter-spacing:.08em;color:#f9f4ed">3017 620 422<span style="opacity:.4">•••</span><span style="display:inline-block;width:2px;height:30px;background:#f6a06b;vertical-align:-5px;margin-left:2px"></span></div>
+<div style="display:flex;justify-content:space-between;margin-top:10px;font-size:16px;color:#c0b6a5"><span>10 sur 13</span><span>Effacer tout</span></div>
+</div>
+</div>
+<div style="flex:1;padding:18px 16px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start">
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">1</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">2</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">3</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">4</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">5</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">6</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">7</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">8</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">9</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:transparent;font-family:var(--font-body);font-size:17px;font-weight:600;color:#c0b6a5;cursor:pointer" style-hover="background:rgba(249,244,237,.08)">Annuler</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:#2e2b25;font-family:var(--font-body);font-size:30px;font-weight:600;color:#f9f4ed;cursor:pointer" style-hover="background:#474238">0</button>
+<button style="height:72px;border:1.5px solid rgba(249,244,237,.2);border-radius:20px;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:rgba(249,244,237,.08)">
+<svg width="30" height="24" viewBox="0 0 30 24"><path d="M10 2h17a2 2 0 012 2v16a2 2 0 01-2 2H10L1 12 10 2z" fill="none" stroke="#c0b6a5" stroke-width="2"></path><path d="M14 8l8 8M22 8l-8 8" stroke="#c0b6a5" stroke-width="2.4" stroke-linecap="round"></path></svg>
+</button>
+</div>
+<div style="padding:12px 16px 40px;flex:none">
+<button style="width:100%;height:64px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#ffc6a5">Chercher ce produit</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="padding:62px 20px 12px;flex:none">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:0;color:#f9f4ed">Historique</h1>
+<div style="margin-top:12px;display:flex;gap:10px;align-items:center;background:#2e2b25;border:1.5px solid #82796a;border-radius:var(--radius-md);padding:12px 14px">
+<svg width="22" height="22" viewBox="0 0 24 24" style="flex:none"><g stroke="#dcd3c4" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="M4 5l16 14M6.5 10a9 9 0 0111 0M9.5 13.5a5 5 0 016 0"></path><circle cx="12" cy="17.5" r="1.2" fill="#dcd3c4" stroke="none"></circle></g></svg>
+<span style="font-size:17px;color:#dcd3c4">Hors ligne — 12 produits déjà consultés restent lisibles</span>
+</div>
+</div>
+<div style="flex:1;overflow:auto;padding:6px 20px 0">
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(249,244,237,.12)">
+<div style="width:50px;height:50px;border-radius:14px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:24px;flex:none">E</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Pâte à tartiner noisettes-cacao</div><div style="font-size:16px;color:#c0b6a5">Il y a 2 minutes · en mémoire</div></div>
+<svg width="9" height="16" viewBox="0 0 8 14" style="flex:none"><path d="M1 1l6 6-6 6" stroke="#c0b6a5" stroke-width="2.4" fill="none" stroke-linecap="round"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(249,244,237,.12)">
+<div style="width:50px;height:50px;border-radius:14px;background:#038141;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:24px;flex:none">A</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Lentilles vertes cuisinées</div><div style="font-size:16px;color:#c0b6a5">Hier · en mémoire</div></div>
+<svg width="9" height="16" viewBox="0 0 8 14" style="flex:none"><path d="M1 1l6 6-6 6" stroke="#c0b6a5" stroke-width="2.4" fill="none" stroke-linecap="round"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(249,244,237,.12)">
+<div style="width:50px;height:50px;border-radius:14px;background:#FECB02;color:#1d1d1b;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:24px;flex:none">C</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Pain de mie complet</div><div style="font-size:16px;color:#c0b6a5">Hier · en mémoire</div></div>
+<svg width="9" height="16" viewBox="0 0 8 14" style="flex:none"><path d="M1 1l6 6-6 6" stroke="#c0b6a5" stroke-width="2.4" fill="none" stroke-linecap="round"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;height:82px;border-bottom:1px solid rgba(249,244,237,.12);opacity:.6">
+<div style="width:50px;height:50px;border-radius:14px;background:#474238;color:#dcd3c4;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none">?</div>
+<div style="flex:1"><div style="font-size:19px;font-weight:700;line-height:1.25">Code 5410041000122</div><div style="font-size:16px;color:#c0b6a5">Fiche incomplète hors ligne</div></div>
+</div>
+<div style="margin:18px 0 8px;border:1.5px solid rgba(249,244,237,.16);border-radius:20px;overflow:hidden"><svg viewBox="0 0 340 176" width="100%" role="img" aria-label="Les mascottes d automne a table dans un chalet, le soir" style="display:block">
+<defs><linearGradient id="chW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a3a2a"></stop><stop offset="1" stop-color="#33281d"></stop></linearGradient>
+<radialGradient id="chF" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f0a24a" stop-opacity=".75"></stop><stop offset="1" stop-color="#f0a24a" stop-opacity="0"></stop></radialGradient>
+<linearGradient id="chN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16223a"></stop><stop offset="1" stop-color="#2b3a52"></stop></linearGradient></defs>
+<rect width="340" height="176" fill="url(#chW)"></rect>
+<g stroke="#2b2117" stroke-width="1.8" opacity=".8"><path d="M0 26h340M0 54h340M0 82h340M0 110h340"></path></g>
+<g stroke="#5b4832" stroke-width="1.4" opacity=".6"><path d="M56 0v110M148 0v110M240 0v110"></path></g>
+<g><rect x="24" y="22" width="96" height="70" rx="6" fill="url(#chN)" stroke="#6b5334" stroke-width="4"></rect>
+<path d="M72 22v70M24 57h96" stroke="#6b5334" stroke-width="4"></path>
+<circle cx="100" cy="38" r="8" fill="#f2ead2"></circle><circle cx="96" cy="35" r="3" fill="#dcd0ae" opacity=".7"></circle>
+<g fill="#f2ead2"><circle cx="40" cy="34" r="1.8"></circle><circle cx="56" cy="46" r="1.4"></circle><circle cx="34" cy="66" r="1.6"></circle><circle cx="88" cy="72" r="2"></circle><circle cx="64" cy="80" r="1.5"></circle><circle cx="46" cy="78" r="1.2"></circle></g>
+<path d="M24 84q22-10 44-2 24 8 52-2v10H24z" fill="#e8e1cd" opacity=".9"></path>
+<path d="M30 20h84l-6-8H36z" fill="#e8e1cd"></path></g>
+<ellipse cx="268" cy="104" rx="74" ry="52" fill="url(#chF)"></ellipse>
+<g><rect x="234" y="46" width="72" height="66" rx="6" fill="#2a211a" stroke="#6b5334" stroke-width="4"></rect>
+<path d="M242 108q10-30 28-30t28 30z" fill="#3a2b1f"></path>
+<path d="M254 108q6-16 16-30 2 12 10 18 4-6 6-10 6 10 6 22z" fill="#f0a24a"></path>
+<path d="M262 108q4-12 10-20 2 8 6 12 3-4 4-7 4 7 4 15z" fill="#f7db8a"></path>
+<g stroke="#6b5334" stroke-width="3"><path d="M228 112h84"></path></g></g>
+<g stroke="#5f7a3a" stroke-width="3" fill="none"><path d="M132 14q26 10 52 0q26 10 52 0"></path></g>
+<g fill="#d2432c"><circle cx="152" cy="20" r="3.4"></circle><circle cx="186" cy="22" r="3.4"></circle><circle cx="220" cy="20" r="3.4"></circle></g>
+<rect x="0" y="120" width="340" height="56" fill="#5b4227"></rect><rect x="0" y="118" width="340" height="10" rx="3" fill="#775636"></rect>
+<g stroke="#4a3520" stroke-width="1.6" opacity=".8"><path d="M0 140h340M0 158h340M74 128v48M198 128v48M292 128v48"></path></g>
+<g><ellipse cx="150" cy="112" rx="28" ry="7" fill="#c9723a"></ellipse><path d="M124 108h52l-6 16h-40l-6-16z" fill="#d8834a" stroke="#7a4318" stroke-width="2.2"></path>
+<ellipse cx="150" cy="107" rx="22" ry="5" fill="#e8c39a"></ellipse>
+<path d="M140 98q5-8 0-14M152 96q5-9 0-15M162 99q5-8 0-13" stroke="#e8e1cd" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".6"></path></g>
+<g><rect x="196" y="100" width="14" height="22" rx="4" fill="#e8e1cd"></rect><path d="M203 100q7-7 0-13-3 7-8 3 1 7 8 10z" fill="#f0c73f"></path><ellipse cx="203" cy="122" rx="9" ry="3" fill="#b8a98a"></ellipse></g>
+<g><path d="M86 112h20l-2 12H88l-2-12z" fill="#c9723a" stroke="#7a4318" stroke-width="2"></path><path d="M106 114q7 3 0 7" fill="none" stroke="#7a4318" stroke-width="2.4"></path><path d="M92 108q3-6 0-9" stroke="#e8e1cd" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".5"></path></g>
+<g transform="translate(52 92) scale(1)"><ellipse cx="24" cy="45.4" rx="12.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><ellipse cx="30" cy="43.6" rx="3.6" ry="2.4" fill="#8f4d11"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#8f4d11" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="24" cy="30.4" rx="15.4" ry="12.6" fill="#e0872f" stroke="#8f4d11" stroke-width="2.2"></ellipse>
+<path d="M15.4 19.6q-3 10.8 0 21.6M32.6 19.6q3 10.8 0 21.6M24 18v24.8" stroke="#b9611a" stroke-width="1.9" fill="none"></path>
+<path d="M12.6 25.4q4.4-4.6 11.4-5" stroke="#f6b877" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"></path>
+<path d="M24 18.2v-5.4q4.2.2 5.8-3" stroke="#4f6a2c" stroke-width="3" fill="none" stroke-linecap="round"></path><ellipse cx="18.6" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="29.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="30.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="28.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="28.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 35.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 37.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse><ellipse cx="33.8" cy="34.2" rx="2.5" ry="1.6" fill="#f0a86a" opacity=".75"></ellipse></g><g transform="translate(100 100) scale(0.95)"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><ellipse cx="30" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 13.4c8.4 0 14.8 7 14.8 15.4 0 7.6-6.6 12.6-14.8 12.6S9.2 36.4 9.2 28.8C9.2 20.4 15.6 13.4 24 13.4Z" fill="#b07a3e" stroke="#4f2c0d" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M10.2 33.4q6 4.2 13.8 4.2 7.8 0 13.8-4.2-1.6 7.8-13.8 7.8-12.2 0-13.8-7.8Z" fill="#7c4c1c"></path>
+<path d="M13.6 23.4q4-5.4 10.4-5.8" stroke="#d9a86e" stroke-width="3" stroke-linecap="round" fill="none" opacity=".75"></path>
+<path d="M24 13.6V8.6" stroke="#4f2c0d" stroke-width="2.6" stroke-linecap="round"></path><ellipse cx="18.6" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="25.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="25.3" r="1.15" fill="#fff"></circle><path d="M20.4 32.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 34.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse><ellipse cx="33.8" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse></g><g transform="translate(256 96) scale(1)"><ellipse cx="24" cy="45.2" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#3f5024"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#3f5024" stroke-width="3.2" stroke-linecap="round" fill="none"></path><circle cx="24" cy="29.4" r="14.6" fill="#6e8145" stroke="#3f5024" stroke-width="2.2"></circle>
+<path d="M24 15q7 4 7.4 14.4M24 15q-7 4-7.4 14.4M9.6 31q5.6 3 14.4 3t14.4-3" stroke="#9bb072" stroke-width="2.1" fill="none"></path>
+<circle cx="24" cy="30.4" r="8" fill="#b3c983" stroke="#3f5024" stroke-width="1.5"></circle>
+<path d="M13.2 23.6q4-5 10.8-5.6" stroke="#c6da96" stroke-width="2.8" stroke-linecap="round" fill="none" opacity=".6"></path><ellipse cx="20.5" cy="29.8" rx="3" ry="3.5" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="27.5" cy="29.8" rx="3" ry="3.5" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="21.2" cy="30.7" r="2.3" fill="#241608"></circle><circle cx="28.2" cy="30.7" r="2.3" fill="#241608"></circle><circle cx="20" cy="28.5" r="1.15" fill="#fff"></circle><circle cx="27" cy="28.5" r="1.15" fill="#fff"></circle><path d="M20.4 34.2q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.300000000000004q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#dda07f" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#dda07f" opacity=".75"></ellipse></g>
+<path d="M52 132q22-8 44 0v10H52z" fill="#8a5a3a" opacity=".55"></path>
+</svg><div style="padding:12px 14px;font-size:15px;line-height:1.4;color:#c0b6a5">Tout reste sur votre téléphone : les 12 dernières fiches sont lisibles hors ligne, au chalet comme en rayon.</div></div>
+</div>
+<div style="padding:14px 20px 42px;flex:none">
+<button style="width:100%;height:64px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#ffc6a5">Scanner un produit</button>
+</div>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="background:#a97527;padding:70px 22px 22px;flex:none;display:flex;gap:12px;align-items:center">
+<div style="width:44px;height:44px;border-radius:22px;background:#ffc6a5;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="26" height="26" viewBox="0 0 24 24"><g stroke="#402310" stroke-width="3" fill="none" stroke-linecap="round"><path d="M12 7v7"></path><circle cx="12" cy="18" r="1.1" fill="#402310" stroke="none"></circle></g></svg>
+</div>
+<div>
+<div style="font-family:var(--font-heading);font-weight:400;font-size:26px;color:#fff;line-height:1.12">Produit introuvable</div>
+<div style="font-size:16px;color:#ffe1d0">Code 5410041000122</div>
+</div>
+</div>
+<div style="flex:1;padding:24px 22px 0">
+<div style="display:flex;justify-content:center;margin:0 0 14px"><svg width="99" height="99" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45" rx="11.5" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><ellipse cx="30" cy="43.2" rx="3.6" ry="2.4" fill="#4f2c0d"></ellipse><path d="M11 30q-4 .6-5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 30q4 .6 5.2 3.6" stroke="#4f2c0d" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 13.4c8.4 0 14.8 7 14.8 15.4 0 7.6-6.6 12.6-14.8 12.6S9.2 36.4 9.2 28.8C9.2 20.4 15.6 13.4 24 13.4Z" fill="#b07a3e" stroke="#4f2c0d" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M10.2 33.4q6 4.2 13.8 4.2 7.8 0 13.8-4.2-1.6 7.8-13.8 7.8-12.2 0-13.8-7.8Z" fill="#7c4c1c"></path>
+<path d="M13.6 23.4q4-5.4 10.4-5.8" stroke="#d9a86e" stroke-width="3" stroke-linecap="round" fill="none" opacity=".75"></path>
+<path d="M24 13.6V8.6" stroke="#4f2c0d" stroke-width="2.6" stroke-linecap="round"></path><ellipse cx="18.6" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="26.6" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="27.5" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="25.3" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="25.3" r="1.15" fill="#fff"></circle><path d="M20.4 32.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 34.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse><ellipse cx="33.8" cy="31.6" rx="2.5" ry="1.6" fill="#d78f66" opacity=".75"></ellipse></svg></div>
+<p style="font-size:19px;line-height:1.5;margin:0;color:#f9f4ed;text-wrap:pretty">Ce code n'est pas dans la base et n'a jamais été consulté sur cet appareil. Rien n'a été perdu — vous pouvez réessayer ou passer au produit suivant.</p>
+<div style="margin-top:20px;background:#2e2b25;border:1.5px solid rgba(249,244,237,.16);border-radius:var(--radius-lg);padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:10px;align-items:flex-start"><span style="width:26px;height:26px;border-radius:13px;background:#474238;color:#dcd3c4;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">1</span><span style="font-size:17px;line-height:1.4">Vérifiez les 13 chiffres saisis</span></div>
+<div style="display:flex;gap:10px;align-items:flex-start"><span style="width:26px;height:26px;border-radius:13px;background:#474238;color:#dcd3c4;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">2</span><span style="font-size:17px;line-height:1.4">Le réseau est coupé : la fiche s'affichera au retour de la connexion</span></div>
+<div style="display:flex;gap:10px;align-items:flex-start"><span style="width:26px;height:26px;border-radius:13px;background:#474238;color:#dcd3c4;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">3</span><span style="font-size:17px;line-height:1.4">Certains emballages n'ont aucune donnée publique</span></div>
+</div>
+</div>
+<div style="padding:0 22px 46px;flex:none;display:flex;flex-direction:column;gap:12px">
+<button style="height:64px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#ffc6a5">Réessayer le scan</button>
+<button style="height:60px;border:2px solid #ffc6a5;border-radius:999px;background:transparent;color:#ffc6a5;font-family:var(--font-body);font-size:19px;font-weight:600;cursor:pointer" style-hover="background:rgba(246,160,107,.18)">Corriger le code à la main</button>
+</div>
+</div>
+</x-import>
+
+</div>
+<div class="dv-cap" style="max-width:none">Les neuf écrans en sombre, dans le même ordre que <a class="dv-oid" href="#1b">1b</a>. Le fond reste chaud (#1b1813) plutôt que noir pur pour limiter le halo en basse vision ; l'accent passe de #b2622d à #f6a06b, les textes accentués à #ffc6a5, et les aplats du score gardent les couleurs officielles du Nutri-Score, identiques dans les deux thèmes.</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Variation — modèle d'interaction du scanner. Trois façons d'attraper un code selon la capacité motrice et visuelle</div>
+<div class="dv-row">
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="flex:1;position:relative;background:#2e2b25;margin:0;overflow:hidden">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(249,244,237,.05) 0 12px,transparent 12px 30px)"></div>
+<div style="position:absolute;top:70px;left:16px;right:16px;background:rgba(249,244,237,.94);border-radius:var(--radius-md);padding:16px">
+<div style="font-size:19px;font-weight:700;color:#201e1d">Balayage continu</div>
+<div style="font-size:17px;color:#474238;line-height:1.4;margin-top:4px">L'app lit en permanence. Rien à appuyer, rien à viser précisément.</div>
+</div>
+<div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:220px;background:rgba(246,160,107,.14);border-top:3px solid #f6a06b;border-bottom:3px solid #f6a06b"></div>
+</div>
+<div style="flex:none;padding:18px 16px 46px;background:var(--color-bg)">
+<div style="font-size:17px;color:#645c50;line-height:1.45">Zone de lecture haute de 220 pt : le code est trouvé même si la main tremble. Aucune action requise.</div>
+<button style="margin-top:14px;width:100%;height:64px;border:2px solid #8c491a;border-radius:999px;background:transparent;color:#8c491a;font-family:var(--font-body);font-size:19px;font-weight:700;cursor:pointer" style-hover="background:rgba(198,113,57,.12)">Mettre le scan en pause</button>
+</div>
+</div>
+</x-import>
+<div class="dv-cap"><strong>A · mains libres.</strong> Le modèle actuel, élargi : zone de lecture très haute, aucun appui. Le meilleur pour les tremblements, le plus bruyant en faux positifs.</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="flex:none;padding:66px 20px 12px">
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:28px;margin:0">Appuyez pour lire</h1>
+<p style="font-size:18px;color:#645c50;margin:8px 0 0">N'importe où sur l'écran. Vous choisissez le moment.</p>
+</div>
+<div style="flex:1;margin:0 16px 16px;border-radius:var(--radius-lg);background:#2e2b25;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(249,244,237,.05) 0 12px,transparent 12px 30px)"></div>
+<div style="width:210px;height:210px;border-radius:50%;background:#f6a06b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 0 0 10px rgba(246,160,107,.28)">
+<svg width="52" height="52" viewBox="0 0 24 24"><g stroke="#2e2b25" stroke-width="2.75" stroke-linecap="round"><path d="M4 6v12M8 6v12M12 6v12M16 6v12M20 6v12"></path></g></svg>
+<span style="font-size:20px;font-weight:800;color:#2e2b25">LIRE</span>
+</div>
+</div>
+<div style="flex:none;padding:0 20px 46px">
+<div style="font-size:17px;color:#645c50;line-height:1.45">Toute la surface est la cible — 402 × 640 pt. Zéro précision demandée, et pas de lecture involontaire.</div>
+</div>
+</div>
+</x-import>
+<div class="dv-cap"><strong>B · toute la surface est le bouton.</strong> L'écran entier déclenche. Cible géante, contrôle total du moment ; demande un appui.</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+<div style="height:100%;background:#1b1813;color:#f9f4ed;font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="flex:none;padding:66px 20px 0">
+<div style="font:700 12px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:#ffc6a5">Guidage vocal</div>
+<h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:12px 0 0;color:#f9f4ed">Un peu plus haut</h1>
+</div>
+<div style="flex:1;padding:22px 20px 0;display:flex;flex-direction:column;gap:16px">
+<div style="background:#2e2b25;border:2px solid #f6a06b;border-radius:var(--radius-lg);padding:20px;display:flex;gap:16px;align-items:center">
+<svg width="56" height="56" viewBox="0 0 24 24" style="flex:none"><path d="M12 3l6 8h-4v10h-4V11H6l6-8z" fill="#f6a06b"></path></svg>
+<div style="font-size:22px;line-height:1.3;font-weight:700">Montez le téléphone de 5 cm</div>
+</div>
+<div style="background:#2e2b25;border-radius:var(--radius-lg);padding:18px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="width:12px;height:12px;border-radius:6px;background:#aebf92;flex:none"></span><span style="font-size:18px">Emballage détecté</span></div>
+<div style="display:flex;align-items:center;gap:12px"><span style="width:12px;height:12px;border-radius:6px;background:#aebf92;flex:none"></span><span style="font-size:18px">Distance correcte</span></div>
+<div style="display:flex;align-items:center;gap:12px"><span style="width:12px;height:12px;border-radius:6px;background:#f6a06b;flex:none"></span><span style="font-size:18px;font-weight:700">Code-barres hors cadre</span></div>
+</div>
+<div style="background:rgba(174,191,146,.16);border-radius:var(--radius-md);padding:16px;font-size:17px;line-height:1.45;color:#dcd3c4">Bips rapprochés = vous chauffez. Trois bips longs = code lu. Le téléphone vibre à chaque étape franchie.</div>
+</div>
+<div style="flex:none;padding:0 20px 46px">
+<button style="width:100%;height:64px;border:none;border-radius:999px;background:#f6a06b;color:#2e2b25;font-family:var(--font-body);font-size:20px;font-weight:700;cursor:pointer" style-hover="background:#ffc6a5">Répéter la consigne</button>
+</div>
+</div>
+</x-import>
+<div class="dv-cap"><strong>C · guidage sonore pas à pas.</strong> Pour un usage sans regarder l'écran : l'app dit où déplacer le téléphone, la fréquence des bips fait office de radar.</div>
+</div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1e">
+<div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Variation — visualisation des nutriments. Trois traitements du même produit, du plus graphique au plus littéral</div>
+<div class="dv-row">
+
+<div style="display:flex;flex-direction:column;gap:8px;width:370px">
+<div style="background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:20px;font-family:var(--font-body);color:#201e1d">
+<div style="display:flex;gap:6px;align-items:stretch">
+<div style="flex:1;height:44px;border-radius:10px 3px 3px 10px;background:#038141;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:18px;color:#fff">A</div>
+<div style="flex:1;height:44px;border-radius:3px;background:#85BB2F;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:18px;color:#fff">B</div>
+<div style="flex:1;height:44px;border-radius:3px;background:#FECB02;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:18px;color:#1d1d1b">C</div>
+<div style="flex:1;height:44px;border-radius:3px;background:#EE8100;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:18px;color:#fff">D</div>
+<div style="flex:1.6;height:44px;border-radius:3px 10px 10px 3px;background:#E63E11;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:26px;color:#fff;box-shadow:0 0 0 3px #201e1d">E</div>
+</div>
+<p style="margin:14px 0 0;font-size:19px;line-height:1.45"><strong>Note E sur E.</strong> Très riche en sucres et en matières grasses.</p>
+<div style="margin-top:16px;height:1px;background:rgba(32,30,29,.14)"></div>
+<div style="margin-top:16px;display:flex;flex-direction:column;gap:12px">
+<div><div style="display:flex;justify-content:space-between;font-size:17px;font-weight:700"><span>Glucides</span><span>57,5 g</span></div><div style="height:14px;border-radius:7px;background:rgba(32,30,29,.1);margin-top:5px"><div style="width:96%;height:14px;border-radius:7px;background:#a97527"></div></div></div>
+<div><div style="display:flex;justify-content:space-between;font-size:17px;font-weight:700"><span>Lipides</span><span>30,9 g</span></div><div style="height:14px;border-radius:7px;background:rgba(32,30,29,.1);margin-top:5px"><div style="width:52%;height:14px;border-radius:7px;background:repeating-linear-gradient(45deg,#6e7f4f 0 5px,#e8dca8 5px 10px)"></div></div></div>
+<div><div style="display:flex;justify-content:space-between;font-size:17px;font-weight:700"><span>Protéines</span><span>6,3 g</span></div><div style="height:14px;border-radius:7px;background:rgba(32,30,29,.1);margin-top:5px"><div style="width:11%;height:14px;border-radius:7px;background:#8f2f24"></div></div></div>
+</div>
+</div>
+<div class="dv-cap"><strong>A · score puis barres.</strong> Le jugement d'abord, les proportions ensuite. Aucune surface angulaire à comparer, tout est aligné à gauche sur une même base.</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px;width:370px">
+<div style="background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:20px;font-family:var(--font-body);color:#201e1d;display:flex;flex-direction:column;align-items:center">
+<svg width="230" height="230" viewBox="0 0 160 160">
+<defs>
+<pattern id="fsHatch2" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#e8dca8"></rect><rect width="3.4" height="8" fill="#6e7f4f"></rect></pattern>
+<pattern id="fsDots2" width="9" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9" fill="#e7b7ae"></rect><circle cx="4.5" cy="4.5" r="2.3" fill="#8f2f24"></circle></pattern>
+</defs>
+<g transform="rotate(-90 80 80)" fill="none" stroke-width="34">
+<circle cx="80" cy="80" r="56" stroke="#a97527" stroke-dasharray="213.6 138.2"></circle>
+<circle cx="80" cy="80" r="56" stroke="url(#fsHatch2)" stroke-dasharray="114.7 237.1" stroke-dashoffset="-213.6"></circle>
+<circle cx="80" cy="80" r="56" stroke="url(#fsDots2)" stroke-dasharray="23.2 328.6" stroke-dashoffset="-328.3"></circle>
+</g>
+<rect x="58" y="56" width="44" height="34" rx="9" fill="#E63E11"></rect>
+<text x="80" y="82" text-anchor="middle" style="font:400 26px 'Caprasimo';fill:#fff">E</text>
+<text x="80" y="105" text-anchor="middle" style="font:600 12px 'Figtree';fill:#645c50">sur 100 g</text>
+</svg>
+<div style="width:100%;margin-top:8px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:#a97527;flex:none"></span><span style="font-size:18px;font-weight:700;flex:1">Glucides</span><span style="font-size:18px">61 %</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:repeating-linear-gradient(45deg,#6e7f4f 0 4px,#e8dca8 4px 8px);flex:none"></span><span style="font-size:18px;font-weight:700;flex:1">Lipides</span><span style="font-size:18px">33 %</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:radial-gradient(circle at 50% 50%,#8f2f24 0 2.4px,#e7b7ae 2.4px) 0 0/9px 9px;flex:none"></span><span style="font-size:18px;font-weight:700;flex:1">Protéines</span><span style="font-size:18px">7 %</span></div>
+</div>
+</div>
+<div class="dv-cap"><strong>B · anneau à motifs.</strong> On garde la forme circulaire du camembert d'origine, mais épaisse, à trois parts maximum, chaque part porte une texture, et les libellés vivent dans une légende de 18 pt.</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px;width:370px">
+<div style="background:var(--color-neutral-100);border:1.5px solid rgba(32,30,29,.14);border-radius:var(--radius-lg);padding:20px;font-family:var(--font-body);color:#201e1d">
+<div style="display:flex;align-items:center;gap:10px"><svg width="45" height="45" viewBox="0 0 48 48" aria-hidden="true" style="flex:none"><ellipse cx="24" cy="45.6" rx="12" ry="2.4" fill="#241608" opacity=".13"></ellipse><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"></ellipse><path d="M11 31q-4 .6-5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M37 31q4 .6 5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><path d="M24 43.4c-8.4 0-14.6-6.2-14.6-14.2 0-7.4 6.2-12.6 14.6-12.6s14.6 5.2 14.6 12.6c0 8-6.2 14.2-14.6 14.2Z" fill="#e04a30" stroke="#7a1c12" stroke-width="2.2" stroke-linejoin="round"></path>
+<path d="M12.6 26.6q3.4-5 11.4-5.2" stroke="#ff9078" stroke-width="3" stroke-linecap="round" fill="none" opacity=".65"></path>
+<g fill="#ffe6a6"><ellipse cx="15.6" cy="32" rx="1.05" ry="1.7"></ellipse><ellipse cx="20.6" cy="37.4" rx="1.05" ry="1.7"></ellipse><ellipse cx="30.4" cy="34" rx="1.05" ry="1.7"></ellipse><ellipse cx="33" cy="27.6" rx="1.05" ry="1.7"></ellipse><ellipse cx="27" cy="40.4" rx="1.05" ry="1.7"></ellipse></g>
+<path d="M24 17.6c-4.6 0-8.6-1-11.4-2.9 2.2-2.2 5-3.2 7.4-2.6-1.6-2.4-1.4-4.6.2-6.2 2 1 3.4 2.6 4 4.6 1.4-2.2 3.6-3.4 6-3.2-.2 2.2-1.2 4-2.8 5.2 2.6-.2 5 .8 7 2.8-3.2 1.6-6.6 2.3-10.4 2.3Z" fill="#5f7a3a" stroke="#3c5122" stroke-width="1.8" stroke-linejoin="round"></path><ellipse cx="18.6" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><ellipse cx="29.4" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"></ellipse><circle cx="19.3" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="30.099999999999998" cy="29.299999999999997" r="2.3" fill="#241608"></circle><circle cx="18.1" cy="27.099999999999998" r="1.15" fill="#fff"></circle><circle cx="28.9" cy="27.099999999999998" r="1.15" fill="#fff"></circle><path d="M20.4 34.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"></path><path d="M22.3 36.7q1.7 1.9 3.4 0z" fill="#f2867a"></path><ellipse cx="14.2" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse><ellipse cx="33.8" cy="33.4" rx="2.5" ry="1.6" fill="#ff9b86" opacity=".75"></ellipse></svg><span style="font:700 12px/1 var(--font-body);letter-spacing:.12em;text-transform:uppercase;color:#8c491a">En clair</span></div>
+<p style="margin:12px 0 0;font-family:var(--font-heading);font-weight:400;font-size:26px;line-height:1.22">Sur 100 g, un peu plus de la moitié est du sucre.</p>
+<div style="margin-top:18px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;gap:12px;align-items:center">
+<div style="display:flex;gap:3px;flex:none">
+<span style="width:14px;height:34px;border-radius:4px;background:#a97527;display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:#a97527;display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:#a97527;display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:#a97527;display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:#a97527;display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:rgba(32,30,29,.12);display:block"></span>
+</div>
+<span style="font-size:18px;line-height:1.35">soit près de <strong>14 morceaux de sucre</strong></span>
+</div>
+<div style="display:flex;gap:12px;align-items:center">
+<div style="display:flex;gap:3px;flex:none">
+<span style="width:14px;height:34px;border-radius:4px;background:repeating-linear-gradient(45deg,#6e7f4f 0 4px,#e8dca8 4px 8px);display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:repeating-linear-gradient(45deg,#6e7f4f 0 4px,#e8dca8 4px 8px);display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:repeating-linear-gradient(45deg,#6e7f4f 0 4px,#e8dca8 4px 8px);display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:rgba(32,30,29,.12);display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:rgba(32,30,29,.12);display:block"></span>
+<span style="width:14px;height:34px;border-radius:4px;background:rgba(32,30,29,.12);display:block"></span>
+</div>
+<span style="font-size:18px;line-height:1.35">et <strong>2 cuillères à soupe d'huile</strong></span>
+</div>
+</div>
+<div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(32,30,29,.14);font-size:17px;color:#645c50;line-height:1.45">Les grammes restent accessibles en une touche, pour qui les préfère.</div>
+</div>
+<div class="dv-cap"><strong>C · équivalents concrets.</strong> Aucun graphique : une phrase, puis des unités du quotidien. Le plus lisible en lecture d'écran, le moins précis.</div>
+</div>
+
+</div>
+</div>
+
+<div class="dv-opt" id="1f">
+<div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Variation — structure de navigation, dont la déclinaison Android (Material : barre du bas, bouton flottant, retour système)</div>
+<div class="dv-row">
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+<div style="flex:none;padding:66px 20px 10px"><h1 style="font-family:var(--font-heading);font-weight:400;font-size:30px;margin:0">Scanner</h1></div>
+<div style="flex:1;margin:6px 16px 0;border-radius:var(--radius-lg);background:#2e2b25;position:relative;overflow:hidden">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(249,244,237,.05) 0 12px,transparent 12px 30px)"></div>
+<div style="position:absolute;left:32px;right:32px;top:50%;transform:translateY(-50%);height:140px;border-radius:14px;box-shadow:0 0 0 3px #f6a06b"></div>
+</div>
+<div style="flex:none;padding:12px 8px 40px;border-top:1.5px solid rgba(32,30,29,.14);display:flex">
+<div style="flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:20px;background:#ffe1d0">
+<svg width="26" height="26" viewBox="0 0 24 24"><g stroke="#8c491a" stroke-width="2.75" stroke-linecap="round"><path d="M4 6v12M8 6v12M12 6v12M16 6v12M20 6v12"></path></g></svg>
+<span style="font-size:14px;font-weight:700;color:#8c491a">Scanner</span>
+</div>
+<div style="flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+<svg width="26" height="26" viewBox="0 0 24 24"><g stroke="#645c50" stroke-width="2.6" fill="none" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></g></svg>
+<span style="font-size:14px;font-weight:600;color:#645c50">Historique</span>
+</div>
+<div style="flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+<svg width="26" height="26" viewBox="0 0 24 24"><g stroke="#645c50" stroke-width="2.6" fill="none" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v.01M12 11v5"></path></g></svg>
+<span style="font-size:14px;font-weight:600;color:#645c50">Accès</span>
+</div>
+</div>
+</div>
+</x-import>
+<div class="dv-cap"><strong>A · trois onglets en bas.</strong> Tout est à portée de pouce et toujours au même endroit — le plus prévisible en lecture d'écran.</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+<div style="height:100%;background:#2e2b25;font-family:var(--font-body);position:relative;overflow:hidden">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(249,244,237,.05) 0 12px,transparent 12px 30px)"></div>
+<div style="position:absolute;left:32px;right:32px;top:180px;height:140px;border-radius:14px;box-shadow:0 0 0 3px #f6a06b"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:var(--color-bg);border-radius:28px 28px 0 0;padding:12px 20px 40px;box-shadow:0 -12px 32px rgba(0,0,0,.3)">
+<div style="width:56px;height:6px;border-radius:3px;background:rgba(32,30,29,.24);margin:0 auto 14px"></div>
+<div style="font-size:17px;font-weight:700;color:#645c50;letter-spacing:.06em;text-transform:uppercase">Derniers produits</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:12px;height:64px;background:var(--color-neutral-100);border-radius:var(--radius-md);padding:0 14px">
+<span style="width:40px;height:40px;border-radius:12px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:20px;flex:none">E</span>
+<span style="font-size:18px;font-weight:700;flex:1;line-height:1.2">Pâte à tartiner</span>
+</div>
+<div style="display:flex;align-items:center;gap:12px;height:64px;background:var(--color-neutral-100);border-radius:var(--radius-md);padding:0 14px">
+<span style="width:40px;height:40px;border-radius:12px;background:#038141;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:20px;flex:none">A</span>
+<span style="font-size:18px;font-weight:700;flex:1;line-height:1.2">Lentilles cuisinées</span>
+</div>
+</div>
+<button style="margin-top:14px;width:100%;height:60px;border:2px solid #8c491a;border-radius:999px;background:transparent;color:#8c491a;font-family:var(--font-body);font-size:18px;font-weight:700;cursor:pointer" style-hover="background:rgba(198,113,57,.12)">Accessibilité et réglages</button>
+</div>
+</div>
+</x-import>
+<div class="dv-cap"><strong>B · scanner plein écran + tiroir.</strong> Un seul écran, le reste remonte du bas. Moins de navigation, mais un geste de tirage à apprendre.</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="width:402px;height:874px;border-radius:36px;overflow:hidden;background:#1b1813;box-shadow:0 40px 80px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.12);position:relative;font-family:var(--font-body)">
+<div style="height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#f9f4ed;font-size:14px;font-weight:600"><span>9:41</span><span style="display:flex;gap:6px;align-items:center"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3.5c2 0 3.8.8 5.1 2.1l1-1A9 9 0 008 2a9 9 0 00-6.1 2.6l1 1A7 7 0 018 3.5z" fill="#f9f4ed"></path><circle cx="8" cy="9.5" r="1.6" fill="#f9f4ed"></circle></svg><svg width="22" height="12" viewBox="0 0 22 12"><rect x="0.5" y="1" width="18" height="10" rx="2.5" stroke="#f9f4ed" fill="none"></rect><rect x="2" y="2.5" width="12" height="7" fill="#f9f4ed"></rect></svg></span></div>
+<div style="height:64px;display:flex;align-items:center;gap:16px;padding:0 18px">
+<svg width="26" height="26" viewBox="0 0 24 24"><g stroke="#f9f4ed" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></g></svg>
+<span style="font-family:var(--font-heading);font-weight:400;font-size:24px;color:#f9f4ed">FoodScanner</span>
+</div>
+<div style="position:absolute;top:100px;bottom:96px;left:0;right:0;background:#000;overflow:hidden">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(249,244,237,.06) 0 12px,transparent 12px 30px)"></div>
+<div style="position:absolute;left:34px;right:34px;top:50%;transform:translateY(-50%);height:150px;border-radius:12px;box-shadow:0 0 0 3px #ffc6a5"></div>
+<div style="position:absolute;top:16px;left:16px;right:16px;background:#3d472b;border-radius:12px;padding:14px 16px;color:#f0fae1;font-size:18px;font-weight:700">Visez le code-barres</div>
+</div>
+<div style="position:absolute;right:20px;bottom:120px;width:72px;height:72px;border-radius:24px;background:#f6a06b;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.45)">
+<svg width="32" height="32" viewBox="0 0 24 24"><g stroke="#2e2b25" stroke-width="2.75" stroke-linecap="round"><path d="M5 6v12M9 6v12M13 6v12M17 6v12"></path></g></svg>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:96px;background:#2e2b25;display:flex;padding-bottom:14px">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+<div style="width:64px;height:34px;border-radius:17px;background:rgba(246,160,107,.28);display:flex;align-items:center;justify-content:center">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#ffc6a5" stroke-width="2.6" stroke-linecap="round"><path d="M5 6v12M9 6v12M13 6v12M17 6v12"></path></g></svg>
+</div>
+<span style="font-size:13px;font-weight:700;color:#ffc6a5">Scanner</span>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#c0b6a5" stroke-width="2.4" fill="none" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></g></svg>
+<span style="font-size:13px;color:#c0b6a5">Historique</span>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+<svg width="24" height="24" viewBox="0 0 24 24"><g stroke="#c0b6a5" stroke-width="2.4" fill="none" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v.01M12 11v5"></path></g></svg>
+<span style="font-size:13px;color:#c0b6a5">Accès</span>
+</div>
+</div>
+</div>
+<div class="dv-cap"><strong>C · déclinaison Android.</strong> Mêmes contenus, grammaire Material : barre supérieure avec menu, barre de navigation basse à pastille active, bouton flottant de 72 dp pour le déclenchement manuel, angles de 12 dp.</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<p class="dv-next">À essayer : « retiens <a class="dv-oid" href="#1e">1e</a>-C pour la fiche produit et refais <a class="dv-oid" href="#1b">1b</a> » · « décline <a class="dv-oid" href="#1f">1f</a>-C en Android complet, clair et sombre » · « ajoute une version contraste renforcé de <a class="dv-oid" href="#1c">1c</a> » · « rends le parcours <a class="dv-oid" href="#1b">1b</a> cliquable de bout en bout »</p>
+</section>
+</x-dc>
+</body>
+</html>

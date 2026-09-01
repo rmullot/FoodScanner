@@ -5,86 +5,58 @@
 //  Created by Romain Mullot on 22/10/2018.
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
+//  Compteur de requêtes en vol exposé via `@Published var isActive`, confiné
+//  au main actor : consommable directement par une vue SwiftUI
+//  (@ObservedObject) sans passer par un indicateur UIKit global.
+//
 
 import Foundation
-import UIKit
 
-open class NetworkActivityManager {
+@MainActor
+public final class NetworkActivityManager: ObservableObject {
     static let sharedInstance = NetworkActivityManager()
-    
-    var countRequest: MutexCounter = MutexCounter()
-    
-    fileprivate let maxActivityDuration: Double = 120 //in seconds
-    
-    fileprivate var disableActivityIndicatorClosure: DispatchQueue.CancellableClosure = nil
-    
-    private init() {}
-    
-    @discardableResult
-    open func newRequestStarted() -> Int
-    {
-        guard Thread.isMainThread == true else {
-            DispatchQueue.main.async {
-                self.newRequestStarted()
-            }
-            let count = countRequest.getValue()
-            return count
-        }
-        let count = countRequest.incrementAndGet()
-        if let closure = disableActivityIndicatorClosure
-        {
-            closure()
-        }
- 
-        
-        disableActivityIndicatorClosure = DispatchQueue.main.cancellableAsyncAfter(secondsDeadline: maxActivityDuration) {
-            self.disableActivityIndicator()
-        }
-        
-        return count
-    }
-    
-    @discardableResult
-    open func requestFinished() -> Int
-    {
-        guard Thread.isMainThread == true else {
-            DispatchQueue.main.async {
-                self.requestFinished()
-            }
-            let count = countRequest.getValue()
-            return count
 
+    @Published private(set) var isActive: Bool = false
+
+    private var countRequest: Int = 0
+
+    private let maxActivityDuration: Double = 120 //in seconds
+
+    private var disableActivityIndicatorClosure: DispatchQueue.CancellableClosure = nil
+
+    private init() {}
+
+    @discardableResult
+    func newRequestStarted() -> Int {
+        countRequest += 1
+        isActive = true
+
+        disableActivityIndicatorClosure?()
+        disableActivityIndicatorClosure = DispatchQueue.main.cancellableAsyncAfter(secondsDeadline: maxActivityDuration) { [weak self] in
+            self?.disableActivityIndicator()
         }
-        let count = countRequest.decrementAndGet()
-//        if(count < 0)
-//        {
-//            print("Network Activity Indicator was asked to hide more often than shown")
-//        }
-  
-        if(count <= 0)
-        {
-            if let closure = disableActivityIndicatorClosure
-            {
-                closure()
-            }
-            countRequest.setValue(0)
-            
-        }
-        return count
+
+        return countRequest
     }
-    
-    open func disableActivityIndicator() {
-        guard Thread.isMainThread == true else {
-            DispatchQueue.main.async {
-                self.disableActivityIndicator()
-            }
-            return
+
+    @discardableResult
+    func requestFinished() -> Int {
+        countRequest = max(0, countRequest - 1)
+
+        if countRequest <= 0 {
+            disableActivityIndicatorClosure?()
+            disableActivityIndicatorClosure = nil
+            countRequest = 0
+            isActive = false
         }
-        if let closure = disableActivityIndicatorClosure
-        {
-            closure()
-        }
-        countRequest.setValue(0)
+
+        return countRequest
     }
-  
+
+    func disableActivityIndicator() {
+        disableActivityIndicatorClosure?()
+        disableActivityIndicatorClosure = nil
+        countRequest = 0
+        isActive = false
+    }
 }

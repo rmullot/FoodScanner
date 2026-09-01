@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#F4EEE2; }
+  a { color:#8C491A; }
+  a:hover { color:#D2432C; }
+  code, pre { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+</style>
+</helmet>
+
+<div style="font-family:Figtree,system-ui,sans-serif;color:#201E1D;background:#F4EEE2;padding:56px 48px 96px;max-width:1180px;margin:0 auto">
+
+  <header style="display:flex;flex-direction:column;gap:14px;margin-bottom:44px">
+    <span style="font:700 12px/1 Figtree;letter-spacing:.18em;text-transform:uppercase;color:#645C50">Design system · iOS 16 · SwiftUI</span>
+    <h1 style="font-family:Caprasimo,serif;font-weight:400;font-size:56px;line-height:1.02;margin:0">FoodScannerUI</h1>
+    <p style="font-size:20px;line-height:1.5;max-width:62ch;margin:0;color:#3C382F;text-wrap:pretty">La charte de FoodScanner en code : deux palettes saisonnières, le Nutri-Score officiel, des motifs qui doublent chaque couleur, et six mascottes-aliments. Une page, deux niveaux de lecture.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Package Swift local</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Préfixe FS</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Primitives en entrée</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#F6E0CD;color:#8C491A;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Aucune dépendance</span>
+    </div>
+  </header>
+
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:56px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Règle 1</div>
+      <p style="margin:0;font-size:17px;line-height:1.45;text-wrap:pretty">Le Nutri-Score ne suit jamais le thème. Aplats officiels en clair comme en sombre, lettre noire sur le C jaune uniquement.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Règle 2</div>
+      <p style="margin:0;font-size:17px;line-height:1.45;text-wrap:pretty">Aucune information portée par la couleur seule : chaque nutriment a son motif, chaque score sa lettre écrite.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Règle 3</div>
+      <p style="margin:0;font-size:17px;line-height:1.45;text-wrap:pretty">Corps de texte à 19 pt minimum, cible tactile à 44 pt minimum, Dynamic Type jusqu'à AX5 sur tous les composants.</p>
+    </div>
+  </section>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Les deux saisons</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 24px;max-width:66ch">Le thème clair emprunte aux aliments de printemps et d'été, le thème sombre à ceux d'automne et d'hiver. <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">FSSeason</code> a deux cas et suit le <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">ColorScheme</code> par défaut.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:22px;margin-bottom:20px">
+    <div style="background:#FBF7EF;border:1.5px solid #E2D8C6;border-radius:22px;padding:24px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+        <h3 style="font-family:Caprasimo,serif;font-weight:400;font-size:24px;margin:0">Printemps-été</h3>
+        <span style="font:600 14px Figtree;color:#645C50">thème clair</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#D2432C;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsAccent</span><span style="font:400 11px Figtree;color:#645C50">fraise · D2432C</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#5F7A3A;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsLeaf</span><span style="font:400 11px Figtree;color:#645C50">petit pois · 5F7A3A</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#E0A81E;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsSun</span><span style="font:400 11px Figtree;color:#645C50">citron · E0A81E</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#E8F0DC;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsAccentSoft</span><span style="font:400 11px Figtree;color:#645C50">E8F0DC</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#C9A548;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsCarbs</span><span style="font:400 11px Figtree;color:#645C50">blé</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#6E7F4F;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsFat</span><span style="font:400 11px Figtree;color:#645C50">huile d'olive</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#8F2F24;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsProtein</span><span style="font:400 11px Figtree;color:#645C50">haricot rouge</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#7D9152;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsFiber</span><span style="font:400 11px Figtree;color:#645C50">petit pois</span></div>
+      </div>
+    </div>
+
+    <div style="background:#24201A;border:1.5px solid #4A4230;border-radius:22px;padding:24px;color:#F9F4ED">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+        <h3 style="font-family:Caprasimo,serif;font-weight:400;font-size:24px;margin:0;color:#F9F4ED">Automne-hiver</h3>
+        <span style="font:600 14px Figtree;color:#C0B6A5">thème sombre</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#E0872F;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsAccent</span><span style="font:400 11px Figtree;color:#C0B6A5">potimarron · E0872F</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#8CA05E;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsLeaf</span><span style="font:400 11px Figtree;color:#C0B6A5">chou · 8CA05E</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#F0C73F;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsSun</span><span style="font:400 11px Figtree;color:#C0B6A5">bougie · F0C73F</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#33301F;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsAccentSoft</span><span style="font:400 11px Figtree;color:#C0B6A5">33301F</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#E0872F;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsCarbs</span><span style="font:400 11px Figtree;color:#C0B6A5">courge</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#A9713A;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsFat</span><span style="font:400 11px Figtree;color:#C0B6A5">noix</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#6E8145;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsProtein</span><span style="font:400 11px Figtree;color:#C0B6A5">chou</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#8A6A3B;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsFiber</span><span style="font:400 11px Figtree;color:#C0B6A5">châtaigne</span></div>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ showDev }}" hint-placeholder-val="{{ true }}">
+    <pre style="background:#201E1D;color:#F2EAD2;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.6;overflow:auto;margin:0 0 56px">FSGalleryView()
+    .fsSeason(.autumnWinter)        <span style="color:#A9B6C0">// forcée sur ce sous-arbre</span>
+    .fsSeasonFollowsCalendar()      <span style="color:#A9B6C0">// ou déduite du mois réel</span>
+
+<span style="color:#A9B6C0">// dans un composant</span>
+@FSResolvedSeason private var season</pre>
+  </sc-if>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Nutri-Score</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:66ch">Hors thème, hors saison, non surchargeable. Le C jaune est le seul à porter une lettre sombre.</p>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px">
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:76px;height:76px;border-radius:18px;background:#038141;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:42px">A</div><span style="font:600 13px Figtree;color:#645C50">038141</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:76px;height:76px;border-radius:18px;background:#85BB2F;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:42px">B</div><span style="font:600 13px Figtree;color:#645C50">85BB2F</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:76px;height:76px;border-radius:18px;background:#FECB02;color:#1D1D1B;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:42px">C</div><span style="font:600 13px Figtree;color:#645C50">FECB02</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:76px;height:76px;border-radius:18px;background:#EE8100;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:42px">D</div><span style="font:600 13px Figtree;color:#645C50">EE8100</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:76px;height:76px;border-radius:18px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:42px">E</div><span style="font:600 13px Figtree;color:#645C50">E63E11</span></div>
+  </div>
+  <sc-if value="{{ showDev }}" hint-placeholder-val="{{ true }}">
+    <pre style="background:#201E1D;color:#F2EAD2;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.6;overflow:auto;margin:0 0 56px">FSScoreBadge(.e, size: .large, showsMeaning: true)
+FSScoreScale(.d)                       <span style="color:#A9B6C0">// échelle A–E, lettre courante agrandie + liseré</span>
+FSNutriScore(letter: food.grade)       <span style="color:#A9B6C0">// init depuis l'API Open Food Facts</span></pre>
+  </sc-if>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Typographie et espacements</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:22px;margin-bottom:56px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:Caprasimo,serif;font-size:34px;line-height:1">Bienvenue</span><span style="font:600 12px Figtree;color:#645C50">fsDisplay · 34</span></div>
+      <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:Caprasimo,serif;font-size:28px;line-height:1">Nutriments</span><span style="font:600 12px Figtree;color:#645C50">fsTitle · 28</span></div>
+      <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:Caprasimo,serif;font-size:22px;line-height:1">Pâte à tartiner</span><span style="font:600 12px Figtree;color:#645C50">fsHeadline · 22</span></div>
+      <div style="display:flex;align-items:baseline;gap:12px"><span style="font:400 19px Figtree">Ce produit est noté E.</span><span style="font:600 12px Figtree;color:#645C50">fsBody · 19</span></div>
+      <div style="display:flex;align-items:baseline;gap:12px"><span style="font:400 16px Figtree;color:#645C50">sur 100 g</span><span style="font:600 12px Figtree;color:#645C50">fsCaption · 16</span></div>
+      <div style="display:flex;align-items:baseline;gap:12px"><span style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase">En clair</span><span style="font:600 12px Figtree;color:#645C50">fsOverline · 12</span></div>
+      <p style="margin:4px 0 0;font-size:15px;line-height:1.5;color:#645C50;text-wrap:pretty">Caprasimo pour les titres, Figtree pour le texte. Le module retombe sur SF Rounded / SF Pro si les fichiers ne sont pas embarqués.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:24px">
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:14px">Échelle 4 pt — FSMetrics</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px"><div style="width:4px;height:18px;background:#D2432C"></div><span style="font:600 14px Figtree">space1 · 4</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="width:8px;height:18px;background:#D2432C"></div><span style="font:600 14px Figtree">space2 · 8</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="width:12px;height:18px;background:#D2432C"></div><span style="font:600 14px Figtree">space3 · 12</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="width:16px;height:18px;background:#D2432C"></div><span style="font:600 14px Figtree">space4 · 16 — padding de carte</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="width:20px;height:18px;background:#D2432C"></div><span style="font:600 14px Figtree">space5 · 20</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="width:24px;height:18px;background:#D2432C"></div><span style="font:600 14px Figtree">space6 · 24 — entre sections</span></div>
+      </div>
+      <div style="height:1px;background:#E2D8C6;margin:18px 0"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;font:400 15px/1.5 Figtree;color:#3C382F">
+        <span>Rayons : 10 / 14 / 20 / pilule</span>
+        <span>Cible tactile minimale : 44 pt</span>
+        <span>Hauteur de contrôle : 60 pt</span>
+        <span>Épaisseur d'anneau : 22 pt</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Motifs des nutriments</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:66ch">Cinq motifs, cinq nutriments. La couleur donne la saison, le motif porte l'information.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px">
+      <div style="width:52px;height:52px;border-radius:11px;background:repeating-linear-gradient(90deg,#C9A548 0 6px,#8a7030 6px 9px);border:1px solid rgba(0,0,0,.12)"></div>
+      <div style="display:flex;flex-direction:column"><span style="font:700 16px Figtree">Glucides</span><span style="font:400 14px Figtree;color:#645C50">barres verticales</span></div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px">
+      <div style="width:52px;height:52px;border-radius:11px;background:repeating-linear-gradient(45deg,#6E7F4F 0 4px,#3f4a2c 4px 8px);border:1px solid rgba(0,0,0,.12)"></div>
+      <div style="display:flex;flex-direction:column"><span style="font:700 16px Figtree">Lipides</span><span style="font:400 14px Figtree;color:#645C50">hachures</span></div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px">
+      <div style="width:52px;height:52px;border-radius:11px;background:radial-gradient(circle at 50% 50%,#3a1410 0 2.6px,#8F2F24 2.6px);background-size:11px 11px;border:1px solid rgba(0,0,0,.12)"></div>
+      <div style="display:flex;flex-direction:column"><span style="font:700 16px Figtree">Protéines</span><span style="font:400 14px Figtree;color:#645C50">pois</span></div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px">
+      <div style="width:52px;height:52px;border-radius:11px;background:#8A9AA6;background-image:linear-gradient(#3d4a52 1px,transparent 1px),linear-gradient(90deg,#3d4a52 1px,transparent 1px);background-size:11px 11px;border:1px solid rgba(0,0,0,.12)"></div>
+      <div style="display:flex;flex-direction:column"><span style="font:700 16px Figtree">Sel</span><span style="font:400 14px Figtree;color:#645C50">quadrillage</span></div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px">
+      <div style="width:52px;height:52px;border-radius:11px;background:#7D9152;border:1px solid rgba(0,0,0,.12);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:repeating-radial-gradient(circle at 0 50%,transparent 0 4px,#3f5024 4px 5px);opacity:.7"></div>
+      </div>
+      <div style="display:flex;flex-direction:column"><span style="font:700 16px Figtree">Fibres</span><span style="font:400 14px Figtree;color:#645C50">vagues</span></div>
+    </div>
+  </div>
+  <sc-if value="{{ showDev }}" hint-placeholder-val="{{ true }}">
+    <pre style="background:#201E1D;color:#F2EAD2;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.6;overflow:auto;margin:0 0 56px">FSNutrientRow(.carbs, grams: 57.5)                  <span style="color:#A9B6C0">// pastille + barre à motif + valeur</span>
+FSNutrientRing(segments: [.init(nutrient: .carbs, grams: 57.5)], score: .e)
+FSPatternSwatch(.protein, side: 26)
+FSNutrient.protein.seasonalSource(.springSummer)     <span style="color:#A9B6C0">// "haricot rouge"</span></pre>
+  </sc-if>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Atomes et molécules</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 22px;max-width:66ch">Tous les composants prennent des primitives — aucun modèle Realm ne traverse la frontière du module.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50">Atomes</span>
+      <div style="display:flex;flex-direction:column;gap:8px;font:400 16px/1.4 Figtree">
+        <span><strong>FSButton</strong> — pilule, 3 rôles, 60 pt</span>
+        <span><strong>FSIconButton</strong> — icône seule, libellé obligatoire</span>
+        <span><strong>FSTag</strong> — puce neutre / feuille / alerte</span>
+        <span><strong>FSScoreBadge</strong>, <strong>FSScoreScale</strong></span>
+        <span><strong>FSBarcodeField</strong>, <strong>FSKeypad</strong></span>
+        <span><strong>FSToggleRow</strong>, <strong>FSTextSizeSlider</strong></span>
+        <span><strong>FSPattern</strong>, <strong>FSPatternSwatch</strong></span>
+        <span><strong>FSMascot</strong>, <strong>FSMascotRow</strong></span>
+      </div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50">Molécules</span>
+      <div style="display:flex;flex-direction:column;gap:8px;font:400 16px/1.4 Figtree">
+        <span><strong>FSProductCard</strong> — identité + score + encart de saison</span>
+        <span><strong>FSSeasonalHint</strong> — mascotte + conseil</span>
+        <span><strong>FSNutrientRow</strong>, <strong>FSNutrientRing</strong>, <strong>FSNutrientLegend</strong></span>
+        <span><strong>FSScanStatusBanner</strong> — 5 états, haptique + VoiceOver</span>
+        <span><strong>FSHistoryRow</strong>, <strong>FSOfflineBanner</strong></span>
+        <span><strong>FSSceneFooter</strong> — labo, pique-nique, chalet</span>
+      </div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50">Accessibilité intégrée</span>
+      <div style="display:flex;flex-direction:column;gap:8px;font:400 16px/1.4 Figtree">
+        <span>Dynamic Type jusqu'à AX5, lignes qui se rempilent</span>
+        <span>Motif systématique en plus de la couleur</span>
+        <span>Libellés VoiceOver rédigés en français</span>
+        <span>Reduce Motion respecté (<code style="font-size:14px">fsAnimation</code>)</span>
+        <span>Cibles 44 pt garanties (<code style="font-size:14px">fsMinTouchTarget</code>)</span>
+        <span><code style="font-size:14px">FSHaptics</code>, <code style="font-size:14px">FSAnnounce</code></span>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ showDev }}" hint-placeholder-val="{{ true }}">
+    <pre style="background:#201E1D;color:#F2EAD2;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.6;overflow:auto;margin:0 0 56px">FSProductCard(name: food.name,
+              brand: food.brand,
+              quantity: "400 g",
+              score: FSNutriScore(letter: food.grade ?? ""),
+              imageURL: url,
+              seasonalHint: "De saison en ce moment : la fraise, notée A.")
+
+FSScanStatusBanner(.found("Pâte à tartiner"))   <span style="color:#A9B6C0">// annonce VoiceOver + haptique automatiques</span>
+FSHistoryRow(name: "Yaourt nature", subtitle: "Scanné hier", score: .a) { open() }
+FSSceneFooter(.picnic, caption: "Les douze dernières fiches restent lisibles hors ligne.")</pre>
+  </sc-if>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Mascottes</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:66ch">Six aliments en style BD super-deformed, dessinés en <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">Canvas</code> : aucun asset, animation de respiration coupée si Reduce Motion est actif. Décoratives par défaut pour VoiceOver.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px">
+    <div style="background:#FBF7EF;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px"><div style="font:700 16px Figtree">Fraise</div><div style="font:400 14px Figtree;color:#645C50">printemps-été</div></div>
+    <div style="background:#FBF7EF;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px"><div style="font:700 16px Figtree">Petit pois</div><div style="font:400 14px Figtree;color:#645C50">printemps-été</div></div>
+    <div style="background:#FBF7EF;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px"><div style="font:700 16px Figtree">Citron</div><div style="font:400 14px Figtree;color:#645C50">printemps-été</div></div>
+    <div style="background:#24201A;border:1.5px solid #4A4230;border-radius:16px;padding:16px;color:#F9F4ED"><div style="font:700 16px Figtree">Potimarron</div><div style="font:400 14px Figtree;color:#C0B6A5">automne-hiver</div></div>
+    <div style="background:#24201A;border:1.5px solid #4A4230;border-radius:16px;padding:16px;color:#F9F4ED"><div style="font:700 16px Figtree">Châtaigne</div><div style="font:400 14px Figtree;color:#C0B6A5">automne-hiver</div></div>
+    <div style="background:#24201A;border:1.5px solid #4A4230;border-radius:16px;padding:16px;color:#F9F4ED"><div style="font:700 16px Figtree">Chou</div><div style="font:400 14px Figtree;color:#C0B6A5">automne-hiver</div></div>
+  </div>
+  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0 0 56px;max-width:70ch">Les trois saynètes (laboratoire, pique-nique, chalet) sont dessinées en <code style="font-size:15px">Canvas</code> par défaut. Les sources SVG sont livrées dans <code style="font-size:15px">Resources/Scenes/</code> avec <code style="font-size:15px">make-pdfs.sh</code> : dès qu'un PDF est déposé dans l'asset catalog, <code style="font-size:15px">FSSceneFooter</code> l'utilise à la place du dessin.</p>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Installation</h2>
+  <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px;margin-bottom:22px">
+    <div style="display:flex;gap:14px"><span style="flex:none;width:28px;height:28px;border-radius:999px;background:#D2432C;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15px Figtree">1</span><span style="font:400 17px/1.45 Figtree">Copier <code style="font-size:15px">FoodScannerUI/</code> à côté de <code style="font-size:15px">FoodScanner.xcodeproj</code>.</span></div>
+    <div style="display:flex;gap:14px"><span style="flex:none;width:28px;height:28px;border-radius:999px;background:#D2432C;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15px Figtree">2</span><span style="font:400 17px/1.45 Figtree">Xcode → <em>File ▸ Add Package Dependencies… ▸ Add Local…</em> → sélectionner le dossier.</span></div>
+    <div style="display:flex;gap:14px"><span style="flex:none;width:28px;height:28px;border-radius:999px;background:#D2432C;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15px Figtree">3</span><span style="font:400 17px/1.45 Figtree">Cible <code style="font-size:15px">FoodScanner</code> → <em>General ▸ Frameworks, Libraries and Embedded Content</em> → ajouter <code style="font-size:15px">FoodScannerUI</code>.</span></div>
+    <div style="display:flex;gap:14px"><span style="flex:none;width:28px;height:28px;border-radius:999px;background:#D2432C;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15px Figtree">4</span><span style="font:400 17px/1.45 Figtree"><code style="font-size:15px">import FoodScannerUI</code>, puis présenter <code style="font-size:15px">FSGalleryView()</code> dans un <code style="font-size:15px">UIHostingController</code> pour la recette.</span></div>
+  </div>
+  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0;max-width:70ch">La migration écran par écran de l'app UIKit est décrite dans <code style="font-size:15px">MIGRATION.md</code>, avec le tableau des correspondances et l'exemple de la fiche produit.</p>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDev&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Lecture&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return { showDev: this.props.showDev ?? true };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+//
+//  SettingsScreenView.swift
+//  FoodScanner
+//
+//  Écran Réglages : accessibilité, FSToggleRow/FSTextSizeSlider.
+//
+
+import SwiftUI
+import FoodScannerUI
+
+struct SettingsScreenView: View {
+    @ObservedObject var model: SettingsScreenModel
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: FSMetrics.space4) {
+                    FSToggleRow("Contraste élevé",
+                                explanation: "Renforce les bordures et le texte pour une meilleure lisibilité.",
+                                systemImage: "circle.lefthalf.filled",
+                                isOn: $model.highContrast)
+
+                    FSToggleRow("Réduire les animations",
+                                explanation: "Limite les mouvements et transitions à l'écran.",
+                                systemImage: "figure.walk.motion",
+                                isOn: $model.reduceAnimations)
+
+                    FSTextSizeSlider(scale: $model.textScale)
+                }
+                .padding(FSMetrics.space5)
+            }
+            .background(Color.fsBackground)
+            .navigationTitle("Réglages")
+            .navigationBarTitleDisplayMode(.large)
+            .dynamicTypeSize(AppDynamicTypeScale.dynamicTypeSize(for: model.textScale))
+        }
+    }
+}
+
+#Preview("Clair") {
+    SettingsScreenView(model: SettingsScreenModel())
+        .preferredColorScheme(.light)
+}
+
+#Preview("Sombre") {
+    SettingsScreenView(model: SettingsScreenModel())
+        .preferredColorScheme(.dark)
+}
+
+#Preview("Accessibilité XL") {
+    SettingsScreenView(model: SettingsScreenModel())
+        .environment(\.dynamicTypeSize, .accessibility5)
+}

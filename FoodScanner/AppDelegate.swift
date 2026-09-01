@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import FTLinearActivityIndicator
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
+        // L'indicateur d'activité réseau est désormais piloté par NetworkActivityManager
+        // (ObservableObject) et affiché directement dans les écrans SwiftUI concernés.
         return true
     }
 

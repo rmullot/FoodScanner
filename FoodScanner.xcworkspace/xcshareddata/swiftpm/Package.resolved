@@ -1,15 +1,6 @@
 {
-  "originHash" : "5a81565c01c10f8c71b87e4b7ca491a41739285473996bb9353165f4d29f8c74",
+  "originHash" : "5548e448399453766ab979c035e11fd3f3b2ed4b2a593432b92216fe0883cd98",
   "pins" : [
-    {
-      "identity" : "charts",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ChartsOrg/Charts.git",
-      "state" : {
-        "revision" : "dd9c72e3d7e751e769971092a6bd72d39198ae63",
-        "version" : "5.1.0"
-      }
-    },
     {
       "identity" : "collectionconcurrencykit",
       "kind" : "remoteSourceControl",
@@ -26,15 +17,6 @@
       "state" : {
         "revision" : "f2a627b84c1ff96f21ac2fcb623ab36142dd5512",
         "version" : "1.10.0"
-      }
-    },
-    {
-      "identity" : "ftlinearactivityindicator",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/futuretap/FTLinearActivityIndicator.git",
-      "state" : {
-        "revision" : "52764c13cbceca291eae9f01c8dd612bb7369b71",
-        "version" : "2.0.2"
       }
     },
     {

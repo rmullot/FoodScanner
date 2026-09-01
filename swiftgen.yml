@@ -7,10 +7,3 @@ xcassets:
   outputs:
     - templateName: swift5
       output: Generated/Assets.swift
-
-storyboards:
-  inputs:
-    - View/Base.lproj
-  outputs:
-    - templateName: scenes-swift5
-      output: Generated/Storyboards.swift

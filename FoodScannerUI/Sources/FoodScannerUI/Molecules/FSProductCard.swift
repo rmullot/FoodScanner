@@ -2,12 +2,18 @@ import SwiftUI
 
 /// Carte produit : le bloc d'identité d'un aliment scanné.
 /// N'accepte que des primitives — aucun couplage aux modèles Realm de l'app.
+///
+/// Ne fait aucun travail asynchrone (pas de téléchargement, pas de cache) :
+/// `thumbnail` est une image déjà résolue, chargée et mise en cache en amont
+/// par l'app (voir `ImageCacheManager`). FoodScannerUI reste un pur rendu
+/// synchrone, réutilisable indépendamment de la stratégie de chargement/cache
+/// choisie côté app.
 public struct FSProductCard: View {
     private let name: String
     private let brand: String?
     private let quantity: String?
     private let score: FSNutriScore?
-    private let imageURL: URL?
+    private let thumbnail: Image?
     private let seasonalHint: String?
 
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -16,20 +22,20 @@ public struct FSProductCard: View {
                 brand: String? = nil,
                 quantity: String? = nil,
                 score: FSNutriScore? = nil,
-                imageURL: URL? = nil,
+                thumbnail: Image? = nil,
                 seasonalHint: String? = nil) {
         self.name = name
         self.brand = brand
         self.quantity = quantity
         self.score = score
-        self.imageURL = imageURL
+        self.thumbnail = thumbnail
         self.seasonalHint = seasonalHint
     }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space4) {
             HStack(alignment: .top, spacing: FSMetrics.space4) {
-                thumbnail
+                thumbnailView
                 VStack(alignment: .leading, spacing: FSMetrics.space1) {
                     if let brand {
                         Text(brand.uppercased())
@@ -66,19 +72,12 @@ public struct FSProductCard: View {
         .accessibilityElement(children: .contain)
     }
 
-    @ViewBuilder private var thumbnail: some View {
+    @ViewBuilder private var thumbnailView: some View {
         ZStack {
             RoundedRectangle(cornerRadius: FSMetrics.radiusMedium, style: .continuous)
                 .fill(Color.fsAccentSoft)
-            if let imageURL {
-                AsyncImage(url: imageURL) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image.resizable().scaledToFit()
-                    default:
-                        Image(systemName: "photo").foregroundStyle(Color.fsInkSecondary)
-                    }
-                }
+            if let thumbnail {
+                thumbnail.resizable().scaledToFit()
             } else {
                 Image(systemName: "shippingbox")
                     .font(.system(size: 26))
