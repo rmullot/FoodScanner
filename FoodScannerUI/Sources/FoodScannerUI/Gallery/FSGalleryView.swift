@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Galerie du design system : un onglet par atomes/molécules, un onglet
-/// par écran reconstitué. Sert de terrain de recette et de démo.
+/// Design system gallery: one tab per atoms/molecules, one tab
+/// per reconstructed screen. Serves as a QA and demo playground.
 public struct FSGalleryView: View {
     @State private var seasonOverride: FSSeason?
     @State private var code = "3017620422003"
@@ -30,7 +30,7 @@ public struct FSGalleryView: View {
         .tint(Color.fsAccent)
     }
 
-    // MARK: Onglet composants
+    // MARK: Components tab
 
     private var componentsTab: some View {
         ScrollView {
@@ -128,7 +128,7 @@ public struct FSGalleryView: View {
         }
     }
 
-    // MARK: Onglet écrans
+    // MARK: Screens tab
 
     private var screensTab: some View {
         ScrollView {
@@ -172,7 +172,7 @@ public struct FSGalleryView: View {
         }
     }
 
-    // MARK: Outils
+    // MARK: Tools
 
     private var seasonPicker: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space2) {

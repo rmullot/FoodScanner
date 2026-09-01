@@ -1,10 +1,10 @@
 import SwiftUI
 
-/// Les deux palettes saisonnières de la charte FoodScanner.
+/// The two seasonal palettes of the FoodScanner design system.
 ///
-/// Par défaut la saison suit le `ColorScheme` (clair → printemps-été,
-/// sombre → automne-hiver). Elle peut être forcée par date réelle ou
-/// injectée explicitement dans un sous-arbre.
+/// By default the season follows the `ColorScheme` (light → spring-summer,
+/// dark → autumn-winter). It can be forced by real date or explicitly
+/// injected in a subtree.
 public enum FSSeason: String, CaseIterable, Sendable {
     case springSummer
     case autumnWinter
@@ -16,7 +16,7 @@ public enum FSSeason: String, CaseIterable, Sendable {
         }
     }
 
-    /// Saison déduite du mois courant (mars→août : printemps-été).
+    /// Season inferred from the current month (March→August: spring-summer).
     public static func current(_ date: Date = Date(), calendar: Calendar = .current) -> FSSeason {
         let month = calendar.component(.month, from: date)
         return (3...8).contains(month) ? .springSummer : .autumnWinter
@@ -26,7 +26,7 @@ public enum FSSeason: String, CaseIterable, Sendable {
         scheme == .dark ? .autumnWinter : .springSummer
     }
 
-    /// Les trois aliments-mascottes de la saison.
+    /// The season's three food mascots.
     public var mascots: [FSMascot.Kind] {
         switch self {
         case .springSummer: return [.strawberry, .pea, .lemon]
@@ -42,7 +42,7 @@ private struct FSSeasonKey: EnvironmentKey {
 }
 
 public extension EnvironmentValues {
-    /// Saison forcée pour ce sous-arbre. `nil` = suit le thème.
+    /// Season forced for this subtree. `nil` = follows the theme.
     var fsSeasonOverride: FSSeason? {
         get { self[FSSeasonKey.self] }
         set { self[FSSeasonKey.self] = newValue }
@@ -50,18 +50,18 @@ public extension EnvironmentValues {
 }
 
 public extension View {
-    /// Force une saison sur ce sous-arbre.
+    /// Forces a season on this subtree.
     func fsSeason(_ season: FSSeason?) -> some View {
         environment(\.fsSeasonOverride, season)
     }
 
-    /// Fait suivre la saison au calendrier réel plutôt qu'au thème.
+    /// Makes the season follow the real calendar rather than the theme.
     func fsSeasonFollowsCalendar(_ date: Date = Date()) -> some View {
         environment(\.fsSeasonOverride, FSSeason.current(date))
     }
 }
 
-/// Lit la saison effective : surcharge d'environnement, sinon le thème.
+/// Reads the effective season: environment override, otherwise the theme.
 @propertyWrapper
 public struct FSResolvedSeason: DynamicProperty {
     @Environment(\.fsSeasonOverride) private var override

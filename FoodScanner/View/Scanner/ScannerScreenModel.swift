@@ -2,9 +2,9 @@
 //  ScannerScreenModel.swift
 //  FoodScanner
 //
-//  ObservableObject natif remplaçant ScannerViewModel (propertyChanged/PropertyKeys).
-//  Appelle directement les Managers async ; aucun objet Realm managé ne traverse
-//  cette frontière, uniquement des FoodStruct (Sendable).
+//  Native ObservableObject replacing ScannerViewModel (propertyChanged/PropertyKeys).
+//  Calls the async Managers directly; no managed Realm object crosses this
+//  boundary, only FoodStruct (Sendable).
 //
 
 import Foundation
@@ -33,8 +33,8 @@ final class ScannerScreenModel: ObservableObject {
             }
     }
 
-    /// Récupère (ou relit) un produit et le publie via `scannedFood` pour piloter
-    /// la navigation locale de l'onglet Scanner.
+    /// Fetches (or re-reads) a product and publishes it via `scannedFood` to drive
+    /// the Scanner tab's local navigation.
     func getFoodInformations(barcode: String) {
         guard self.barcode != barcode else {
             if let food {
@@ -83,7 +83,7 @@ final class ScannerScreenModel: ObservableObject {
         }
     }
 
-    /// Consommé après navigation pour permettre un nouveau scan du même code-barres.
+    /// Consumed after navigation to allow a new scan of the same barcode.
     func consumeScannedFood() {
         scannedFood = nil
     }

@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Le Nutri-Score. Les aplats sont ceux de la charte officielle et ne
-/// changent pas avec le thème ; seul l'entourage suit la saison.
+/// The Nutri-Score. The flat colors are the official chart's and do not
+/// change with the theme; only the surrounding follows the season.
 public enum FSNutriScore: String, CaseIterable, Identifiable, Sendable {
     case a = "A", b = "B", c = "C", d = "D", e = "E"
 
@@ -17,7 +17,7 @@ public enum FSNutriScore: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// Blanc partout sauf sur le jaune C, où le noir est requis pour le contraste.
+    /// White everywhere except on the C yellow, where black is required for contrast.
     public var letterColor: Color {
         self == .c ? Color(hex: 0x1D1D1B) : .white
     }
@@ -37,7 +37,7 @@ public enum FSNutriScore: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
-/// Badge unitaire : la lettre sur son aplat officiel.
+/// Single badge: the letter on its official flat color.
 public struct FSScoreBadge: View {
     public enum Size { case small, medium, large
 
@@ -92,8 +92,8 @@ public struct FSScoreBadge: View {
     }
 }
 
-/// Échelle A–E complète avec la lettre courante mise en avant.
-/// La sélection est signalée par la taille et un liseré, jamais par la couleur seule.
+/// Full A–E scale with the current letter highlighted.
+/// Selection is conveyed by size and an outline, never by color alone.
 public struct FSScoreScale: View {
     private let score: FSNutriScore
     @Environment(\.dynamicTypeSize) private var typeSize

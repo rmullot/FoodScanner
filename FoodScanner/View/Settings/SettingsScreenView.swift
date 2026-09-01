@@ -2,7 +2,7 @@
 //  SettingsScreenView.swift
 //  FoodScanner
 //
-//  Écran Réglages : accessibilité, FSToggleRow/FSTextSizeSlider.
+//  Settings screen: accessibility, FSToggleRow/FSTextSizeSlider.
 //
 
 import SwiftUI

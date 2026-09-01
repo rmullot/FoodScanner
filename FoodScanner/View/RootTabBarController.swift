@@ -2,9 +2,9 @@
 //  RootTabBarController.swift
 //  FoodScanner
 //
-//  Racine à 3 onglets (Scanner / Historique / Réglages), chacun un
-//  UIHostingController dans son propre UINavigationController. Remplace la
-//  navigation push storyboard (NavigationManager) et le SceneDelegate storyboard.
+//  3-tab root (Scanner / History / Settings), each a UIHostingController in
+//  its own UINavigationController. Replaces the push-based storyboard
+//  navigation (NavigationManager) and the storyboard SceneDelegate.
 //
 
 import UIKit
@@ -36,11 +36,11 @@ final class RootTabBarController: UITabBarController {
         presentOnboardingIfNeeded()
     }
 
-    /// Chaque écran possède déjà sa propre `NavigationStack` SwiftUI (barre de
-    /// navigation + `.navigationTitle` gérés côté SwiftUI). On héberge donc le
-    /// `UIHostingController` directement dans l'onglet, sans l'envelopper dans
-    /// un `UINavigationController` UIKit supplémentaire — sinon deux barres de
-    /// navigation se superposent et le titre s'affiche en double.
+    /// Each screen already owns its own SwiftUI `NavigationStack` (navigation
+    /// bar + `.navigationTitle` managed on the SwiftUI side). We therefore
+    /// host the `UIHostingController` directly in the tab, without wrapping
+    /// it in an additional UIKit `UINavigationController` — otherwise two
+    /// navigation bars stack up and the title is displayed twice.
     private static func embed<Content: View>(_ view: Content, title: String, systemImage: String) -> UIViewController {
         let hosting = UIHostingController(rootView: view.appWideAccessibilitySettings())
         hosting.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: systemImage), selectedImage: nil)

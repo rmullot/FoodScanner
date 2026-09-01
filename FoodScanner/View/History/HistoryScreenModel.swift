@@ -2,8 +2,8 @@
 //  HistoryScreenModel.swift
 //  FoodScanner
 //
-//  ObservableObject exposant les produits déjà consultés (FoodSummary,
-//  Sendable) : lecture cache via RealmManager, jamais d'objet Realm managé.
+//  ObservableObject exposing already viewed products (FoodSummary,
+//  Sendable): cache read via RealmManager, never a managed Realm object.
 //
 
 import Foundation

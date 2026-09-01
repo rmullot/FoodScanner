@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// Carte produit : le bloc d'identité d'un aliment scanné.
-/// N'accepte que des primitives — aucun couplage aux modèles Realm de l'app.
+/// Product card: the identity block of a scanned food item.
+/// Only accepts primitives — no coupling to the app's Realm models.
 ///
-/// Ne fait aucun travail asynchrone (pas de téléchargement, pas de cache) :
-/// `thumbnail` est une image déjà résolue, chargée et mise en cache en amont
-/// par l'app (voir `ImageCacheManager`). FoodScannerUI reste un pur rendu
-/// synchrone, réutilisable indépendamment de la stratégie de chargement/cache
-/// choisie côté app.
+/// Does no asynchronous work (no downloading, no caching):
+/// `thumbnail` is an already resolved image, loaded and cached upstream
+/// by the app (see `ImageCacheManager`). FoodScannerUI stays a pure
+/// synchronous render, reusable independently of the loading/caching
+/// strategy chosen on the app side.
 public struct FSProductCard: View {
     private let name: String
     private let brand: String?
@@ -89,7 +89,7 @@ public struct FSProductCard: View {
     }
 }
 
-/// Encart « de saison » : une mascotte et une phrase pédagogique.
+/// "In season" panel: a mascot and an educational sentence.
 public struct FSSeasonalHint: View {
     private let text: String
     @FSResolvedSeason private var season
@@ -113,7 +113,7 @@ public struct FSSeasonalHint: View {
     }
 }
 
-/// Bandeau d'état du scan, du viseur jusqu'au résultat.
+/// Scan status banner, from the viewfinder to the result.
 public struct FSScanStatusBanner: View {
     public enum State: Equatable {
         case aiming
@@ -206,7 +206,7 @@ public struct FSScanStatusBanner: View {
     }
 }
 
-/// Ligne d'historique : produit déjà consulté, avec son score et sa fraîcheur.
+/// History row: already viewed product, with its score and recency.
 public struct FSHistoryRow: View {
     private let name: String
     private let subtitle: String
@@ -270,7 +270,7 @@ public struct FSHistoryRow: View {
     }
 }
 
-/// Bannière hors ligne, à poser en haut d'une liste.
+/// Offline banner, to place at the top of a list.
 public struct FSOfflineBanner: View {
     private let text: String
 

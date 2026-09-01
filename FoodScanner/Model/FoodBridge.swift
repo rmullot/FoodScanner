@@ -2,18 +2,18 @@
 //  FoodBridge.swift
 //  FoodScanner
 //
-//  Pont entre les structs Codable de l'app (FoodStruct/NutrientStruct) et les
-//  types du design system FoodScannerUI. Vit côté app (pas dans le package)
-//  pour que FoodScannerUI reste indépendant du modèle métier de FoodScanner.
+//  Bridge between the app's Codable structs (FoodStruct/NutrientStruct) and
+//  the FoodScannerUI design system types. Lives on the app side (not in the
+//  package) so that FoodScannerUI stays independent of FoodScanner's domain model.
 //
 
 import Foundation
 import FoodScannerUI
 
 extension NutrientStruct {
-    /// Mappe le nom français `MainNutrientName` vers le nutriment de la charte.
-    /// "Sucres" n'a volontairement pas d'équivalent `FSNutrient` (confirmé dans
-    /// `FSPattern.swift`) : il reste affiché en texte simple, jamais en barre.
+    /// Maps the French `MainNutrientName` name to the design system nutrient.
+    /// "Sucres" (sugars) intentionally has no `FSNutrient` equivalent (confirmed
+    /// in `FSPattern.swift`): it stays displayed as plain text, never as a bar.
     var fsKind: FSNutrient? {
         guard type == NutrientType.mainNutrient.rawValue else { return nil }
         switch name {
@@ -28,9 +28,8 @@ extension NutrientStruct {
 }
 
 extension FoodStruct {
-    /// Liste des barres de nutriments principaux ("Score puis barres"), en
-    /// excluant les calories, les sous-nutriments et tout nutriment sans
-    /// équivalent `FSNutrient`.
+    /// List of main nutrient bars ("Score then bars"), excluding calories,
+    /// sub-nutrients, and any nutrient without an `FSNutrient` equivalent.
     var nutrientBars: [(FSNutrient, Double)] {
         nutrients.compactMap { nutrient in
             guard let kind = nutrient.fsKind else { return nil }
@@ -38,12 +37,12 @@ extension FoodStruct {
         }
     }
 
-    /// Le Nutri-Score de la charte, à partir de la lettre décodée depuis l'API.
+    /// The design system Nutri-Score, from the letter decoded from the API.
     var fsNutriScore: FSNutriScore? {
         nutriscoreGrade.flatMap { FSNutriScore(letter: $0) }
     }
 
-    /// Le nutriment "Calories", affiché en texte simple (pas de barre).
+    /// The "Calories" nutrient, displayed as plain text (no bar).
     var caloriesNutrient: NutrientStruct? {
         nutrients.first { $0.type == NutrientType.calories.rawValue }
     }

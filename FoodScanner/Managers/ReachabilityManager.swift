@@ -5,9 +5,9 @@
 //  Created by Romain Mullot on 22/10/2018.
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
-//  Publie `onlineMode` via `@Published` (ObservableObject) : observable
-//  directement depuis SwiftUI (@ObservedObject / Combine `$onlineMode`),
-//  sans passer par l'ancien couple delegate + MulticastDelegate.
+//  Publishes `onlineMode` via `@Published` (ObservableObject): observable
+//  directly from SwiftUI (@ObservedObject / Combine `$onlineMode`),
+//  without going through the former delegate + MulticastDelegate pair.
 //
 
 import Foundation
@@ -135,9 +135,9 @@ public final class ReachabilityManager: ObservableObject {
         }
     }
 
-    /// `@Published` doit être mutée sur le thread principal pour que SwiftUI/Combine
-    /// se resynchronisent correctement ; la lib Reachability vendored peut notifier
-    /// depuis un thread quelconque.
+    /// `@Published` must be mutated on the main thread for SwiftUI/Combine
+    /// to resynchronize correctly; the vendored Reachability lib may notify
+    /// from an arbitrary thread.
     private func publish(_ newMode: OnlineMode) {
         if Thread.isMainThread {
             onlineMode = newMode

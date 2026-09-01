@@ -2,8 +2,8 @@
 //  OnboardingView.swift
 //  FoodScanner
 //
-//  Écran d'accueil/permissions : bienvenue + autorisation caméra.
-//  Présenté en .fullScreenCover depuis la racine au premier lancement.
+//  Welcome/permissions screen: welcome + camera authorization.
+//  Presented as a .fullScreenCover from the root on first launch.
 //
 
 import SwiftUI

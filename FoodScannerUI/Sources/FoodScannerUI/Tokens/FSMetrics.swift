@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// Espacements, rayons et cibles tactiles de la charte.
+/// Spacing, radii, and touch targets of the design system.
 public enum FSMetrics {
-    /// Échelle 4 pt.
+    /// 4 pt scale.
     public static let space1: CGFloat = 4
     public static let space2: CGFloat = 8
     public static let space3: CGFloat = 12
@@ -17,25 +17,25 @@ public enum FSMetrics {
     public static let radiusLarge: CGFloat = 20
     public static let radiusPill: CGFloat = 999
 
-    /// Aucun élément interactif ne descend sous cette hauteur.
+    /// No interactive element goes below this height.
     public static let minTouchTarget: CGFloat = 44
-    /// Hauteur nominale des boutons et champs de la charte.
+    /// Nominal height of design system buttons and fields.
     public static let controlHeight: CGFloat = 60
 
     public static let borderWidth: CGFloat = 1.5
     public static let borderWidthStrong: CGFloat = 2
-    /// Épaisseur des anneaux de nutriments.
+    /// Thickness of nutrient rings.
     public static let ringWidth: CGFloat = 22
 }
 
 public extension View {
-    /// Garantit la cible tactile de 44 pt sans changer le rendu visuel.
+    /// Guarantees the 44 pt touch target without changing the visual rendering.
     func fsMinTouchTarget() -> some View {
         frame(minWidth: FSMetrics.minTouchTarget, minHeight: FSMetrics.minTouchTarget)
             .contentShape(Rectangle())
     }
 
-    /// Carte de la charte : fond, rayon, bordure fine.
+    /// Design system card: background, radius, thin border.
     func fsCard(radius: CGFloat = FSMetrics.radiusLarge) -> some View {
         background(
             RoundedRectangle(cornerRadius: radius, style: .continuous)

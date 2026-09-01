@@ -2,8 +2,8 @@
 //  SettingsScreenModel.swift
 //  FoodScanner
 //
-//  Réglages accessibilité, persistés via @AppStorage (contraste élevé,
-//  réduction des animations, taille du texte).
+//  Accessibility settings, persisted via @AppStorage (high contrast,
+//  reduce animations, text size).
 //
 
 import Foundation

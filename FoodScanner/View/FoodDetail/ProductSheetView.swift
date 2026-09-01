@@ -2,8 +2,8 @@
 //  ProductSheetView.swift
 //  FoodScanner
 //
-//  Fiche produit : remplace FoodCollectionReusableView. Vue passive, purement
-//  alimentée par FoodDetailModel.
+//  Product sheet: replaces FoodCollectionReusableView. Passive view, purely
+//  fed by FoodDetailModel.
 //
 
 import SwiftUI
