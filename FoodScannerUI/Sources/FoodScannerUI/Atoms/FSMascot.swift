@@ -21,12 +21,12 @@ public struct FSMascot: View {
 
         public var frenchName: String {
             switch self {
-            case .strawberry: return "Fraise"
-            case .pea: return "Petit pois"
-            case .lemon: return "Citron"
-            case .squash: return "Potimarron"
-            case .chestnut: return "Châtaigne"
-            case .cabbage: return "Chou"
+            case .strawberry: return FSL10n.Mascot.Name.strawberry
+            case .pea: return FSL10n.Mascot.Name.pea
+            case .lemon: return FSL10n.Mascot.Name.lemon
+            case .squash: return FSL10n.Mascot.Name.squash
+            case .chestnut: return FSL10n.Mascot.Name.chestnut
+            case .cabbage: return FSL10n.Mascot.Name.cabbage
             }
         }
 
@@ -95,7 +95,7 @@ public struct FSMascot: View {
         .fsAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true), value: bounce)
         .onAppear { if !reduceMotion { bounce = true } }
         .accessibilityHidden(isDecorative)
-        .accessibilityLabel(isDecorative ? "" : "\(kind.frenchName), mascotte \(kind.season.frenchName.lowercased())")
+        .accessibilityLabel(isDecorative ? "" : FSL10n.Mascot.accessibilityLabel(kind.frenchName, kind.season.frenchName.lowercased()))
     }
 
     // MARK: - Drawing

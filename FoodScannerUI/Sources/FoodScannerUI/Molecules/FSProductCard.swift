@@ -132,21 +132,21 @@ public struct FSScanStatusBanner: View {
 
         var title: String {
             switch self {
-            case .aiming: return "Cadrez le code-barres"
-            case .reading: return "Lecture en cours…"
+            case .aiming: return FSL10n.ProductCard.ScanStatus.Title.aiming
+            case .reading: return FSL10n.ProductCard.ScanStatus.Title.reading
             case .found(let name): return name
-            case .notFound: return "Produit introuvable"
-            case .offline: return "Hors ligne"
+            case .notFound: return FSL10n.ProductCard.ScanStatus.Title.notFound
+            case .offline: return FSL10n.ProductCard.ScanStatus.Title.offline
             }
         }
 
         var detail: String {
             switch self {
-            case .aiming: return "Approchez l'appareil à dix centimètres, la lumière aide."
-            case .reading: return "On interroge Open Food Facts."
-            case .found: return "Fiche prête, faites glisser pour voir les nutriments."
-            case .notFound: return "Ce code n'existe pas encore dans la base. Vous pouvez l'ajouter."
-            case .offline: return "Les douze dernières fiches restent consultables."
+            case .aiming: return FSL10n.ProductCard.ScanStatus.Detail.aiming
+            case .reading: return FSL10n.ProductCard.ScanStatus.Detail.reading
+            case .found: return FSL10n.ProductCard.ScanStatus.Detail.found
+            case .notFound: return FSL10n.ProductCard.ScanStatus.Detail.notFound
+            case .offline: return FSL10n.ProductCard.ScanStatus.Detail.offline
             }
         }
 
@@ -162,10 +162,47 @@ public struct FSScanStatusBanner: View {
     }
 
     private let state: State
+    private let onFoundTap: (() -> Void)?
 
-    public init(_ state: State) { self.state = state }
+    /// - Parameter onFoundTap: optional action invoked when the banner is tapped
+    ///   while `state` is `.found`. When `nil` (default), or for any other state,
+    ///   the banner stays a passive, non-interactive element exactly as before.
+    public init(_ state: State, onFoundTap: (() -> Void)? = nil) {
+        self.state = state
+        self.onFoundTap = onFoundTap
+    }
 
     public var body: some View {
+        if case .found = state, let onFoundTap {
+            Button(action: onFoundTap) {
+                content
+            }
+            .buttonStyle(FSPressStyle())
+            .frame(minHeight: FSMetrics.minTouchTarget)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(state.title). \(state.detail)")
+            .accessibilityHint(FSL10n.ProductCard.ScanStatus.foundHint)
+            .onChange(of: state) { newValue in
+                FSAnnounce.say("\(newValue.title). \(newValue.detail)")
+                FSHaptics.play(.scanSuccess)
+            }
+        } else {
+            content
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("\(state.title). \(state.detail)")
+                .onChange(of: state) { newValue in
+                    FSAnnounce.say("\(newValue.title). \(newValue.detail)")
+                    switch newValue {
+                    case .found: FSHaptics.play(.scanSuccess)
+                    case .notFound: FSHaptics.play(.scanFailure)
+                    case .offline: FSHaptics.play(.warning)
+                    default: break
+                    }
+                }
+        }
+    }
+
+    @ViewBuilder private var content: some View {
         HStack(spacing: FSMetrics.space3) {
             Image(systemName: state.icon)
                 .font(.system(size: 24, weight: .semibold))
@@ -192,17 +229,6 @@ public struct FSScanStatusBanner: View {
             RoundedRectangle(cornerRadius: FSMetrics.radiusLarge, style: .continuous)
                 .strokeBorder(tint.opacity(0.4), lineWidth: FSMetrics.borderWidthStrong)
         )
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(state.title). \(state.detail)")
-        .onChange(of: state) { newValue in
-            FSAnnounce.say("\(newValue.title). \(newValue.detail)")
-            switch newValue {
-            case .found: FSHaptics.play(.scanSuccess)
-            case .notFound: FSHaptics.play(.scanFailure)
-            case .offline: FSHaptics.play(.warning)
-            default: break
-            }
-        }
     }
 
     private var tint: Color {
@@ -273,8 +299,8 @@ public struct FSHistoryRow: View {
         }
         .buttonStyle(FSPressStyle())
         .accessibilityLabel(name)
-        .accessibilityValue(score.map { "Nutri-Score \($0.rawValue). \(subtitle)" } ?? subtitle)
-        .accessibilityHint("Ouvre la fiche du produit")
+        .accessibilityValue(score.map { FSL10n.ProductCard.History.scoreValue($0.rawValue, subtitle) } ?? subtitle)
+        .accessibilityHint(FSL10n.ProductCard.History.hint)
     }
 }
 
@@ -282,7 +308,7 @@ public struct FSHistoryRow: View {
 public struct FSOfflineBanner: View {
     private let text: String
 
-    public init(text: String = "Vous êtes hors ligne. Les fiches déjà consultées restent lisibles.") {
+    public init(text: String = FSL10n.ProductCard.OfflineBanner.defaultText) {
         self.text = text
     }
 

@@ -6,11 +6,12 @@
 //
 //  Scanner screen: replaces ScannerViewController (AVFoundation) + manual
 //  UISearchBar/UIToolbar entry with FSBarcodeField/FSKeypad. A successful
-//  scan/entry pushes ProductSheetView -> NutrientsScreenView via a
-//  NavigationStack local to this tab.
+//  scan/entry shows a tappable "found" banner; tapping it pushes
+//  ProductDetailScreenView via a NavigationStack local to this tab.
 //
 
 import SwiftUI
+import AVFoundation
 import FoodScannerUI
 
 struct ScannerScreenView: View {
@@ -19,14 +20,29 @@ struct ScannerScreenView: View {
     @State private var code: String = ""
     @State private var showsKeypad: Bool = false
     @State private var path = NavigationPath()
+    // Camera authorization is only ever requested from OnboardingView
+    // (AVCaptureDevice.requestAccess, triggered by the "Autoriser la caméra"
+    // button). This screen must never itself be the trigger of the implicit
+    // system permission prompt: `.startRunning()` on the capture session
+    // triggers it, so `CameraPreviewView` is only constructed once the
+    // authorization status is already `.authorized`. Before onboarding runs
+    // (status `.notDetermined`), or if the user denied/restricted access, a
+    // placeholder is shown instead — manual entry (FSBarcodeField/FSKeypad)
+    // stays available regardless, so scanning by barcode is never blocked.
+    @State private var cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
 
     var body: some View {
         NavigationStack(path: $path) {
             ZStack(alignment: .top) {
-                CameraPreviewView { barcode in
-                    model.getFoodInformations(barcode: barcode)
+                if cameraAuthorizationStatus == .authorized {
+                    CameraPreviewView { barcode in
+                        model.getFoodInformations(barcode: barcode)
+                    }
+                    .ignoresSafeArea()
+                } else {
+                    cameraUnavailablePlaceholder
+                        .ignoresSafeArea()
                 }
-                .ignoresSafeArea()
 
                 if networkActivity.isActive {
                     ProgressView()
@@ -34,7 +50,7 @@ struct ScannerScreenView: View {
                         .tint(Color.fsAccent)
                         .padding(FSMetrics.space3)
                         .accessibilityElement(children: .ignore)
-                        .accessibilityLabel("Requête réseau en cours")
+                        .accessibilityLabel(L10n.Scanner.networkActivityLabel)
                         .frame(maxWidth: .infinity, alignment: .topTrailing)
                         // Hidden while FSScanStatusBanner occupies the top of the screen,
                         // to avoid any visual overlap with the banner.
@@ -42,7 +58,7 @@ struct ScannerScreenView: View {
                 }
 
                 if let banner = model.banner {
-                    FSScanStatusBanner(banner)
+                    FSScanStatusBanner(banner, onFoundTap: onFoundTap(for: banner))
                         .padding(.horizontal, FSMetrics.space3)
                         .padding(.top, FSMetrics.space3)
                 }
@@ -84,13 +100,20 @@ struct ScannerScreenView: View {
                                             model.getFoodInformations(barcode: code)
                                         }
                                     }
+                                    // Gives the system scroll indicator its own lane on the
+                                    // trailing edge, matched by an equal leading inset so the
+                                    // panel's content stays visually centered within its card
+                                    // rather than shifting off-center relative to the card's
+                                    // otherwise-symmetric margins (`.padding(FSMetrics.space4)`
+                                    // + `.padding(.horizontal, FSMetrics.space3)` below).
+                                    .padding(.horizontal, FSMetrics.space2)
                                 }
                                 .frame(maxHeight: proxy.size.height * 0.55)
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                             }
 
                             HStack {
-                                FSButton(showsKeypad ? "Masquer le pavé" : "Pavé numérique",
+                                FSButton(showsKeypad ? L10n.Scanner.hideKeypadButton : L10n.Scanner.showKeypadButton,
                                          role: .quiet,
                                          systemImage: "square.grid.3x3") {
                                     // Dismiss the system keyboard before showing FSKeypad:
@@ -102,7 +125,7 @@ struct ScannerScreenView: View {
                                     showsKeypad.toggle()
                                 }
                                 FSIconButton(systemImage: model.lampActivated ? "flashlight.on.fill" : "flashlight.off.fill",
-                                             label: model.lampActivated ? "Éteindre la lampe" : "Allumer la lampe") {
+                                             label: model.lampActivated ? L10n.Scanner.lampOffLabel : L10n.Scanner.lampOnLabel) {
                                     model.toggleLamp()
                                 }
                             }
@@ -115,20 +138,106 @@ struct ScannerScreenView: View {
                     }
                 }
             }
-            .navigationTitle("Scanner")
+            .navigationTitle(L10n.Common.tabScanner)
             .navigationBarTitleDisplayMode(.large)
             .navigationDestination(for: FoodStruct.self) { food in
-                ProductSheetView(model: FoodDetailModel(food: food))
+                ProductDetailScreenView(model: FoodDetailModel(food: food))
             }
-            .onChange(of: model.scannedFood) { food in
-                guard let food else { return }
-                path.append(food)
-                model.consumeScannedFood()
+            .onChange(of: path) { newPath in
+                // Back at root (fiche popped/dismissed): re-arm detection so the
+                // same barcode can be scanned again. See
+                // `ScannerScreenModel.resetForNewScan()`.
+                if newPath.isEmpty {
+                    model.resetForNewScan()
+                }
+            }
+            .onChange(of: model.banner) { newBanner in
+                // Navigation is no longer automatic once a product is found
+                // (the user must tap the banner — see `onFoundTap(for:)`), so
+                // a VoiceOver user not already focused on the banner needs an
+                // explicit announcement that it just became tappable;
+                // otherwise the state change is silent for them, unlike a
+                // sighted user who sees the banner appear.
+                if case .found = newBanner {
+                    UIAccessibility.post(notification: .announcement,
+                                          argument: L10n.Scanner.productFoundAnnouncement)
+                }
             }
             .onDisappear {
                 model.forceSwitchOffLamp()
             }
+            .onAppear {
+                updateCameraAuthorizationStatus()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                // Covers returning from the iOS Settings app after granting
+                // camera access there (status changes without this view
+                // reappearing via SwiftUI's own lifecycle).
+                updateCameraAuthorizationStatus()
+            }
         }
+    }
+
+    /// Builds the tap action for `FSScanStatusBanner`: only the `.found` state
+    /// gets a tappable banner (pushes the resolved product onto this tab's
+    /// NavigationStack); every other state (`.reading`, `.notFound`, `.offline`)
+    /// gets `nil`, so `FSScanStatusBanner` renders passively with no tap
+    /// affordance for those states.
+    private func onFoundTap(for banner: FSScanStatusBanner.State) -> (() -> Void)? {
+        guard case .found = banner else { return nil }
+        return {
+            guard let food = model.scannedFood else { return }
+            path.append(food)
+            model.consumeScannedFood()
+        }
+    }
+
+    /// Refreshes `cameraAuthorizationStatus` (it may have changed since the
+    /// last time this view was on screen — onboarding just finished, or the
+    /// user granted/revoked access in iOS Settings), and, when access just
+    /// became available, posts a VoiceOver announcement: the camera preview
+    /// silently replaces the placeholder otherwise, which would leave
+    /// screen-reader users unaware the screen's content just changed.
+    private func updateCameraAuthorizationStatus() {
+        let newStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        let wasAuthorized = cameraAuthorizationStatus == .authorized
+        cameraAuthorizationStatus = newStatus
+        if !wasAuthorized && newStatus == .authorized {
+            UIAccessibility.post(notification: .announcement,
+                                  argument: L10n.Scanner.cameraActivatedAnnouncement)
+        }
+    }
+
+    /// Shown instead of `CameraPreviewView` whenever camera authorization
+    /// hasn't been granted yet (not requested, denied, or restricted).
+    /// Manual barcode entry (FSBarcodeField/FSKeypad, below the safe area)
+    /// remains fully usable in every case.
+    private var cameraUnavailablePlaceholder: some View {
+        VStack(spacing: FSMetrics.space4) {
+            Spacer()
+
+            FSMascot(.strawberry, size: 96)
+
+            Text(cameraAuthorizationStatus == .notDetermined
+                 ? L10n.Scanner.cameraPendingTitle
+                 : L10n.Scanner.cameraUnavailableTitle)
+                .font(.fsHeadline)
+                .foregroundStyle(Color.fsInk)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text(L10n.Scanner.manualEntryHint)
+                .font(.fsBody)
+                .foregroundStyle(Color.fsInkSecondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer()
+        }
+        .padding(FSMetrics.space6)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.fsBackground)
+        .accessibilityElement(children: .combine)
     }
 }
 

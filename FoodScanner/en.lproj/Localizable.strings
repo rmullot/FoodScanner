@@ -1,0 +1,60 @@
+/*
+  Copyright © MULLOT Romain EI. All rights reserved.
+  Created on 09/02/2026.
+
+  Localizable.strings (en)
+  FoodScanner
+
+  English translation of the French source strings. Kept natural, not a
+  literal word-for-word translation.
+*/
+
+// MARK: - Common (tab titles reused as navigation titles)
+
+"common.tab_scanner" = "Scanner";
+"common.tab_history" = "History";
+"common.tab_settings" = "Settings";
+"common.ok_button" = "OK";
+
+// MARK: - Settings
+
+"settings.high_contrast_title" = "High Contrast";
+"settings.high_contrast_explanation" = "Strengthens borders and text for better readability.";
+"settings.reduce_animations_title" = "Reduce Animations";
+"settings.reduce_animations_explanation" = "Limits on-screen motion and transitions.";
+
+// MARK: - Nutrients
+
+"nutrients.title" = "Nutrients";
+"nutrients.calories_format" = "%d kcal per 100 g";
+
+// MARK: - History
+
+"history.empty_state" = "No products viewed yet.";
+"history.footer_caption" = "The mascots are keeping an eye on your last twelve products.";
+"history.subtitle_format" = "Viewed %@";
+
+// MARK: - Product Detail
+
+"product_detail.footer_caption" = "Our mascots decode the nutrition facts for you, powered by Open Food Facts.";
+
+// MARK: - Scanner
+
+"scanner.network_activity_label" = "Network request in progress";
+"scanner.hide_keypad_button" = "Hide keypad";
+"scanner.show_keypad_button" = "Keypad";
+"scanner.lamp_off_label" = "Turn off flashlight";
+"scanner.lamp_on_label" = "Turn on flashlight";
+"scanner.camera_pending_title" = "Waiting for camera permission";
+"scanner.camera_unavailable_title" = "Camera unavailable";
+"scanner.manual_entry_hint" = "You can enter the barcode manually below.";
+"scanner.camera_activated_announcement" = "Camera turned on, you can scan a barcode.";
+"scanner.product_found_announcement" = "Product found. Swipe to open its detail page.";
+
+// MARK: - Onboarding
+
+"onboarding.welcome_title" = "Welcome to FoodScanner";
+"onboarding.welcome_message" = "Scan a barcode to discover a product's Nutri-Score and nutrients.";
+"onboarding.camera_denied_message" = "The camera is required to scan a product. You can allow it in iOS Settings, or enter the barcode manually in the app.";
+"onboarding.allow_camera_button" = "Allow camera access";
+"onboarding.continue_without_camera_button" = "Continue without camera";

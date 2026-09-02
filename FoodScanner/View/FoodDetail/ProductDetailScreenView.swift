@@ -1,17 +1,21 @@
 //
-//  ProductSheetView.swift
+//  ProductDetailScreenView.swift
 //  FoodScanner
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  Product sheet: replaces FoodCollectionReusableView. Passive view, purely
-//  fed by FoodDetailModel.
+//  Merged product detail screen: replaces the former two-step
+//  ProductSheetView -> NutrientsScreenView navigation with a single scrollable
+//  screen (FSProductCard header + score/calories/nutrient bars). The nav bar
+//  title stays a short, generic label (L10n.Nutrients.title) rather than the
+//  product name, which can be long enough to truncate in the bar — the full
+//  name is still rendered, unclipped, inside FSProductCard in the body.
 //
 
 import SwiftUI
 import FoodScannerUI
 
-struct ProductSheetView: View {
+struct ProductDetailScreenView: View {
     @ObservedObject var model: FoodDetailModel
 
     var body: some View {
@@ -26,33 +30,51 @@ struct ProductSheetView: View {
                     await model.loadThumbnail()
                 }
 
-                NavigationLink("Voir les nutriments") {
-                    NutrientsScreenView(model: model)
+                if let score = model.nutriScore {
+                    FSScoreScale(score)
                 }
-                .font(.fsBodyStrong)
-                .foregroundStyle(Color.fsAccent)
-                .frame(minHeight: FSMetrics.minTouchTarget)
+
+                if let caloriesText = model.caloriesText {
+                    Text(caloriesText)
+                        .font(.fsBodyStrong)
+                        .foregroundStyle(Color.fsInk)
+                }
+
+                VStack(alignment: .leading, spacing: FSMetrics.space1) {
+                    ForEach(model.nutrientBars, id: \.0) { kind, grams in
+                        FSNutrientRow(kind, grams: grams, referenceGrams: 100, unit: "g")
+                    }
+                }
+
+                FSSceneFooter(.laboratory, caption: L10n.ProductDetail.footerCaption)
             }
             .padding(FSMetrics.space5)
         }
         .background(Color.fsBackground)
-        .navigationTitle(model.name)
+        .navigationTitle(L10n.Nutrients.title)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview("Clair") {
-    ProductSheetView(model: FoodDetailModel(food: .previewFixture))
-        .preferredColorScheme(.light)
+    NavigationStack {
+        ProductDetailScreenView(model: FoodDetailModel(food: .previewFixture))
+    }
+    .preferredColorScheme(.light)
 }
 
 #Preview("Sombre") {
-    ProductSheetView(model: FoodDetailModel(food: .previewFixture))
-        .preferredColorScheme(.dark)
+    NavigationStack {
+        ProductDetailScreenView(model: FoodDetailModel(food: .previewFixture))
+    }
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Accessibilité XL") {
-    ProductSheetView(model: FoodDetailModel(food: .previewFixture))
-        .environment(\.dynamicTypeSize, .accessibility5)
+    NavigationStack {
+        ProductDetailScreenView(model: FoodDetailModel(food: .previewFixture))
+    }
+    .environment(\.dynamicTypeSize, .accessibility5)
 }
 
 extension FoodStruct {

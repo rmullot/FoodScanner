@@ -17,26 +17,26 @@ public enum FSNutrient: String, CaseIterable, Identifiable, Sendable {
 
     public var frenchName: String {
         switch self {
-        case .carbs: return "Glucides"
-        case .fat: return "Lipides"
-        case .protein: return "Protéines"
-        case .salt: return "Sel"
-        case .fiber: return "Fibres"
+        case .carbs: return FSL10n.Nutrient.Name.carbs
+        case .fat: return FSL10n.Nutrient.Name.fat
+        case .protein: return FSL10n.Nutrient.Name.protein
+        case .salt: return FSL10n.Nutrient.Name.salt
+        case .fiber: return FSL10n.Nutrient.Name.fiber
         }
     }
 
     /// The seasonal food whose color is used, for the legend.
     public func seasonalSource(_ season: FSSeason) -> String {
         switch (self, season) {
-        case (.carbs, .springSummer): return "blé"
-        case (.carbs, .autumnWinter): return "courge"
-        case (.fat, .springSummer): return "huile d'olive"
-        case (.fat, .autumnWinter): return "noix"
-        case (.protein, .springSummer): return "haricot rouge"
-        case (.protein, .autumnWinter): return "chou"
-        case (.salt, _): return "fleur de sel"
-        case (.fiber, .springSummer): return "petit pois"
-        case (.fiber, .autumnWinter): return "châtaigne"
+        case (.carbs, .springSummer): return FSL10n.Nutrient.Source.Carbs.springSummer
+        case (.carbs, .autumnWinter): return FSL10n.Nutrient.Source.Carbs.autumnWinter
+        case (.fat, .springSummer): return FSL10n.Nutrient.Source.Fat.springSummer
+        case (.fat, .autumnWinter): return FSL10n.Nutrient.Source.Fat.autumnWinter
+        case (.protein, .springSummer): return FSL10n.Nutrient.Source.Protein.springSummer
+        case (.protein, .autumnWinter): return FSL10n.Nutrient.Source.Protein.autumnWinter
+        case (.salt, _): return FSL10n.Nutrient.Source.salt
+        case (.fiber, .springSummer): return FSL10n.Nutrient.Source.Fiber.springSummer
+        case (.fiber, .autumnWinter): return FSL10n.Nutrient.Source.Fiber.autumnWinter
         }
     }
 
@@ -69,11 +69,11 @@ public struct FSPattern: View {
 
         public var frenchName: String {
             switch self {
-            case .verticalBars: return "barres verticales"
-            case .diagonalStripes: return "hachures"
-            case .dots: return "pois"
-            case .grid: return "quadrillage"
-            case .waves: return "vagues"
+            case .verticalBars: return FSL10n.Pattern.Name.verticalBars
+            case .diagonalStripes: return FSL10n.Pattern.Name.diagonalStripes
+            case .dots: return FSL10n.Pattern.Name.dots
+            case .grid: return FSL10n.Pattern.Name.grid
+            case .waves: return FSL10n.Pattern.Name.waves
             }
         }
     }

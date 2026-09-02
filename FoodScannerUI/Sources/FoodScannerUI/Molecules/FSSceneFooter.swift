@@ -27,13 +27,20 @@ public struct FSSceneFooter: View {
         /// History screen, dark theme.
         case chalet
 
-        var assetName: String { "scene-\(rawValue)" }
+        /// Generated SwiftGen asset for this vignette (`FoodScannerUI.xcassets`, `Scenes/`).
+        var asset: ImageAsset {
+            switch self {
+            case .laboratory: return FSAsset.sceneLaboratory
+            case .picnic: return FSAsset.scenePicnic
+            case .chalet: return FSAsset.sceneChalet
+            }
+        }
 
         var altText: String {
             switch self {
-            case .laboratory: return "Les mascottes en blouse analysent une étiquette nutritionnelle dans un laboratoire"
-            case .picnic: return "Les mascottes de printemps en pique-nique sous un arbre"
-            case .chalet: return "Les mascottes d'automne à table dans un chalet, le soir"
+            case .laboratory: return FSL10n.SceneFooter.Alt.laboratory
+            case .picnic: return FSL10n.SceneFooter.Alt.picnic
+            case .chalet: return FSL10n.SceneFooter.Alt.chalet
             }
         }
     }
@@ -73,6 +80,8 @@ public struct FSSceneFooter: View {
         .clipShape(RoundedRectangle(cornerRadius: FSMetrics.radiusLarge, style: .continuous))
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(resolved.altText). \(caption)")
+        // Note: composed at the call site rather than via a dedicated
+        // FSL10n format string, since `caption` is app-supplied text.
     }
 
     /// History switches between picnic / chalet with the season.
@@ -85,7 +94,7 @@ public struct FSSceneFooter: View {
 
     @ViewBuilder private var scene: some View {
         #if canImport(UIKit)
-        if let image = UIImage(named: resolved.assetName, in: .fsModule, with: nil) {
+        if let image = UIImage(asset: resolved.asset) {
             Image(uiImage: image).resizable().scaledToFill()
         } else {
             FSSceneCanvas(kind: resolved, season: season)

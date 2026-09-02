@@ -24,7 +24,7 @@ public struct FSBarcodeField: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space2) {
-            Text("Code-barres")
+            Text(FSL10n.BarcodeField.label)
                 .font(.fsOverline)
                 .tracking(1.4)
                 .textCase(.uppercase)
@@ -41,8 +41,8 @@ public struct FSBarcodeField: View {
                     .keyboardType(.numberPad)
                     .textContentType(.none)
                     .focused($focused)
-                    .accessibilityLabel("Code-barres du produit")
-                    .accessibilityHint("Huit à quatorze chiffres")
+                    .accessibilityLabel(FSL10n.BarcodeField.accessibilityLabel)
+                    .accessibilityHint(FSL10n.BarcodeField.accessibilityHint)
 
                 if !code.isEmpty {
                     Button {
@@ -53,7 +53,7 @@ public struct FSBarcodeField: View {
                             .foregroundStyle(Color.fsInkSecondary)
                     }
                     .fsMinTouchTarget()
-                    .accessibilityLabel("Effacer le code")
+                    .accessibilityLabel(FSL10n.BarcodeField.clearLabel)
                 }
             }
             .padding(.horizontal, FSMetrics.space4)
@@ -69,13 +69,13 @@ public struct FSBarcodeField: View {
             )
 
             if !code.isEmpty && !isValid {
-                Label("Un code-barres compte entre 8 et 14 chiffres.", systemImage: "info.circle")
+                Label(FSL10n.BarcodeField.invalidHint, systemImage: "info.circle")
                     .font(.fsCaption)
                     .foregroundStyle(Color.fsAccent)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            FSButton("Chercher ce produit", systemImage: "magnifyingglass") {
+            FSButton(FSL10n.BarcodeField.submitButton, systemImage: "magnifyingglass") {
                 onSubmit(code)
             }
             .disabled(!isValid)
@@ -109,7 +109,7 @@ public struct FSKeypad: View {
                     }
                 }
             }
-            FSButton("Valider", action: onValidate)
+            FSButton(FSL10n.Keypad.validateButton, action: onValidate)
                 .disabled(code.count < 8)
         }
     }
@@ -138,7 +138,7 @@ public struct FSKeypad: View {
                 )
         }
         .buttonStyle(FSPressStyle())
-        .accessibilityLabel(key == "⌫" ? "Effacer le dernier chiffre" : key)
+        .accessibilityLabel(key == "⌫" ? FSL10n.Keypad.deleteHint : key)
     }
 }
 
@@ -193,25 +193,25 @@ public struct FSTextSizeSlider: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space3) {
-            Text("Taille du texte")
+            Text(FSL10n.TextSizeSlider.label)
                 .font(.fsBody)
                 .foregroundStyle(Color.fsInk)
 
             HStack(spacing: FSMetrics.space3) {
                 Text("A").font(.fsText(15, weight: .bold)).accessibilityHidden(true)
                 Slider(value: $scale, in: 0.9...2.0, step: 0.1) {
-                    Text("Taille du texte")
+                    Text(FSL10n.TextSizeSlider.label)
                 } minimumValueLabel: {
                     EmptyView()
                 } maximumValueLabel: {
                     EmptyView()
                 }
                 .tint(Color.fsLeaf)
-                .accessibilityValue("\(Int(scale * 100)) pour cent")
+                .accessibilityValue(FSL10n.TextSizeSlider.valuePercent(String(Int(scale * 100))))
                 Text("A").font(.fsText(28, weight: .bold)).accessibilityHidden(true)
             }
 
-            Text("Un produit noté A est un bon choix.")
+            Text(FSL10n.TextSizeSlider.preview)
                 .font(.fsText(19 * scale))
                 .foregroundStyle(Color.fsInkSecondary)
                 .fixedSize(horizontal: false, vertical: true)

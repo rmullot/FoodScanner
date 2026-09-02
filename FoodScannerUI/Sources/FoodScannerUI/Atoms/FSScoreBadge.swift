@@ -32,11 +32,11 @@ public enum FSNutriScore: String, CaseIterable, Identifiable, Sendable {
 
     public var frenchMeaning: String {
         switch self {
-        case .a: return "Très bonne qualité nutritionnelle"
-        case .b: return "Bonne qualité nutritionnelle"
-        case .c: return "Qualité nutritionnelle moyenne"
-        case .d: return "Qualité nutritionnelle faible"
-        case .e: return "Qualité nutritionnelle très faible"
+        case .a: return FSL10n.Score.Meaning.a
+        case .b: return FSL10n.Score.Meaning.b
+        case .c: return FSL10n.Score.Meaning.c
+        case .d: return FSL10n.Score.Meaning.d
+        case .e: return FSL10n.Score.Meaning.e
         }
     }
 
@@ -96,7 +96,7 @@ public struct FSScoreBadge: View {
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Nutri-Score \(score.rawValue). \(score.frenchMeaning).")
+        .accessibilityLabel(FSL10n.Score.Badge.accessibilityLabel(score.rawValue, score.frenchMeaning))
     }
 }
 
@@ -141,7 +141,7 @@ public struct FSScoreScale: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Échelle Nutri-Score de A à E. Ce produit est noté \(score.rawValue) : \(score.frenchMeaning).")
+        .accessibilityLabel(FSL10n.Score.Scale.accessibilityLabel(score.rawValue, score.frenchMeaning))
     }
 }
 

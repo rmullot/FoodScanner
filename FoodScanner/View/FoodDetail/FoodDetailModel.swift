@@ -32,7 +32,7 @@ final class FoodDetailModel: ObservableObject {
 
     var caloriesText: String? {
         guard let calories = food?.caloriesNutrient else { return nil }
-        return "\(Int(calories.quantity)) kCal pour 100 g"
+        return L10n.Nutrients.caloriesFormat(Int(calories.quantity))
     }
 
     /// Resolves the thumbnail via the shared image cache. Does nothing if

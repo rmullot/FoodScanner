@@ -1,0 +1,97 @@
+/*
+  Localizable.strings (en)
+  FoodScannerUI
+
+  Copyright © MULLOT Romain EI. All rights reserved.
+  Created on 09/02/2026.
+
+  English translation of fr.lproj/Localizable.strings (the base/source file).
+*/
+
+/* FSNutrient — nutrient names */
+"nutrient.name.carbs" = "Carbs";
+"nutrient.name.fat" = "Fat";
+"nutrient.name.protein" = "Protein";
+"nutrient.name.salt" = "Salt";
+"nutrient.name.fiber" = "Fiber";
+
+/* FSNutrient — seasonal color source, shown in the legend */
+"nutrient.source.carbs.springSummer" = "wheat";
+"nutrient.source.carbs.autumnWinter" = "squash";
+"nutrient.source.fat.springSummer" = "olive oil";
+"nutrient.source.fat.autumnWinter" = "walnuts";
+"nutrient.source.protein.springSummer" = "kidney beans";
+"nutrient.source.protein.autumnWinter" = "cabbage";
+"nutrient.source.salt" = "sea salt";
+"nutrient.source.fiber.springSummer" = "peas";
+"nutrient.source.fiber.autumnWinter" = "chestnut";
+
+/* FSPattern.Motif — pattern names */
+"pattern.name.verticalBars" = "vertical bars";
+"pattern.name.diagonalStripes" = "diagonal stripes";
+"pattern.name.dots" = "dots";
+"pattern.name.grid" = "grid";
+"pattern.name.waves" = "waves";
+
+/* FSSeason — season names */
+"season.name.springSummer" = "Spring-Summer";
+"season.name.autumnWinter" = "Autumn-Winter";
+
+/* FSMascot.Kind — mascot names */
+"mascot.name.strawberry" = "Strawberry";
+"mascot.name.pea" = "Pea";
+"mascot.name.lemon" = "Lemon";
+"mascot.name.squash" = "Squash";
+"mascot.name.chestnut" = "Chestnut";
+"mascot.name.cabbage" = "Cabbage";
+"mascot.accessibilityLabel" = "%@, %@ mascot";
+
+/* FSNutriScore — meanings */
+"score.meaning.a" = "Very good nutritional quality";
+"score.meaning.b" = "Good nutritional quality";
+"score.meaning.c" = "Average nutritional quality";
+"score.meaning.d" = "Low nutritional quality";
+"score.meaning.e" = "Very low nutritional quality";
+"score.badge.accessibilityLabel" = "Nutri-Score %@. %@.";
+"score.scale.accessibilityLabel" = "Nutri-Score scale from A to E. This product is rated %@: %@.";
+
+/* FSSceneFooter — vignette alt text */
+"sceneFooter.alt.laboratory" = "The mascots in lab coats analyze a nutrition label in a laboratory";
+"sceneFooter.alt.picnic" = "The spring mascots having a picnic under a tree";
+"sceneFooter.alt.chalet" = "The autumn mascots at the table in a chalet, in the evening";
+
+/* FSProductCard */
+"productCard.history.hint" = "Opens the product sheet";
+"productCard.history.scoreValue" = "Nutri-Score %@. %@";
+"productCard.offlineBanner.defaultText" = "You're offline. Previously viewed sheets remain readable.";
+"productCard.scanStatus.foundHint" = "Opens the product sheet";
+"productCard.scanStatus.title.aiming" = "Frame the barcode";
+"productCard.scanStatus.title.reading" = "Scanning…";
+"productCard.scanStatus.title.notFound" = "Product not found";
+"productCard.scanStatus.title.offline" = "Offline";
+"productCard.scanStatus.detail.aiming" = "Hold the device about ten centimeters away, light helps.";
+"productCard.scanStatus.detail.reading" = "Querying Open Food Facts.";
+"productCard.scanStatus.detail.found" = "Sheet ready, tap to see the nutrients.";
+"productCard.scanStatus.detail.notFound" = "This code isn't in the database yet. You can add it.";
+"productCard.scanStatus.detail.offline" = "The last twelve sheets remain available.";
+
+/* FSNutrientRow / FSNutrientRing */
+"nutrientRow.totalValue" = "%@ g";
+"nutrientRow.per100g" = "per 100 g";
+"nutrientRow.seasonalSourcePrefix" = "· %@";
+"nutrientRow.accessibilityValue" = "%@ per %@ grams, color %@, pattern %@";
+"nutrientRing.accessibilityLabel" = "Nutrient breakdown";
+"nutrientRing.distributionItem" = "%@ %@ percent";
+
+/* FSBarcodeField / FSKeypad / FSTextSizeSlider */
+"barcodeField.label" = "Barcode";
+"barcodeField.accessibilityLabel" = "Product barcode";
+"barcodeField.accessibilityHint" = "Eight to fourteen digits";
+"barcodeField.clearLabel" = "Clear code";
+"barcodeField.invalidHint" = "A barcode is between 8 and 14 digits.";
+"barcodeField.submitButton" = "Look up this product";
+"keypad.deleteHint" = "Delete last digit";
+"keypad.validateButton" = "Confirm";
+"textSizeSlider.label" = "Text size";
+"textSizeSlider.preview" = "A product rated A is a good choice.";
+"textSizeSlider.valuePercent" = "%@ percent";

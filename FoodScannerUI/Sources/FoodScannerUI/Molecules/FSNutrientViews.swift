@@ -66,7 +66,9 @@ public struct FSNutrientRow: View {
         .padding(.vertical, FSMetrics.space2)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(nutrient.frenchName)
-        .accessibilityValue("\(valueText) pour \(Int(referenceGrams)) grammes, couleur \(nutrient.seasonalSource(season)), motif \(nutrient.pattern.frenchName)")
+        .accessibilityValue(FSL10n.NutrientRow.accessibilityValue(
+            valueText, String(Int(referenceGrams)), nutrient.seasonalSource(season), nutrient.pattern.frenchName
+        ))
     }
 }
 
@@ -111,17 +113,17 @@ public struct FSNutrientRing: View {
                 if let score {
                     FSScoreBadge(score, size: .medium)
                 }
-                Text("\(Int(total)) g")
+                Text(FSL10n.NutrientRow.totalValue(String(Int(total))))
                     .font(.fsHeadline)
                     .foregroundStyle(Color.fsInk)
-                Text("pour 100 g")
+                Text(FSL10n.NutrientRow.per100g)
                     .font(.fsCaption)
                     .foregroundStyle(Color.fsInkSecondary)
             }
         }
         .frame(width: diameter, height: diameter)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Répartition des nutriments")
+        .accessibilityLabel(FSL10n.NutrientRing.accessibilityLabel)
         .accessibilityValue(summary)
     }
 
@@ -151,7 +153,7 @@ public struct FSNutrientRing: View {
 
     private var summary: String {
         segments
-            .map { "\($0.nutrient.frenchName) \(Int(($0.grams / total) * 100)) pour cent" }
+            .map { FSL10n.NutrientRing.distributionItem($0.nutrient.frenchName, String(Int(($0.grams / total) * 100))) }
             .joined(separator: ", ")
     }
 }
@@ -171,7 +173,7 @@ public struct FSNutrientLegend: View {
                 HStack(spacing: FSMetrics.space3) {
                     FSPatternSwatch(n, side: 22)
                     Text(n.frenchName).font(.fsCaption).foregroundStyle(Color.fsInk)
-                    Text("· \(n.seasonalSource(season))")
+                    Text(FSL10n.NutrientRow.seasonalSourcePrefix(n.seasonalSource(season)))
                         .font(.fsCaption)
                         .foregroundStyle(Color.fsInkSecondary)
                 }

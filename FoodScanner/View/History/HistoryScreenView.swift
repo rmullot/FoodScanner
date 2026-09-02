@@ -20,7 +20,7 @@ struct HistoryScreenView: View {
             HistoryListContent(items: model.items,
                                 isOffline: model.isOffline,
                                 onSelect: { path.append($0) })
-                .navigationTitle("Historique")
+                .navigationTitle(L10n.Common.tabHistory)
                 .navigationBarTitleDisplayMode(.large)
                 .navigationDestination(for: String.self) { barcode in
                     HistoryDetailLoader(barcode: barcode)
@@ -46,7 +46,7 @@ private struct HistoryListContent: View {
                 }
 
                 if items.isEmpty {
-                    Text("Aucun produit consulté pour l'instant.")
+                    Text(L10n.History.emptyState)
                         .font(.fsBody)
                         .foregroundStyle(Color.fsInkSecondary)
                 } else {
@@ -60,7 +60,7 @@ private struct HistoryListContent: View {
                     }
                 }
 
-                FSSceneFooter(.picnic, caption: "Les mascottes gardent un œil sur vos douze derniers produits.")
+                FSSceneFooter(.picnic, caption: L10n.History.footerCaption)
             }
             .padding(FSMetrics.space5)
         }
@@ -71,7 +71,7 @@ private struct HistoryListContent: View {
         let date = Date(timeIntervalSince1970: summary.lastUpdate)
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .short
-        return "Consulté \(formatter.localizedString(for: date, relativeTo: Date()))"
+        return L10n.History.subtitleFormat(formatter.localizedString(for: date, relativeTo: Date()))
     }
 }
 
@@ -84,7 +84,7 @@ private struct HistoryDetailLoader: View {
     var body: some View {
         Group {
             if let food {
-                ProductSheetView(model: FoodDetailModel(food: food))
+                ProductDetailScreenView(model: FoodDetailModel(food: food))
             } else {
                 ProgressView()
                     .task {

@@ -119,7 +119,7 @@ public struct FSGalleryView: View {
                 section("États et bandeaux") {
                     VStack(spacing: FSMetrics.space3) {
                         FSScanStatusBanner(.aiming)
-                        FSScanStatusBanner(.found("Pâte à tartiner noisettes"))
+                        FSScanStatusBanner(.found("Pâte à tartiner noisettes"), onFoundTap: {})
                         FSScanStatusBanner(.notFound)
                         FSOfflineBanner()
                     }

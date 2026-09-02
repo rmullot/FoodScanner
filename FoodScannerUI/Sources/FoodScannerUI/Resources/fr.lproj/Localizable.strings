@@ -1,0 +1,99 @@
+/*
+  Localizable.strings (fr, base)
+  FoodScannerUI
+
+  Copyright © MULLOT Romain EI. All rights reserved.
+  Created on 09/02/2026.
+
+  Strings hardcoded inside the FoodScannerUI package (default component
+  text, VoiceOver labels/hints). App-supplied text stays the app's own
+  localization responsibility.
+*/
+
+/* FSNutrient — nutrient names */
+"nutrient.name.carbs" = "Glucides";
+"nutrient.name.fat" = "Lipides";
+"nutrient.name.protein" = "Protéines";
+"nutrient.name.salt" = "Sel";
+"nutrient.name.fiber" = "Fibres";
+
+/* FSNutrient — seasonal color source, shown in the legend */
+"nutrient.source.carbs.springSummer" = "blé";
+"nutrient.source.carbs.autumnWinter" = "courge";
+"nutrient.source.fat.springSummer" = "huile d'olive";
+"nutrient.source.fat.autumnWinter" = "noix";
+"nutrient.source.protein.springSummer" = "haricot rouge";
+"nutrient.source.protein.autumnWinter" = "chou";
+"nutrient.source.salt" = "fleur de sel";
+"nutrient.source.fiber.springSummer" = "petit pois";
+"nutrient.source.fiber.autumnWinter" = "châtaigne";
+
+/* FSPattern.Motif — pattern names */
+"pattern.name.verticalBars" = "barres verticales";
+"pattern.name.diagonalStripes" = "hachures";
+"pattern.name.dots" = "pois";
+"pattern.name.grid" = "quadrillage";
+"pattern.name.waves" = "vagues";
+
+/* FSSeason — season names */
+"season.name.springSummer" = "Printemps-été";
+"season.name.autumnWinter" = "Automne-hiver";
+
+/* FSMascot.Kind — mascot names */
+"mascot.name.strawberry" = "Fraise";
+"mascot.name.pea" = "Petit pois";
+"mascot.name.lemon" = "Citron";
+"mascot.name.squash" = "Potimarron";
+"mascot.name.chestnut" = "Châtaigne";
+"mascot.name.cabbage" = "Chou";
+"mascot.accessibilityLabel" = "%@, mascotte %@";
+
+/* FSNutriScore — meanings */
+"score.meaning.a" = "Très bonne qualité nutritionnelle";
+"score.meaning.b" = "Bonne qualité nutritionnelle";
+"score.meaning.c" = "Qualité nutritionnelle moyenne";
+"score.meaning.d" = "Qualité nutritionnelle faible";
+"score.meaning.e" = "Qualité nutritionnelle très faible";
+"score.badge.accessibilityLabel" = "Nutri-Score %@. %@.";
+"score.scale.accessibilityLabel" = "Échelle Nutri-Score de A à E. Ce produit est noté %@ : %@.";
+
+/* FSSceneFooter — vignette alt text */
+"sceneFooter.alt.laboratory" = "Les mascottes en blouse analysent une étiquette nutritionnelle dans un laboratoire";
+"sceneFooter.alt.picnic" = "Les mascottes de printemps en pique-nique sous un arbre";
+"sceneFooter.alt.chalet" = "Les mascottes d'automne à table dans un chalet, le soir";
+
+/* FSProductCard */
+"productCard.history.hint" = "Ouvre la fiche du produit";
+"productCard.history.scoreValue" = "Nutri-Score %@. %@";
+"productCard.offlineBanner.defaultText" = "Vous êtes hors ligne. Les fiches déjà consultées restent lisibles.";
+"productCard.scanStatus.foundHint" = "Ouvre la fiche du produit";
+"productCard.scanStatus.title.aiming" = "Cadrez le code-barres";
+"productCard.scanStatus.title.reading" = "Lecture en cours…";
+"productCard.scanStatus.title.notFound" = "Produit introuvable";
+"productCard.scanStatus.title.offline" = "Hors ligne";
+"productCard.scanStatus.detail.aiming" = "Approchez l'appareil à dix centimètres, la lumière aide.";
+"productCard.scanStatus.detail.reading" = "On interroge Open Food Facts.";
+"productCard.scanStatus.detail.found" = "Fiche prête, tapez pour voir les nutriments.";
+"productCard.scanStatus.detail.notFound" = "Ce code n'existe pas encore dans la base. Vous pouvez l'ajouter.";
+"productCard.scanStatus.detail.offline" = "Les douze dernières fiches restent consultables.";
+
+/* FSNutrientRow / FSNutrientRing */
+"nutrientRow.totalValue" = "%@ g";
+"nutrientRow.per100g" = "pour 100 g";
+"nutrientRow.seasonalSourcePrefix" = "· %@";
+"nutrientRow.accessibilityValue" = "%@ pour %@ grammes, couleur %@, motif %@";
+"nutrientRing.accessibilityLabel" = "Répartition des nutriments";
+"nutrientRing.distributionItem" = "%@ %@ pour cent";
+
+/* FSBarcodeField / FSKeypad / FSTextSizeSlider */
+"barcodeField.label" = "Code-barres";
+"barcodeField.accessibilityLabel" = "Code-barres du produit";
+"barcodeField.accessibilityHint" = "Huit à quatorze chiffres";
+"barcodeField.clearLabel" = "Effacer le code";
+"barcodeField.invalidHint" = "Un code-barres compte entre 8 et 14 chiffres.";
+"barcodeField.submitButton" = "Chercher ce produit";
+"keypad.deleteHint" = "Effacer le dernier chiffre";
+"keypad.validateButton" = "Valider";
+"textSizeSlider.label" = "Taille du texte";
+"textSizeSlider.preview" = "Un produit noté A est un bon choix.";
+"textSizeSlider.valuePercent" = "%@ pour cent";

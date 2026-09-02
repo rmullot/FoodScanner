@@ -23,20 +23,19 @@ struct OnboardingView: View {
 
             FSMascot(.strawberry, size: 96)
 
-            Text("Bienvenue sur FoodScanner")
+            Text(L10n.Onboarding.welcomeTitle)
                 .font(.fsHeadline)
                 .foregroundStyle(Color.fsInk)
                 .multilineTextAlignment(.center)
 
-            Text("Scannez un code-barres pour découvrir le Nutri-Score et les nutriments d'un produit.")
+            Text(L10n.Onboarding.welcomeMessage)
                 .font(.fsBody)
                 .foregroundStyle(Color.fsInkSecondary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
 
             if authorizationDenied {
-                Text("La caméra est nécessaire pour scanner un produit. Vous pouvez l'autoriser dans les "
-                     + "réglages iOS, ou saisir le code-barres manuellement dans l'app.")
+                Text(L10n.Onboarding.cameraDeniedMessage)
                     .font(.fsCaption)
                     .foregroundStyle(Color.fsAccent)
                     .multilineTextAlignment(.center)
@@ -45,11 +44,11 @@ struct OnboardingView: View {
 
             Spacer()
 
-            FSButton("Autoriser la caméra", systemImage: "camera") {
+            FSButton(L10n.Onboarding.allowCameraButton, systemImage: "camera") {
                 requestCameraAuthorization()
             }
 
-            FSButton("Continuer sans la caméra", role: .quiet) {
+            FSButton(L10n.Onboarding.continueWithoutCameraButton, role: .quiet) {
                 onFinished()
             }
         }

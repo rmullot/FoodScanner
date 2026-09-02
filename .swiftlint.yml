@@ -40,4 +40,14 @@ force_cast: warning
 force_try: warning
 force_unwrapping: warning
 
+custom_rules:
+  no_explanatory_comments:
+    included: ".*\\.swift"
+    match_kinds:
+      - comment
+      - doccomment
+    regex: '//+(?!\s*$)(?!\s*(TODO|FIXME|SECURITY)\s*:)(?!\s*[\w .+\-À-ÿ]+\.swift\s*$)(?!\s*FoodScanner(UI)?\s*$)(?!\s*Copyright © (MULLOT Romain EI|\d{4} [^.]+)\.\s*All rights reserved\.\s*$)(?!\s*Created (on|by) .*$)(?!\s*swiftlint:)'
+    message: "No explanatory comments allowed, except `// TODO:`/`// FIXME:` and `// SECURITY:`-tagged lines (see CLAUDE.md). The mandatory copyright header is exempt."
+    severity: warning
+
 reporter: "xcode"

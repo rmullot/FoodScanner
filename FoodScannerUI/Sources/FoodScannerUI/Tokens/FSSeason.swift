@@ -19,8 +19,8 @@ public enum FSSeason: String, CaseIterable, Sendable {
 
     public var frenchName: String {
         switch self {
-        case .springSummer: return "Printemps-été"
-        case .autumnWinter: return "Automne-hiver"
+        case .springSummer: return FSL10n.Season.Name.springSummer
+        case .autumnWinter: return FSL10n.Season.Name.autumnWinter
         }
     }
 

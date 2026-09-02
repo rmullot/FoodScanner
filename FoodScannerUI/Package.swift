@@ -13,7 +13,9 @@ let package = Package(
             name: "FoodScannerUI",
             resources: [
                 .process("Resources/FoodScannerUI.xcassets"),
-                .process("Resources/Scenes")
+                .process("Resources/Scenes"),
+                .process("Resources/fr.lproj"),
+                .process("Resources/en.lproj")
             ]
         ),
         .testTarget(name: "FoodScannerUITests", dependencies: ["FoodScannerUI"])

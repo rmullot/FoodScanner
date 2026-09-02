@@ -23,15 +23,15 @@ final class RootTabBarController: UITabBarController {
         super.viewDidLoad()
 
         let scannerTab = Self.embed(ScannerScreenView(),
-                                     title: "Scanner",
+                                     title: L10n.Common.tabScanner,
                                      systemImage: "barcode.viewfinder")
 
         let historyTab = Self.embed(HistoryScreenView(),
-                                     title: "Historique",
+                                     title: L10n.Common.tabHistory,
                                      systemImage: "clock.arrow.circlepath")
 
         let settingsTab = Self.embed(SettingsScreenView(model: settingsModel),
-                                      title: "Réglages",
+                                      title: L10n.Common.tabSettings,
                                       systemImage: "gearshape")
 
         viewControllers = [scannerTab, historyTab, settingsTab]

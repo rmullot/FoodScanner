@@ -17,13 +17,13 @@ struct SettingsScreenView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: FSMetrics.space4) {
-                    FSToggleRow("Contraste élevé",
-                                explanation: "Renforce les bordures et le texte pour une meilleure lisibilité.",
+                    FSToggleRow(L10n.Settings.highContrastTitle,
+                                explanation: L10n.Settings.highContrastExplanation,
                                 systemImage: "circle.lefthalf.filled",
                                 isOn: $model.highContrast)
 
-                    FSToggleRow("Réduire les animations",
-                                explanation: "Limite les mouvements et transitions à l'écran.",
+                    FSToggleRow(L10n.Settings.reduceAnimationsTitle,
+                                explanation: L10n.Settings.reduceAnimationsExplanation,
                                 systemImage: "figure.walk.motion",
                                 isOn: $model.reduceAnimations)
 
@@ -32,7 +32,7 @@ struct SettingsScreenView: View {
                 .padding(FSMetrics.space5)
             }
             .background(Color.fsBackground)
-            .navigationTitle("Réglages")
+            .navigationTitle(L10n.Common.tabSettings)
             .navigationBarTitleDisplayMode(.large)
             .dynamicTypeSize(AppDynamicTypeScale.dynamicTypeSize(for: model.textScale))
         }

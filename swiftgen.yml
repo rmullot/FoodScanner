@@ -7,3 +7,10 @@ xcassets:
   outputs:
     - templateName: swift5
       output: Generated/Assets.swift
+
+strings:
+  inputs:
+    - fr.lproj/Localizable.strings
+  outputs:
+    - templateName: structured-swift5
+      output: Generated/Strings.swift
