@@ -7,13 +7,15 @@
 
 import UIKit
 
-actor ImageCacheManager {
-    static let sharedInstance = ImageCacheManager()
+actor ImageCacheManager: ImageCaching {
 
     private let cache = NSCache<NSString, UIImage>()
     private var inFlightTasks: [String: Task<UIImage?, Never>] = [:]
+    private let networkActivity: NetworkActivityTracking
 
-    private init() {}
+    init(networkActivity: NetworkActivityTracking) {
+        self.networkActivity = networkActivity
+    }
 
     func image(for urlString: String) async -> UIImage? {
         let key = NSString(string: urlString)
@@ -29,10 +31,11 @@ actor ImageCacheManager {
         guard let url = URL(string: urlString) else { return nil }
 
         let cache = self.cache
+        let networkActivity = self.networkActivity
         let task = Task<UIImage?, Never> {
-            await NetworkActivityManager.sharedInstance.newRequestStarted()
+            await networkActivity.newRequestStarted()
             defer {
-                Task { await NetworkActivityManager.sharedInstance.requestFinished() }
+                Task { await networkActivity.requestFinished() }
             }
             guard let (data, _) = try? await URLSession.shared.data(from: url),
                   let downloadedImage = UIImage(data: data) else { return nil }

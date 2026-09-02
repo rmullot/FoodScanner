@@ -10,7 +10,7 @@ import SwiftUI
 import FoodScannerUI
 
 struct SettingsScreenView: View {
-    @ObservedObject var model: SettingsScreenModel
+    @ObservedObject var model: SettingsViewModel
 
     var body: some View {
         NavigationStack {
@@ -39,16 +39,16 @@ struct SettingsScreenView: View {
 }
 
 #Preview("Clair") {
-    SettingsScreenView(model: SettingsScreenModel())
+    SettingsScreenView(model: SettingsViewModel())
         .preferredColorScheme(.light)
 }
 
 #Preview("Sombre") {
-    SettingsScreenView(model: SettingsScreenModel())
+    SettingsScreenView(model: SettingsViewModel())
         .preferredColorScheme(.dark)
 }
 
 #Preview("Accessibilité XL") {
-    SettingsScreenView(model: SettingsScreenModel())
+    SettingsScreenView(model: SettingsViewModel())
         .environment(\.dynamicTypeSize, .accessibility5)
 }

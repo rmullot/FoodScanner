@@ -10,7 +10,7 @@ import SwiftUI
 import FoodScannerUI
 
 struct ProductDetailScreenView: View {
-    @ObservedObject var model: FoodDetailModel
+    @ObservedObject var model: FoodDetailViewModel
 
     var body: some View {
         ScrollView {
@@ -52,21 +52,21 @@ struct ProductDetailScreenView: View {
 
 #Preview("Clair") {
     NavigationStack {
-        ProductDetailScreenView(model: FoodDetailModel(food: .previewFixture))
+        ProductDetailScreenView(model: FoodDetailViewModel(food: .previewFixture))
     }
     .preferredColorScheme(.light)
 }
 
 #Preview("Sombre") {
     NavigationStack {
-        ProductDetailScreenView(model: FoodDetailModel(food: .previewFixture))
+        ProductDetailScreenView(model: FoodDetailViewModel(food: .previewFixture))
     }
     .preferredColorScheme(.dark)
 }
 
 #Preview("Accessibilité XL") {
     NavigationStack {
-        ProductDetailScreenView(model: FoodDetailModel(food: .previewFixture))
+        ProductDetailScreenView(model: FoodDetailViewModel(food: .previewFixture))
     }
     .environment(\.dynamicTypeSize, .accessibility5)
 }

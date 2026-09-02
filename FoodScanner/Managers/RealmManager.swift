@@ -9,9 +9,7 @@
 import Foundation
 import RealmSwift
 
-actor RealmManager {
-
-    static let sharedInstance = RealmManager()
+actor RealmManager: FoodStoring {
 
     init() {
         autoreleasepool {

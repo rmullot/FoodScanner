@@ -12,7 +12,7 @@ import FoodScannerUI
 
 final class RootTabBarController: UITabBarController {
 
-    private let settingsModel = SettingsScreenModel()
+    private let settingsModel = SettingsViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()

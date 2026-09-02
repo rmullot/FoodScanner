@@ -9,8 +9,7 @@
 import Foundation
 
 @MainActor
-public final class NetworkActivityManager: ObservableObject {
-    static let sharedInstance = NetworkActivityManager()
+public final class NetworkActivityManager: ObservableObject, NetworkActivityTracking {
 
     @Published private(set) var isActive: Bool = false
 
@@ -20,7 +19,7 @@ public final class NetworkActivityManager: ObservableObject {
 
     private var disableActivityIndicatorClosure: DispatchQueue.CancellableClosure = nil
 
-    private init() {}
+    init() {}
 
     @discardableResult
     func newRequestStarted() -> Int {

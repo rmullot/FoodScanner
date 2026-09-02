@@ -1,5 +1,5 @@
 //
-//  ScannerScreenModel.swift
+//  ScannerViewModel.swift
 //  FoodScanner
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
@@ -11,7 +11,7 @@ import Combine
 import FoodScannerUI
 
 @MainActor
-final class ScannerScreenModel: ObservableObject {
+final class ScannerViewModel: ObservableObject {
 
     @Published private(set) var statusMessage: String = ""
     @Published var banner: FSScanStatusBanner.State?
@@ -21,10 +21,16 @@ final class ScannerScreenModel: ObservableObject {
     private var barcode: String = ""
     private var food: FoodStruct?
 
+    private let webService: WebServiceProviding
+    private let reachability: ReachabilityProviding
     private var reachabilityCancellable: AnyCancellable?
 
-    init() {
-        reachabilityCancellable = ReachabilityManager.sharedInstance.$onlineMode
+    init(webService: WebServiceProviding? = nil,
+         reachability: ReachabilityProviding? = nil) {
+        self.webService = webService ?? InjectionManager.shared.webService
+        self.reachability = reachability ?? InjectionManager.shared.reachability
+        let reachability = self.reachability
+        reachabilityCancellable = reachability.onlineModePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] onlineMode in
                 guard onlineMode == .offline else { return }
@@ -44,13 +50,13 @@ final class ScannerScreenModel: ObservableObject {
 
         Task {
             do {
-                let foodStruct = try await WebServiceManager.sharedInstance.getFoodDescription(barcode: barcode)
+                let foodStruct = try await webService.getFoodDescription(barcode: barcode)
                 self.food = foodStruct
                 self.banner = .found(foodStruct.name)
                 self.scannedFood = foodStruct
             } catch {
                 self.statusMessage = error.localizedDescription
-                self.banner = ReachabilityManager.sharedInstance.onlineMode == .offline ? .offline : .notFound
+                self.banner = reachability.onlineMode == .offline ? .offline : .notFound
             }
         }
     }

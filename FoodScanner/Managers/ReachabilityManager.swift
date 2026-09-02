@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 import CoreTelephony
 import UIKit
 
@@ -47,13 +48,15 @@ extension OnlineMode: RawRepresentable {
 
 // MARK: - Reachability Manager
 
-public final class ReachabilityManager: ObservableObject {
+public final class ReachabilityManager: ObservableObject, ReachabilityProviding {
 
     // MARK: Properties
 
-    static let sharedInstance = ReachabilityManager()
-
     @Published public private(set) var onlineMode: OnlineMode = .online
+
+    public var onlineModePublisher: AnyPublisher<OnlineMode, Never> {
+        $onlineMode.eraseToAnyPublisher()
+    }
 
     private var reachability: Reachability?
 
@@ -63,7 +66,7 @@ public final class ReachabilityManager: ObservableObject {
 
     private var changeOperatinModeClosure: DispatchQueue.CancellableClosure = nil
 
-    private init() {
+    init() {
         reachability = Reachability()
         if let reachability {
             NotificationCenter.default.addObserver(self,

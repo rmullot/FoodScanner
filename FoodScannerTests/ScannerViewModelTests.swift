@@ -1,5 +1,5 @@
 //
-//  ScannerScreenModelTests.swift
+//  ScannerViewModelTests.swift
 //  FoodScannerTests
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/02/2026.
@@ -10,12 +10,12 @@ import FoodScannerUI
 @testable import FoodScanner
 
 @MainActor
-final class ScannerScreenModelTests: XCTestCase {
+final class ScannerViewModelTests: XCTestCase {
 
     // MARK: - getFoodInformations: synchronous side effects
 
     func test_getFoodInformations_setsReadingBannerAndStatusMessageSynchronously() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
 
         model.getFoodInformations(barcode: "3017620422003")
 
@@ -25,7 +25,7 @@ final class ScannerScreenModelTests: XCTestCase {
     // MARK: - Duplicate-barcode guard
 
     func test_getFoodInformations_sameBarcodeWhileAlreadyResolved_isNoOp() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
         let barcode = "3017620422003"
 
         model.getFoodInformations(barcode: barcode)
@@ -37,7 +37,7 @@ final class ScannerScreenModelTests: XCTestCase {
     }
 
     func test_getFoodInformations_differentBarcode_isNotNoOp() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
 
         model.getFoodInformations(barcode: "3017620422003")
         model.banner = .found("Pâte à tartiner")
@@ -50,7 +50,7 @@ final class ScannerScreenModelTests: XCTestCase {
     // MARK: - resetForNewScan
 
     func test_resetForNewScan_clearsBanner() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
         model.getFoodInformations(barcode: "3017620422003")
         model.banner = .found("Pâte à tartiner")
 
@@ -60,7 +60,7 @@ final class ScannerScreenModelTests: XCTestCase {
     }
 
     func test_resetForNewScan_reArmsDetectionForThePreviouslyResolvedBarcode() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
         let barcode = "3017620422003"
 
         model.getFoodInformations(barcode: barcode)
@@ -75,17 +75,17 @@ final class ScannerScreenModelTests: XCTestCase {
     // MARK: - isValidBarcode (pure function)
 
     func test_isValidBarcode_emptyString_isValid() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
         XCTAssertTrue(model.isValidBarcode(""))
     }
 
     func test_isValidBarcode_digitsOnly_isValid() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
         XCTAssertTrue(model.isValidBarcode("3017620422003"))
     }
 
     func test_isValidBarcode_containingLetters_isInvalid() {
-        let model = ScannerScreenModel()
+        let model = ScannerViewModel()
         XCTAssertFalse(model.isValidBarcode("30176A0422003"))
     }
 }

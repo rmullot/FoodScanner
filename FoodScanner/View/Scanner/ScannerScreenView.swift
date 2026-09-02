@@ -10,8 +10,8 @@ import AVFoundation
 import FoodScannerUI
 
 struct ScannerScreenView: View {
-    @StateObject private var model = ScannerScreenModel()
-    @ObservedObject private var networkActivity = NetworkActivityManager.sharedInstance
+    @StateObject private var model = ScannerViewModel()
+    @ObservedObject private var networkActivity = InjectionManager.shared.networkActivity
     @State private var code: String = ""
     @State private var showsKeypad: Bool = false
     @State private var path = NavigationPath()
@@ -94,7 +94,7 @@ struct ScannerScreenView: View {
             .navigationTitle(L10n.Common.tabScanner)
             .navigationBarTitleDisplayMode(.large)
             .navigationDestination(for: FoodStruct.self) { food in
-                ProductDetailScreenView(model: FoodDetailModel(food: food))
+                ProductDetailScreenView(model: FoodDetailViewModel(food: food))
             }
             .onChange(of: path) { newPath in
                 if newPath.isEmpty {
