@@ -118,6 +118,8 @@ struct FSSceneCanvas: View {
         }
     }
 
+    // MARK: Backgrounds
+
     static func drawLab(_ ctx: inout GraphicsContext, _ s: CGSize, _ season: FSSeason) {
         let wall = season == .springSummer ? Color(hex: 0xE7F0D6) : Color(hex: 0x36311F)
         let grid = season == .springSummer ? Color(hex: 0xC3D3AA) : Color(hex: 0x4D4732)

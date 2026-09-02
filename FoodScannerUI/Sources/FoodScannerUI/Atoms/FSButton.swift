@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// Design system pill button. Three roles, never less than 44 pt tall,
+/// and a label that wraps to two lines rather than truncating at AX5.
 public struct FSButton: View {
 
     public enum Role { case primary, outline, quiet }

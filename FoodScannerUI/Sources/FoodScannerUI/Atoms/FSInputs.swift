@@ -81,6 +81,8 @@ public struct FSBarcodeField: View {
     }
 }
 
+/// Accessible numeric keypad: 12 keys of 64 pt, haptic feedback,
+/// explicit VoiceOver labels.
 public struct FSKeypad: View {
     @Binding private var code: String
     private let onValidate: () -> Void

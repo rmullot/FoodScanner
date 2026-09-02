@@ -8,7 +8,9 @@
 
 import SwiftUI
 
+/// Spacing, radii, and touch targets of the design system.
 public enum FSMetrics {
+    /// 4 pt scale.
     public static let space1: CGFloat = 4
     public static let space2: CGFloat = 8
     public static let space3: CGFloat = 12
@@ -23,15 +25,19 @@ public enum FSMetrics {
     public static let radiusLarge: CGFloat = 20
     public static let radiusPill: CGFloat = 999
 
+    /// No interactive element goes below this height.
     public static let minTouchTarget: CGFloat = 44
+    /// Nominal height of design system buttons and fields.
     public static let controlHeight: CGFloat = 60
 
     public static let borderWidth: CGFloat = 1.5
     public static let borderWidthStrong: CGFloat = 2
+    /// Thickness of nutrient rings.
     public static let ringWidth: CGFloat = 22
 }
 
 public extension View {
+    /// Guarantees the 44 pt touch target without changing the visual rendering.
     func fsMinTouchTarget() -> some View {
         frame(minWidth: FSMetrics.minTouchTarget, minHeight: FSMetrics.minTouchTarget)
             .contentShape(Rectangle())

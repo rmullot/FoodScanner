@@ -10,6 +10,8 @@ import Foundation
 import CoreTelephony
 import UIKit
 
+// MARK: - OnlineMode
+
 @objc public enum OnlineMode: Int {
     case offline = 0
     case onlineSlow = 1
@@ -43,7 +45,11 @@ extension OnlineMode: RawRepresentable {
     }
 }
 
+// MARK: - Reachability Manager
+
 public final class ReachabilityManager: ObservableObject {
+
+    // MARK: Properties
 
     static let sharedInstance = ReachabilityManager()
 
@@ -82,6 +88,8 @@ public final class ReachabilityManager: ObservableObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+
+    // MARK: Reachability changed
 
     @objc public dynamic func refreshReachability() {
         if let reachability = self.reachability {

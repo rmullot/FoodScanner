@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// The Nutri-Score. The flat colors are the official chart's and do not
+/// change with the theme; only the surrounding follows the season.
 public enum FSNutriScore: String, CaseIterable, Identifiable, Sendable {
     case a = "A", b = "B", c = "C", d = "D", e = "E"
 
@@ -23,6 +25,7 @@ public enum FSNutriScore: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
+    /// White everywhere except on the C yellow, where black is required for contrast.
     public var letterColor: Color {
         self == .c ? Color(hex: 0x1D1D1B) : .white
     }

@@ -36,6 +36,8 @@ public enum FSSeason: String, CaseIterable, Sendable {
     }
 }
 
+// MARK: - Environment
+
 private struct FSSeasonKey: EnvironmentKey {
     static let defaultValue: FSSeason? = nil
 }

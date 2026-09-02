@@ -36,6 +36,8 @@ public struct FSGalleryView: View {
         .tint(Color.fsAccent)
     }
 
+    // MARK: Components tab
+
     private var componentsTab: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: FSMetrics.space6) {
@@ -132,6 +134,8 @@ public struct FSGalleryView: View {
         }
     }
 
+    // MARK: Screens tab
+
     private var screensTab: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: FSMetrics.space6) {
@@ -173,6 +177,8 @@ public struct FSGalleryView: View {
             .padding(FSMetrics.space5)
         }
     }
+
+    // MARK: Tools
 
     private var seasonPicker: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space2) {

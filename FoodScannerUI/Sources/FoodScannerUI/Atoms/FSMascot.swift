@@ -51,6 +51,7 @@ public struct FSMascot: View {
             }
         }
 
+        /// Face center and mouth width in the 48×48 coordinate space.
         var face: (eyesY: CGFloat, eyeGap: CGFloat, eyeR: CGFloat, mouthY: CGFloat) {
             switch self {
             case .strawberry: return (28.4, 5.4, 4.2, 34.6)
@@ -88,6 +89,8 @@ public struct FSMascot: View {
         .accessibilityHidden(isDecorative)
         .accessibilityLabel(isDecorative ? "" : FSL10n.Mascot.accessibilityLabel(kind.frenchName, kind.season.frenchName.lowercased()))
     }
+
+    // MARK: - Drawing
 
     static func draw(_ kind: Kind, in ctx: inout GraphicsContext) {
         let p = kind.palette

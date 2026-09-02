@@ -12,6 +12,8 @@ import FoodScannerUI
 @MainActor
 final class ScannerScreenModelTests: XCTestCase {
 
+    // MARK: - getFoodInformations: synchronous side effects
+
     func test_getFoodInformations_setsReadingBannerAndStatusMessageSynchronously() {
         let model = ScannerScreenModel()
 
@@ -19,6 +21,8 @@ final class ScannerScreenModelTests: XCTestCase {
 
         XCTAssertEqual(model.banner, .reading)
     }
+
+    // MARK: - Duplicate-barcode guard
 
     func test_getFoodInformations_sameBarcodeWhileAlreadyResolved_isNoOp() {
         let model = ScannerScreenModel()
@@ -43,6 +47,8 @@ final class ScannerScreenModelTests: XCTestCase {
         XCTAssertEqual(model.banner, .reading)
     }
 
+    // MARK: - resetForNewScan
+
     func test_resetForNewScan_clearsBanner() {
         let model = ScannerScreenModel()
         model.getFoodInformations(barcode: "3017620422003")
@@ -65,6 +71,8 @@ final class ScannerScreenModelTests: XCTestCase {
 
         XCTAssertEqual(model.banner, .reading)
     }
+
+    // MARK: - isValidBarcode (pure function)
 
     func test_isValidBarcode_emptyString_isValid() {
         let model = ScannerScreenModel()

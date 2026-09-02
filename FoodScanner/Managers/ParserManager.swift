@@ -19,6 +19,8 @@ class ParserManager {
 
     private init() { }
 
+    // MARK: - Food
+
     static func parseFood(from data: Data) throws -> FoodStruct {
         do {
             let productRoot: ProductRoot = try JSONDecoder().decode(ProductRoot.self, from: data)
