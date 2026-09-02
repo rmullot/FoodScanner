@@ -1,6 +1,9 @@
 excluded:
   - FoodScanner/Open Source Code
   - FoodScanner/Generated
+  - FoodScannerUI/Sources/FoodScannerUI/Generated
+  - FoodScannerUI/.build
+  - FoodScannerUI/Package.swift
   - .build
   - DerivedData
   - FoodScanner.xcodeproj
@@ -46,7 +49,7 @@ custom_rules:
     match_kinds:
       - comment
       - doccomment
-    regex: '//+(?!\s*$)(?!\s*(TODO|FIXME|SECURITY)\s*:)(?!\s*[\w .+\-À-ÿ]+\.swift\s*$)(?!\s*FoodScanner(UI)?\s*$)(?!\s*Copyright © (MULLOT Romain EI|\d{4} [^.]+)\.\s*All rights reserved\.\s*$)(?!\s*Created (on|by) .*$)(?!\s*swiftlint:)'
+    regex: '//+(?!\s*$)(?!\s*(TODO|FIXME|SECURITY)\s*:)(?!\s*[\w .+\-À-ÿ]+\.swift\s*$)(?!\s*FoodScanner(UI|Tests|UITests)?\s*$)(?!\s*Copyright © (MULLOT Romain EI|\d{4} [^.]+)\.\s*All rights reserved\.\s*$)(?!\s*Created (on|by) .*$)(?!\s*swiftlint:)'
     message: "No explanatory comments allowed, except `// TODO:`/`// FIXME:` and `// SECURITY:`-tagged lines (see CLAUDE.md). The mandatory copyright header is exempt."
     severity: warning
 
