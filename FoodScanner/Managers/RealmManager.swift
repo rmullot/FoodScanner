@@ -5,11 +5,6 @@
 //  Created by Romain Mullot on 10/11/2018.
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
-//  Actor: guarantees every Realm access is confined to its own isolation
-//  context and that no managed Realm object (Food/Nutrient) crosses an async
-//  boundary. The public API only ever exposes Sendable structs (FoodStruct,
-//  FoodSummary), converted before any `return`/`await`.
-//
 
 import Foundation
 import RealmSwift
@@ -20,25 +15,27 @@ actor RealmManager {
 
     init() {
         autoreleasepool {
-            let realm = try! Realm()
+            guard let realm = try? Realm() else {
+                fatalError("Cannot initialize the default Realm")
+            }
 
-            // Get our Realm file's parent directory
             let folderPath = realm.configuration.fileURL!.deletingLastPathComponent().path
 
-            // Disable file protection for this directory
-            try! FileManager.default.setAttributes([FileAttributeKey.protectionKey: FileProtectionType.none], ofItemAtPath: folderPath)
+            // SECURITY: file protection is disabled here so the encrypted Realm directory stays accessible after first unlock (see RealmEncryptionKeyStore's Keychain policy).
+            do {
+                try FileManager.default.setAttributes([FileAttributeKey.protectionKey: FileProtectionType.none], ofItemAtPath: folderPath)
+            } catch {
+                fatalError("Cannot disable file protection on the Realm directory: \(error.localizedDescription)")
+            }
 
             var config = Realm.Configuration()
-            // Use the default directory, but replace the filename with the username
             config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("foodScannerUser.realm")
-            // Encrypt the Realm file at rest with a 64-byte AES-256 key kept in the Keychain,
-            // never alongside the .realm file itself.
+            // SECURITY: Realm file encrypted at rest with a 64-byte AES-256 key kept in the Keychain, never alongside the .realm file itself.
             config.encryptionKey = RealmEncryptionKeyStore.key()
             Realm.Configuration.defaultConfiguration = config
         }
     }
 
-    /// Reads a cached product and immediately converts it to a Sendable struct.
     func food(barcode: String) async -> FoodStruct? {
         autoreleasepool {
             guard let realm = try? Realm(),
@@ -49,7 +46,6 @@ actor RealmManager {
         }
     }
 
-    /// Persists a `FoodStruct` (never a Realm `Food`/`Nutrient` received from the caller).
     func updateFood(_ foodStruct: FoodStruct) async {
         autoreleasepool {
             do {
@@ -76,7 +72,6 @@ actor RealmManager {
         }
     }
 
-    /// Lightweight summaries for the history screen, sorted by most recent update first.
     func allFoodSummaries() async -> [FoodSummary] {
         autoreleasepool {
             guard let realm = try? Realm() else { return [] }

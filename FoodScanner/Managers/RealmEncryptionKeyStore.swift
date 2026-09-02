@@ -4,12 +4,7 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  Generates and persists the 64-byte AES-256 key Realm uses to encrypt its
-//  file on disk. The key itself lives in the Keychain (not in the Realm
-//  directory, not in UserDefaults) so it survives app updates but never
-//  travels with a copy of the .realm file, and is scoped
-//  `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly` so it neither syncs to
-//  iCloud Keychain nor unlocks before the device has been unlocked once.
+// SECURITY: generates and persists the 64-byte AES-256 key Realm uses to encrypt its file on disk, kept only in the Keychain (kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly), never alongside the .realm file itself.
 //
 
 import Foundation
@@ -18,7 +13,7 @@ enum RealmEncryptionKeyStore {
     private static let account = "com.foodscanner.realm.encryptionKey"
     private static let keyLength = 64
 
-    /// Returns the existing key from the Keychain, or generates, stores, and returns a new one.
+    // SECURITY: returns the existing key from the Keychain, or generates, stores, and returns a new one.
     static func key() -> Data {
         if let existingKey = readKey() {
             return existingKey
