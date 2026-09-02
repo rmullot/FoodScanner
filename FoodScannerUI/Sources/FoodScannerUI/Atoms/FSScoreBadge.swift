@@ -45,7 +45,6 @@ public enum FSNutriScore: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
-/// Single badge: the letter on its official flat color.
 public struct FSScoreBadge: View {
     public enum Size { case small, medium, large
 
@@ -100,8 +99,6 @@ public struct FSScoreBadge: View {
     }
 }
 
-/// Full A–E scale with the current letter highlighted.
-/// Selection is conveyed by size and an outline, never by color alone.
 public struct FSScoreScale: View {
     private let score: FSNutriScore
     @Environment(\.dynamicTypeSize) private var typeSize

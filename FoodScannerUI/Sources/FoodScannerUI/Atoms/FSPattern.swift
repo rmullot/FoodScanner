@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-/// A design system nutrient: its seasonal food color AND its pattern.
-/// The pattern is mandatory: no information is conveyed by color alone.
 public enum FSNutrient: String, CaseIterable, Identifiable, Sendable {
     case carbs, fat, protein, salt, fiber
 
@@ -25,7 +23,6 @@ public enum FSNutrient: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// The seasonal food whose color is used, for the legend.
     public func seasonalSource(_ season: FSSeason) -> String {
         switch (self, season) {
         case (.carbs, .springSummer): return FSL10n.Nutrient.Source.Carbs.springSummer
@@ -61,7 +58,6 @@ public enum FSNutrient: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
-/// Distinctive patterns, drawn in `Canvas` and usable as a fill.
 public struct FSPattern: View {
 
     public enum Motif: String, CaseIterable, Sendable {
@@ -90,7 +86,6 @@ public struct FSPattern: View {
         self.scale = scale
     }
 
-    /// Ready-to-use fill for a nutrient.
     public init(_ nutrient: FSNutrient, scale: CGFloat = 1) {
         self.init(nutrient.pattern, base: nutrient.color, ink: .fsInk, scale: scale)
     }
@@ -151,7 +146,6 @@ public struct FSPattern: View {
     }
 }
 
-/// Legend swatch: the pattern inside a small rounded square.
 public struct FSPatternSwatch: View {
     private let nutrient: FSNutrient
     private let side: CGFloat

@@ -69,7 +69,6 @@ public extension Color {
 }
 
 extension Bundle {
-    /// Works both as an SPM package and as a plain sources folder in the app.
     static var fsModule: Bundle {
         #if SWIFT_PACKAGE
         return .module

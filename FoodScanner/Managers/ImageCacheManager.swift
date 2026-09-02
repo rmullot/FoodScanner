@@ -4,13 +4,6 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  Image cache based on Swift Concurrency: an `actor` memorizes already
-//  downloaded images (NSCache) and deduplicates concurrent downloads of
-//  the same URL (a single in-flight network request per URL, subsequent
-//  callers await the same Task). Replaces per-screen on-the-fly
-//  downloading (e.g. `AsyncImage`) which shares no cache between two
-//  appearances of the same product.
-//
 
 import UIKit
 
@@ -54,7 +47,6 @@ actor ImageCacheManager {
         return result
     }
 
-    /// Pre-decodes the image off-screen (avoids the JPEG/PNG decoding cost on first display).
     private static func decoded(_ image: UIImage) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: image.size, format: .init(for: .init(displayScale: image.scale)))
         return renderer.image { _ in image.draw(at: .zero) }

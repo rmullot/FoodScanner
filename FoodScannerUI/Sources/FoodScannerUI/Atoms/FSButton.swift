@@ -91,7 +91,6 @@ public struct FSButton: View {
     }
 }
 
-/// Icon-only button: guaranteed touch target, mandatory VoiceOver label.
 public struct FSIconButton: View {
     private let systemImage: String
     private let label: String
@@ -127,7 +126,6 @@ struct FSPressStyle: ButtonStyle {
     }
 }
 
-/// Info chip (allergen, notice, filter).
 public struct FSTag: View {
     public enum Tone { case neutral, leaf, alert }
 

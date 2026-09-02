@@ -9,15 +9,18 @@
 import UIKit
 
 extension DispatchQueue {
-    public typealias CancellableClosure = (() -> ())?
+    public typealias CancellableClosure = (() -> Void)?
     
     public func asyncAfter(secondsDeadline: TimeInterval, qos: DispatchQoS = .default, flags: DispatchWorkItemFlags = [], execute work: @escaping @convention(block) () -> Swift.Void) {
         self.asyncAfter(deadline: DispatchTime.now() + secondsDeadline, qos: qos, flags: flags, execute: work)
     }
     
-    public func cancellableAsyncAfter(secondsDeadline: TimeInterval, execute work: @escaping @convention(block) () -> Swift.Void) ->CancellableClosure {
+    public func cancellableAsyncAfter(
+        secondsDeadline: TimeInterval,
+        execute work: @escaping @convention(block) () -> Swift.Void
+    ) -> CancellableClosure {
         var cancelled = false
-        let cancelClosure:CancellableClosure = {
+        let cancelClosure: CancellableClosure = {
             cancelled = true
         }
         
@@ -30,4 +33,3 @@ extension DispatchQueue {
         return cancelClosure
     }
 }
-

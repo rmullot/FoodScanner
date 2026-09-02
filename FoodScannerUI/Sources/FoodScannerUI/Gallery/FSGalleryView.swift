@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-/// Design system gallery: one tab per atoms/molecules, one tab
-/// per reconstructed screen. Serves as a QA and demo playground.
 public struct FSGalleryView: View {
     @State private var seasonOverride: FSSeason?
     @State private var code = "3017620422003"

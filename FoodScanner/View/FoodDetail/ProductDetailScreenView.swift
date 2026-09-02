@@ -4,12 +4,6 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  Merged product detail screen: replaces the former two-step
-//  ProductSheetView -> NutrientsScreenView navigation with a single scrollable
-//  screen (FSProductCard header + score/calories/nutrient bars). The nav bar
-//  title stays a short, generic label (L10n.Nutrients.title) rather than the
-//  product name, which can be long enough to truncate in the bar — the full
-//  name is still rendered, unclipped, inside FSProductCard in the body.
 //
 
 import SwiftUI

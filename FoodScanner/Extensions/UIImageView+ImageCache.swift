@@ -5,11 +5,6 @@
 //  Created by Romain Mullot on 22/10/2018
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
-//  Image loading for UIImageView, backed by `ImageCacheManager` (Swift
-//  Concurrency actor): no more raw completion handler/URLSession.dataTask,
-//  caching and deduplication of in-flight downloads are handled by the
-//  actor, shared with any other consumer (SwiftUI included).
-//
 
 import UIKit
 

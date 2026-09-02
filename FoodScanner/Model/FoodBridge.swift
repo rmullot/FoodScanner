@@ -4,18 +4,12 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  Bridge between the app's Codable structs (FoodStruct/NutrientStruct) and
-//  the FoodScannerUI design system types. Lives on the app side (not in the
-//  package) so that FoodScannerUI stays independent of FoodScanner's domain model.
 //
 
 import Foundation
 import FoodScannerUI
 
 extension NutrientStruct {
-    /// Maps the French `MainNutrientName` name to the design system nutrient.
-    /// "Sucres" (sugars) intentionally has no `FSNutrient` equivalent (confirmed
-    /// in `FSPattern.swift`): it stays displayed as plain text, never as a bar.
     var fsKind: FSNutrient? {
         guard type == NutrientType.mainNutrient.rawValue else { return nil }
         switch name {
@@ -30,8 +24,6 @@ extension NutrientStruct {
 }
 
 extension FoodStruct {
-    /// List of main nutrient bars ("Score then bars"), excluding calories,
-    /// sub-nutrients, and any nutrient without an `FSNutrient` equivalent.
     var nutrientBars: [(FSNutrient, Double)] {
         nutrients.compactMap { nutrient in
             guard let kind = nutrient.fsKind else { return nil }
@@ -39,12 +31,10 @@ extension FoodStruct {
         }
     }
 
-    /// The design system Nutri-Score, from the letter decoded from the API.
     var fsNutriScore: FSNutriScore? {
         nutriscoreGrade.flatMap { FSNutriScore(letter: $0) }
     }
 
-    /// The "Calories" nutrient, displayed as plain text (no bar).
     var caloriesNutrient: NutrientStruct? {
         nutrients.first { $0.type == NutrientType.calories.rawValue }
     }

@@ -4,11 +4,6 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/02/2026.
 //
-//  Covers the computed properties `ProductDetailScreenView` (the merged
-//  product+nutrients screen) reads from `FoodDetailModel`: since the screen
-//  now shows the score badge, calories text, AND the nutrient bars in one
-//  place (no more intermediate "Voir les nutriments" step), all three must
-//  be simultaneously available from a single `FoodStruct`.
 
 import XCTest
 import FoodScannerUI
@@ -35,9 +30,6 @@ final class FoodDetailModelTests: XCTestCase {
     func test_nutrientBars_containsOnlyMainNutrientsWithAnFSNutrientEquivalent() {
         let model = FoodDetailModel(food: .previewFixture)
 
-        // previewFixture has 5 main nutrients (carbs/proteins/fats/fibers/salt),
-        // one sub-nutrient ("Sucres", no FSNutrient case), and one calories entry.
-        // Only the 5 main nutrients should surface as bars.
         XCTAssertEqual(model.nutrientBars.count, 5)
         let kinds = Set(model.nutrientBars.map(\.0))
         XCTAssertEqual(kinds, [.carbs, .protein, .fat, .fiber, .salt])

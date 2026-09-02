@@ -8,14 +8,11 @@
 
 import SwiftUI
 
-/// The design system's food mascots, drawn in `Path`/`Canvas`
-/// (super-deformed comic style: big eyes, thick outline, rosy cheeks).
-/// No asset: they follow the accent color and animate.
 public struct FSMascot: View {
 
     public enum Kind: String, CaseIterable, Identifiable, Sendable {
-        case strawberry, pea, lemon      // spring-summer
-        case squash, chestnut, cabbage   // autumn-winter
+        case strawberry, pea, lemon
+        case squash, chestnut, cabbage
 
         public var id: String { rawValue }
 
@@ -73,11 +70,6 @@ public struct FSMascot: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var bounce = false
 
-    /// - Parameters:
-    ///   - kind: the food.
-    ///   - size: side of the drawing square (44 pt by default).
-    ///   - decorative: `true` (default) hides the mascot from VoiceOver;
-    ///     `false` exposes it with its food name.
     public init(_ kind: Kind, size: CGFloat = 44, decorative: Bool = true) {
         self.kind = kind
         self.size = size
@@ -104,11 +96,9 @@ public struct FSMascot: View {
         let p = kind.palette
         let outline = Color(hex: 0x3A2418)
 
-        // cast shadow
         ctx.fill(Path(ellipseIn: CGRect(x: 12, y: 43.4, width: 24, height: 4.6)),
                  with: .color(outline.opacity(0.13)))
 
-        // feet + arms
         for x in [CGFloat(18), CGFloat(30)] {
             ctx.fill(Path(ellipseIn: CGRect(x: x - 3.6, y: 41, width: 7.2, height: 4.8)), with: .color(p.shade))
         }
@@ -119,12 +109,10 @@ public struct FSMascot: View {
         arms.addQuadCurve(to: CGPoint(x: 42.2, y: 34.6), control: CGPoint(x: 41, y: 31.6))
         ctx.stroke(arms, with: .color(p.shade), style: StrokeStyle(lineWidth: 3.2, lineCap: .round))
 
-        // body
         let body = bodyPath(kind)
         ctx.fill(body, with: .color(p.fill))
         ctx.stroke(body, with: .color(p.shade), lineWidth: 2.2)
 
-        // shine
         var shine = Path()
         shine.move(to: CGPoint(x: 12.6, y: 26.4))
         shine.addQuadCurve(to: CGPoint(x: 24, y: 20.8), control: CGPoint(x: 16, y: 21.4))
@@ -132,7 +120,6 @@ public struct FSMascot: View {
 
         decorations(kind, in: &ctx)
 
-        // face
         let f = kind.face
         for dx in [-f.eyeGap, f.eyeGap] {
             let eye = CGRect(x: 24 + dx - f.eyeR, y: f.eyesY - f.eyeR * 1.16,
@@ -267,7 +254,6 @@ public struct FSMascot: View {
     }
 }
 
-/// Trio of the current season's mascots, aligned and decorative.
 public struct FSMascotRow: View {
     @FSResolvedSeason private var season
     private let size: CGFloat

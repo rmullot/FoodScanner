@@ -43,7 +43,6 @@ public extension View {
             .contentShape(Rectangle())
     }
 
-    /// Design system card: background, radius, thin border.
     func fsCard(radius: CGFloat = FSMetrics.radiusLarge) -> some View {
         background(
             RoundedRectangle(cornerRadius: radius, style: .continuous)

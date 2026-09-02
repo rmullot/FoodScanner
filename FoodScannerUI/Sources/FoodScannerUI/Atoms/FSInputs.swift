@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-/// Barcode entry field. Numeric keyboard, large characters,
-/// visible validation, and a custom keypad for hurried fingers.
 public struct FSBarcodeField: View {
     @Binding private var code: String
     private let onSubmit: (String) -> Void
@@ -142,7 +140,6 @@ public struct FSKeypad: View {
     }
 }
 
-/// Settings row with a toggle, explanation, and full-width target.
 public struct FSToggleRow: View {
     private let title: String
     private let explanation: String?
@@ -185,7 +182,6 @@ public struct FSToggleRow: View {
     }
 }
 
-/// Text size slider, with an immediate preview of the chosen scale.
 public struct FSTextSizeSlider: View {
     @Binding private var scale: Double
 

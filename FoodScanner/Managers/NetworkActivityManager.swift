@@ -5,10 +5,6 @@
 //  Created by Romain Mullot on 22/10/2018.
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
-//  In-flight request counter exposed via `@Published var isActive`, confined
-//  to the main actor: directly consumable by a SwiftUI view (@ObservedObject)
-//  without going through a global UIKit indicator.
-//
 
 import Foundation
 
@@ -20,7 +16,7 @@ public final class NetworkActivityManager: ObservableObject {
 
     private var countRequest: Int = 0
 
-    private let maxActivityDuration: Double = 120 //in seconds
+    private let maxActivityDuration: Double = 120
 
     private var disableActivityIndicatorClosure: DispatchQueue.CancellableClosure = nil
 
