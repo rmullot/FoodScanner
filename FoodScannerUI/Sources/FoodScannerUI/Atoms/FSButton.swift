@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-/// Design system pill button. Three roles, never less than 44 pt tall,
-/// and a label that wraps to two lines rather than truncating at AX5.
 public struct FSButton: View {
 
     public enum Role { case primary, outline, quiet }
@@ -91,7 +89,6 @@ public struct FSButton: View {
     }
 }
 
-/// Icon-only button: guaranteed touch target, mandatory VoiceOver label.
 public struct FSIconButton: View {
     private let systemImage: String
     private let label: String
@@ -127,7 +124,6 @@ struct FSPressStyle: ButtonStyle {
     }
 }
 
-/// Info chip (allergen, notice, filter).
 public struct FSTag: View {
     public enum Tone { case neutral, leaf, alert }
 

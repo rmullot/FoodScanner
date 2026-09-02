@@ -4,8 +4,6 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  Welcome/permissions screen: welcome + camera authorization.
-//  Presented as a .fullScreenCover from the root on first launch.
 //
 
 import SwiftUI

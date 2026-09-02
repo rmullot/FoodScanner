@@ -22,7 +22,7 @@ final class Food: Object {
         return "barcode"
     }
     
-    static func ==(lhs: Food, rhs: Food) -> Bool {
+    static func == (lhs: Food, rhs: Food) -> Bool {
         return (lhs.barcode == rhs.barcode && lhs.lastUpdate == rhs.lastUpdate)
     }
 }
@@ -41,7 +41,7 @@ struct FoodStruct: Codable {
     var lastUpdate: TimeInterval = 0
     var nutriscoreGrade: String?
     var nutrients: [NutrientStruct] = []
-    private var nutrientsJSON : NutrientJSONStruct
+    private var nutrientsJSON: NutrientJSONStruct
 
     enum CodingKeys: String, CodingKey {
         case barcode = "code"
@@ -52,7 +52,6 @@ struct FoodStruct: Codable {
         case nutrientsJSON = "nutriments"
     }
 
-    /// Manual construction (previews/fixtures), in addition to the JSON decoding below.
     init(barcode: String = "", imageURL: String = "", name: String = "", lastUpdate: TimeInterval = 0,
          nutriscoreGrade: String? = nil, nutrients: [NutrientStruct] = []) {
         self.barcode = barcode
@@ -71,13 +70,17 @@ struct FoodStruct: Codable {
         name = try values.decode(String.self, forKey: .name)
         lastUpdate = try values.decode(TimeInterval.self, forKey: .lastUpdate)
         nutriscoreGrade = try values.decodeIfPresent(String.self, forKey: .nutriscoreGrade)
-        nutrientsJSON =  try values.decode(NutrientJSONStruct.self, forKey: .nutrientsJSON)
-        var nutrientsStructTmp :[NutrientStruct] = []
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.carbohydrates, name: MainNutrientName.carbohydrates.rawValue, type: NutrientType.mainNutrient.rawValue))
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.proteins, name: MainNutrientName.proteins.rawValue, type: NutrientType.mainNutrient.rawValue))
+        nutrientsJSON = try values.decode(NutrientJSONStruct.self, forKey: .nutrientsJSON)
+        var nutrientsStructTmp: [NutrientStruct] = []
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.carbohydrates,
+                                                   name: MainNutrientName.carbohydrates.rawValue, type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.proteins,
+                                                   name: MainNutrientName.proteins.rawValue, type: NutrientType.mainNutrient.rawValue))
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.energies, name: "Calories", type: NutrientType.calories.rawValue))
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fats, name: MainNutrientName.fats.rawValue, type: NutrientType.mainNutrient.rawValue))
-        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fibers, name: MainNutrientName.fibers.rawValue, type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fats,
+                                                   name: MainNutrientName.fats.rawValue, type: NutrientType.mainNutrient.rawValue))
+        nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.fibers,
+                                                   name: MainNutrientName.fibers.rawValue, type: NutrientType.mainNutrient.rawValue))
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.salt, name: MainNutrientName.salt.rawValue, type: NutrientType.mainNutrient.rawValue))
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.saturatedFats, name: "Lipides Saturées", type: NutrientType.subNutrient.rawValue))
         nutrientsStructTmp.append(NutrientStruct(quantity: nutrientsJSON.sugars, name: "Sucres", type: NutrientType.subNutrient.rawValue))

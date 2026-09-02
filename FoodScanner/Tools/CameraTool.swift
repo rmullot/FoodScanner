@@ -10,9 +10,7 @@ import Foundation
 import AVFoundation
 
 class CameraTool {
-    
-    //MARK: - Attributes
-    
+
     static let supportedCodeTypes = [AVMetadataObject.ObjectType.upce,
                                                  AVMetadataObject.ObjectType.code39,
                                                  AVMetadataObject.ObjectType.code39Mod43,
@@ -26,9 +24,7 @@ class CameraTool {
                                                  AVMetadataObject.ObjectType.dataMatrix,
                                                  AVMetadataObject.ObjectType.interleaved2of5,
                                                  AVMetadataObject.ObjectType.qr]
-    
-    //MARK: - Methods
-    
+
     static func bestDevice(in position: AVCaptureDevice.Position) -> AVCaptureDevice? {
         #if targetEnvironment(simulator)
             print("Missing capture devices.")

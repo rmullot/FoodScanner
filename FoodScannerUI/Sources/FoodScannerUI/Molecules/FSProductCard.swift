@@ -8,14 +8,6 @@
 
 import SwiftUI
 
-/// Product card: the identity block of a scanned food item.
-/// Only accepts primitives — no coupling to the app's Realm models.
-///
-/// Does no asynchronous work (no downloading, no caching):
-/// `thumbnail` is an already resolved image, loaded and cached upstream
-/// by the app (see `ImageCacheManager`). FoodScannerUI stays a pure
-/// synchronous render, reusable independently of the loading/caching
-/// strategy chosen on the app side.
 public struct FSProductCard: View {
     private let name: String
     private let brand: String?
@@ -97,7 +89,6 @@ public struct FSProductCard: View {
     }
 }
 
-/// "In season" panel: a mascot and an educational sentence.
 public struct FSSeasonalHint: View {
     private let text: String
     @FSResolvedSeason private var season
@@ -121,7 +112,6 @@ public struct FSSeasonalHint: View {
     }
 }
 
-/// Scan status banner, from the viewfinder to the result.
 public struct FSScanStatusBanner: View {
     public enum State: Equatable {
         case aiming
@@ -164,9 +154,6 @@ public struct FSScanStatusBanner: View {
     private let state: State
     private let onFoundTap: (() -> Void)?
 
-    /// - Parameter onFoundTap: optional action invoked when the banner is tapped
-    ///   while `state` is `.found`. When `nil` (default), or for any other state,
-    ///   the banner stays a passive, non-interactive element exactly as before.
     public init(_ state: State, onFoundTap: (() -> Void)? = nil) {
         self.state = state
         self.onFoundTap = onFoundTap
@@ -240,7 +227,6 @@ public struct FSScanStatusBanner: View {
     }
 }
 
-/// History row: already viewed product, with its score and recency.
 public struct FSHistoryRow: View {
     private let name: String
     private let subtitle: String
@@ -304,7 +290,6 @@ public struct FSHistoryRow: View {
     }
 }
 
-/// Offline banner, to place at the top of a list.
 public struct FSOfflineBanner: View {
     private let text: String
 

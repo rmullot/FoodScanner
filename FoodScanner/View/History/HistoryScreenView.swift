@@ -4,8 +4,6 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  History screen: FSHistoryRow + FSOfflineBanner + FSSceneFooter.
-//  Tap -> shared product sheet (cache read only, no network request).
 //
 
 import SwiftUI
@@ -32,7 +30,6 @@ struct HistoryScreenView: View {
     }
 }
 
-/// Passive list content, separated to allow previews without Realm.
 private struct HistoryListContent: View {
     let items: [FoodSummary]
     let isOffline: Bool
@@ -75,8 +72,6 @@ private struct HistoryListContent: View {
     }
 }
 
-/// Reloads a `FoodStruct` from the Realm cache (via the `RealmManager` actor)
-/// before displaying the shared product sheet.
 private struct HistoryDetailLoader: View {
     let barcode: String
     @State private var food: FoodStruct?

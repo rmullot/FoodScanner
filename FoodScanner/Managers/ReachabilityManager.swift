@@ -5,16 +5,10 @@
 //  Created by Romain Mullot on 22/10/2018.
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
-//  Publishes `onlineMode` via `@Published` (ObservableObject): observable
-//  directly from SwiftUI (@ObservedObject / Combine `$onlineMode`),
-//  without going through the former delegate + MulticastDelegate pair.
-//
 
 import Foundation
 import CoreTelephony
 import UIKit
-
-// MARK: - OnlineMode
 
 @objc public enum OnlineMode: Int {
     case offline = 0
@@ -49,11 +43,8 @@ extension OnlineMode: RawRepresentable {
     }
 }
 
-// MARK: - Reachability Manager
-
 public final class ReachabilityManager: ObservableObject {
 
-    // MARK: Properties
     static let sharedInstance = ReachabilityManager()
 
     @Published public private(set) var onlineMode: OnlineMode = .online
@@ -62,7 +53,7 @@ public final class ReachabilityManager: ObservableObject {
 
     private let telephonyInfo = CTTelephonyNetworkInfo()
 
-    private let changeOperatingModeDelay: Double = 2.0 //in seconds
+    private let changeOperatingModeDelay: Double = 2.0
 
     private var changeOperatinModeClosure: DispatchQueue.CancellableClosure = nil
 
@@ -75,7 +66,7 @@ public final class ReachabilityManager: ObservableObject {
                                                    object: reachability)
             do {
                 try reachability.startNotifier()
-            } catch (let error) {
+            } catch let error {
                 print("Unable to start Reachability! Error: \(error)")
             }
         } else {
@@ -92,8 +83,6 @@ public final class ReachabilityManager: ObservableObject {
         NotificationCenter.default.removeObserver(self)
     }
 
-    // MARK: Reachability changed
-
     @objc public dynamic func refreshReachability() {
         if let reachability = self.reachability {
             NotificationCenter.default.post(name: ReachabilityChangedNotification, object: reachability)
@@ -107,7 +96,6 @@ public final class ReachabilityManager: ObservableObject {
 
         if reachability.isReachable {
 
-            //handle slow / fast mode here
             if let radioAccessTechnologies = telephonyInfo.serviceCurrentRadioAccessTechnology, !radioAccessTechnologies.isEmpty {
                 let isSlow = radioAccessTechnologies.values.contains { technology in
                     technology == CTRadioAccessTechnologyEdge ||
@@ -135,9 +123,6 @@ public final class ReachabilityManager: ObservableObject {
         }
     }
 
-    /// `@Published` must be mutated on the main thread for SwiftUI/Combine
-    /// to resynchronize correctly; the vendored Reachability lib may notify
-    /// from an arbitrary thread.
     private func publish(_ newMode: OnlineMode) {
         if Thread.isMainThread {
             onlineMode = newMode

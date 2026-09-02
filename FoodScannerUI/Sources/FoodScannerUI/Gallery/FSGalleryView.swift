@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-/// Design system gallery: one tab per atoms/molecules, one tab
-/// per reconstructed screen. Serves as a QA and demo playground.
 public struct FSGalleryView: View {
     @State private var seasonOverride: FSSeason?
     @State private var code = "3017620422003"
@@ -37,8 +35,6 @@ public struct FSGalleryView: View {
         .fsSeason(seasonOverride)
         .tint(Color.fsAccent)
     }
-
-    // MARK: Components tab
 
     private var componentsTab: some View {
         ScrollView {
@@ -136,8 +132,6 @@ public struct FSGalleryView: View {
         }
     }
 
-    // MARK: Screens tab
-
     private var screensTab: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: FSMetrics.space6) {
@@ -179,8 +173,6 @@ public struct FSGalleryView: View {
             .padding(FSMetrics.space5)
         }
     }
-
-    // MARK: Tools
 
     private var seasonPicker: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space2) {

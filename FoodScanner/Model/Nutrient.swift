@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-enum NutrientType : Int {
+enum NutrientType: Int {
     case calories = 0
     case mainNutrient = 1
     case subNutrient = 2
@@ -48,7 +48,6 @@ struct NutrientJSONStruct: Codable {
     var saturatedFats: Double = 0
     var sugars: Double = 0
     
-    /// Manual construction (previews/fixtures), in addition to the JSON decoding below.
     init(carbohydrates: Double = 0, energies: Double = 0, fats: Double = 0, fibers: Double = 0,
          proteins: Double = 0, salt: Double = 0, saturatedFats: Double = 0, sugars: Double = 0) {
         self.carbohydrates = carbohydrates
@@ -75,7 +74,6 @@ struct NutrientJSONStruct: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        //OpenFoodFact return sometimes a Double or a String ...
         func decode(key: CodingKeys) throws -> Double {
             do {
                 return try values.decodeIfPresent(StringCodableMap<Double>.self, forKey: key)?.decoded ?? 0
@@ -96,7 +94,7 @@ struct NutrientJSONStruct: Codable {
 
 }
 
-struct StringCodableMap<Decoded: LosslessStringConvertible> : Codable {
+struct StringCodableMap<Decoded: LosslessStringConvertible>: Codable {
     
     var decoded: Decoded
     

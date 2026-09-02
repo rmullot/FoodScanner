@@ -4,9 +4,6 @@
 //  Copyright © MULLOT Romain EI. All rights reserved.
 //  Created on 09/01/2026.
 //
-//  UIViewRepresentable wrapping AVCaptureSession/AVCaptureVideoPreviewLayer,
-//  reproducing the behavior of the former ScannerViewController: barcode
-//  auto-detection + tap-to-focus, interaction behavior unchanged.
 //
 
 import SwiftUI
@@ -42,9 +39,6 @@ final class CameraPreviewUIView: UIView {
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     private var captureMetadataOutput = AVCaptureMetadataOutput()
     private var barCodeFrameView: UIView?
-    // AVCaptureSession.startRunning()/stopRunning() are blocking and must
-    // never be called on the main thread (see AVFoundation runtime warning):
-    // we run them on this dedicated queue.
     private let sessionQueue = DispatchQueue(label: "com.foodscanner.cameraSession")
 
     override init(frame: CGRect) {
