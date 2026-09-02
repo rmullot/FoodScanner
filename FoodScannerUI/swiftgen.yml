@@ -1,0 +1,24 @@
+input_dir: Sources/FoodScannerUI
+output_dir: Sources/FoodScannerUI
+
+strings:
+  inputs:
+    - Resources/fr.lproj/Localizable.strings
+  outputs:
+    - templateName: structured-swift5
+      params:
+        publicAccess: true
+        enumName: FSL10n
+        bundle: Bundle.module
+      output: Generated/Strings.swift
+
+xcassets:
+  inputs:
+    - Resources/FoodScannerUI.xcassets
+  outputs:
+    - templateName: swift5
+      params:
+        publicAccess: true
+        bundle: Bundle.module
+        enumName: FSAsset
+      output: Generated/Assets.swift

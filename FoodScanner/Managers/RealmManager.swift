@@ -9,102 +9,100 @@
 import Foundation
 import RealmSwift
 
-//TODO: To upgrade class to manage : mutlithread, managed and unmanaged object differences, etc.
-class RealmManager {
+actor RealmManager {
 
     static let sharedInstance = RealmManager()
-    private let backgroundQueue = DispatchQueue(label: "realm", qos: .background)
-    
-    private init() {
-        autoreleasepool {
-            let realm = try! Realm()
-            
-            // Get our Realm file's parent directory
-            let folderPath = realm.configuration.fileURL!.deletingLastPathComponent().path
-            
-            // Disable file protection for this directory
-            try! FileManager.default.setAttributes([FileAttributeKey.protectionKey: FileProtectionType.none], ofItemAtPath: folderPath)
-            setDefaultRealmForUser(username: "foodScannerUser")
-        }
-    }
-    
-    func setDefaultRealmForUser(username: String) {
-        var config = Realm.Configuration()
-        
-        // Use the default directory, but replace the filename with the username
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(username).realm")
-        
-        // Set this as the configuration used for the default Realm
-        Realm.Configuration.defaultConfiguration = config
-    }
-    
-    func getFood(withBarcode barcode:String, completionHandler: @escaping ((Food?) -> Void)) {
-        DispatchQueue.main.async {
-            autoreleasepool {
-                let realm = try! Realm()
-                do {
-                    try realm.write {
-                        let food = realm.object(ofType: Food.self, forPrimaryKey: barcode)
-                        completionHandler(food)
-                    }
-                } catch let error as NSError {
-                    print("Cannot update Realm failed: \(error.localizedDescription)")
-                    completionHandler(nil)
-                }
 
+    init() {
+        autoreleasepool {
+            guard let realm = try? Realm() else {
+                fatalError("Cannot initialize the default Realm")
+            }
+
+            guard let folderPath = realm.configuration.fileURL?.deletingLastPathComponent().path else {
+                fatalError("Cannot resolve the Realm directory path")
+            }
+
+            // SECURITY: file protection is disabled here so the encrypted Realm directory stays accessible after first unlock (see RealmEncryptionKeyStore's Keychain policy).
+            do {
+                try FileManager.default.setAttributes([FileAttributeKey.protectionKey: FileProtectionType.none], ofItemAtPath: folderPath)
+            } catch {
+                fatalError("Cannot disable file protection on the Realm directory: \(error.localizedDescription)")
+            }
+
+            var config = Realm.Configuration()
+            guard let defaultFileURL = config.fileURL else {
+                fatalError("Cannot resolve the default Realm file URL")
+            }
+            config.fileURL = defaultFileURL.deletingLastPathComponent().appendingPathComponent("foodScannerUser.realm")
+            // SECURITY: Realm file encrypted at rest with a 64-byte AES-256 key kept in the Keychain, never alongside the .realm file itself.
+            config.encryptionKey = RealmEncryptionKeyStore.key()
+            Realm.Configuration.defaultConfiguration = config
+        }
+    }
+
+    func food(barcode: String) async -> FoodStruct? {
+        autoreleasepool {
+            guard let realm = try? Realm(),
+                  let food = realm.object(ofType: Food.self, forPrimaryKey: barcode) else {
+                return nil
+            }
+            return Self.foodStruct(from: food)
+        }
+    }
+
+    func updateFood(_ foodStruct: FoodStruct) async {
+        autoreleasepool {
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    let food = Food()
+                    food.barcode = foodStruct.barcode
+                    food.imageURL = foodStruct.imageURL
+                    food.lastUpdate = foodStruct.lastUpdate
+                    food.name = foodStruct.name
+                    food.nutriscoreGrade = foodStruct.nutriscoreGrade
+                    foodStruct.nutrients.forEach { nutrient in
+                        let nutrientRealm = Nutrient()
+                        nutrientRealm.quantity = nutrient.quantity
+                        nutrientRealm.type = nutrient.type
+                        nutrientRealm.name = nutrient.name
+                        food.nutrients.append(nutrientRealm)
+                    }
+                    realm.add(food, update: .all)
+                }
+            } catch let error as NSError {
+                print("Cannot update Realm failed: \(error.localizedDescription)")
             }
         }
     }
-        
-    func updateFood(foodStruct:FoodStruct, completionHandler: @escaping (() -> Void)) {
-        backgroundQueue.async {
-            autoreleasepool {
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        let food = Food()
-                        food.barcode = foodStruct.barcode
-                        food.imageURL = foodStruct.imageURL
-                        food.lastUpdate = foodStruct.lastUpdate
-                        food.name = foodStruct.name
-                        foodStruct.nutrients.forEach({ nutrient in
-                            let nutrientRealm = Nutrient()
-                            nutrientRealm.quantity = nutrient.quantity
-                            nutrientRealm.type = nutrient.type
-                            nutrientRealm.name = nutrient.name
-                            food.nutrients.append(nutrientRealm)
-                        })
-                        realm.add(food,update: .all)
-                        
-                        DispatchQueue.main.async {
-                            completionHandler()
-                        }
-                    }
-                } catch let error as NSError {
-                    print("Cannot update Realm failed: \(error.localizedDescription)")
-                    DispatchQueue.main.async {
-                        completionHandler()
-                    }
-                }
+
+    func allFoodSummaries() async -> [FoodSummary] {
+        autoreleasepool {
+            guard let realm = try? Realm() else { return [] }
+            let foods = realm.objects(Food.self).sorted(byKeyPath: "lastUpdate", ascending: false)
+            return foods.map { food in
+                FoodSummary(
+                    barcode: food.barcode,
+                    name: food.name,
+                    imageURL: food.imageURL,
+                    nutriscoreGrade: food.nutriscoreGrade,
+                    lastUpdate: food.lastUpdate
+                )
             }
         }
     }
-    
-}
- extension Realm {
-     func writeAsync<T : ThreadConfined>(obj: T, errorHandler: @escaping ((_ error : Swift.Error) -> Void) = { _ in return }, block: @escaping ((Realm, T?) -> Void)) {
-        let wrappedObj = ThreadSafeReference(to: obj)
-        let config = self.configuration
-         DispatchQueue(label: "background",qos: .background).async {
-            autoreleasepool {
-                do {
-                    let realm = try Realm(configuration: config)
-                    let obj = realm.resolve(wrappedObj)
-                    try realm.write { block(realm, obj) }
-                } catch {
-                    errorHandler(error)
-                }
+
+    private static func foodStruct(from food: Food) -> FoodStruct {
+        FoodStruct(
+            barcode: food.barcode,
+            imageURL: food.imageURL,
+            name: food.name,
+            lastUpdate: food.lastUpdate,
+            nutriscoreGrade: food.nutriscoreGrade,
+            nutrients: food.nutrients.map { nutrient in
+                NutrientStruct(quantity: nutrient.quantity, name: nutrient.name, type: nutrient.type)
             }
-        }
+        )
     }
 }

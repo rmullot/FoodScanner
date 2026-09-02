@@ -1,0 +1,9 @@
+{
+  "info": {
+    "author": "foodscanner",
+    "version": 1
+  },
+  "properties": {
+    "provides-namespace": false
+  }
+}

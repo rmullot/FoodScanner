@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-enum NutrientType : Int {
+enum NutrientType: Int {
     case calories = 0
     case mainNutrient = 1
     case subNutrient = 2
@@ -48,21 +48,32 @@ struct NutrientJSONStruct: Codable {
     var saturatedFats: Double = 0
     var sugars: Double = 0
     
+    init(carbohydrates: Double = 0, energies: Double = 0, fats: Double = 0, fibers: Double = 0,
+         proteins: Double = 0, salt: Double = 0, saturatedFats: Double = 0, sugars: Double = 0) {
+        self.carbohydrates = carbohydrates
+        self.energies = energies
+        self.fats = fats
+        self.fibers = fibers
+        self.proteins = proteins
+        self.salt = salt
+        self.saturatedFats = saturatedFats
+        self.sugars = sugars
+    }
+
     enum CodingKeys: String, CodingKey {
-        case carbohydrates = "carbohydrates_prepared_100g"
-        case energies = "energy-kcal_prepared_100g"
-        case fibers = "fiber_prepared_100g"
-        case proteins = "proteins_prepared_100g"
-        case salt = "salt_prepared_100g"
-        case fats = "fat_prepared_100g"
-        case saturatedFats = "saturated-fat_prepared_100g"
-        case sugars = "sugars_prepared_100g"
+        case carbohydrates = "carbohydrates_100g"
+        case energies = "energy-kcal_100g"
+        case fibers = "fiber_100g"
+        case proteins = "proteins_100g"
+        case salt = "salt_100g"
+        case fats = "fat_100g"
+        case saturatedFats = "saturated-fat_100g"
+        case sugars = "sugars_100g"
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        //OpenFoodFact return sometimes a Double or a String ...
         func decode(key: CodingKeys) throws -> Double {
             do {
                 return try values.decodeIfPresent(StringCodableMap<Double>.self, forKey: key)?.decoded ?? 0
@@ -83,7 +94,7 @@ struct NutrientJSONStruct: Codable {
 
 }
 
-struct StringCodableMap<Decoded: LosslessStringConvertible> : Codable {
+struct StringCodableMap<Decoded: LosslessStringConvertible>: Codable {
     
     var decoded: Decoded
     

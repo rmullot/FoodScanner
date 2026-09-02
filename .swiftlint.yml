@@ -1,6 +1,9 @@
 excluded:
   - FoodScanner/Open Source Code
   - FoodScanner/Generated
+  - FoodScannerUI/Sources/FoodScannerUI/Generated
+  - FoodScannerUI/.build
+  - FoodScannerUI/Package.swift
   - .build
   - DerivedData
   - FoodScanner.xcodeproj
@@ -17,6 +20,7 @@ disabled_rules:
 opt_in_rules:
   - empty_count
   - fatal_error_message
+  - force_unwrapping
 
 line_length:
   warning: 160
@@ -39,5 +43,14 @@ large_tuple:
 force_cast: warning
 force_try: warning
 force_unwrapping: warning
+
+custom_rules:
+  no_explanatory_comments:
+    included: ".*\\.swift"
+    match_kinds:
+      - comment
+    regex: '//+(?!\s*$)(?!\s*(TODO|FIXME|SECURITY)\s*:)(?!\s*-?\s*MARK\s*:)(?!\s*[\w .+\-À-ÿ]+\.swift\s*$)(?!\s*FoodScanner(UI|Tests|UITests)?\s*$)(?!\s*Copyright © (MULLOT Romain EI|\d{4} [^.]+)\.\s*All rights reserved\.\s*$)(?!\s*Created (on|by) .*$)(?!\s*swiftlint:)'
+    message: "No explanatory comments allowed, except `// TODO:`/`// FIXME:` lines, `// SECURITY:`-tagged lines, and `// MARK:` section markers (see CLAUDE.md). `///` doc comments are allowed only for a design-system visual constant (color role, pt size, spacing/radius/touch-target value). The mandatory copyright header is exempt."
+    severity: warning
 
 reporter: "xcode"

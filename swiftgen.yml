@@ -8,9 +8,9 @@ xcassets:
     - templateName: swift5
       output: Generated/Assets.swift
 
-storyboards:
+strings:
   inputs:
-    - View/Base.lproj
+    - fr.lproj/Localizable.strings
   outputs:
-    - templateName: scenes-swift5
-      output: Generated/Storyboards.swift
+    - templateName: structured-swift5
+      output: Generated/Strings.swift
