@@ -8,6 +8,7 @@
 
 import SwiftUI
 import AVFoundation
+import UIKit
 import FoodScannerUI
 
 struct OnboardingView: View {
@@ -70,7 +71,16 @@ struct OnboardingView: View {
             }
         default:
             authorizationDenied = true
+            openSystemSettings()
         }
+    }
+
+    private func openSystemSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+        UIApplication.shared.open(url)
     }
 }
 
