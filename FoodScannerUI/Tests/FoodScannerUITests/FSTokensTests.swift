@@ -1,3 +1,11 @@
+//
+//  FSTokensTests.swift
+//  FoodScannerUI
+//
+//  Copyright © MULLOT Romain EI. All rights reserved.
+//  Created on 08/25/2026.
+//
+
 import XCTest
 import SwiftUI
 @testable import FoodScannerUI
@@ -19,11 +27,11 @@ final class FSTokensTests: XCTestCase {
         XCTAssertEqual(FSSeason.matching(.dark), .autumnWinter)
     }
 
-    func testSeasonFollowsCalendar() {
+    func testSeasonFollowsCalendar() throws {
         var cal = Calendar(identifier: .gregorian)
-        cal.timeZone = TimeZone(identifier: "Europe/Paris")!
-        let june = DateComponents(calendar: cal, year: 2026, month: 6, day: 15).date!
-        let december = DateComponents(calendar: cal, year: 2026, month: 12, day: 15).date!
+        cal.timeZone = try XCTUnwrap(TimeZone(identifier: "Europe/Paris"))
+        let june = try XCTUnwrap(DateComponents(calendar: cal, year: 2026, month: 6, day: 15).date)
+        let december = try XCTUnwrap(DateComponents(calendar: cal, year: 2026, month: 12, day: 15).date)
         XCTAssertEqual(FSSeason.current(june, calendar: cal), .springSummer)
         XCTAssertEqual(FSSeason.current(december, calendar: cal), .autumnWinter)
     }

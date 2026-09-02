@@ -20,8 +20,9 @@ enum RealmEncryptionKeyStore {
         }
 
         var newKey = Data(count: keyLength)
-        let result = newKey.withUnsafeMutableBytes { buffer in
-            SecRandomCopyBytes(kSecRandomDefault, keyLength, buffer.baseAddress!)
+        let result = newKey.withUnsafeMutableBytes { buffer -> Int32 in
+            guard let baseAddress = buffer.baseAddress else { return errSecParam }
+            return SecRandomCopyBytes(kSecRandomDefault, keyLength, baseAddress)
         }
         precondition(result == errSecSuccess, "Failed to generate a secure random Realm encryption key")
 

@@ -19,7 +19,9 @@ actor RealmManager {
                 fatalError("Cannot initialize the default Realm")
             }
 
-            let folderPath = realm.configuration.fileURL!.deletingLastPathComponent().path
+            guard let folderPath = realm.configuration.fileURL?.deletingLastPathComponent().path else {
+                fatalError("Cannot resolve the Realm directory path")
+            }
 
             // SECURITY: file protection is disabled here so the encrypted Realm directory stays accessible after first unlock (see RealmEncryptionKeyStore's Keychain policy).
             do {
@@ -29,7 +31,10 @@ actor RealmManager {
             }
 
             var config = Realm.Configuration()
-            config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("foodScannerUser.realm")
+            guard let defaultFileURL = config.fileURL else {
+                fatalError("Cannot resolve the default Realm file URL")
+            }
+            config.fileURL = defaultFileURL.deletingLastPathComponent().appendingPathComponent("foodScannerUser.realm")
             // SECURITY: Realm file encrypted at rest with a 64-byte AES-256 key kept in the Keychain, never alongside the .realm file itself.
             config.encryptionKey = RealmEncryptionKeyStore.key()
             Realm.Configuration.defaultConfiguration = config

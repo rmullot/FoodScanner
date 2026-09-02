@@ -39,7 +39,7 @@ class CameraTool {
                                                                     mediaType: .video, position: .unspecified)
             let devices = discoverySession.devices
         
-            return devices.first(where: { device in device.position == position })!
+            return devices.first(where: { device in device.position == position })
         #endif
     }
     
