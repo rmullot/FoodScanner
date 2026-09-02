@@ -19,15 +19,15 @@ final class RootTabBarController: UITabBarController {
 
         let scannerTab = Self.embed(ScannerScreenView(),
                                      title: L10n.Common.tabScanner,
-                                     systemImage: "barcode.viewfinder")
+                                     systemImage: SFSymbol.scannerTab)
 
         let historyTab = Self.embed(HistoryScreenView(),
                                      title: L10n.Common.tabHistory,
-                                     systemImage: "clock.arrow.circlepath")
+                                     systemImage: SFSymbol.historyTab)
 
         let settingsTab = Self.embed(SettingsScreenView(model: settingsModel),
                                       title: L10n.Common.tabSettings,
-                                      systemImage: "gearshape")
+                                      systemImage: SFSymbol.settingsTab)
 
         viewControllers = [scannerTab, historyTab, settingsTab]
         tabBar.tintColor = UIColor(Color.fsAccent)

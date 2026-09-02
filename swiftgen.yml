@@ -14,3 +14,12 @@ strings:
   outputs:
     - templateName: structured-swift5
       output: Generated/Strings.swift
+
+yaml:
+  inputs:
+    - SFSymbols.yml
+  outputs:
+    - templateName: inline-swift5
+      params:
+        enumName: SFSymbol
+      output: Generated/SFSymbols.swift

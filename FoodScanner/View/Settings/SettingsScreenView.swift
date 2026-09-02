@@ -18,12 +18,12 @@ struct SettingsScreenView: View {
                 VStack(alignment: .leading, spacing: FSMetrics.space4) {
                     FSToggleRow(L10n.Settings.highContrastTitle,
                                 explanation: L10n.Settings.highContrastExplanation,
-                                systemImage: "circle.lefthalf.filled",
+                                systemImage: SFSymbol.highContrast,
                                 isOn: $model.highContrast)
 
                     FSToggleRow(L10n.Settings.reduceAnimationsTitle,
                                 explanation: L10n.Settings.reduceAnimationsExplanation,
-                                systemImage: "figure.walk.motion",
+                                systemImage: SFSymbol.reduceMotion,
                                 isOn: $model.reduceAnimations)
 
                     FSTextSizeSlider(scale: $model.textScale)

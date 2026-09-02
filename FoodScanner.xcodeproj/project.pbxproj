@@ -10,6 +10,7 @@
 		7DA2FB92A31847C48E349104 /* ProductDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B112B2D8747D1AA386F31 /* ProductDetailScreenView.swift */; };
 		02AC261C2FEAC60F00CF77F7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02AC261B2FEAC60F00CF77F7 /* RealmSwift */; };
 		1B2C3D4E5F60718293A4B5C6 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C3D4E5F60718293A4B5C7 /* Strings.swift */; };
+		AA0000000000000000000201 /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000202 /* SFSymbols.swift */; };
 		1B2C3D4E5F60718293A4B5C8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B2C3D4E5F60718293A4B5C9 /* Localizable.strings */; };
 		1B2C3D4E5F60718293A4B5D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B2C3D4E5F60718293A4B5D1 /* InfoPlist.strings */; };
 		1A2B3C4D5E6F70810A0B0C0E /* AppAccessibilitySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F70810A0B0C0D /* AppAccessibilitySettings.swift */; };
@@ -99,6 +100,7 @@
 		0FFFC98B96294C96A944752B /* ScannerScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerScreenView.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F70810A0B0C0D /* AppAccessibilitySettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppAccessibilitySettings.swift; sourceTree = "<group>"; };
 		1B2C3D4E5F60718293A4B5C7 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		AA0000000000000000000202 /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
 		1B2C3D4E5F60718293A4B5CA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B2C3D4E5F60718293A4B5CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B2C3D4E5F60718293A4B5D2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 			children = (
 				796933C05C734C5798D12718 /* Assets.swift */,
 				1B2C3D4E5F60718293A4B5C7 /* Strings.swift */,
+				AA0000000000000000000202 /* SFSymbols.swift */,
 			);
 			path = Generated;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				"$(SRCROOT)/swiftgen.yml",
 				"$(SRCROOT)/FoodScanner/Assets.xcassets",
 				"$(SRCROOT)/FoodScanner/fr.lproj/Localizable.strings",
+				"$(SRCROOT)/FoodScanner/SFSymbols.yml",
 			);
 			name = SwiftGen;
 			outputFileListPaths = (
@@ -607,6 +611,7 @@
 			outputPaths = (
 				"$(SRCROOT)/FoodScanner/Generated/Assets.swift",
 				"$(SRCROOT)/FoodScanner/Generated/Strings.swift",
+				"$(SRCROOT)/FoodScanner/Generated/SFSymbols.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -667,6 +672,7 @@
 				68B5EA339EE04DD2AE2D74CA /* UIApplication+KeyWindow.swift in Sources */,
 				A64FC6924E694D48BE0B7B56 /* Assets.swift in Sources */,
 				1B2C3D4E5F60718293A4B5C6 /* Strings.swift in Sources */,
+				AA0000000000000000000201 /* SFSymbols.swift in Sources */,
 				D73B155ABC964170B2732EDF /* RootTabBarController.swift in Sources */,
 				C922D834B6DD4A49908DE920 /* ScannerViewModel.swift in Sources */,
 				1FCAF1D4268E4FD3ABD64867 /* ScannerScreenView.swift in Sources */,

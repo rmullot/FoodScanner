@@ -82,13 +82,18 @@ défaut) vivent dans `Resources/fr.lproj/Localizable.strings` (base) et
 ressources SPM dans `Package.swift`. Ils sont accédés via l'enum généré
 `FSL10n` (namespace dédié, distinct du `L10n` de l'app cible, pour éviter
 toute collision côté consommateur). Les couleurs/images de
-`FoodScannerUI.xcassets` sont accédées via l'enum généré `FSAsset`.
+`FoodScannerUI.xcassets` sont accédées via l'enum généré `FSAsset`. Les
+SF Symbols sont listés (clé sémantique → nom du symbole) dans
+`Sources/FoodScannerUI/SFSymbols.yml` et accédés via l'enum généré
+`FSSymbol` (distinct du `SFSymbol` de l'app cible) : aucun littéral de
+symbole ne doit être passé à `Image(systemName:)` / `systemImage:`.
 
-Ces deux fichiers sont produits par SwiftGen à partir de
+Ces trois fichiers générés (`Generated/Strings.swift`, `Generated/Assets.swift`,
+`Generated/SFSymbols.swift`) sont produits par SwiftGen à partir de
 `FoodScannerUI/swiftgen.yml`. **La régénération reste manuelle, par choix
 délibéré après investigation d'un plugin SPM build-tool** (voir ci-dessous) —
-ce n'est pas un oubli. Après toute modification de `Localizable.strings` ou
-de `FoodScannerUI.xcassets`, régénérez à la main :
+ce n'est pas un oubli. Après toute modification de `Localizable.strings`,
+de `FoodScannerUI.xcassets` ou de `SFSymbols.yml`, régénérez à la main :
 
 ```sh
 swiftgen config run --config FoodScannerUI/swiftgen.yml

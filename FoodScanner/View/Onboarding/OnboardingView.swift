@@ -47,7 +47,7 @@ struct OnboardingView: View {
                 authorizationDenied
                     ? L10n.Onboarding.openSettingsButton
                     : L10n.Onboarding.allowCameraButton,
-                systemImage: "camera"
+                systemImage: SFSymbol.camera
             ) {
                 requestCameraAuthorization()
             }

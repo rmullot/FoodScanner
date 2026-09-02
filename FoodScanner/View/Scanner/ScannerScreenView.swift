@@ -72,12 +72,12 @@ struct ScannerScreenView: View {
                             HStack {
                                 FSButton(showsKeypad ? L10n.Scanner.hideKeypadButton : L10n.Scanner.showKeypadButton,
                                          role: .quiet,
-                                         systemImage: "square.grid.3x3") {
+                                         systemImage: SFSymbol.keypad) {
                                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
                                                                      to: nil, from: nil, for: nil)
                                     showsKeypad.toggle()
                                 }
-                                FSIconButton(systemImage: model.lampActivated ? "flashlight.on.fill" : "flashlight.off.fill",
+                                FSIconButton(systemImage: model.lampActivated ? SFSymbol.flashlightOn : SFSymbol.flashlightOff,
                                              label: model.lampActivated ? L10n.Scanner.lampOffLabel : L10n.Scanner.lampOnLabel) {
                                     model.toggleLamp()
                                 }

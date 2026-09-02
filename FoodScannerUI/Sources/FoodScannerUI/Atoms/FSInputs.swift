@@ -29,7 +29,7 @@ public struct FSBarcodeField: View {
                 .foregroundStyle(Color.fsInkSecondary)
 
             HStack(spacing: FSMetrics.space3) {
-                Image(systemName: "barcode")
+                Image(systemName: FSSymbol.barcode)
                     .foregroundStyle(Color.fsInkSecondary)
                     .accessibilityHidden(true)
 
@@ -47,7 +47,7 @@ public struct FSBarcodeField: View {
                         code = ""
                         FSHaptics.play(.selection)
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
+                        Image(systemName: FSSymbol.clear)
                             .foregroundStyle(Color.fsInkSecondary)
                     }
                     .fsMinTouchTarget()
@@ -67,13 +67,13 @@ public struct FSBarcodeField: View {
             )
 
             if !code.isEmpty && !isValid {
-                Label(FSL10n.BarcodeField.invalidHint, systemImage: "info.circle")
+                Label(FSL10n.BarcodeField.invalidHint, systemImage: FSSymbol.info)
                     .font(.fsCaption)
                     .foregroundStyle(Color.fsAccent)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            FSButton(FSL10n.BarcodeField.submitButton, systemImage: "magnifyingglass") {
+            FSButton(FSL10n.BarcodeField.submitButton, systemImage: FSSymbol.search) {
                 onSubmit(code)
             }
             .disabled(!isValid)

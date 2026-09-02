@@ -171,13 +171,13 @@ public struct FSTag: View {
 struct FSButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: 16) {
-                FSButton("Scanner un produit", systemImage: "barcode.viewfinder") {}
+                FSButton("Scanner un produit", systemImage: FSSymbol.scan) {}
                 FSButton("Saisir le code", role: .outline) {}
                 FSButton("Plus tard", role: .quiet) {}
                 HStack {
-                    FSTag("Sans gluten", tone: .leaf, systemImage: "checkmark")
-                    FSTag("Trop salé", tone: .alert, systemImage: "exclamationmark.triangle")
-                    FSIconButton(systemImage: "gearshape", label: "Réglages") {}
+                    FSTag("Sans gluten", tone: .leaf, systemImage: FSSymbol.checkmark)
+                    FSTag("Trop salé", tone: .alert, systemImage: FSSymbol.warning)
+                    FSIconButton(systemImage: FSSymbol.gearshape, label: "Réglages") {}
                 }
             }
             .padding(24)
