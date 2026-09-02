@@ -58,4 +58,5 @@
 "onboarding.welcome_message" = "Scannez un code-barres pour découvrir le Nutri-Score et les nutriments d'un produit.";
 "onboarding.camera_denied_message" = "La caméra est nécessaire pour scanner un produit. Vous pouvez l'autoriser dans les réglages iOS, ou saisir le code-barres manuellement dans l'app.";
 "onboarding.allow_camera_button" = "Autoriser la caméra";
+"onboarding.open_settings_button" = "Ouvrir les Réglages";
 "onboarding.continue_without_camera_button" = "Continuer sans la caméra";

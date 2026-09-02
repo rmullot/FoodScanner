@@ -57,4 +57,5 @@
 "onboarding.welcome_message" = "Scan a barcode to discover a product's Nutri-Score and nutrients.";
 "onboarding.camera_denied_message" = "The camera is required to scan a product. You can allow it in iOS Settings, or enter the barcode manually in the app.";
 "onboarding.allow_camera_button" = "Allow camera access";
+"onboarding.open_settings_button" = "Open Settings";
 "onboarding.continue_without_camera_button" = "Continue without camera";

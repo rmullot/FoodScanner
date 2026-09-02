@@ -43,7 +43,12 @@ struct OnboardingView: View {
 
             Spacer()
 
-            FSButton(L10n.Onboarding.allowCameraButton, systemImage: "camera") {
+            FSButton(
+                authorizationDenied
+                    ? L10n.Onboarding.openSettingsButton
+                    : L10n.Onboarding.allowCameraButton,
+                systemImage: "camera"
+            ) {
                 requestCameraAuthorization()
             }
 
