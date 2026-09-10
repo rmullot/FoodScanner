@@ -116,6 +116,7 @@ public struct FSKeypad: View {
 
             FSButton(FSL10n.Keypad.validateButton, action: onValidate)
                 .disabled(code.count < 8)
+                .accessibilityIdentifier("keypad.validate")
         }
         .frame(maxWidth: FSMetrics.keypadMaxWidth)
     }
@@ -174,6 +175,7 @@ public struct FSKeypad: View {
         }
         .buttonStyle(FSPressStyle())
         .accessibilityLabel(key == "⌫" ? FSL10n.Keypad.deleteHint : key)
+        .accessibilityIdentifier(key == "⌫" ? "keypad.key.delete" : "keypad.key.\(key)")
     }
 }
 

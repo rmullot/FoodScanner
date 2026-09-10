@@ -55,6 +55,7 @@ struct OnboardingView: View {
             FSButton(L10n.Onboarding.continueWithoutCameraButton, role: .quiet) {
                 onFinished()
             }
+            .accessibilityIdentifier("onboarding.skip")
         }
         .padding(FSMetrics.space6)
         .background(Color.fsBackground)

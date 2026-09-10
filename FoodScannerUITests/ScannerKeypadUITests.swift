@@ -11,24 +11,15 @@ import XCTest
 /// key and the pinned "Valider" button stay on screen and hittable, then type a
 /// full barcode and confirm the primary button enables.
 ///
-/// The keypad keys and the "Valider" button carry no `.accessibilityIdentifier`
-/// in production, so these tests target their accessibility labels instead
-/// (each digit key exposes its digit, the delete key exposes
-/// `FSL10n.Keypad.deleteHint` = "Effacer le dernier chiffre", the primary button
-/// exposes `FSL10n.Keypad.validateButton` = "Valider"). See the file-level note in
-/// the accompanying report for the identifiers that should be added upstream.
+/// Queries target stable `.accessibilityIdentifier` values set in production
+/// (`keypad.key.<digit>`, `keypad.key.delete`, `keypad.validate`,
+/// `scanner.toggleKeypad`, `onboarding.skip`), so the tests are locale-independent.
 final class ScannerKeypadUITests: XCTestCase {
 
     private let barcode = "3017620422003"
-    private let showKeypadLabel = "Pavé numérique"
-    private let validateLabel = "Valider"
-    private let deleteKeyLabel = "Effacer le dernier chiffre"
 
     private func makeApp(extraLaunchArguments: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
-        // Force the app's base locale so the label-based queries below are deterministic
-        // regardless of the simulator's language.
-        app.launchArguments += ["-AppleLanguages", "(fr)", "-AppleLocale", "fr_FR"]
         app.launchArguments += extraLaunchArguments
         return app
     }
@@ -41,7 +32,7 @@ final class ScannerKeypadUITests: XCTestCase {
     /// (without granting the camera) so the Scanner screen and its manual-entry panel are
     /// reachable. A no-op on subsequent launches where onboarding was already completed.
     private func dismissOnboardingIfPresent(in app: XCUIApplication) {
-        let skipOnboarding = app.buttons["Continuer sans la caméra"]
+        let skipOnboarding = app.buttons["onboarding.skip"]
         if skipOnboarding.waitForExistence(timeout: 10) {
             skipOnboarding.tap()
         }
@@ -51,9 +42,9 @@ final class ScannerKeypadUITests: XCTestCase {
                               file: StaticString = #filePath,
                               line: UInt = #line) {
         dismissOnboardingIfPresent(in: app)
-        let showKeypad = app.buttons[showKeypadLabel]
+        let showKeypad = app.buttons["scanner.toggleKeypad"]
         XCTAssertTrue(showKeypad.waitForExistence(timeout: 10),
-                      "The \"Pavé numérique\" button should be visible on the Scanner screen",
+                      "The keypad-toggle button should be visible on the Scanner screen",
                       file: file, line: line)
         showKeypad.tap()
     }
@@ -66,16 +57,16 @@ final class ScannerKeypadUITests: XCTestCase {
         revealKeypad(in: app)
 
         for digit in (0...9).map(String.init) {
-            let key = app.buttons[digit]
+            let key = app.buttons["keypad.key.\(digit)"]
             XCTAssertTrue(key.waitForExistence(timeout: 5), "Key \"\(digit)\" should exist")
             XCTAssertTrue(key.isHittable, "Key \"\(digit)\" should be hittable")
         }
 
-        let deleteKey = app.buttons[deleteKeyLabel]
+        let deleteKey = app.buttons["keypad.key.delete"]
         XCTAssertTrue(deleteKey.exists, "The delete key should exist")
         XCTAssertTrue(deleteKey.isHittable, "The delete key should be hittable")
 
-        let validate = app.buttons[validateLabel]
+        let validate = app.buttons["keypad.validate"]
         XCTAssertTrue(validate.exists, "The \"Valider\" button should exist")
         XCTAssertTrue(validate.isHittable, "The \"Valider\" button should be hittable")
     }
@@ -87,7 +78,7 @@ final class ScannerKeypadUITests: XCTestCase {
         app.launch()
         revealKeypad(in: app)
 
-        let validate = app.buttons[validateLabel]
+        let validate = app.buttons["keypad.validate"]
         XCTAssertTrue(validate.waitForExistence(timeout: 5))
 
         let window = app.windows.firstMatch
@@ -105,13 +96,13 @@ final class ScannerKeypadUITests: XCTestCase {
         app.launch()
         revealKeypad(in: app)
 
-        let validate = app.buttons[validateLabel]
+        let validate = app.buttons["keypad.validate"]
         XCTAssertTrue(validate.waitForExistence(timeout: 5))
         XCTAssertFalse(validate.isEnabled,
                        "The \"Valider\" button should start disabled with an empty barcode")
 
         for digit in barcode.map(String.init) {
-            let key = app.buttons[digit]
+            let key = app.buttons["keypad.key.\(digit)"]
             XCTAssertTrue(key.waitForExistence(timeout: 5), "Key \"\(digit)\" should exist")
             key.tap()
         }
@@ -136,7 +127,7 @@ final class ScannerKeypadUITests: XCTestCase {
         app.launch()
         revealKeypad(in: app)
 
-        let validate = app.buttons[validateLabel]
+        let validate = app.buttons["keypad.validate"]
         XCTAssertTrue(validate.waitForExistence(timeout: 5),
                       "The \"Valider\" button should exist at accessibility text sizes")
 
@@ -148,7 +139,7 @@ final class ScannerKeypadUITests: XCTestCase {
                       "The \"Valider\" button should stay hittable at accessibility text sizes")
 
         for digit in ["1", "9", "0"] {
-            let key = app.buttons[digit]
+            let key = app.buttons["keypad.key.\(digit)"]
             XCTAssertTrue(key.exists, "Key \"\(digit)\" should exist at accessibility text size")
             XCTAssertTrue(key.isHittable, "Key \"\(digit)\" should be hittable at accessibility text size")
         }

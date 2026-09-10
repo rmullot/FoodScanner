@@ -75,6 +75,7 @@ struct ScannerScreenView: View {
                                                                      to: nil, from: nil, for: nil)
                                     showsKeypad.toggle()
                                 }
+                                .accessibilityIdentifier("scanner.toggleKeypad")
                                 FSIconButton(systemImage: model.lampActivated ? SFSymbol.flashlightOn : SFSymbol.flashlightOff,
                                              label: model.lampActivated ? L10n.Scanner.lampOffLabel : L10n.Scanner.lampOnLabel) {
                                     model.toggleLamp()
