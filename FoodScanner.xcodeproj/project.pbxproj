@@ -29,6 +29,7 @@
 		7AC16F39217E1E3400C4B381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AC16F38217E1E3400C4B381 /* Assets.xcassets */; };
 		7AC16F47217E1E3400C4B381 /* FoodScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F46217E1E3400C4B381 /* FoodScannerTests.swift */; };
 		7AC16F52217E1E3400C4B381 /* FoodScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F51217E1E3400C4B381 /* FoodScannerUITests.swift */; };
+		9E02D2000000000000000001 /* ScannerKeypadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E02D1000000000000000001 /* ScannerKeypadUITests.swift */; };
 		7AC16F73217E1ECC00C4B381 /* WebServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F61217E1ECC00C4B381 /* WebServiceManager.swift */; };
 		7AC16F74217E1ECC00C4B381 /* NetworkActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F62217E1ECC00C4B381 /* NetworkActivityManager.swift */; };
 		7AC16F75217E1ECC00C4B381 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F63217E1ECC00C4B381 /* ReachabilityManager.swift */; };
@@ -136,6 +137,7 @@
 		7AC16F48217E1E3400C4B381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AC16F4D217E1E3400C4B381 /* FoodScannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodScannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AC16F51217E1E3400C4B381 /* FoodScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodScannerUITests.swift; sourceTree = "<group>"; };
+		9E02D1000000000000000001 /* ScannerKeypadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerKeypadUITests.swift; sourceTree = "<group>"; };
 		7AC16F53217E1E3400C4B381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AC16F61217E1ECC00C4B381 /* WebServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServiceManager.swift; sourceTree = "<group>"; };
 		7AC16F62217E1ECC00C4B381 /* NetworkActivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityManager.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				7AC16F51217E1E3400C4B381 /* FoodScannerUITests.swift */,
+				9E02D1000000000000000001 /* ScannerKeypadUITests.swift */,
 				7AC16F53217E1E3400C4B381 /* Info.plist */,
 			);
 			path = FoodScannerUITests;
@@ -767,6 +770,7 @@
 			isa = PBXSourcesBuildPhase;
 			files = (
 				7AC16F52217E1E3400C4B381 /* FoodScannerUITests.swift in Sources */,
+				9E02D2000000000000000001 /* ScannerKeypadUITests.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
