@@ -15,11 +15,11 @@ enum WebServiceError: Error {
 
 final class WebServiceManager: WebServiceProviding {
 
-    private let foodStore: FoodStoring
+    private let cacheManager: CacheProviding
     private let networkActivity: NetworkActivityTracking
 
-    init(foodStore: FoodStoring, networkActivity: NetworkActivityTracking) {
-        self.foodStore = foodStore
+    init(cacheManager: CacheProviding, networkActivity: NetworkActivityTracking) {
+        self.cacheManager = cacheManager
         self.networkActivity = networkActivity
     }
 
@@ -27,13 +27,13 @@ final class WebServiceManager: WebServiceProviding {
         do {
             let data = try await getData(urlString: "https://world.openfoodfacts.org/api/v0/product/\(barcode).json")
             let foodStruct = try ParserManager.parseFood(from: data)
-            await foodStore.updateFood(foodStruct)
-            if let cachedFood = await foodStore.food(barcode: barcode) {
+            await cacheManager.updateFood(foodStruct)
+            if let cachedFood = await cacheManager.food(barcode: barcode) {
                 return cachedFood
             }
             return foodStruct
         } catch {
-            if let cachedFood = await foodStore.food(barcode: barcode) {
+            if let cachedFood = await cacheManager.food(barcode: barcode) {
                 return cachedFood
             }
             throw error

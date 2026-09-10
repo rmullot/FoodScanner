@@ -14,13 +14,13 @@ final class HistoryViewModel: ObservableObject {
     @Published private(set) var items: [FoodSummary] = []
     @Published private(set) var isOffline: Bool = false
 
-    private let foodStore: FoodStoring
+    private let cacheManager: CacheProviding
     private let reachability: ReachabilityProviding
     private var reachabilityCancellable: AnyCancellable?
 
-    init(foodStore: FoodStoring? = nil,
+    init(cacheManager: CacheProviding? = nil,
          reachability: ReachabilityProviding? = nil) {
-        self.foodStore = foodStore ?? InjectionManager.shared.foodStore
+        self.cacheManager = cacheManager ?? InjectionManager.shared.cacheManager
         self.reachability = reachability ?? InjectionManager.shared.reachability
         isOffline = self.reachability.onlineMode == .offline
         reachabilityCancellable = self.reachability.onlineModePublisher
@@ -31,6 +31,6 @@ final class HistoryViewModel: ObservableObject {
     }
 
     func load() async {
-        items = await foodStore.allFoodSummaries()
+        items = await cacheManager.allFoodSummaries()
     }
 }

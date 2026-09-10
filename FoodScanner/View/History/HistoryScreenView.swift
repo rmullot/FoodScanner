@@ -83,7 +83,7 @@ private struct HistoryDetailLoader: View {
             } else {
                 ProgressView()
                     .task {
-                        food = await InjectionManager.shared.foodStore.food(barcode: barcode)
+                        food = await InjectionManager.shared.cacheManager.food(barcode: barcode)
                     }
             }
         }

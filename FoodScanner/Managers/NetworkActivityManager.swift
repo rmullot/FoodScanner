@@ -17,7 +17,7 @@ public final class NetworkActivityManager: ObservableObject, NetworkActivityTrac
 
     private let maxActivityDuration: Double = 120
 
-    private var disableActivityIndicatorClosure: DispatchQueue.CancellableClosure = nil
+    private var disableActivityIndicatorTask: Task<Void, Never>?
 
     init() {}
 
@@ -26,8 +26,11 @@ public final class NetworkActivityManager: ObservableObject, NetworkActivityTrac
         countRequest += 1
         isActive = true
 
-        disableActivityIndicatorClosure?()
-        disableActivityIndicatorClosure = DispatchQueue.main.cancellableAsyncAfter(secondsDeadline: maxActivityDuration) { [weak self] in
+        disableActivityIndicatorTask?.cancel()
+        let maxDuration = maxActivityDuration
+        disableActivityIndicatorTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: UInt64(maxDuration * 1_000_000_000))
+            guard !Task.isCancelled else { return }
             self?.disableActivityIndicator()
         }
 
@@ -39,8 +42,8 @@ public final class NetworkActivityManager: ObservableObject, NetworkActivityTrac
         countRequest = max(0, countRequest - 1)
 
         if countRequest <= 0 {
-            disableActivityIndicatorClosure?()
-            disableActivityIndicatorClosure = nil
+            disableActivityIndicatorTask?.cancel()
+            disableActivityIndicatorTask = nil
             countRequest = 0
             isActive = false
         }
@@ -49,8 +52,8 @@ public final class NetworkActivityManager: ObservableObject, NetworkActivityTrac
     }
 
     func disableActivityIndicator() {
-        disableActivityIndicatorClosure?()
-        disableActivityIndicatorClosure = nil
+        disableActivityIndicatorTask?.cancel()
+        disableActivityIndicatorTask = nil
         countRequest = 0
         isActive = false
     }

@@ -1,5 +1,5 @@
 //
-//  RealmManager.swift
+//  CacheManager.swift
 //  FoodScanner
 //
 //  Created by Romain Mullot on 10/11/2018.
@@ -9,10 +9,17 @@
 import Foundation
 import RealmSwift
 
-actor RealmManager: FoodStoring {
+actor CacheManager: CacheProviding {
 
-    init() {
-        autoreleasepool {
+    private let configuration: Realm.Configuration
+
+    init(configuration: Realm.Configuration? = nil) {
+        if let configuration {
+            self.configuration = configuration
+            return
+        }
+
+        self.configuration = autoreleasepool { () -> Realm.Configuration in
             guard let realm = try? Realm() else {
                 fatalError("Cannot initialize the default Realm")
             }
@@ -36,12 +43,13 @@ actor RealmManager: FoodStoring {
             // SECURITY: Realm file encrypted at rest with a 64-byte AES-256 key kept in the Keychain, never alongside the .realm file itself.
             config.encryptionKey = RealmEncryptionKeyStore.key()
             Realm.Configuration.defaultConfiguration = config
+            return config
         }
     }
 
     func food(barcode: String) async -> FoodStruct? {
         autoreleasepool {
-            guard let realm = try? Realm(),
+            guard let realm = try? Realm(configuration: configuration),
                   let food = realm.object(ofType: Food.self, forPrimaryKey: barcode) else {
                 return nil
             }
@@ -52,7 +60,7 @@ actor RealmManager: FoodStoring {
     func updateFood(_ foodStruct: FoodStruct) async {
         autoreleasepool {
             do {
-                let realm = try Realm()
+                let realm = try Realm(configuration: configuration)
                 try realm.write {
                     let food = Food()
                     food.barcode = foodStruct.barcode
@@ -77,7 +85,7 @@ actor RealmManager: FoodStoring {
 
     func allFoodSummaries() async -> [FoodSummary] {
         autoreleasepool {
-            guard let realm = try? Realm() else { return [] }
+            guard let realm = try? Realm(configuration: configuration) else { return [] }
             let foods = realm.objects(Food.self).sorted(byKeyPath: "lastUpdate", ascending: false)
             return foods.map { food in
                 FoodSummary(

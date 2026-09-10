@@ -66,7 +66,7 @@ struct OnboardingView: View {
             onFinished()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
-                DispatchQueue.main.async {
+                Task { @MainActor in
                     if granted {
                         onFinished()
                     } else {

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import UIKit
 
-protocol FoodStoring: AnyObject, Sendable {
+protocol CacheProviding: AnyObject, Sendable {
     func food(barcode: String) async -> FoodStruct?
     func updateFood(_ foodStruct: FoodStruct) async
     func allFoodSummaries() async -> [FoodSummary]
@@ -20,6 +20,7 @@ protocol WebServiceProviding: AnyObject, Sendable {
     func cancelRequests()
 }
 
+@MainActor
 protocol ReachabilityProviding: AnyObject {
     var onlineMode: OnlineMode { get }
     var onlineModePublisher: AnyPublisher<OnlineMode, Never> { get }
@@ -43,18 +44,20 @@ final class InjectionManager {
 
     let reachability: ReachabilityProviding
     let networkActivity: NetworkActivityManager
-    let foodStore: FoodStoring
+    let cacheManager: CacheProviding
     let imageCache: ImageCaching
     let webService: WebServiceProviding
+    let errorManager: ErrorManager
 
     private init() {
         let networkActivity = NetworkActivityManager()
-        let foodStore = RealmManager()
+        let cacheManager = CacheManager()
 
         self.networkActivity = networkActivity
         self.reachability = ReachabilityManager()
-        self.foodStore = foodStore
+        self.cacheManager = cacheManager
+        self.errorManager = ErrorManager()
         self.imageCache = ImageCacheManager(networkActivity: networkActivity)
-        self.webService = WebServiceManager(foodStore: foodStore, networkActivity: networkActivity)
+        self.webService = WebServiceManager(cacheManager: cacheManager, networkActivity: networkActivity)
     }
 }
