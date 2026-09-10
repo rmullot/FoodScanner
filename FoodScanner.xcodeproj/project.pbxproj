@@ -1047,8 +1047,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				branch = community;
-				kind = branch;
+				kind = exactVersion;
+				version = 20.0.5;
 			};
 		};
 		1E74540B7649D0400A3E83AE /* XCRemoteSwiftPackageReference "SwiftLint" */ = {

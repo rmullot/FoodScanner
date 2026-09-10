@@ -32,7 +32,7 @@ Note: the existing `FoodScannerTests`/`FoodScannerUITests` are Xcode-template st
 ## SPM dependencies
 
 Declared as remote/local package references in `FoodScanner.xcodeproj/project.pbxproj`:
-- `realm-swift` (Realm community branch) — local persistence, imported as `RealmSwift`
+- `realm-swift` (pinned to exact version 20.0.5) — local persistence, imported as `RealmSwift`
 - `FoodScannerUI` — local package, the design system (tokens, atoms, molecules); every screen imports it
 
 `Charts`/`DGCharts` and `FTLinearActivityIndicator` were removed — the pie chart was replaced by `FSScoreBadge` + `FSNutrientRow` bars, and network activity is now surfaced via a SwiftUI `ProgressView` driven by `NetworkActivityManager`.
