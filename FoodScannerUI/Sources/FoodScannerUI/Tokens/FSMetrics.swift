@@ -46,8 +46,22 @@ public enum FSMetrics {
 
     public static let borderWidth: CGFloat = 1.5
     public static let borderWidthStrong: CGFloat = 2
+    /// 2.5 pt — hairline border thickened for increased colour contrast.
+    public static let borderWidthIncreased: CGFloat = 2.5
+    /// 3 pt — strong border thickened for increased colour contrast.
+    public static let borderWidthStrongIncreased: CGFloat = 3
     /// Thickness of nutrient rings.
     public static let ringWidth: CGFloat = 22
+
+    /// Hairline border width, thickened when the system reports increased contrast.
+    public static func borderWidth(for contrast: ColorSchemeContrast) -> CGFloat {
+        contrast == .increased ? borderWidthIncreased : borderWidth
+    }
+
+    /// Strong border width, thickened when the system reports increased contrast.
+    public static func borderWidthStrong(for contrast: ColorSchemeContrast) -> CGFloat {
+        contrast == .increased ? borderWidthStrongIncreased : borderWidthStrong
+    }
 }
 
 public extension View {
@@ -58,13 +72,37 @@ public extension View {
     }
 
     func fsCard(radius: CGFloat = FSMetrics.radiusLarge) -> some View {
-        background(
-            RoundedRectangle(cornerRadius: radius, style: .continuous)
-                .fill(Color.fsSurface)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: radius, style: .continuous)
-                .strokeBorder(Color.fsBorder, lineWidth: FSMetrics.borderWidth)
-        )
+        modifier(FSCardModifier(radius: radius))
+    }
+}
+
+/// Surface + hairline border shared by every design system card. Standard
+/// contrast renders `fsBorder` at `borderWidth` (1.5 pt); under increased
+/// contrast the border hardens to `fsBorderStrong` at `borderWidthStrongIncreased`
+/// (3 pt), consistent with `FSButton` / `FSInputs`.
+private struct FSCardModifier: ViewModifier {
+    @Environment(\.fsResolvedContrast) private var contrast
+    let radius: CGFloat
+
+    private var borderColor: Color {
+        contrast == .increased ? .fsBorderStrong : .fsBorder
+    }
+
+    private var borderWidth: CGFloat {
+        contrast == .increased
+            ? FSMetrics.borderWidthStrongIncreased
+            : FSMetrics.borderWidth
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .background(
+                RoundedRectangle(cornerRadius: radius, style: .continuous)
+                    .fill(Color.fsSurface)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: radius, style: .continuous)
+                    .strokeBorder(borderColor, lineWidth: borderWidth)
+            )
     }
 }

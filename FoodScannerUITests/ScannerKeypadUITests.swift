@@ -144,4 +144,33 @@ final class ScannerKeypadUITests: XCTestCase {
             XCTAssertTrue(key.isHittable, "Key \"\(digit)\" should be hittable at accessibility text size")
         }
     }
+
+    // MARK: - AX5 on the smallest device does not clip live controls
+
+    /// Accessibility-reviewer recommendation: the keypad reveal is now wrapped in a
+    /// `.clipped()` `ZStack`. On the smallest supported screen (run this suite on the
+    /// iPhone SE 3rd gen destination) with the largest Dynamic Type
+    /// (`UICTContentSizeCategoryAccessibility5`), a live key mid-grid and the pinned
+    /// validate button must still be present and hittable — i.e. the clip container
+    /// crops nothing interactive.
+    func test_atAX5OnSmallDevice_midGridKeyAndValidateAreNotClipped() {
+        let app = makeApp(extraLaunchArguments: [
+            "-UIPreferredContentSizeCategoryName",
+            "UICTContentSizeCategoryAccessibility5"
+        ])
+        app.launch()
+        revealKeypad(in: app)
+
+        let midKey = app.buttons["keypad.key.5"]
+        XCTAssertTrue(midKey.waitForExistence(timeout: 5),
+                      "Key \"5\" should not be clipped by the reveal container at AX5")
+        XCTAssertTrue(midKey.isHittable,
+                      "Key \"5\" should stay hittable at AX5 on the smallest screen")
+
+        let validate = app.buttons["keypad.validate"]
+        XCTAssertTrue(validate.waitForExistence(timeout: 5),
+                      "The \"Valider\" button should not be clipped by the reveal container at AX5")
+        XCTAssertTrue(validate.isHittable,
+                      "The \"Valider\" button should stay hittable at AX5 on the smallest screen")
+    }
 }

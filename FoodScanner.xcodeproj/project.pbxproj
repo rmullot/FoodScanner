@@ -29,7 +29,6 @@
 		7AC16F39217E1E3400C4B381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AC16F38217E1E3400C4B381 /* Assets.xcassets */; };
 		7AC16F47217E1E3400C4B381 /* FoodScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F46217E1E3400C4B381 /* FoodScannerTests.swift */; };
 		7AC16F52217E1E3400C4B381 /* FoodScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F51217E1E3400C4B381 /* FoodScannerUITests.swift */; };
-		9E02D2000000000000000001 /* ScannerKeypadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E02D1000000000000000001 /* ScannerKeypadUITests.swift */; };
 		7AC16F73217E1ECC00C4B381 /* WebServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F61217E1ECC00C4B381 /* WebServiceManager.swift */; };
 		7AC16F74217E1ECC00C4B381 /* NetworkActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F62217E1ECC00C4B381 /* NetworkActivityManager.swift */; };
 		7AC16F75217E1ECC00C4B381 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC16F63217E1ECC00C4B381 /* ReachabilityManager.swift */; };
@@ -58,6 +57,7 @@
 		9E01D200000000000000000A /* ErrorManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D100000000000000000A /* ErrorManagerTests.swift */; };
 		9E01D200000000000000000B /* CacheManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D100000000000000000B /* CacheManagerTests.swift */; };
 		9E01D200000000000000000C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02AC261B2FEAC60F00CF77F7 /* RealmSwift */; };
+		9E02D2000000000000000001 /* ScannerKeypadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E02D1000000000000000001 /* ScannerKeypadUITests.swift */; };
 		A281ED380C794BF3BC0802A5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F832218EDE4F63B73BE442 /* OnboardingView.swift */; };
 		A64FC6924E694D48BE0B7B56 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796933C05C734C5798D12718 /* Assets.swift */; };
 		AA0000000000000000000101 /* InjectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000102 /* InjectionManager.swift */; };
@@ -137,7 +137,6 @@
 		7AC16F48217E1E3400C4B381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AC16F4D217E1E3400C4B381 /* FoodScannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodScannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AC16F51217E1E3400C4B381 /* FoodScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodScannerUITests.swift; sourceTree = "<group>"; };
-		9E02D1000000000000000001 /* ScannerKeypadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerKeypadUITests.swift; sourceTree = "<group>"; };
 		7AC16F53217E1E3400C4B381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AC16F61217E1ECC00C4B381 /* WebServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServiceManager.swift; sourceTree = "<group>"; };
 		7AC16F62217E1ECC00C4B381 /* NetworkActivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityManager.swift; sourceTree = "<group>"; };
@@ -170,6 +169,7 @@
 		9E01D1000000000000000009 /* ScannerViewModelInjectedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModelInjectedTests.swift; sourceTree = "<group>"; };
 		9E01D100000000000000000A /* ErrorManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManagerTests.swift; sourceTree = "<group>"; };
 		9E01D100000000000000000B /* CacheManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManagerTests.swift; sourceTree = "<group>"; };
+		9E02D1000000000000000001 /* ScannerKeypadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerKeypadUITests.swift; sourceTree = "<group>"; };
 		A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		A6F10EEFBF254697ADECBE5D /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		AA0000000000000000000102 /* InjectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionManager.swift; sourceTree = "<group>"; };
@@ -537,7 +537,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 2660;
+				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = "Romain Mullot";
 				TargetAttributes = {
 					7AC16F2A217E1E3300C4B381 = {
@@ -815,6 +815,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -864,7 +865,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -880,6 +881,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -923,7 +925,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -946,7 +948,7 @@
 				INFOPLIST_FILE = FoodScanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Food Scanner";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -972,7 +974,7 @@
 				INFOPLIST_FILE = FoodScanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Food Scanner";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -992,7 +994,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1012,7 +1014,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1031,7 +1033,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1050,7 +1052,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = FoodScannerUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

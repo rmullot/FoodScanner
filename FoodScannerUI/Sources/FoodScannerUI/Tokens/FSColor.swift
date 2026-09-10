@@ -22,6 +22,9 @@ public extension Color {
     static let fsSurface = Color.fsAsset("fsSurface")
     static let fsSurfaceRaised = Color.fsAsset("fsSurfaceRaised")
     static let fsAccentSoft = Color.fsAsset("fsAccentSoft")
+    /// Reinforced tinted fill: keeps the keypad delete key distinct from plain
+    /// keys under increased colour contrast.
+    static let fsAccentSoftStrong = Color.fsAsset("fsAccentSoftStrong")
 
     // MARK: Text
     static let fsInk = Color.fsAsset("fsInk")
@@ -30,6 +33,8 @@ public extension Color {
 
     // MARK: Strokes
     static let fsBorder = Color.fsAsset("fsBorder")
+    /// Near-ink stroke used for control borders under increased colour contrast.
+    static let fsBorderStrong = Color.fsAsset("fsBorderStrong")
     static let fsFocus = Color.fsAsset("fsFocus")
 
     // MARK: Season

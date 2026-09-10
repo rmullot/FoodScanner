@@ -51,21 +51,25 @@ struct ScannerScreenView: View {
                     VStack {
                         Spacer()
 
-                        VStack(spacing: FSMetrics.space3) {
-                            if showsKeypad {
-                                VStack(spacing: FSMetrics.space3) {
-                                    FSBarcodeField(code: $code) { submitted in
-                                        model.getFoodInformations(barcode: submitted)
-                                    }
+                        VStack(spacing: 0) {
+                            ZStack {
+                                if showsKeypad {
+                                    VStack(spacing: FSMetrics.space3) {
+                                        FSBarcodeField(code: $code) { submitted in
+                                            model.getFoodInformations(barcode: submitted)
+                                        }
 
-                                    FSKeypad(code: $code) {
-                                        model.getFoodInformations(barcode: code)
+                                        FSKeypad(code: $code) {
+                                            model.getFoodInformations(barcode: code)
+                                        }
                                     }
+                                    .padding(.horizontal, FSMetrics.space2)
+                                    .frame(maxHeight: proxy.size.height * 0.75)
+                                    .padding(.bottom, FSMetrics.space3)
+                                    .transition(.move(edge: .bottom))
                                 }
-                                .padding(.horizontal, FSMetrics.space2)
-                                .frame(maxHeight: proxy.size.height * 0.75)
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
                             }
+                            .clipped()
 
                             HStack {
                                 FSButton(showsKeypad ? L10n.Scanner.hideKeypadButton : L10n.Scanner.showKeypadButton,
@@ -81,6 +85,7 @@ struct ScannerScreenView: View {
                                     model.toggleLamp()
                                 }
                             }
+                            .background(Color.fsSurface)
                         }
                         .appAnimation(.easeInOut, value: showsKeypad)
                         .padding(FSMetrics.space4)

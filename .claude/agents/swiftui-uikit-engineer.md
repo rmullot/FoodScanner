@@ -22,7 +22,7 @@ Every new Swift file you create carries a header with the line `Copyright © MUL
 ## UIKit ↔ SwiftUI bridge
 
 - **Whole screen in SwiftUI embedded in a UIKit flow**: use `UIHostingController`. Instantiate it from the existing UIKit `ViewController` (e.g. via `NavigationManager` or standard push/present), inject the existing ViewModel without rewriting it as `ObservableObject` if it isn't already observable — prefer a small adapter that relays `propertyChanged` to a `@Published`/SwiftUI state rather than modifying the shared ViewModel.
-- **Collection/table cell in SwiftUI**: use `UIHostingConfiguration` (iOS 16+, consistent with the deployment target) on the cell, not a manually embedded `UIHostingController` inside a cell.
+- **Collection/table cell in SwiftUI**: use `UIHostingConfiguration` (available on the iOS 17 deployment target) on the cell, not a manually embedded `UIHostingController` inside a cell.
 - Never mix business logic and view in the SwiftUI layer: the SwiftUI view stays passive, fed by the state exposed by the adapter/ViewModel.
 
 ## propertyChanged / PropertyKeys binding

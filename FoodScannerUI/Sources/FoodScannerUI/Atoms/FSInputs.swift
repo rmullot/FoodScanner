@@ -12,6 +12,7 @@ public struct FSBarcodeField: View {
     @Binding private var code: String
     private let onSubmit: (String) -> Void
     @FocusState private var focused: Bool
+    @Environment(\.fsResolvedContrast) private var contrast
 
     public init(code: Binding<String>, onSubmit: @escaping (String) -> Void) {
         self._code = code
@@ -19,6 +20,11 @@ public struct FSBarcodeField: View {
     }
 
     private var isValid: Bool { (8...14).contains(code.count) }
+
+    private var strokeColor: Color {
+        if focused { return .fsFocus }
+        return contrast == .increased ? .fsBorderStrong : .fsBorder
+    }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space2) {
@@ -62,8 +68,8 @@ public struct FSBarcodeField: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: FSMetrics.radiusMedium, style: .continuous)
-                    .strokeBorder(focused ? Color.fsFocus : Color.fsBorder,
-                                  lineWidth: focused ? 3 : FSMetrics.borderWidth)
+                    .strokeBorder(strokeColor,
+                                  lineWidth: focused ? 3 : FSMetrics.borderWidth(for: contrast))
             )
 
             if !code.isEmpty && !isValid {
@@ -95,6 +101,7 @@ public struct FSBarcodeField: View {
 public struct FSKeypad: View {
     @Binding private var code: String
     private let onValidate: () -> Void
+    @Environment(\.fsResolvedContrast) private var contrast
 
     public init(code: Binding<String>, onValidate: @escaping () -> Void) {
         self._code = code
@@ -110,7 +117,7 @@ public struct FSKeypad: View {
                     keyGrid
                         .frame(minHeight: proxy.size.height)
                 }
-                .scrollBounceBasedOnSize()
+                .scrollBounceBehavior(.basedOnSize)
             }
             .frame(maxHeight: keyGridMaxHeight)
 
@@ -147,6 +154,11 @@ public struct FSKeypad: View {
             + FSMetrics.space3 * CGFloat(keys.count - 1)
     }
 
+    private func keyFill(for key: String) -> Color {
+        guard key == "⌫" else { return .fsSurface }
+        return contrast == .increased ? .fsAccentSoftStrong : .fsAccentSoft
+    }
+
     private func keyButton(_ key: String) -> some View {
         Button {
             FSHaptics.play(.selection)
@@ -157,7 +169,7 @@ public struct FSKeypad: View {
             }
         } label: {
             Text(key)
-                .font(.fsText(FSMetrics.keypadKeyGlyph, weight: .bold))
+                .font(.fsText(FSMetrics.keypadKeyGlyph, weight: contrast == .increased ? .heavy : .bold))
                 .minimumScaleFactor(FSMetrics.minReadableText / FSMetrics.keypadKeyGlyph)
                 .lineLimit(1)
                 .foregroundStyle(Color.fsInk)
@@ -166,11 +178,12 @@ public struct FSKeypad: View {
                        maxHeight: FSMetrics.keypadKeyMaxHeight)
                 .background(
                     RoundedRectangle(cornerRadius: FSMetrics.radiusMedium, style: .continuous)
-                        .fill(key == "⌫" ? Color.fsAccentSoft : Color.fsSurface)
+                        .fill(keyFill(for: key))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: FSMetrics.radiusMedium, style: .continuous)
-                        .strokeBorder(Color.fsBorder, lineWidth: FSMetrics.borderWidth)
+                        .strokeBorder(contrast == .increased ? Color.fsBorderStrong : Color.fsBorder,
+                                      lineWidth: FSMetrics.borderWidth(for: contrast))
                 )
         }
         .buttonStyle(FSPressStyle())
@@ -297,5 +310,39 @@ struct FSKeypad_Previews: PreviewProvider {
         Demo()
             .environment(\.dynamicTypeSize, .accessibility5)
             .previewDisplayName("Accessibilité XL")
+
+        Demo()
+            .modifier(FSIncreasedContrastPreview())
+            .previewDisplayName("Contraste élevé")
+    }
+}
+
+struct FSBarcodeField_Previews: PreviewProvider {
+    private struct Demo: View {
+        @State private var code = "301762"
+
+        var body: some View {
+            FSBarcodeField(code: $code) { _ in }
+                .padding(FSMetrics.space4)
+                .background(Color.fsBackground)
+        }
+    }
+
+    static var previews: some View {
+        Demo()
+            .preferredColorScheme(.light)
+            .previewDisplayName("Clair")
+
+        Demo()
+            .preferredColorScheme(.dark)
+            .previewDisplayName("Sombre")
+
+        Demo()
+            .environment(\.dynamicTypeSize, .accessibility5)
+            .previewDisplayName("Accessibilité XL")
+
+        Demo()
+            .modifier(FSIncreasedContrastPreview())
+            .previewDisplayName("Contraste élevé")
     }
 }

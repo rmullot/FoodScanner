@@ -52,6 +52,8 @@ public extension Font {
     /// 19 pt — accessible body text (design system floor).
     static let fsBody = FSTypeface.body(19, relativeTo: .body, weight: .regular)
     static let fsBodyStrong = FSTypeface.body(19, relativeTo: .body, weight: .bold)
+    /// 19 pt heavy — body emphasis under increased colour contrast.
+    static let fsBodyHeavy = FSTypeface.body(19, relativeTo: .body, weight: .heavy)
     /// 16 pt — secondary text.
     static let fsCaption = FSTypeface.body(16, relativeTo: .subheadline, weight: .regular)
     /// 12 pt — all-caps overline, always with `tracking`.

@@ -8,6 +8,9 @@
 
 import XCTest
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 @testable import FoodScannerUI
 
 final class FSTokensTests: XCTestCase {
@@ -51,5 +54,38 @@ final class FSTokensTests: XCTestCase {
     func testTouchTargetFloor() {
         XCTAssertGreaterThanOrEqual(FSMetrics.minTouchTarget, 44)
         XCTAssertGreaterThanOrEqual(FSMetrics.controlHeight, FSMetrics.minTouchTarget)
+    }
+
+    // MARK: - Increased-contrast border widths
+
+    func testIncreasedContrastBorderConstants() {
+        XCTAssertEqual(FSMetrics.borderWidthIncreased, 2.5)
+        XCTAssertEqual(FSMetrics.borderWidthStrongIncreased, 3)
+        XCTAssertGreaterThan(FSMetrics.borderWidthIncreased, FSMetrics.borderWidth)
+        XCTAssertGreaterThan(FSMetrics.borderWidthStrongIncreased, FSMetrics.borderWidthStrong)
+    }
+
+    func testBorderWidthMapsContrastToThickness() {
+        XCTAssertEqual(FSMetrics.borderWidth(for: .standard), FSMetrics.borderWidth)
+        XCTAssertEqual(FSMetrics.borderWidth(for: .increased), FSMetrics.borderWidthIncreased)
+    }
+
+    func testBorderWidthStrongMapsContrastToThickness() {
+        XCTAssertEqual(FSMetrics.borderWidthStrong(for: .standard), FSMetrics.borderWidthStrong)
+        XCTAssertEqual(FSMetrics.borderWidthStrong(for: .increased), FSMetrics.borderWidthStrongIncreased)
+    }
+
+    // MARK: - New contrast-hardening colour & font tokens resolve
+
+    func testIncreasedContrastColorTokensResolve() {
+        XCTAssertNotNil(UIColor(named: "fsBorderStrong", in: .fsModule, compatibleWith: nil),
+                        "fsBorderStrong colorset should ship in the package bundle.")
+        XCTAssertNotNil(UIColor(named: "fsAccentSoftStrong", in: .fsModule, compatibleWith: nil),
+                        "fsAccentSoftStrong colorset should ship in the package bundle.")
+    }
+
+    func testBodyHeavyFontIsDistinctWeight() {
+        XCTAssertNotEqual(Font.fsBodyHeavy, Font.fsBody)
+        XCTAssertNotEqual(Font.fsBodyHeavy, Font.fsBodyStrong)
     }
 }

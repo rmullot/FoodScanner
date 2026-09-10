@@ -1,7 +1,7 @@
 # FoodScannerUI
 
 Design system SwiftUI de FoodScanner : atomes, molécules, tokens saisonniers,
-mascottes et saynètes. Cible iOS 16, aucune dépendance externe.
+mascottes et saynètes. Cible iOS 17, aucune dépendance externe.
 
 ## Ajouter le package au projet
 
