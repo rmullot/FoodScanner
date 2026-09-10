@@ -53,19 +53,17 @@ struct ScannerScreenView: View {
 
                         VStack(spacing: FSMetrics.space3) {
                             if showsKeypad {
-                                ScrollView {
-                                    VStack(spacing: FSMetrics.space3) {
-                                        FSBarcodeField(code: $code) { submitted in
-                                            model.getFoodInformations(barcode: submitted)
-                                        }
-
-                                        FSKeypad(code: $code) {
-                                            model.getFoodInformations(barcode: code)
-                                        }
+                                VStack(spacing: FSMetrics.space3) {
+                                    FSBarcodeField(code: $code) { submitted in
+                                        model.getFoodInformations(barcode: submitted)
                                     }
-                                    .padding(.horizontal, FSMetrics.space2)
+
+                                    FSKeypad(code: $code) {
+                                        model.getFoodInformations(barcode: code)
+                                    }
                                 }
-                                .frame(maxHeight: proxy.size.height * 0.55)
+                                .padding(.horizontal, FSMetrics.space2)
+                                .frame(maxHeight: proxy.size.height * 0.75)
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                             }
 

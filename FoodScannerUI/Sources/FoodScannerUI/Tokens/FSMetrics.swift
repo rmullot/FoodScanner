@@ -29,6 +29,20 @@ public enum FSMetrics {
     public static let minTouchTarget: CGFloat = 44
     /// Nominal height of design system buttons and fields.
     public static let controlHeight: CGFloat = 60
+    /// 19 pt — smallest readable glyph the design system allows (matches `fsBody`).
+    public static let minReadableText: CGFloat = 19
+    /// 28 pt — nominal size of a numeric keypad key glyph before it scales down to fit.
+    public static let keypadKeyGlyph: CGFloat = 28
+    /// 72 pt — comfortable ceiling for an adaptive keypad key; it grows from the
+    /// 44 pt touch-target floor up to this before stopping.
+    public static let keypadKeyMaxHeight: CGFloat = 72
+    /// 172 pt — shortest usable keypad region: 2 key rows at the 44 pt floor + 1
+    /// gap + the validate button (`controlHeight`) + its top gap. Consumers must
+    /// offer `FSKeypad` at least this much height.
+    public static let keypadMinRegionHeight: CGFloat =
+        minTouchTarget * 2 + space3 + controlHeight + space3
+    /// 420 pt — keypad width ceiling so keys stay phone-proportioned on iPad / wide panes.
+    public static let keypadMaxWidth: CGFloat = 420
 
     public static let borderWidth: CGFloat = 1.5
     public static let borderWidthStrong: CGFloat = 2

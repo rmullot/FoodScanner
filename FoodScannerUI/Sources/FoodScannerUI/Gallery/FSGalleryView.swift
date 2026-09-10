@@ -101,6 +101,9 @@ public struct FSGalleryView: View {
                     VStack(spacing: FSMetrics.space4) {
                         FSBarcodeField(code: $code) { _ in }
                         FSKeypad(code: $code) {}
+                            .frame(height: 360)
+                        FSKeypad(code: $code) {}
+                            .frame(height: 220)
                     }
                 }
 

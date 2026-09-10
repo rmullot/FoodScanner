@@ -81,8 +81,17 @@ public struct FSBarcodeField: View {
     }
 }
 
-/// Accessible numeric keypad: 12 keys of 64 pt, haptic feedback,
-/// explicit VoiceOver labels.
+/// Accessible numeric keypad: adaptive 4x3 key grid above a pinned primary button.
+/// Key height clamps 44 pt (min touch target) … 72 pt (comfortable ceiling); the
+/// grid scrolls once its compressed height still overflows, while the validate
+/// button stays laid out below the scroll region and never scrolls off. Key glyph
+/// is 28 pt bold with a 19/28 minimum scale factor (19 pt floor at default Dynamic
+/// Type). Width clamps to 420 pt. Haptic feedback, explicit VoiceOver labels.
+///
+/// Contains a `GeometryReader`, so it has **no intrinsic height**: the caller MUST
+/// constrain this view's height (`.frame(height:)` / `.frame(maxHeight:)`) and
+/// offer at least `FSMetrics.keypadMinRegionHeight`; in an unbounded container it
+/// consumes all vertical space.
 public struct FSKeypad: View {
     @Binding private var code: String
     private let onValidate: () -> Void
@@ -96,20 +105,45 @@ public struct FSKeypad: View {
 
     public var body: some View {
         VStack(spacing: FSMetrics.space3) {
+            GeometryReader { proxy in
+                ScrollView {
+                    keyGrid
+                        .frame(minHeight: proxy.size.height)
+                }
+                .scrollBounceBasedOnSize()
+            }
+            .frame(maxHeight: keyGridMaxHeight)
+
+            FSButton(FSL10n.Keypad.validateButton, action: onValidate)
+                .disabled(code.count < 8)
+        }
+        .frame(maxWidth: FSMetrics.keypadMaxWidth)
+    }
+
+    private var keyGrid: some View {
+        VStack(spacing: FSMetrics.space3) {
             ForEach(keys.indices, id: \.self) { row in
                 HStack(spacing: FSMetrics.space3) {
                     ForEach(keys[row], id: \.self) { key in
                         if key.isEmpty {
-                            Color.clear.frame(height: 64)
+                            Color.clear
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .frame(minHeight: FSMetrics.minTouchTarget,
+                                       maxHeight: FSMetrics.keypadKeyMaxHeight)
+                                .accessibilityHidden(true)
                         } else {
                             keyButton(key)
                         }
                     }
                 }
             }
-            FSButton(FSL10n.Keypad.validateButton, action: onValidate)
-                .disabled(code.count < 8)
         }
+    }
+
+    /// Tallest the key grid gets: every key row at its 72 pt ceiling plus the inter-row gaps.
+    private var keyGridMaxHeight: CGFloat {
+        FSMetrics.keypadKeyMaxHeight * CGFloat(keys.count)
+            + FSMetrics.space3 * CGFloat(keys.count - 1)
     }
 
     private func keyButton(_ key: String) -> some View {
@@ -122,10 +156,13 @@ public struct FSKeypad: View {
             }
         } label: {
             Text(key)
-                .font(.fsText(28, weight: .bold))
+                .font(.fsText(FSMetrics.keypadKeyGlyph, weight: .bold))
+                .minimumScaleFactor(FSMetrics.minReadableText / FSMetrics.keypadKeyGlyph)
+                .lineLimit(1)
                 .foregroundStyle(Color.fsInk)
-                .frame(maxWidth: .infinity)
-                .frame(height: 64)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(minHeight: FSMetrics.minTouchTarget,
+                       maxHeight: FSMetrics.keypadKeyMaxHeight)
                 .background(
                     RoundedRectangle(cornerRadius: FSMetrics.radiusMedium, style: .continuous)
                         .fill(key == "⌫" ? Color.fsAccentSoft : Color.fsSurface)
@@ -220,5 +257,43 @@ public struct FSTextSizeSlider: View {
         }
         .padding(FSMetrics.space4)
         .fsCard(radius: FSMetrics.radiusMedium)
+    }
+}
+
+struct FSKeypad_Previews: PreviewProvider {
+    private struct Demo: View {
+        @State private var code = "30176204"
+
+        /// Grid at its 72 pt-per-key ceiling + validate button + spacing: nothing scrolls.
+        private static let roomy = FSMetrics.keypadKeyMaxHeight * 4 + FSMetrics.space3 * 3
+            + FSMetrics.controlHeight + FSMetrics.space3
+        /// Keys sit between the 44 pt floor and the 72 pt ceiling: comfortable fit.
+        private static let fit: CGFloat = 320
+        /// Below the compressed grid height: the grid scrolls, the button stays pinned.
+        private static let compact: CGFloat = 220
+
+        var body: some View {
+            HStack(alignment: .top, spacing: FSMetrics.space4) {
+                FSKeypad(code: $code) {}.frame(height: Self.roomy)
+                FSKeypad(code: $code) {}.frame(height: Self.fit)
+                FSKeypad(code: $code) {}.frame(height: Self.compact)
+            }
+            .padding(FSMetrics.space4)
+            .background(Color.fsBackground)
+        }
+    }
+
+    static var previews: some View {
+        Demo()
+            .preferredColorScheme(.light)
+            .previewDisplayName("Clair")
+
+        Demo()
+            .preferredColorScheme(.dark)
+            .previewDisplayName("Sombre")
+
+        Demo()
+            .environment(\.dynamicTypeSize, .accessibility5)
+            .previewDisplayName("Accessibilité XL")
     }
 }
