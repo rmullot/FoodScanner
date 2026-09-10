@@ -5,6 +5,7 @@
 //  Created on 09/02/2026.
 //
 
+import UIKit
 import XCTest
 import FoodScannerUI
 @testable import FoodScanner
@@ -38,6 +39,34 @@ final class FoodDetailViewModelTests: XCTestCase {
     func test_caloriesText_formatsTheCaloriesNutrient() {
         let model = FoodDetailViewModel(food: .previewFixture)
         XCTAssertEqual(model.caloriesText, L10n.Nutrients.caloriesFormat(539))
+    }
+
+    func test_loadThumbnail_whenImageURLPresentAndCacheReturnsImage_setsThumbnail() async {
+        let cache = ImageCacheStub(imageToReturn: UIImage())
+        let model = FoodDetailViewModel(food: .previewFixture, imageCache: cache)
+
+        await model.loadThumbnail()
+
+        XCTAssertNotNil(model.thumbnail)
+    }
+
+    func test_loadThumbnail_whenFoodIsNil_doesNotHitCache() async {
+        let cache = ImageCacheStub(imageToReturn: UIImage())
+        let model = FoodDetailViewModel(food: nil, imageCache: cache)
+
+        await model.loadThumbnail()
+
+        XCTAssertNil(model.thumbnail)
+        XCTAssertTrue(cache.requestedURLs.isEmpty)
+    }
+
+    func test_loadThumbnail_whenCacheReturnsNil_leavesThumbnailNil() async {
+        let cache = ImageCacheStub(imageToReturn: nil)
+        let model = FoodDetailViewModel(food: .previewFixture, imageCache: cache)
+
+        await model.loadThumbnail()
+
+        XCTAssertNil(model.thumbnail)
     }
 
     func test_caloriesText_isNilWhenNoCaloriesNutrient() {
