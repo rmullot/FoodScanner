@@ -55,9 +55,7 @@ struct ScannerScreenView: View {
                             ZStack {
                                 if showsKeypad {
                                     VStack(spacing: FSMetrics.space3) {
-                                        FSBarcodeField(code: $code) { submitted in
-                                            model.getFoodInformations(barcode: submitted)
-                                        }
+                                        FSBarcodeField(code: $code)
 
                                         FSKeypad(code: $code) {
                                             model.getFoodInformations(barcode: code)

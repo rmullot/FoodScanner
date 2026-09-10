@@ -91,9 +91,8 @@
 "barcodeField.accessibilityHint" = "Huit à quatorze chiffres";
 "barcodeField.clearLabel" = "Effacer le code";
 "barcodeField.invalidHint" = "Un code-barres compte entre 8 et 14 chiffres.";
-"barcodeField.submitButton" = "Chercher ce produit";
 "keypad.deleteHint" = "Effacer le dernier chiffre";
-"keypad.validateButton" = "Valider";
+"keypad.submitButton" = "Chercher ce produit";
 "textSizeSlider.label" = "Taille du texte";
 "textSizeSlider.preview" = "Un produit noté A est un bon choix.";
 "textSizeSlider.valuePercent" = "%@ pour cent";

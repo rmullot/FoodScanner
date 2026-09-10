@@ -19,8 +19,15 @@
 
 // MARK: - Settings
 
-"settings.high_contrast_title" = "Contraste élevé";
-"settings.high_contrast_explanation" = "Renforce les bordures et le texte pour une meilleure lisibilité.";
+"settings.accessibility_section_title" = "Accessibilité";
+"settings.contrast_title" = "Contraste élevé";
+"settings.state_enabled" = "Activé";
+"settings.state_disabled" = "Désactivé";
+"settings.state_enabled_system_managed" = "Activé (réglage système)";
+"settings.contrast_system_managed_caption" = "iOS ne permet pas de modifier ce réglage depuis l'application.";
+"settings.open_IOS_settings" = "Ouvrir les Réglages iOS";
+"settings.reduce_animations_system_managed_caption" = "Le réglage « Réduire les animations » d'iOS est actif. L'application le respecte automatiquement.";
+"settings.text_size_system_floor_caption" = "Votre appareil utilise déjà une grande taille de texte (réglage système). Le curseur ne peut que l'agrandir.";
 "settings.reduce_animations_title" = "Réduire les animations";
 "settings.reduce_animations_explanation" = "Limite les mouvements et transitions à l'écran.";
 

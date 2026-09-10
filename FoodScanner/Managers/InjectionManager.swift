@@ -48,6 +48,7 @@ final class InjectionManager {
     let imageCache: ImageCaching
     let webService: WebServiceProviding
     let errorManager: ErrorManager
+    let systemAccessibility: SystemAccessibilityProviding
 
     private init() {
         let networkActivity = NetworkActivityManager()
@@ -57,6 +58,7 @@ final class InjectionManager {
         self.reachability = ReachabilityManager()
         self.cacheManager = cacheManager
         self.errorManager = ErrorManager()
+        self.systemAccessibility = SystemAccessibilityManager()
         self.imageCache = ImageCacheManager(networkActivity: networkActivity)
         self.webService = WebServiceManager(cacheManager: cacheManager, networkActivity: networkActivity)
     }

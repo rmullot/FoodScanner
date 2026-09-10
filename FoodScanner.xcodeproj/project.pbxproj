@@ -58,12 +58,14 @@
 		9E01D200000000000000000B /* CacheManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D100000000000000000B /* CacheManagerTests.swift */; };
 		9E01D200000000000000000C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02AC261B2FEAC60F00CF77F7 /* RealmSwift */; };
 		9E02D2000000000000000001 /* ScannerKeypadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E02D1000000000000000001 /* ScannerKeypadUITests.swift */; };
+		9E02D2000000000000000002 /* SettingsAccessibilityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E02D1000000000000000002 /* SettingsAccessibilityUITests.swift */; };
 		A281ED380C794BF3BC0802A5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F832218EDE4F63B73BE442 /* OnboardingView.swift */; };
 		A64FC6924E694D48BE0B7B56 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796933C05C734C5798D12718 /* Assets.swift */; };
 		AA0000000000000000000101 /* InjectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000102 /* InjectionManager.swift */; };
 		AA0000000000000000000201 /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000202 /* SFSymbols.swift */; };
 		AA0000000000000000000401 /* ReachabilitySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000402 /* ReachabilitySource.swift */; };
 		AA0000000000000000000501 /* AlertPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000502 /* AlertPresenting.swift */; };
+		AA0000000000000000000601 /* SystemAccessibilityProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000602 /* SystemAccessibilityProviding.swift */; };
 		BBA88B8B807B4348960CC011 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06667DA213DC407D8E0DF274 /* ImageCacheManager.swift */; };
 		C407742B11E3444880CC7A75 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06084189CE5046A49038D59D /* SettingsViewModel.swift */; };
 		C922D834B6DD4A49908DE920 /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7329399F6A440119FD25897 /* ScannerViewModel.swift */; };
@@ -170,12 +172,14 @@
 		9E01D100000000000000000A /* ErrorManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManagerTests.swift; sourceTree = "<group>"; };
 		9E01D100000000000000000B /* CacheManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManagerTests.swift; sourceTree = "<group>"; };
 		9E02D1000000000000000001 /* ScannerKeypadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerKeypadUITests.swift; sourceTree = "<group>"; };
+		9E02D1000000000000000002 /* SettingsAccessibilityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAccessibilityUITests.swift; sourceTree = "<group>"; };
 		A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		A6F10EEFBF254697ADECBE5D /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		AA0000000000000000000102 /* InjectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionManager.swift; sourceTree = "<group>"; };
 		AA0000000000000000000202 /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
 		AA0000000000000000000402 /* ReachabilitySource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilitySource.swift; sourceTree = "<group>"; };
 		AA0000000000000000000502 /* AlertPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenting.swift; sourceTree = "<group>"; };
+		AA0000000000000000000602 /* SystemAccessibilityProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemAccessibilityProviding.swift; sourceTree = "<group>"; };
 		B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = SOURCE_ROOT; };
 		C18BBBB14FFC4E9B8F44E790 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		D0812B1C92944138AE43A095 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 			children = (
 				7AC16F51217E1E3400C4B381 /* FoodScannerUITests.swift */,
 				9E02D1000000000000000001 /* ScannerKeypadUITests.swift */,
+				9E02D1000000000000000002 /* SettingsAccessibilityUITests.swift */,
 				7AC16F53217E1E3400C4B381 /* Info.plist */,
 			);
 			path = FoodScannerUITests;
@@ -361,6 +366,7 @@
 				AA0000000000000000000102 /* InjectionManager.swift */,
 				AA0000000000000000000402 /* ReachabilitySource.swift */,
 				AA0000000000000000000502 /* AlertPresenting.swift */,
+				AA0000000000000000000602 /* SystemAccessibilityProviding.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -709,6 +715,7 @@
 				AA0000000000000000000101 /* InjectionManager.swift in Sources */,
 				AA0000000000000000000401 /* ReachabilitySource.swift in Sources */,
 				AA0000000000000000000501 /* AlertPresenting.swift in Sources */,
+				AA0000000000000000000601 /* SystemAccessibilityProviding.swift in Sources */,
 				7AC16F7B217E1ECC00C4B381 /* MutexCounter.swift in Sources */,
 				7AC16F7F217E1ECC00C4B381 /* Reachability.swift in Sources */,
 				7A6307BA2186957F00845E47 /* String+Regex.swift in Sources */,
@@ -771,6 +778,7 @@
 			files = (
 				7AC16F52217E1E3400C4B381 /* FoodScannerUITests.swift in Sources */,
 				9E02D2000000000000000001 /* ScannerKeypadUITests.swift in Sources */,
+				9E02D2000000000000000002 /* SettingsAccessibilityUITests.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */

@@ -10,13 +10,11 @@ import SwiftUI
 
 public struct FSBarcodeField: View {
     @Binding private var code: String
-    private let onSubmit: (String) -> Void
     @FocusState private var focused: Bool
     @Environment(\.fsResolvedContrast) private var contrast
 
-    public init(code: Binding<String>, onSubmit: @escaping (String) -> Void) {
+    public init(code: Binding<String>) {
         self._code = code
-        self.onSubmit = onSubmit
     }
 
     private var isValid: Bool { (8...14).contains(code.count) }
@@ -47,6 +45,7 @@ public struct FSBarcodeField: View {
                     .focused($focused)
                     .accessibilityLabel(FSL10n.BarcodeField.accessibilityLabel)
                     .accessibilityHint(FSL10n.BarcodeField.accessibilityHint)
+                    .accessibilityValue(!code.isEmpty && !isValid ? FSL10n.BarcodeField.invalidHint : "")
 
                 if !code.isEmpty {
                     Button {
@@ -77,12 +76,9 @@ public struct FSBarcodeField: View {
                     .font(.fsCaption)
                     .foregroundStyle(Color.fsAccent)
                     .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(FSL10n.BarcodeField.invalidHint)
             }
-
-            FSButton(FSL10n.BarcodeField.submitButton, systemImage: FSSymbol.search) {
-                onSubmit(code)
-            }
-            .disabled(!isValid)
         }
     }
 }
@@ -121,7 +117,7 @@ public struct FSKeypad: View {
             }
             .frame(maxHeight: keyGridMaxHeight)
 
-            FSButton(FSL10n.Keypad.validateButton, action: onValidate)
+            FSButton(FSL10n.Keypad.submitButton, systemImage: FSSymbol.search, action: onValidate)
                 .disabled(code.count < 8)
                 .accessibilityIdentifier("keypad.validate")
         }
@@ -236,8 +232,31 @@ public struct FSToggleRow: View {
 
 public struct FSTextSizeSlider: View {
     @Binding private var scale: Double
+    private let lowerBound: Double
 
-    public init(scale: Binding<Double>) { self._scale = scale }
+    /// `lowerBound` clamps the slider to the live system Dynamic Type floor
+    /// (the in-app override may only enlarge, never shrink below system).
+    /// Upper bound stays pinned at 2.0 (AX5). `lower` is only ever pulled down to
+    /// keep at least one `step` of travel when the system is already at (or within
+    /// one step of) AX5 — it never discards a floor between 1.9 and 2.0.
+    public init(scale: Binding<Double>, lowerBound: Double = 0.9) {
+        self._scale = scale
+        self.lowerBound = lowerBound
+    }
+
+    private static let upperBound = 2.0
+    private static let step = 0.1
+
+    private var range: ClosedRange<Double> {
+        let lower = Swift.min(lowerBound, Self.upperBound - Self.step)
+        return lower...Self.upperBound
+    }
+
+    /// True once the usable span is a single step: the slider becomes a dead
+    /// control, so it is disabled and dimmed while still exposing its value.
+    private var isCollapsed: Bool {
+        range.upperBound - range.lowerBound < Self.step + .ulpOfOne
+    }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space3) {
@@ -247,7 +266,7 @@ public struct FSTextSizeSlider: View {
 
             HStack(spacing: FSMetrics.space3) {
                 Text("A").font(.fsText(15, weight: .bold)).accessibilityHidden(true)
-                Slider(value: $scale, in: 0.9...2.0, step: 0.1) {
+                Slider(value: $scale, in: range, step: Self.step) {
                     Text(FSL10n.TextSizeSlider.label)
                 } minimumValueLabel: {
                     EmptyView()
@@ -256,6 +275,8 @@ public struct FSTextSizeSlider: View {
                 }
                 .tint(Color.fsLeaf)
                 .accessibilityValue(FSL10n.TextSizeSlider.valuePercent(String(Int(scale * 100))))
+                .disabled(isCollapsed)
+                .opacity(isCollapsed ? 0.4 : 1)
                 Text("A").font(.fsText(28, weight: .bold)).accessibilityHidden(true)
             }
 
@@ -317,12 +338,46 @@ struct FSKeypad_Previews: PreviewProvider {
     }
 }
 
+struct FSTextSizeSlider_Previews: PreviewProvider {
+    private struct Demo: View {
+        @State private var free = 1.0
+        @State private var clamped = 1.7
+
+        var body: some View {
+            VStack(spacing: FSMetrics.space4) {
+                FSTextSizeSlider(scale: $free)
+                FSTextSizeSlider(scale: $clamped, lowerBound: 1.6)
+            }
+            .padding(FSMetrics.space4)
+            .background(Color.fsBackground)
+        }
+    }
+
+    static var previews: some View {
+        Demo()
+            .preferredColorScheme(.light)
+            .previewDisplayName("Clair")
+
+        Demo()
+            .preferredColorScheme(.dark)
+            .previewDisplayName("Sombre")
+
+        Demo()
+            .environment(\.dynamicTypeSize, .accessibility5)
+            .previewDisplayName("Accessibilité XL")
+
+        Demo()
+            .modifier(FSIncreasedContrastPreview())
+            .previewDisplayName("Contraste élevé")
+    }
+}
+
 struct FSBarcodeField_Previews: PreviewProvider {
     private struct Demo: View {
         @State private var code = "301762"
 
         var body: some View {
-            FSBarcodeField(code: $code) { _ in }
+            FSBarcodeField(code: $code)
                 .padding(FSMetrics.space4)
                 .background(Color.fsBackground)
         }

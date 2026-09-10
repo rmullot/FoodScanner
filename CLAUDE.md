@@ -40,14 +40,14 @@ Declared in `FoodScanner.xcodeproj/project.pbxproj`:
 
 ## Architecture
 
-Each screen has an `ObservableObject` view model `<Screen>ViewModel` (`@Published` state, `async` methods) — no shared base class. Services are injected as protocol parameters (`WebServiceProviding`, `CacheProviding`, `ReachabilityProviding`, `NetworkActivityTracking`, `ImageCaching`) with a `nil` default resolving to `InjectionManager.shared.<service>`, so production call sites stay `ScannerViewModel()` and tests pass fakes.
+Each screen has an `ObservableObject` view model `<Screen>ViewModel` (`@Published` state, `async` methods) — no shared base class. Services are injected as protocol parameters (`WebServiceProviding`, `CacheProviding`, `ReachabilityProviding`, `NetworkActivityTracking`, `ImageCaching`, `SystemAccessibilityProviding`) with a `nil` default resolving to `InjectionManager.shared.<service>`, so production call sites stay `ScannerViewModel()` and tests pass fakes.
 
 ### View (`FoodScanner/View/`, one folder per tab/screen)
 
 - `Scanner/` — `ScannerScreenView` (AVFoundation capture via `CameraPreviewView`, `FSBarcodeField` / `FSKeypad` manual entry) + `ScannerViewModel`.
 - `FoodDetail/` — `ProductDetailScreenView` (`FSProductCard`, `FSNutrientRow`) + `FoodDetailViewModel`, shared by the Scanner and History tabs.
 - `History/` — `HistoryScreenView` (`FSHistoryRow`, `FSOfflineBanner`, `FSSceneFooter`) + `HistoryViewModel`. `FSHistoryRow` owns its `Button` (takes an `action` closure), so navigation is a `NavigationStack(path:)` bound to a local `NavigationPath` the row appends to — not a `NavigationLink`.
-- `Settings/` — `SettingsScreenView` (`FSToggleRow`, `FSTextSizeSlider`, `@AppStorage`-backed) + `SettingsViewModel`.
+- `Settings/` — `SettingsScreenView` (`FSToggleRow`, `FSStatusRow`, `FSTextSizeSlider`, `@AppStorage`-backed) + `SettingsViewModel` (mirrors live system accessibility state via injected `SystemAccessibilityProviding`; system-imposed settings render as read-only `FSStatusRow`s).
 - `Onboarding/OnboardingView.swift` — first-launch permissions screen, a `.fullScreenCover` from the root.
 - `RootTabBarController.swift` — the only UIKit view controller.
 
@@ -72,6 +72,7 @@ Each screen has an `ObservableObject` view model `<Screen>ViewModel` (`@Publishe
 - `NetworkActivityManager` — `@MainActor ObservableObject`, `@Published private(set) var isActive`; drives a `ProgressView`. Auto-off is a cancellable `Task`.
 - `ErrorManager` — blocking errors only (e.g. camera denied) via `UIAlertController` through an injected `AlertPresenting` seam (`KeyWindowAlertPresenter` in prod). Non-blocking cases use `FSScanStatusBanner` / `FSOfflineBanner`.
 - `ImageCacheManager` — **actor**, `NSCache`-backed, dedupes concurrent downloads. Shared by SwiftUI (`FoodDetailViewModel.loadThumbnail()`) and UIKit (`UIImageView+ImageCache`).
+- `SystemAccessibilityManager` — `@MainActor`, `SystemAccessibilityProviding`. Read-only mirror of the live iOS accessibility state (Reduce Motion, Increase Contrast / darker colors, preferred content size category); subscribes to the matching `UIAccessibility` / `UIContentSizeCategory` change notifications and republishes them via `changesPublisher`. Consumed by `SettingsViewModel` so Réglages reflects and live-updates the system settings the app cannot mutate.
 
 ### Other
 
@@ -91,7 +92,7 @@ French is the source/UI locale. Two independent SwiftGen layers, matching the ap
 
 ## FoodScannerUI (design system)
 
-Local SPM package, `import FoodScannerUI`. Tokens (`FSColor`, `FSFont`, `FSMetrics`, `FSSeason`), atoms (`FSButton`, `FSScoreBadge`, `FSInputs` = `FSBarcodeField`/`FSKeypad`/`FSToggleRow`/`FSTextSizeSlider`, `FSPattern`, `FSMascot`), molecules (`FSNutrientRow`, `FSProductCard`, `FSScanStatusBanner`, `FSHistoryRow`, `FSOfflineBanner`, `FSSceneFooter`). `FSNutrientRing` exists but is intentionally unused. `FSNutrient` has 5 cases — carbs/fat/protein/salt/fiber (sugars is plain text, no bar).
+Local SPM package, `import FoodScannerUI`. Tokens (`FSColor`, `FSFont`, `FSMetrics`, `FSSeason`), atoms (`FSButton`, `FSScoreBadge`, `FSInputs` = `FSBarcodeField`/`FSKeypad`/`FSToggleRow`/`FSTextSizeSlider`, `FSStatusRow`, `FSPattern`, `FSMascot`), molecules (`FSNutrientRow`, `FSProductCard`, `FSScanStatusBanner`, `FSHistoryRow`, `FSOfflineBanner`, `FSSceneFooter`). `FSNutrientRing` exists but is intentionally unused. `FSNutrient` has 5 cases — carbs/fat/protein/salt/fiber (sugars is plain text, no bar).
 
 Enforced design rules, audited on every screen change:
 - Nutri-Score colors never re-themed by light/dark; never color alone without an `FSPattern`.

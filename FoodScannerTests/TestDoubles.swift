@@ -127,6 +127,32 @@ final class AlertPresenterSpy: AlertPresenting {
     }
 }
 
+/// `SystemAccessibilityProviding` fake with mutable system state and a manual
+/// `changesPublisher` trigger, so notification-driven refresh can be tested
+/// without touching real `UIAccessibility` state.
+@MainActor
+final class SystemAccessibilityFake: SystemAccessibilityProviding {
+    var isReduceMotionEnabled: Bool
+    var isIncreasedContrastEnabled: Bool
+    var preferredContentSizeCategory: UIContentSizeCategory
+
+    private let subject = PassthroughSubject<Void, Never>()
+
+    var changesPublisher: AnyPublisher<Void, Never> { subject.eraseToAnyPublisher() }
+
+    init(reduceMotion: Bool = false,
+         increasedContrast: Bool = false,
+         contentSizeCategory: UIContentSizeCategory = .large) {
+        self.isReduceMotionEnabled = reduceMotion
+        self.isIncreasedContrastEnabled = increasedContrast
+        self.preferredContentSizeCategory = contentSizeCategory
+    }
+
+    func emitChange() {
+        subject.send(())
+    }
+}
+
 /// `ImageCaching` stub returning a fixed image for any URL.
 final class ImageCacheStub: ImageCaching, @unchecked Sendable {
     var imageToReturn: UIImage?

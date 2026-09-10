@@ -8,7 +8,7 @@
 import XCTest
 
 /// UI journey for the Scanner manual-entry panel: reveal the keypad, confirm every
-/// key and the pinned "Valider" button stay on screen and hittable, then type a
+/// key and the pinned "Chercher ce produit" button stay on screen and hittable, then type a
 /// full barcode and confirm the primary button enables.
 ///
 /// Queries target stable `.accessibilityIdentifier` values set in production
@@ -67,11 +67,11 @@ final class ScannerKeypadUITests: XCTestCase {
         XCTAssertTrue(deleteKey.isHittable, "The delete key should be hittable")
 
         let validate = app.buttons["keypad.validate"]
-        XCTAssertTrue(validate.exists, "The \"Valider\" button should exist")
-        XCTAssertTrue(validate.isHittable, "The \"Valider\" button should be hittable")
+        XCTAssertTrue(validate.exists, "The \"Chercher ce produit\" button should exist")
+        XCTAssertTrue(validate.isHittable, "The \"Chercher ce produit\" button should be hittable")
     }
 
-    // MARK: - "Valider" stays above the fold
+    // MARK: - "Chercher ce produit" stays above the fold
 
     func test_whenKeypadRevealed_validateButtonStaysWithinWindowBounds() {
         let app = makeApp()
@@ -83,10 +83,10 @@ final class ScannerKeypadUITests: XCTestCase {
 
         let window = app.windows.firstMatch
         XCTAssertTrue(window.frame.contains(validate.frame),
-                      "The \"Valider\" button frame \(validate.frame) should sit fully "
+                      "The \"Chercher ce produit\" button frame \(validate.frame) should sit fully "
                       + "within the window \(window.frame) — it must not be pushed below the fold")
         XCTAssertTrue(validate.isHittable,
-                      "The \"Valider\" button should remain hittable once the keypad is shown")
+                      "The \"Chercher ce produit\" button should remain hittable once the keypad is shown")
     }
 
     // MARK: - Typing a full barcode enables the primary button
@@ -99,7 +99,7 @@ final class ScannerKeypadUITests: XCTestCase {
         let validate = app.buttons["keypad.validate"]
         XCTAssertTrue(validate.waitForExistence(timeout: 5))
         XCTAssertFalse(validate.isEnabled,
-                       "The \"Valider\" button should start disabled with an empty barcode")
+                       "The \"Chercher ce produit\" button should start disabled with an empty barcode")
 
         for digit in barcode.map(String.init) {
             let key = app.buttons["keypad.key.\(digit)"]
@@ -108,7 +108,7 @@ final class ScannerKeypadUITests: XCTestCase {
         }
 
         XCTAssertTrue(validate.isEnabled,
-                      "The \"Valider\" button should be enabled once a full \(barcode.count)-digit "
+                      "The \"Chercher ce produit\" button should be enabled once a full \(barcode.count)-digit "
                       + "barcode has been entered")
         XCTAssertTrue(validate.isHittable)
     }
@@ -117,7 +117,7 @@ final class ScannerKeypadUITests: XCTestCase {
 
     /// Forces an accessibility content-size category via the simulator-honored
     /// `-UIPreferredContentSizeCategoryName` launch argument and re-checks that the
-    /// pinned "Valider" button is still on screen and hittable when the flexing key
+    /// pinned "Chercher ce produit" button is still on screen and hittable when the flexing key
     /// grid is at its tallest.
     func test_withAccessibilityContentSize_validateButtonRemainsHittable() {
         let app = makeApp(extraLaunchArguments: [
@@ -129,14 +129,14 @@ final class ScannerKeypadUITests: XCTestCase {
 
         let validate = app.buttons["keypad.validate"]
         XCTAssertTrue(validate.waitForExistence(timeout: 5),
-                      "The \"Valider\" button should exist at accessibility text sizes")
+                      "The \"Chercher ce produit\" button should exist at accessibility text sizes")
 
         let window = app.windows.firstMatch
         XCTAssertTrue(window.frame.contains(validate.frame),
-                      "At accessibility text size the \"Valider\" button frame \(validate.frame) "
+                      "At accessibility text size the \"Chercher ce produit\" button frame \(validate.frame) "
                       + "should still sit within the window \(window.frame)")
         XCTAssertTrue(validate.isHittable,
-                      "The \"Valider\" button should stay hittable at accessibility text sizes")
+                      "The \"Chercher ce produit\" button should stay hittable at accessibility text sizes")
 
         for digit in ["1", "9", "0"] {
             let key = app.buttons["keypad.key.\(digit)"]
@@ -169,8 +169,8 @@ final class ScannerKeypadUITests: XCTestCase {
 
         let validate = app.buttons["keypad.validate"]
         XCTAssertTrue(validate.waitForExistence(timeout: 5),
-                      "The \"Valider\" button should not be clipped by the reveal container at AX5")
+                      "The \"Chercher ce produit\" button should not be clipped by the reveal container at AX5")
         XCTAssertTrue(validate.isHittable,
-                      "The \"Valider\" button should stay hittable at AX5 on the smallest screen")
+                      "The \"Chercher ce produit\" button should stay hittable at AX5 on the smallest screen")
     }
 }

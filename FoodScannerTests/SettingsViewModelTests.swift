@@ -2,16 +2,18 @@
 //  SettingsViewModelTests.swift
 //  FoodScannerTests
 //  Copyright © MULLOT Romain EI. All rights reserved.
-//  Created on 09/03/2026.
+//  Created on 09/10/2026.
 //
 
+import SwiftUI
+import UIKit
 import XCTest
 @testable import FoodScanner
 
 @MainActor
 final class SettingsViewModelTests: XCTestCase {
 
-    private let keys = ["settings.highContrast", "settings.reduceAnimations", "settings.textScale"]
+    private let keys = ["settings.reduceAnimations", "settings.textScale"]
 
     override func setUp() {
         super.setUp()
@@ -23,23 +25,147 @@ final class SettingsViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    func test_defaults_matchAccessibilityNeutralValues() {
-        let sut = SettingsViewModel()
+    /// Spins the main run loop briefly so a `changesPublisher` emission delivered
+    /// via `.receive(on: DispatchQueue.main)` reaches the SUT before assertions.
+    private func pumpMainRunLoop() {
+        let done = expectation(description: "run loop pumped")
+        DispatchQueue.main.async { done.fulfill() }
+        wait(for: [done], timeout: 1.0)
+    }
 
-        XCTAssertFalse(sut.highContrast)
+    // MARK: - Defaults & persistence
+
+    func test_defaults_matchAccessibilityNeutralValues() {
+        let sut = SettingsViewModel(systemAccessibility: SystemAccessibilityFake())
+
         XCTAssertFalse(sut.reduceAnimations)
         XCTAssertEqual(sut.textScale, 1.0)
     }
 
     func test_reduceAnimations_isPersistedAndReadBack() {
-        SettingsViewModel().reduceAnimations = true
+        SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).reduceAnimations = true
 
-        XCTAssertTrue(SettingsViewModel().reduceAnimations)
+        XCTAssertTrue(SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).reduceAnimations)
     }
 
     func test_textScale_isPersistedAndReadBack() {
-        SettingsViewModel().textScale = 1.5
+        SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).textScale = 1.5
 
-        XCTAssertEqual(SettingsViewModel().textScale, 1.5)
+        XCTAssertEqual(SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).textScale, 1.5)
+    }
+
+    // MARK: - Seeding from the system seam
+
+    func test_init_seedsPublishedStateFromSystemAccessibilitySeam() {
+        let fake = SystemAccessibilityFake(reduceMotion: true,
+                                          increasedContrast: true,
+                                          contentSizeCategory: .accessibilityLarge)
+
+        let sut = SettingsViewModel(systemAccessibility: fake)
+
+        XCTAssertTrue(sut.systemReduceMotionEnabled)
+        XCTAssertTrue(sut.systemIncreasedContrastEnabled)
+        XCTAssertEqual(sut.systemContentSizeCategory, .accessibilityLarge)
+    }
+
+    // MARK: - Live refresh on changesPublisher
+
+    func test_whenSeamEmitsChange_publishedStateAndDerivedPropsRefresh() {
+        let fake = SystemAccessibilityFake()
+        let sut = SettingsViewModel(systemAccessibility: fake)
+
+        XCTAssertFalse(sut.systemIncreasedContrastEnabled)
+        XCTAssertFalse(sut.reduceAnimationsForcedBySystem)
+
+        fake.isReduceMotionEnabled = true
+        fake.isIncreasedContrastEnabled = true
+        fake.preferredContentSizeCategory = .accessibilityExtraLarge
+        fake.emitChange()
+        pumpMainRunLoop()
+
+        XCTAssertTrue(sut.systemReduceMotionEnabled)
+        XCTAssertTrue(sut.systemIncreasedContrastEnabled)
+        XCTAssertEqual(sut.systemContentSizeCategory, .accessibilityExtraLarge)
+        XCTAssertTrue(sut.reduceAnimationsForcedBySystem)
+        XCTAssertTrue(sut.effectiveReduceAnimations)
+        XCTAssertTrue(sut.systemContentSizeIsAccessibilitySize)
+    }
+
+    // MARK: - reduce-animations truth table
+
+    func test_reduceAnimationsForced_and_effective_truthTable() {
+        let offOff = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(reduceMotion: false))
+        offOff.reduceAnimations = false
+        XCTAssertFalse(offOff.reduceAnimationsForcedBySystem)
+        XCTAssertFalse(offOff.effectiveReduceAnimations)
+
+        let offOn = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(reduceMotion: false))
+        offOn.reduceAnimations = true
+        XCTAssertFalse(offOn.reduceAnimationsForcedBySystem)
+        XCTAssertTrue(offOn.effectiveReduceAnimations)
+
+        let onOff = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(reduceMotion: true))
+        onOff.reduceAnimations = false
+        XCTAssertTrue(onOff.reduceAnimationsForcedBySystem)
+        XCTAssertTrue(onOff.effectiveReduceAnimations)
+
+        let onOn = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(reduceMotion: true))
+        onOn.reduceAnimations = true
+        XCTAssertTrue(onOn.reduceAnimationsForcedBySystem)
+        XCTAssertTrue(onOn.effectiveReduceAnimations)
+    }
+
+    // MARK: - Text-scale floor mapping
+
+    func test_systemTextScaleFloor_mapsRepresentativeCategories() {
+        let cases: [(UIContentSizeCategory, Double)] = [
+            (.medium, 0.9),
+            (.large, 1.0),
+            (.extraLarge, 1.2),
+            (.accessibilityMedium, 1.8),
+            (.accessibilityExtraExtraExtraLarge, 2.0)
+        ]
+
+        for (category, expected) in cases {
+            let sut = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(contentSizeCategory: category))
+            XCTAssertEqual(sut.systemTextScaleFloor, expected, "floor for \(category)")
+        }
+    }
+
+    func test_effectiveTextScale_isMaxOfSliderAndSystemFloor() {
+        let highFloor = SettingsViewModel(
+            systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .accessibilityMedium))
+        highFloor.textScale = 1.0
+        XCTAssertEqual(highFloor.effectiveTextScale, 1.8)
+
+        let highSlider = SettingsViewModel(
+            systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .large))
+        highSlider.textScale = 1.5
+        XCTAssertEqual(highSlider.effectiveTextScale, 1.5)
+    }
+
+    // MARK: - Accessibility-size detection
+
+    func test_systemContentSizeIsAccessibilitySize_reflectsCategory() {
+        let standard = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .large))
+        XCTAssertFalse(standard.systemContentSizeIsAccessibilitySize)
+
+        let accessibility = SettingsViewModel(
+            systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .accessibilityLarge))
+        XCTAssertTrue(accessibility.systemContentSizeIsAccessibilitySize)
+    }
+
+    // MARK: - AppDynamicTypeScale ceiling clamp (rgaa reviewer)
+
+    func test_appDynamicTypeScale_isMonotonicAndClampsAtAccessibility5() {
+        var previous = AppDynamicTypeScale.dynamicTypeSize(for: 0.5)
+        for step in stride(from: 0.6, through: 2.5, by: 0.1) {
+            let current = AppDynamicTypeScale.dynamicTypeSize(for: step)
+            XCTAssertGreaterThanOrEqual(current, previous, "scale \(step) regressed the Dynamic Type size")
+            previous = current
+        }
+
+        XCTAssertEqual(AppDynamicTypeScale.dynamicTypeSize(for: 2.0), .accessibility5)
+        XCTAssertEqual(AppDynamicTypeScale.dynamicTypeSize(for: 3.0), .accessibility5)
     }
 }

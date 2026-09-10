@@ -99,7 +99,7 @@ public struct FSGalleryView: View {
 
                 section("Saisie") {
                     VStack(spacing: FSMetrics.space4) {
-                        FSBarcodeField(code: $code) { _ in }
+                        FSBarcodeField(code: $code)
                         FSKeypad(code: $code) {}
                             .frame(height: 360)
                         FSKeypad(code: $code) {}
@@ -173,7 +173,7 @@ public struct FSGalleryView: View {
                     VStack(spacing: FSMetrics.space4) {
                         FSScanStatusBanner(.aiming)
                         FSMascotRow(size: 56)
-                        FSBarcodeField(code: $code) { _ in }
+                        FSBarcodeField(code: $code)
                     }
                 }
             }
