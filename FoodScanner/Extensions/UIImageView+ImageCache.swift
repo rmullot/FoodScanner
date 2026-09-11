@@ -22,7 +22,7 @@ extension UIImageView {
             return .failure("Invalid image URL: \(URLString)")
         }
 
-        guard let downloadedImage = await ImageCacheManager.sharedInstance.image(for: URLString) else {
+        guard let downloadedImage = await InjectionManager.shared.imageCache.image(for: URLString) else {
             self.image = placeHolder
             return .failure("ERROR LOADING IMAGE FROM URL: \(URLString)")
         }

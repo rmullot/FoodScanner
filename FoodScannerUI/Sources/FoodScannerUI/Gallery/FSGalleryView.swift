@@ -23,14 +23,14 @@ public struct FSGalleryView: View {
                     .navigationTitle("Composants")
                     .background(Color.fsBackground.ignoresSafeArea())
             }
-            .tabItem { Label("Composants", systemImage: "square.grid.2x2") }
+            .tabItem { Label("Composants", systemImage: FSSymbol.componentsGrid) }
 
             NavigationStack {
                 screensTab
                     .navigationTitle("Écrans")
                     .background(Color.fsBackground.ignoresSafeArea())
             }
-            .tabItem { Label("Écrans", systemImage: "iphone") }
+            .tabItem { Label("Écrans", systemImage: FSSymbol.iphone) }
         }
         .fsSeason(seasonOverride)
         .tint(Color.fsAccent)
@@ -58,12 +58,12 @@ public struct FSGalleryView: View {
 
                 section("Boutons et puces") {
                     VStack(spacing: FSMetrics.space3) {
-                        FSButton("Scanner un produit", systemImage: "barcode.viewfinder") {}
+                        FSButton("Scanner un produit", systemImage: FSSymbol.scan) {}
                         FSButton("Saisir le code", role: .outline) {}
                         FSButton("Plus tard", role: .quiet) {}
                         HStack {
-                            FSTag("Bio", tone: .leaf, systemImage: "leaf")
-                            FSTag("Trop salé", tone: .alert, systemImage: "exclamationmark.triangle")
+                            FSTag("Bio", tone: .leaf, systemImage: FSSymbol.leaf)
+                            FSTag("Trop salé", tone: .alert, systemImage: FSSymbol.warning)
                             FSTag("Hors ligne")
                         }
                     }
@@ -99,8 +99,11 @@ public struct FSGalleryView: View {
 
                 section("Saisie") {
                     VStack(spacing: FSMetrics.space4) {
-                        FSBarcodeField(code: $code) { _ in }
+                        FSBarcodeField(code: $code)
                         FSKeypad(code: $code) {}
+                            .frame(height: 360)
+                        FSKeypad(code: $code) {}
+                            .frame(height: 220)
                     }
                 }
 
@@ -108,7 +111,7 @@ public struct FSGalleryView: View {
                     VStack(spacing: FSMetrics.space3) {
                         FSToggleRow("Lecture hors ligne uniquement",
                                     explanation: "N'interroge jamais le réseau, utilise le cache.",
-                                    systemImage: "arrow.down.circle",
+                                    systemImage: FSSymbol.download,
                                     isOn: $offlineOnly)
                         FSTextSizeSlider(scale: $textScale)
                     }
@@ -170,7 +173,7 @@ public struct FSGalleryView: View {
                     VStack(spacing: FSMetrics.space4) {
                         FSScanStatusBanner(.aiming)
                         FSMascotRow(size: 56)
-                        FSBarcodeField(code: $code) { _ in }
+                        FSBarcodeField(code: $code)
                     }
                 }
             }

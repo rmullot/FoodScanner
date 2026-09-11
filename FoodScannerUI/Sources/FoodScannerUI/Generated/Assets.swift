@@ -26,9 +26,11 @@ public typealias AssetImageTypeAlias = ImageAsset.Image
 public enum FSAsset {
   public static let fsAccent = ColorAsset(name: "fsAccent")
   public static let fsAccentSoft = ColorAsset(name: "fsAccentSoft")
+  public static let fsAccentSoftStrong = ColorAsset(name: "fsAccentSoftStrong")
   public static let fsBackground = ColorAsset(name: "fsBackground")
   public static let fsBark = ColorAsset(name: "fsBark")
   public static let fsBorder = ColorAsset(name: "fsBorder")
+  public static let fsBorderStrong = ColorAsset(name: "fsBorderStrong")
   public static let fsCarbs = ColorAsset(name: "fsCarbs")
   public static let fsFat = ColorAsset(name: "fsFat")
   public static let fsFiber = ColorAsset(name: "fsFiber")

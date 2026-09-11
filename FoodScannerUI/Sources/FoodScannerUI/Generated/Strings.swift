@@ -21,14 +21,12 @@ public enum FSL10n {
     public static let invalidHint = FSL10n.tr("Localizable", "barcodeField.invalidHint", fallback: "Un code-barres compte entre 8 et 14 chiffres.")
     /// FSBarcodeField / FSKeypad / FSTextSizeSlider
     public static let label = FSL10n.tr("Localizable", "barcodeField.label", fallback: "Code-barres")
-    /// Chercher ce produit
-    public static let submitButton = FSL10n.tr("Localizable", "barcodeField.submitButton", fallback: "Chercher ce produit")
   }
   public enum Keypad {
     /// Effacer le dernier chiffre
     public static let deleteHint = FSL10n.tr("Localizable", "keypad.deleteHint", fallback: "Effacer le dernier chiffre")
-    /// Valider
-    public static let validateButton = FSL10n.tr("Localizable", "keypad.validateButton", fallback: "Valider")
+    /// Chercher ce produit
+    public static let submitButton = FSL10n.tr("Localizable", "keypad.submitButton", fallback: "Chercher ce produit")
   }
   public enum Mascot {
     /// %@, mascotte %@

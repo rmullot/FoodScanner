@@ -7,8 +7,8 @@
 //
 
 import Foundation
+import Combine
 import CoreTelephony
-import UIKit
 
 // MARK: - OnlineMode
 
@@ -47,64 +47,46 @@ extension OnlineMode: RawRepresentable {
 
 // MARK: - Reachability Manager
 
-public final class ReachabilityManager: ObservableObject {
+@MainActor
+public final class ReachabilityManager: ObservableObject, ReachabilityProviding {
 
     // MARK: Properties
 
-    static let sharedInstance = ReachabilityManager()
-
     @Published public private(set) var onlineMode: OnlineMode = .online
 
-    private var reachability: Reachability?
-
-    private let telephonyInfo = CTTelephonyNetworkInfo()
-
-    private let changeOperatingModeDelay: Double = 2.0
-
-    private var changeOperatinModeClosure: DispatchQueue.CancellableClosure = nil
-
-    private init() {
-        reachability = Reachability()
-        if let reachability {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(ReachabilityManager.reachabilityChanged(_:)),
-                                                   name: ReachabilityChangedNotification,
-                                                   object: reachability)
-            do {
-                try reachability.startNotifier()
-            } catch let error {
-                print("Unable to start Reachability! Error: \(error)")
-            }
-        } else {
-            print("Unable to create Reachability!")
-        }
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ReachabilityManager.refreshReachability),
-                                               name: UIApplication.willEnterForegroundNotification,
-                                               object: nil)
+    public var onlineModePublisher: AnyPublisher<OnlineMode, Never> {
+        $onlineMode.eraseToAnyPublisher()
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    private let source: ReachabilitySource
+
+    private let changeOperatingModeDelay: Double
+
+    private var changeOperatingModeTask: Task<Void, Never>?
+
+    init(source: ReachabilitySource? = nil, changeOperatingModeDelay: Double = 2.0) {
+        self.source = source ?? SystemReachabilitySource()
+        self.changeOperatingModeDelay = changeOperatingModeDelay
+        self.source.reachabilityDidChange = { [weak self] in
+            if Thread.isMainThread {
+                MainActor.assumeIsolated {
+                    self?.reachabilityChanged()
+                }
+            } else {
+                Task { @MainActor in
+                    self?.reachabilityChanged()
+                }
+            }
+        }
+        self.source.start()
     }
 
     // MARK: Reachability changed
 
-    @objc public dynamic func refreshReachability() {
-        if let reachability = self.reachability {
-            NotificationCenter.default.post(name: ReachabilityChangedNotification, object: reachability)
-        }
-    }
+    func reachabilityChanged() {
+        if source.isReachable {
 
-    @objc dynamic func reachabilityChanged(_ note: Notification) {
-        guard let noteReachability = note.object as? Reachability, let reachability = self.reachability, reachability === noteReachability else {
-            return
-        }
-
-        if reachability.isReachable {
-
-            if let radioAccessTechnologies = telephonyInfo.serviceCurrentRadioAccessTechnology, !radioAccessTechnologies.isEmpty {
+            if let radioAccessTechnologies = source.currentRadioAccessTechnologies, !radioAccessTechnologies.isEmpty {
                 let isSlow = radioAccessTechnologies.values.contains { technology in
                     technology == CTRadioAccessTechnologyEdge ||
                     technology == CTRadioAccessTechnologyCDMA1x ||
@@ -121,23 +103,19 @@ public final class ReachabilityManager: ObservableObject {
     }
 
     public func changeOnlineMode(_ newMode: OnlineMode) {
-        changeOperatinModeClosure?()
-        if newMode == .online || newMode == .onlineSlow {
-            publish(newMode)
-        } else {
-            changeOperatinModeClosure = DispatchQueue.main.cancellableAsyncAfter(secondsDeadline: changeOperatingModeDelay) { [weak self] in
-                self?.publish(newMode)
-            }
-        }
-    }
+        changeOperatingModeTask?.cancel()
+        changeOperatingModeTask = nil
 
-    private func publish(_ newMode: OnlineMode) {
-        if Thread.isMainThread {
+        guard newMode == .offline else {
             onlineMode = newMode
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                self?.onlineMode = newMode
-            }
+            return
+        }
+
+        let delay = changeOperatingModeDelay
+        changeOperatingModeTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            guard !Task.isCancelled else { return }
+            self?.onlineMode = newMode
         }
     }
 

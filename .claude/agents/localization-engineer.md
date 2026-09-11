@@ -33,7 +33,7 @@ You are FoodScanner's localization engineer. You own the day-to-day upkeep of th
 
 After any change (translation edit, SwiftGen re-run, or call-site migration), verify:
 ```bash
-xcodebuild -scheme FoodScanner -destination 'platform=iOS Simulator,name=iPhone 15' build
+xcodebuild -scheme FoodScanner -destination 'platform=iOS Simulator,name=iPhone 17' build
 ```
 A missing/renamed key surfaces as a compile error at the call site (that's the point of using generated keys over string literals) — fix it rather than reintroducing a literal as a workaround. If the package has its own build (`swift build` in `FoodScannerUI/`), verify that too when you touched package resources.
 

@@ -1,156 +1,160 @@
 # FoodScannerUI
 
-Design system SwiftUI de FoodScanner : atomes, molécules, tokens saisonniers,
-mascottes et saynètes. Cible iOS 16, aucune dépendance externe.
+FoodScanner's SwiftUI design system: atoms, molecules, seasonal tokens,
+mascots, and scene vignettes. Targets iOS 17, no external dependencies.
 
-## Ajouter le package au projet
+## Adding the package to the project
 
-1. Copier le dossier `FoodScannerUI/` à la racine du dépôt, à côté de `FoodScanner.xcodeproj`.
-2. Xcode → `File ▸ Add Package Dependencies… ▸ Add Local…` → choisir `FoodScannerUI`.
-3. Cible `FoodScanner` → onglet `General` → `Frameworks, Libraries, and Embedded Content` → ajouter `FoodScannerUI`.
-4. Dans le code : `import FoodScannerUI`.
+1. Copy the `FoodScannerUI/` folder to the repo root, next to `FoodScanner.xcodeproj`.
+2. Xcode → `File ▸ Add Package Dependencies… ▸ Add Local…` → select `FoodScannerUI`.
+3. Target `FoodScanner` → `General` tab → `Frameworks, Libraries, and Embedded Content` → add `FoodScannerUI`.
+4. In code: `import FoodScannerUI`.
 
-Pour voir la galerie sur simulateur, présenter `FSGalleryView()` depuis un
-`UIHostingController` (l'app est en UIKit) :
+To see the gallery in the simulator, present `FSGalleryView()`:
 
 ```swift
-let vc = UIHostingController(rootView: FSGalleryView())
-navigationController?.pushViewController(vc, animated: true)
+NavigationStack {
+    FSGalleryView()
+}
 ```
 
 ## Structure
 
-| Dossier | Contenu |
+| Folder | Contents |
 | --- | --- |
 | `Tokens/` | `FSSeason`, `Color.fs*`, `Font.fs*`, `FSMetrics` |
 | `Atoms/` | `FSButton`, `FSIconButton`, `FSTag`, `FSScoreBadge`, `FSScoreScale`, `FSBarcodeField`, `FSKeypad`, `FSToggleRow`, `FSTextSizeSlider`, `FSPattern`, `FSPatternSwatch`, `FSMascot` |
 | `Molecules/` | `FSNutrientRow`, `FSNutrientRing`, `FSNutrientLegend`, `FSProductCard`, `FSSeasonalHint`, `FSScanStatusBanner`, `FSHistoryRow`, `FSOfflineBanner`, `FSSceneFooter` |
-| `Support/` | `FSHaptics`, `FSAnnounce`, `fsAnimation` (respecte Reduce Motion) |
-| `Gallery/` | `FSGalleryView` — deux onglets : composants, écrans |
-| `Resources/` | asset catalog Any/Dark + sources SVG des saynètes |
+| `Support/` | `FSHaptics`, `FSAnnounce`, `fsAnimation` (respects Reduce Motion) |
+| `Gallery/` | `FSGalleryView` — two tabs: components, screens |
+| `Resources/` | Any/Dark asset catalog + SVG sources for the scene vignettes |
 
-## Les deux règles non négociables
+## The two non-negotiable rules
 
-**1. Le Nutri-Score ne suit pas le thème.** `FSNutriScore.color` renvoie les
-aplats officiels (#038141, #85BB2F, #FECB02, #EE8100, #E63E11) en clair comme en
-sombre, et `letterColor` met du noir sur le C jaune, du blanc partout ailleurs.
-Ne surchargez jamais ces couleurs.
+**1. The Nutri-Score never follows the theme.** `FSNutriScore.color` returns the
+official flat colors (#038141, #85BB2F, #FECB02, #EE8100, #E63E11) in both light
+and dark, and `letterColor` puts black on the yellow C, white everywhere else.
+Never override these colors.
 
-**2. Jamais d'information par la couleur seule.** Chaque nutriment porte un
-motif (`FSPattern.Motif`) en plus de sa couleur, et la lettre du score est
-toujours écrite en clair. Un test unitaire vérifie l'unicité des motifs.
+**2. Never information by color alone.** Every nutrient carries a pattern
+(`FSPattern.Motif`) alongside its color, and the score's letter is always
+written out. A unit test checks that patterns stay unique.
 
-## Saison
+## Season
 
 ```swift
-FSGalleryView()                          // la saison suit le thème clair/sombre
-    .fsSeason(.autumnWinter)             // ou forcée sur un sous-arbre
-    .fsSeasonFollowsCalendar()           // ou déduite du mois réel
+FSGalleryView()                          // season follows the light/dark theme
+    .fsSeason(.autumnWinter)             // or forced on a subtree
+    .fsSeasonFollowsCalendar()           // or derived from the real month
 ```
 
-Dans un composant : `@FSResolvedSeason private var season`.
+Inside a component: `@FSResolvedSeason private var season`.
 
-Printemps-été tire ses couleurs de la fraise, du petit pois, du citron, du blé
-et de l'huile d'olive ; automne-hiver du potimarron, de la châtaigne, du chou et
-de la noix.
+Spring-summer draws its colors from strawberry, pea, lemon, wheat, and olive
+oil; autumn-winter from squash, chestnut, cabbage, and walnut.
 
-## Polices
+## Fonts
 
-Le module déclare `Caprasimo-Regular` et `Figtree-Regular` et retombe sur
-SF Rounded / SF Pro si les fichiers ne sont pas dans le bundle de l'app. Pour
-les activer : ajouter les `.ttf` à la cible `FoodScanner` et les déclarer dans
-`Info.plist` (`UIAppFonts`) — vérifiez la licence avant embarquement.
+The module declares `Caprasimo-Regular` and `Figtree-Regular` and falls back to
+SF Rounded / SF Pro if the files aren't in the app's bundle. To enable them:
+add the `.ttf` files to the `FoodScanner` target and declare them in
+`Info.plist` (`UIAppFonts`) — check the license before embedding.
 
-## Saynètes
+## Scene vignettes
 
-`FSSceneFooter` fonctionne sans asset : les décors sont dessinés en `Canvas`.
-Pour la version vectorielle complète, exportez les PDF puis déposez-les dans
-`Resources/FoodScannerUI.xcassets/Scenes/*.imageset` :
+`FSSceneFooter` works with no asset: the scenes are drawn in `Canvas`. For the
+full vector version, export the PDFs and drop them into
+`Resources/FoodScannerUI.xcassets/Scenes/*.imageset`:
 
 ```sh
 brew install librsvg
 sh Sources/FoodScannerUI/Resources/Scenes/make-pdfs.sh
 ```
 
-`FSSceneFooter` utilise le PDF dès qu'il est présent, sinon le dessin.
+`FSSceneFooter` uses the PDF as soon as it's present, falling back to the
+drawing otherwise.
 
-## Localisation (SwiftGen)
+## Localization (SwiftGen)
 
-Les textes en dur du package (labels/hints VoiceOver, textes visibles par
-défaut) vivent dans `Resources/fr.lproj/Localizable.strings` (base) et
-`Resources/en.lproj/Localizable.strings` (traduction), déclarés comme
-ressources SPM dans `Package.swift`. Ils sont accédés via l'enum généré
-`FSL10n` (namespace dédié, distinct du `L10n` de l'app cible, pour éviter
-toute collision côté consommateur). Les couleurs/images de
-`FoodScannerUI.xcassets` sont accédées via l'enum généré `FSAsset`.
+The package's hardcoded text (VoiceOver labels/hints, default visible text)
+lives in `Resources/fr.lproj/Localizable.strings` (base) and
+`Resources/en.lproj/Localizable.strings` (translation), declared as SPM
+resources in `Package.swift`. They're accessed through the generated
+`FSL10n` enum (its own namespace, distinct from the target app's `L10n`, to
+avoid any collision on the consumer side). Colors/images from
+`FoodScannerUI.xcassets` are accessed through the generated `FSAsset` enum.
+SF Symbols are listed (semantic key → symbol name) in
+`Sources/FoodScannerUI/SFSymbols.yml` and accessed through the generated
+`FSSymbol` enum (distinct from the target app's `SFSymbol`): no symbol
+literal should ever be passed to `Image(systemName:)` / `systemImage:`.
 
-Ces deux fichiers sont produits par SwiftGen à partir de
-`FoodScannerUI/swiftgen.yml`. **La régénération reste manuelle, par choix
-délibéré après investigation d'un plugin SPM build-tool** (voir ci-dessous) —
-ce n'est pas un oubli. Après toute modification de `Localizable.strings` ou
-de `FoodScannerUI.xcassets`, régénérez à la main :
+These three generated files (`Generated/Strings.swift`, `Generated/Assets.swift`,
+`Generated/SFSymbols.swift`) are produced by SwiftGen from
+`FoodScannerUI/swiftgen.yml`. **Regeneration stays manual, a deliberate choice
+made after investigating an SPM build-tool plugin** (see below) — it's not an
+oversight. After any change to `Localizable.strings`, `FoodScannerUI.xcassets`,
+or `SFSymbols.yml`, regenerate by hand:
 
 ```sh
 swiftgen config run --config FoodScannerUI/swiftgen.yml
 ```
 
-puis committez les fichiers générés (`Sources/FoodScannerUI/Generated/Strings.swift`,
-`Sources/FoodScannerUI/Generated/Assets.swift`) — ils sont suivis par git
-plutôt qu'ignorés, contrairement à `FoodScanner/Generated/` côté app qui se
-régénère à chaque build via son Run Script.
+then commit the generated files (`Sources/FoodScannerUI/Generated/Strings.swift`,
+`Sources/FoodScannerUI/Generated/Assets.swift`) — they're tracked by git rather
+than ignored, unlike `FoodScanner/Generated/` on the app side, which
+regenerates on every build via its Run Script.
 
-### Pourquoi pas un plugin SPM build-tool (2026-09-02)
+### Why not an SPM build-tool plugin (2026-09-02)
 
-Un build-tool plugin (`plugin(name:, capability: .buildTool)`) est
-l'approche moderne recommandée pour automatiser SwiftGen dans un package SPM.
-Investigation menée avant de l'écarter :
+A build-tool plugin (`plugin(name:, capability: .buildTool)`) is the modern
+recommended way to automate SwiftGen inside an SPM package. Investigation
+carried out before ruling it out:
 
-- **Plugin officiel SwiftGen : inexistant à la version installée (6.6.3).**
-  Le dépôt `SwiftGen/SwiftGen` ne contient aucun target `plugin` dans son
-  `Package.swift` à ce tag (ni sur sa branche `stable`, qui pointe exactement
-  sur le commit du tag `6.6.3` — donc aucune version plus récente ne l'ajoute
-  non plus à ce jour). Il n'y a donc rien à ajouter en dépendance côté
-  `SwiftGen/SwiftGen` lui-même.
-- **Plugins tiers communautaires : existants mais inadaptés à un package
-  partagé.** Plusieurs wrappers non officiels existent (ex. dépôts
-  `SwiftGenPlugin` de différents auteurs individuels), mais tous ont une très
-  faible adoption (0 à quelques étoiles), pas de garantie de maintenance ni
-  de version épinglée stable compatible avec les templates utilisés ici
-  (`structured-swift5`, `swift5` avec `bundle: Bundle.module`). Ajouter une
-  dépendance SPM externe peu maintenue au design system consommé par tout
-  l'écran serait un risque de chaîne d'approvisionnement disproportionné par
-  rapport au gain (éviter une commande manuelle).
-- **Un plugin maison enveloppant le binaire `swiftgen` serait fragile.** Les
-  build-tool plugins SPM tournent en sandbox et n'ont pas d'accès réseau ; ils
-  ne peuvent invoquer de façon fiable qu'un exécutable qui fait partie du
-  graphe du package (binary target ou exécutable buildé depuis les sources),
-  pas un binaire Homebrew à un chemin non garanti (`/opt/homebrew/bin/swiftgen`
-  sur Apple Silicon vs `/usr/local/bin/swiftgen` sur Intel vs le PATH d'un
-  runner CI). De plus, Xcode affiche une invite de confiance ponctuelle
-  ("Enable this plugin?") au premier lancement d'un plugin build-tool non
-  signé référencé par un package local — cette invite bloque tout build
-  headless (`xcodebuild`, CI) tant qu'elle n'est pas acceptée une fois
-  manuellement, sauf à ajouter `-skipPackagePluginValidation`, ce qui
-  désactive la même protection pour tous les plugins du graphe.
-- **Sortie générée dans les sources, pas dans un répertoire dérivé.**
-  `swiftgen.yml` écrit `Sources/FoodScannerUI/Generated/*.swift` (source du
-  package, committée) alors que la convention SPM pour un build-tool plugin
-  est d'écrire dans `context.pluginWorkDirectory` (répertoire de build,
-  jamais committé) et de déclarer ce fichier en sortie du plugin. Basculer
-  sur ce modèle changerait la source de vérité (les fichiers committés ne
-  seraient plus à jour) et n'apporte rien ici pour un template qui a rarement
-  besoin d'évoluer.
+- **No official SwiftGen plugin at the installed version (6.6.3).** The
+  `SwiftGen/SwiftGen` repo has no `plugin` target in its `Package.swift` at
+  that tag (nor on its `stable` branch, which points at exactly the `6.6.3`
+  tag commit — so no newer version adds one either as of today). There's
+  nothing to add as a dependency on the `SwiftGen/SwiftGen` side itself.
+- **Community third-party plugins exist but don't fit a shared package.**
+  Several unofficial wrappers exist (e.g. `SwiftGenPlugin` repos from
+  various individual authors), but all have very low adoption (0 to a few
+  stars), no maintenance guarantee, and no stable pinned version compatible
+  with the templates used here (`structured-swift5`, `swift5` with
+  `bundle: Bundle.module`). Adding a poorly-maintained external SPM
+  dependency to the design system consumed by every screen would be a
+  supply-chain risk disproportionate to the gain (avoiding one manual
+  command).
+- **A homemade plugin wrapping the `swiftgen` binary would be fragile.** SPM
+  build-tool plugins run sandboxed with no network access; they can only
+  reliably invoke an executable that's part of the package's own graph
+  (a binary target or an executable built from source), not a Homebrew
+  binary at a non-guaranteed path (`/opt/homebrew/bin/swiftgen` on Apple
+  Silicon vs. `/usr/local/bin/swiftgen` on Intel vs. a CI runner's PATH).
+  On top of that, Xcode shows a one-time trust prompt ("Enable this
+  plugin?") the first time an unsigned build-tool plugin referenced by a
+  local package runs — this prompt blocks any headless build (`xcodebuild`,
+  CI) until accepted once manually, short of adding
+  `-skipPackagePluginValidation`, which disables the same protection for
+  every plugin in the graph.
+- **Output is generated into sources, not a derived directory.**
+  `swiftgen.yml` writes `Sources/FoodScannerUI/Generated/*.swift` (package
+  source, committed), while the SPM convention for a build-tool plugin is to
+  write into `context.pluginWorkDirectory` (build directory, never
+  committed) and declare that file as the plugin's output. Switching to
+  that model would change the source of truth (committed files would no
+  longer be current) and buys nothing here for a template that rarely needs
+  to change.
 
-**Décision : régénération manuelle documentée, statu quo.** Ce n'est pas
-automatisé, mais c'est délibéré : chaque option d'automatisation disponible
-aujourd'hui est soit inexistante (plugin officiel), soit un risque de
-maintenance/fragilité CI qui dépasse le bénéfice (plugin tiers ou plugin
-maison). Si SwiftGen publie un jour un plugin officiel `SwiftGenPlugin`, ou si
-ce même risque est jugé acceptable par l'équipe, revisiter ce choix à ce
-moment-là plutôt que de forcer une solution fragile maintenant.
+**Decision: documented manual regeneration, status quo.** This isn't
+automated, but it's deliberate: every automation option available today is
+either nonexistent (official plugin) or a maintenance/CI-fragility risk that
+outweighs the benefit (third-party or homemade plugin). If SwiftGen ever
+ships an official `SwiftGenPlugin`, or if that same risk becomes acceptable
+to the team, revisit this choice then rather than forcing a fragile solution
+now.
 
 ## Tests
 
 ```sh
-swift test          # ou ⌘U sur le schéma FoodScannerUI dans Xcode
+swift test          # or ⌘U on the FoodScannerUI scheme in Xcode
 ```

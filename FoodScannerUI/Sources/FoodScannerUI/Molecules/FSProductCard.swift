@@ -79,7 +79,7 @@ public struct FSProductCard: View {
             if let thumbnail {
                 thumbnail.resizable().scaledToFit()
             } else {
-                Image(systemName: "shippingbox")
+                Image(systemName: FSSymbol.box)
                     .font(.system(size: 26))
                     .foregroundStyle(Color.fsInkSecondary)
             }
@@ -142,11 +142,11 @@ public struct FSScanStatusBanner: View {
 
         var icon: String {
             switch self {
-            case .aiming: return "viewfinder"
-            case .reading: return "arrow.triangle.2.circlepath"
-            case .found: return "checkmark.circle.fill"
-            case .notFound: return "questionmark.circle.fill"
-            case .offline: return "wifi.slash"
+            case .aiming: return FSSymbol.viewfinder
+            case .reading: return FSSymbol.reading
+            case .found: return FSSymbol.success
+            case .notFound: return FSSymbol.notFound
+            case .offline: return FSSymbol.offline
             }
         }
     }
@@ -169,7 +169,7 @@ public struct FSScanStatusBanner: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("\(state.title). \(state.detail)")
             .accessibilityHint(FSL10n.ProductCard.ScanStatus.foundHint)
-            .onChange(of: state) { newValue in
+            .onChange(of: state) { _, newValue in
                 FSAnnounce.say("\(newValue.title). \(newValue.detail)")
                 FSHaptics.play(.scanSuccess)
             }
@@ -177,7 +177,7 @@ public struct FSScanStatusBanner: View {
             content
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("\(state.title). \(state.detail)")
-                .onChange(of: state) { newValue in
+                .onChange(of: state) { _, newValue in
                     FSAnnounce.say("\(newValue.title). \(newValue.detail)")
                     switch newValue {
                     case .found: FSHaptics.play(.scanSuccess)
@@ -252,7 +252,7 @@ public struct FSHistoryRow: View {
                 if let score {
                     FSScoreBadge(score, size: .small)
                 } else {
-                    Image(systemName: "questionmark")
+                    Image(systemName: FSSymbol.questionMark)
                         .font(.system(size: 17, weight: .bold))
                         .foregroundStyle(Color.fsInkSecondary)
                         .frame(width: 36, height: 36)
@@ -265,7 +265,7 @@ public struct FSHistoryRow: View {
                         .multilineTextAlignment(.leading)
                     HStack(spacing: FSMetrics.space1) {
                         if isCached {
-                            Image(systemName: "arrow.down.circle")
+                            Image(systemName: FSSymbol.download)
                                 .imageScale(.small)
                                 .foregroundStyle(Color.fsInkSecondary)
                         }
@@ -275,7 +275,7 @@ public struct FSHistoryRow: View {
                     }
                 }
                 Spacer(minLength: 0)
-                Image(systemName: "chevron.right")
+                Image(systemName: FSSymbol.chevronRight)
                     .foregroundStyle(Color.fsInkSecondary)
                     .accessibilityHidden(true)
             }
@@ -299,7 +299,7 @@ public struct FSOfflineBanner: View {
 
     public var body: some View {
         HStack(spacing: FSMetrics.space3) {
-            Image(systemName: "wifi.slash").foregroundStyle(Color.fsAccent).accessibilityHidden(true)
+            Image(systemName: FSSymbol.offline).foregroundStyle(Color.fsAccent).accessibilityHidden(true)
             Text(text)
                 .font(.fsCaption)
                 .foregroundStyle(Color.fsInk)

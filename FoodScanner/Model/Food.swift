@@ -89,3 +89,14 @@ struct FoodStruct: Codable {
         }).sorted(by: { (nutrient1, nutrient2) in return nutrient1.name < nutrient2.name })
     }
 }
+
+extension FoodStruct: Hashable {
+    static func == (lhs: FoodStruct, rhs: FoodStruct) -> Bool {
+        lhs.barcode == rhs.barcode && lhs.lastUpdate == rhs.lastUpdate
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(barcode)
+        hasher.combine(lastUpdate)
+    }
+}

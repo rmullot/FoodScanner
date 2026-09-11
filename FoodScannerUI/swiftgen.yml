@@ -22,3 +22,13 @@ xcassets:
         bundle: Bundle.module
         enumName: FSAsset
       output: Generated/Assets.swift
+
+yaml:
+  inputs:
+    - SFSymbols.yml
+  outputs:
+    - templateName: inline-swift5
+      params:
+        publicAccess: true
+        enumName: FSSymbol
+      output: Generated/SFSymbols.swift

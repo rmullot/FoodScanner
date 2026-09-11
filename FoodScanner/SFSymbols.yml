@@ -1,0 +1,9 @@
+scannerTab: barcode.viewfinder
+historyTab: clock.arrow.circlepath
+settingsTab: gearshape
+highContrast: circle.lefthalf.filled
+reduceMotion: figure.walk.motion
+keypad: square.grid.3x3
+flashlightOn: flashlight.on.fill
+flashlightOff: flashlight.off.fill
+camera: camera

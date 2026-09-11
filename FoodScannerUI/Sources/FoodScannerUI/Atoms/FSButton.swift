@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-/// Design system pill button. Three roles, never less than 44 pt tall,
-/// and a label that wraps to two lines rather than truncating at AX5.
 public struct FSButton: View {
 
     public enum Role { case primary, outline, quiet }
@@ -21,6 +19,7 @@ public struct FSButton: View {
     private let action: () -> Void
 
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.fsResolvedContrast) private var contrast
 
     public init(_ title: String,
                 role: Role = .primary,
@@ -46,7 +45,7 @@ public struct FSButton: View {
                     Image(systemName: systemImage).imageScale(.medium)
                 }
                 Text(title)
-                    .font(.fsBodyStrong)
+                    .font(contrast == .increased ? .fsBodyHeavy : .fsBodyStrong)
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.85)
             }
@@ -59,7 +58,7 @@ public struct FSButton: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: FSMetrics.radiusPill, style: .continuous)
-                    .strokeBorder(border, lineWidth: FSMetrics.borderWidthStrong)
+                    .strokeBorder(border, lineWidth: FSMetrics.borderWidthStrong(for: contrast))
             )
             .opacity(isEnabled ? 1 : 0.45)
         }
@@ -82,11 +81,14 @@ public struct FSButton: View {
         }
     }
 
+    /// `.quiet` always carries a hairline `fsBorder` (pill), matched to `FSKeypad`
+    /// keys and `FSBarcodeField`; it hardens to `fsBorderStrong` under increased
+    /// contrast. `.primary` stays borderless, `.outline` keeps its ink stroke.
     private var border: Color {
         switch role {
         case .primary: return .clear
         case .outline: return .fsInk
-        case .quiet: return .clear
+        case .quiet: return contrast == .increased ? .fsBorderStrong : .fsBorder
         }
     }
 }
@@ -95,6 +97,8 @@ public struct FSIconButton: View {
     private let systemImage: String
     private let label: String
     private let action: () -> Void
+
+    @Environment(\.fsResolvedContrast) private var contrast
 
     public init(systemImage: String, label: String, action: @escaping () -> Void) {
         self.systemImage = systemImage
@@ -109,6 +113,11 @@ public struct FSIconButton: View {
                 .foregroundStyle(Color.fsInk)
                 .frame(width: 52, height: 52)
                 .background(Circle().fill(Color.fsAccentSoft))
+                .overlay(
+                    Circle()
+                        .strokeBorder(contrast == .increased ? Color.fsBorderStrong : Color.fsBorder,
+                                      lineWidth: FSMetrics.borderWidth(for: contrast))
+                )
         }
         .buttonStyle(FSPressStyle())
         .fsMinTouchTarget()
@@ -169,18 +178,38 @@ public struct FSTag: View {
 }
 
 struct FSButton_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 16) {
-                FSButton("Scanner un produit", systemImage: "barcode.viewfinder") {}
+    private struct Demo: View {
+        var body: some View {
+            VStack(spacing: 16) {
+                FSButton("Scanner un produit", systemImage: FSSymbol.scan) {}
                 FSButton("Saisir le code", role: .outline) {}
                 FSButton("Plus tard", role: .quiet) {}
                 HStack {
-                    FSTag("Sans gluten", tone: .leaf, systemImage: "checkmark")
-                    FSTag("Trop salé", tone: .alert, systemImage: "exclamationmark.triangle")
-                    FSIconButton(systemImage: "gearshape", label: "Réglages") {}
+                    FSTag("Sans gluten", tone: .leaf, systemImage: FSSymbol.checkmark)
+                    FSTag("Trop salé", tone: .alert, systemImage: FSSymbol.warning)
+                    FSIconButton(systemImage: FSSymbol.gearshape, label: "Réglages") {}
                 }
             }
             .padding(24)
             .background(Color.fsBackground)
+        }
+    }
+
+    static var previews: some View {
+        Demo()
+            .preferredColorScheme(.light)
+            .previewDisplayName("Clair")
+
+        Demo()
+            .preferredColorScheme(.dark)
+            .previewDisplayName("Sombre")
+
+        Demo()
+            .environment(\.dynamicTypeSize, .accessibility5)
+            .previewDisplayName("Accessibilité XL")
+
+        Demo()
+            .modifier(FSIncreasedContrastPreview())
+            .previewDisplayName("Contraste élevé")
     }
 }

@@ -60,3 +60,24 @@ private struct FSRespectfulAnimation<V: Equatable>: ViewModifier {
 struct FSStackedLayoutKey {
     static func isStacked(_ size: DynamicTypeSize) -> Bool { size >= .accessibility1 }
 }
+
+private struct FSIncreasedContrastOverrideKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+extension EnvironmentValues {
+    var fsIncreasedContrastOverride: Bool {
+        get { self[FSIncreasedContrastOverrideKey.self] }
+        set { self[FSIncreasedContrastOverrideKey.self] = newValue }
+    }
+
+    var fsResolvedContrast: ColorSchemeContrast {
+        (colorSchemeContrast == .increased || fsIncreasedContrastOverride) ? .increased : .standard
+    }
+}
+
+struct FSIncreasedContrastPreview: ViewModifier {
+    func body(content: Content) -> some View {
+        content.environment(\.fsIncreasedContrastOverride, true)
+    }
+}

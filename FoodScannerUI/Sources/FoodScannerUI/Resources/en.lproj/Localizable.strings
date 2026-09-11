@@ -89,9 +89,8 @@
 "barcodeField.accessibilityHint" = "Eight to fourteen digits";
 "barcodeField.clearLabel" = "Clear code";
 "barcodeField.invalidHint" = "A barcode is between 8 and 14 digits.";
-"barcodeField.submitButton" = "Look up this product";
 "keypad.deleteHint" = "Delete last digit";
-"keypad.validateButton" = "Confirm";
+"keypad.submitButton" = "Look up this product";
 "textSizeSlider.label" = "Text size";
 "textSizeSlider.preview" = "A product rated A is a good choice.";
 "textSizeSlider.valuePercent" = "%@ percent";

@@ -10,112 +10,111 @@ import AVFoundation
 import FoodScannerUI
 
 struct ScannerScreenView: View {
-    @StateObject private var model = ScannerScreenModel()
-    @ObservedObject private var networkActivity = NetworkActivityManager.sharedInstance
+    @ObservedObject private var model: ScannerViewModel
+    private let onProductFound: (FoodStruct) -> Void
     @State private var code: String = ""
     @State private var showsKeypad: Bool = false
-    @State private var path = NavigationPath()
     @State private var cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
 
+    init(model: ScannerViewModel, onProductFound: @escaping (FoodStruct) -> Void) {
+        self.model = model
+        self.onProductFound = onProductFound
+    }
+
     var body: some View {
-        NavigationStack(path: $path) {
-            ZStack(alignment: .top) {
-                if cameraAuthorizationStatus == .authorized {
-                    CameraPreviewView { barcode in
-                        model.getFoodInformations(barcode: barcode)
-                    }
+        ZStack(alignment: .top) {
+            if cameraAuthorizationStatus == .authorized {
+                CameraPreviewView { barcode in
+                    model.getFoodInformations(barcode: barcode)
+                }
+                .ignoresSafeArea()
+            } else {
+                cameraUnavailablePlaceholder
                     .ignoresSafeArea()
-                } else {
-                    cameraUnavailablePlaceholder
-                        .ignoresSafeArea()
-                }
+            }
 
-                if networkActivity.isActive {
-                    ProgressView()
-                        .controlSize(.small)
-                        .tint(Color.fsAccent)
-                        .padding(FSMetrics.space3)
-                        .accessibilityElement(children: .ignore)
-                        .accessibilityLabel(L10n.Scanner.networkActivityLabel)
-                        .frame(maxWidth: .infinity, alignment: .topTrailing)
-                        .opacity(model.banner == nil ? 1 : 0)
-                }
+            if model.isNetworkActive {
+                ProgressView()
+                    .controlSize(.small)
+                    .tint(Color.fsAccent)
+                    .padding(FSMetrics.space3)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(L10n.Scanner.networkActivityLabel)
+                    .frame(maxWidth: .infinity, alignment: .topTrailing)
+                    .opacity(model.banner == nil ? 1 : 0)
+            }
 
-                if let banner = model.banner {
-                    FSScanStatusBanner(banner, onFoundTap: onFoundTap(for: banner))
-                        .padding(.horizontal, FSMetrics.space3)
-                        .padding(.top, FSMetrics.space3)
-                }
+            if let banner = model.banner {
+                FSScanStatusBanner(banner, onFoundTap: onFoundTap(for: banner))
+                    .padding(.horizontal, FSMetrics.space3)
+                    .padding(.top, FSMetrics.space3)
+            }
 
-                GeometryReader { proxy in
-                    VStack {
-                        Spacer()
+            GeometryReader { proxy in
+                VStack {
+                    Spacer()
 
-                        VStack(spacing: FSMetrics.space3) {
+                    VStack(spacing: 0) {
+                        ZStack {
                             if showsKeypad {
                                 ScrollView {
                                     VStack(spacing: FSMetrics.space3) {
-                                        FSBarcodeField(code: $code) { submitted in
-                                            model.getFoodInformations(barcode: submitted)
-                                        }
+                                        FSBarcodeField(code: $code)
 
                                         FSKeypad(code: $code) {
                                             model.getFoodInformations(barcode: code)
                                         }
+                                        .frame(height: max(FSMetrics.keypadMinRegionHeight, proxy.size.height * 0.45))
                                     }
                                     .padding(.horizontal, FSMetrics.space2)
+                                    .padding(.bottom, FSMetrics.space3)
                                 }
-                                .frame(maxHeight: proxy.size.height * 0.55)
+                                .frame(maxHeight: proxy.size.height * 0.75)
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                             }
+                        }
+                        .clipped()
 
-                            HStack {
-                                FSButton(showsKeypad ? L10n.Scanner.hideKeypadButton : L10n.Scanner.showKeypadButton,
-                                         role: .quiet,
-                                         systemImage: "square.grid.3x3") {
-                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                                                     to: nil, from: nil, for: nil)
-                                    showsKeypad.toggle()
-                                }
-                                FSIconButton(systemImage: model.lampActivated ? "flashlight.on.fill" : "flashlight.off.fill",
-                                             label: model.lampActivated ? L10n.Scanner.lampOffLabel : L10n.Scanner.lampOnLabel) {
-                                    model.toggleLamp()
-                                }
+                        HStack {
+                            FSButton(showsKeypad ? L10n.Scanner.hideKeypadButton : L10n.Scanner.showKeypadButton,
+                                     role: .quiet,
+                                     systemImage: SFSymbol.keypad) {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                                 to: nil, from: nil, for: nil)
+                                showsKeypad.toggle()
+                            }
+                            .accessibilityIdentifier("scanner.toggleKeypad")
+                            FSIconButton(systemImage: model.lampActivated ? SFSymbol.flashlightOn : SFSymbol.flashlightOff,
+                                         label: model.lampActivated ? L10n.Scanner.lampOffLabel : L10n.Scanner.lampOnLabel) {
+                                model.toggleLamp()
                             }
                         }
-                        .appAnimation(.easeInOut, value: showsKeypad)
-                        .padding(FSMetrics.space4)
-                        .fsCard(radius: FSMetrics.radiusLarge)
-                        .padding(.horizontal, FSMetrics.space3)
-                        .padding(.bottom, FSMetrics.space4)
+                        .background(Color.fsSurface)
                     }
+                    .appAnimation(.easeInOut, value: showsKeypad)
+                    .padding(FSMetrics.space4)
+                    .fsCard(radius: FSMetrics.radiusLarge)
+                    .padding(.horizontal, FSMetrics.space3)
+                    .padding(.bottom, FSMetrics.space4)
                 }
             }
-            .navigationTitle(L10n.Common.tabScanner)
-            .navigationBarTitleDisplayMode(.large)
-            .navigationDestination(for: FoodStruct.self) { food in
-                ProductDetailScreenView(model: FoodDetailModel(food: food))
+        }
+        .navigationTitle(L10n.Common.tabScanner)
+        .navigationBarTitleDisplayMode(.large)
+        .onChange(of: model.banner) { _, newBanner in
+            if case .found = newBanner {
+                UIAccessibility.post(notification: .announcement,
+                                      argument: L10n.Scanner.productFoundAnnouncement)
             }
-            .onChange(of: path) { newPath in
-                if newPath.isEmpty {
-                    model.resetForNewScan()
-                }
-            }
-            .onChange(of: model.banner) { newBanner in
-                if case .found = newBanner {
-                    UIAccessibility.post(notification: .announcement,
-                                          argument: L10n.Scanner.productFoundAnnouncement)
-                }
-            }
-            .onDisappear {
-                model.forceSwitchOffLamp()
-            }
-            .onAppear {
-                updateCameraAuthorizationStatus()
-            }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                updateCameraAuthorizationStatus()
-            }
+        }
+        .onDisappear {
+            model.forceSwitchOffLamp()
+        }
+        .onAppear {
+            updateCameraAuthorizationStatus()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            updateCameraAuthorizationStatus()
         }
     }
 
@@ -123,8 +122,7 @@ struct ScannerScreenView: View {
         guard case .found = banner else { return nil }
         return {
             guard let food = model.scannedFood else { return }
-            path.append(food)
-            model.consumeScannedFood()
+            onProductFound(food)
         }
     }
 
@@ -167,28 +165,23 @@ struct ScannerScreenView: View {
     }
 }
 
-extension FoodStruct: Hashable {
-    static func == (lhs: FoodStruct, rhs: FoodStruct) -> Bool {
-        lhs.barcode == rhs.barcode && lhs.lastUpdate == rhs.lastUpdate
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(barcode)
-        hasher.combine(lastUpdate)
-    }
-}
-
 #Preview("Clair") {
-    ScannerScreenView()
-        .preferredColorScheme(.light)
+    NavigationStack {
+        ScannerScreenView(model: ScannerViewModel(), onProductFound: { _ in })
+    }
+    .preferredColorScheme(.light)
 }
 
 #Preview("Sombre") {
-    ScannerScreenView()
-        .preferredColorScheme(.dark)
+    NavigationStack {
+        ScannerScreenView(model: ScannerViewModel(), onProductFound: { _ in })
+    }
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Accessibilité XL") {
-    ScannerScreenView()
-        .environment(\.dynamicTypeSize, .accessibility5)
+    NavigationStack {
+        ScannerScreenView(model: ScannerViewModel(), onProductFound: { _ in })
+    }
+    .environment(\.dynamicTypeSize, .accessibility5)
 }

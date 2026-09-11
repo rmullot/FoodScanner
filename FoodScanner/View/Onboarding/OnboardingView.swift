@@ -47,7 +47,7 @@ struct OnboardingView: View {
                 authorizationDenied
                     ? L10n.Onboarding.openSettingsButton
                     : L10n.Onboarding.allowCameraButton,
-                systemImage: "camera"
+                systemImage: SFSymbol.camera
             ) {
                 requestCameraAuthorization()
             }
@@ -55,6 +55,7 @@ struct OnboardingView: View {
             FSButton(L10n.Onboarding.continueWithoutCameraButton, role: .quiet) {
                 onFinished()
             }
+            .accessibilityIdentifier("onboarding.skip")
         }
         .padding(FSMetrics.space6)
         .background(Color.fsBackground)
@@ -66,7 +67,7 @@ struct OnboardingView: View {
             onFinished()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
-                DispatchQueue.main.async {
+                Task { @MainActor in
                     if granted {
                         onFinished()
                     } else {

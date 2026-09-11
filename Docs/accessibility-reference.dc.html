@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#F4EEE2; }
+  a { color:#8C491A; }
+  a:hover { color:#D2432C; }
+  code, pre { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+</style>
+</helmet>
+
+<div style="font-family:Figtree,system-ui,sans-serif;color:#201E1D;background:#F4EEE2;padding:56px 48px 96px;max-width:1180px;margin:0 auto">
+
+  <header style="display:flex;flex-direction:column;gap:14px;margin-bottom:44px">
+    <span style="font:700 12px/1 Figtree;letter-spacing:.18em;text-transform:uppercase;color:#645C50">Reference · iOS 17 · SwiftUI · RGAA 4.1.2</span>
+    <h1 style="font-family:Caprasimo,serif;font-weight:400;font-size:56px;line-height:1.02;margin:0">FoodScanner, accessible today</h1>
+    <p style="font-size:20px;line-height:1.5;max-width:66ch;margin:0;color:#3C382F;text-wrap:pretty">How the app actually behaves, screen by screen: what VoiceOver reads, what increased contrast triggers, what the text-size slider does against the system setting. Reflects the repo's code, not a proposal.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">19 pt body minimum</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">44–60 pt targets</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Dynamic Type → AX5</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#F6E0CD;color:#8C491A;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Color + pattern + text</span>
+    </div>
+  </header>
+
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:16px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Architecture</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Pure SwiftUI, <code style="font-size:14px">App</code>/<code style="font-size:14px">TabView</code> lifecycle from <code style="font-size:14px">RootView</code>. Scanner tab on <code style="font-size:14px">ScannerCoordinator</code> + <code style="font-size:14px">Router&lt;ScannerRoute&gt;</code>; History still keeps a local <code style="font-size:14px">NavigationPath</code>.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Contrast and motion</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">No in-house switch: increased contrast reads <code style="font-size:14px">colorSchemeContrast</code>, system reduce-motion is read-only, an app-only toggle fills the gap where the system doesn't let the app turn it on.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Dynamic Type</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Settings' slider recalibrates against the system category on every launch, foreground return, or iOS change — it never falls below the system, never an inconsistent duplicate.</p>
+    </div>
+  </section>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:40px 0 6px">The journey</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 24px;max-width:70ch">Six screens, light theme / spring-summer palette. Each mockup reuses the <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">FoodScannerUI</code> components actually used in the matching view, and the exact strings from <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">Localizable.strings</code> — shown here in French, the app's source locale.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;margin-bottom:12px">
+
+    <!-- Onboarding -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="width:300px;min-height:620px;background:#FBF7EF;border:2px solid #201E1D;border-radius:36px;padding:28px 22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 10px 26px rgba(32,30,29,.12)">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center">
+          <svg width="72" height="72" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="45.6" rx="12" ry="2.4" fill="#241608" opacity=".13"/><ellipse cx="18" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"/><ellipse cx="30" cy="43.4" rx="3.6" ry="2.4" fill="#7a1c12"/><path d="M11 31q-4 .6-5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"/><path d="M37 31q4 .6 5.2 3.6" stroke="#7a1c12" stroke-width="3.2" stroke-linecap="round" fill="none"/><path d="M24 43.4c-8.4 0-14.6-6.2-14.6-14.2 0-7.4 6.2-12.6 14.6-12.6s14.6 5.2 14.6 12.6c0 8-6.2 14.2-14.6 14.2Z" fill="#D2432C" stroke="#7a1c12" stroke-width="2.2" stroke-linejoin="round"/><ellipse cx="18.6" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"/><ellipse cx="29.4" cy="28.4" rx="4.1" ry="4.8" fill="#fff" stroke="#3a2418" stroke-width="1.5"/><circle cx="19.3" cy="29.3" r="2.3" fill="#241608"/><circle cx="30.1" cy="29.3" r="2.3" fill="#241608"/><path d="M20.4 34.6q3.6 4.6 7.2 0z" fill="#8c2b22" stroke="#3a2418" stroke-width="1.35" stroke-linejoin="round"/></svg>
+          <div style="font:700 20px Figtree;color:#201E1D">Bienvenue sur FoodScanner</div>
+          <p style="margin:0;font-size:17px;line-height:1.4;color:#645C50">Scannez un code-barres pour découvrir le Nutri-Score et les nutriments d'un produit.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="height:56px;border-radius:999px;background:#D2432C;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font:700 17px Figtree"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 8h4l2-3h8l2 3h2v11H4z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.4" fill="none" stroke="#fff" stroke-width="2"/></svg>Autoriser la caméra</div>
+          <div style="height:52px;border-radius:999px;border:2px solid transparent;color:#645C50;display:flex;align-items:center;justify-content:center;font:600 16px Figtree">Continuer sans la caméra</div>
+        </div>
+      </div>
+      <div style="font:600 13px Figtree;color:#8C491A">1 · Onboarding — <code style="font-size:12px;font-weight:400">OnboardingView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">Asks for camera access once. Denied → the button becomes "Ouvrir les Réglages" ("Open Settings") + an explanatory message. "Continuer sans la caméra" ("Continue without the camera") stays reachable at all times: manual entry works without ever requesting the permission.</p>
+    </div>
+
+    <!-- Scanner aiming -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="width:300px;min-height:620px;background:#2E2B25;border:2px solid #201E1D;border-radius:36px;overflow:hidden;position:relative;box-shadow:0 10px 26px rgba(32,30,29,.12)">
+        <div style="position:absolute;top:16px;left:16px;right:16px;background:#fff;border-radius:16px;padding:12px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 4px 14px rgba(0,0,0,.18)">
+          <svg width="24" height="24" viewBox="0 0 24 24" style="flex:none"><g stroke="#5F7A3A" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M4 8V5h3M20 8V5h-3M4 16v3h3M20 16v3h-3"/></g></svg>
+          <div><div style="font:700 16px Figtree;color:#201E1D">Cadrez le code-barres</div><div style="font:400 13px Figtree;color:#645C50">Approchez l'appareil à dix centimètres, la lumière aide.</div></div>
+        </div>
+        <div style="position:absolute;left:40px;right:40px;top:50%;transform:translateY(-70px);height:120px;border-radius:12px;box-shadow:0 0 0 2.5px rgba(249,244,237,.85)"></div>
+        <div style="position:absolute;bottom:106px;left:22px;right:22px;background:rgba(32,30,29,.9);border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+          <div style="height:34px;border:1.5px dashed rgba(249,244,237,.4);border-radius:10px;display:flex;align-items:center;padding:0 10px;font:400 14px ui-monospace,Menlo,monospace;color:#F9F4ED;letter-spacing:.06em">3017 620 422 003</div>
+          <div style="display:flex;justify-content:space-between">
+            <div style="height:40px;flex:1;margin-right:8px;border-radius:999px;background:rgba(249,244,237,.12);color:#F9F4ED;display:flex;align-items:center;justify-content:center;gap:6px;font:600 14px Figtree"><svg width="16" height="16" viewBox="0 0 24 24"><g stroke="#F9F4ED" stroke-width="2.5" stroke-linecap="round"><path d="M4 6v12M8 6v12M12 6v12M16 6v12M20 6v12"/></g></svg>Pavé numérique</div>
+            <div style="width:40px;height:40px;border-radius:999px;background:rgba(249,244,237,.12);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M13 2L5 14h5l-1 8 8-12h-5l1-8z" fill="none" stroke="#F9F4ED" stroke-width="2.2" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div style="font:600 13px Figtree;color:#8C491A">2 · Scanner, aiming — <code style="font-size:12px;font-weight:400">ScannerScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSScanStatusBanner(.aiming)</code> overlaid; bottom card is <code style="font-size:13px">fsCard()</code> with an <code style="font-size:13px">FSButton</code> (keypad, quiet role) and an <code style="font-size:13px">FSIconButton</code> (torch). The <code style="font-size:13px">FSKeypad</code> unfolds under the field without ever shrinking the tap area, even at AX5.</p>
+    </div>
+
+    <!-- Scanner found -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="width:300px;min-height:620px;background:#2E2B25;border:2px solid #201E1D;border-radius:36px;overflow:hidden;position:relative;box-shadow:0 10px 26px rgba(32,30,29,.12)">
+        <div style="position:absolute;top:16px;left:16px;right:16px;background:#fff;border-radius:16px;padding:14px;display:flex;gap:10px;align-items:center;box-shadow:0 4px 14px rgba(0,0,0,.18)">
+          <div style="width:34px;height:34px;border-radius:17px;background:#E8F0DC;display:flex;align-items:center;justify-content:center;flex:none"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#5F7A3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><div style="font:700 16px Figtree;color:#201E1D">Pâte à tartiner noisettes et cacao</div><div style="font:400 13px Figtree;color:#645C50">Fiche prête, tapez pour voir les nutriments.</div></div>
+        </div>
+        <div style="position:absolute;bottom:22px;left:22px;right:22px;background:rgba(32,30,29,.85);border-radius:20px;padding:16px 18px;display:flex;gap:10px">
+          <div style="height:40px;flex:1;border-radius:999px;background:rgba(249,244,237,.12);color:#F9F4ED;display:flex;align-items:center;justify-content:center;gap:6px;font:600 14px Figtree"><svg width="16" height="16" viewBox="0 0 24 24"><g stroke="#F9F4ED" stroke-width="2.5" stroke-linecap="round"><path d="M4 6v12M8 6v12M12 6v12M16 6v12M20 6v12"/></g></svg>Pavé numérique</div>
+            <div style="width:40px;height:40px;border-radius:999px;background:rgba(249,244,237,.12);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M13 2L5 14h5l-1 8 8-12h-5l1-8z" fill="none" stroke="#F9F4ED" stroke-width="2.2" stroke-linejoin="round"/></svg></div>
+        </div>
+      </div>
+      <div style="font:600 13px Figtree;color:#8C491A">3 · Scanner, found — <code style="font-size:12px;font-weight:400">FSScanStatusBanner(.found)</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">The banner turns <code style="font-size:13px">fsLeaf</code> green, plays <code style="font-size:13px">FSHaptics.play(.scanSuccess)</code>, and posts <code style="font-size:13px">UIAccessibility.post(.announcement, "Produit trouvé. Balayez pour ouvrir sa fiche.")</code> ("Product found. Swipe to open its detail page."). Tapping the banner opens the detail screen via the <code style="font-size:13px">Router</code>.</p>
+    </div>
+
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;margin-bottom:56px">
+
+    <!-- Product Detail -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="width:300px;min-height:620px;background:#FBF7EF;border:2px solid #201E1D;border-radius:36px;padding:22px 20px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 26px rgba(32,30,29,.12);overflow:hidden">
+        <div style="font:600 13px Figtree;color:#645C50;text-align:center">Nutriments</div>
+        <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:16px;display:flex;gap:12px;align-items:center">
+          <div style="width:56px;height:56px;border-radius:14px;background:#efefef;flex:none;display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" fill="none" stroke="#b9b9b9" stroke-width="1.6"/><circle cx="8" cy="10" r="2" fill="#b9b9b9"/><path d="M4 17l5-5 4 4 3-3 4 4" fill="none" stroke="#b9b9b9" stroke-width="1.6"/></svg></div>
+          <div style="flex:1"><div style="font:700 16px Figtree;line-height:1.25">Pâte à tartiner noisettes et cacao</div></div>
+          <div style="width:40px;height:40px;border-radius:12px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:20px">E</div>
+        </div>
+        <div style="display:flex;gap:4px">
+          <div style="flex:1;height:34px;border-radius:8px 3px 3px 8px;background:#038141;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:15px">A</div>
+          <div style="flex:1;height:34px;border-radius:3px;background:#85BB2F;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:15px">B</div>
+          <div style="flex:1;height:34px;border-radius:3px;background:#FECB02;color:#1D1D1B;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:15px">C</div>
+          <div style="flex:1;height:34px;border-radius:3px;background:#EE8100;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:15px">D</div>
+          <div style="flex:1.3;height:34px;border-radius:3px 8px 8px 3px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:19px;box-shadow:0 0 0 2px #201E1D">E</div>
+        </div>
+        <div style="font:700 16px Figtree">539 kCal pour 100 g</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:22px;height:22px;border-radius:6px;background:repeating-linear-gradient(90deg,#C9A548 0 5px,#8a7030 5px 7px);flex:none"></div><span style="font:600 15px Figtree;flex:1">Glucides</span><span style="font:600 15px Figtree;font-variant-numeric:tabular-nums">57,5 g</span></div>
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:22px;height:22px;border-radius:6px;background:repeating-linear-gradient(45deg,#6E7F4F 0 3px,#dce4cf 3px 6px);flex:none"></div><span style="font:600 15px Figtree;flex:1">Lipides</span><span style="font:600 15px Figtree;font-variant-numeric:tabular-nums">30,9 g</span></div>
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:22px;height:22px;border-radius:6px;background:radial-gradient(circle at 50% 50%,#8F2F24 0 2px,#e7b7ae 2px) 0 0/7px 7px;flex:none"></div><span style="font:600 15px Figtree;flex:1">Protéines</span><span style="font:600 15px Figtree;font-variant-numeric:tabular-nums">6,3 g</span></div>
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:22px;height:22px;border-radius:6px;background:#8A9AA6;background-image:linear-gradient(#5c6b74 1px,transparent 1px),linear-gradient(90deg,#5c6b74 1px,transparent 1px);background-size:7px 7px;flex:none"></div><span style="font:600 15px Figtree;flex:1">Sel</span><span style="font:600 15px Figtree;font-variant-numeric:tabular-nums">0,107 g</span></div>
+          <div style="display:flex;align-items:center;gap:10px;position:relative"><div style="width:22px;height:22px;border-radius:6px;background:#7D9152;overflow:hidden;flex:none;position:relative"><div style="position:absolute;inset:0;background:repeating-radial-gradient(circle at 0 50%,transparent 0 3px,#3f5024 3px 4px);opacity:.7"></div></div><span style="font:600 15px Figtree;flex:1">Fibres</span><span style="font:600 15px Figtree;font-variant-numeric:tabular-nums">0,1 g</span></div>
+        </div>
+        <div style="margin-top:auto;font:400 12px Figtree;color:#645C50;text-align:center">Nos mascottes décryptent les infos nutritionnelles grâce à Open Food Facts.</div>
+      </div>
+      <div style="font:600 13px Figtree;color:#8C491A">4 · Product detail — <code style="font-size:12px;font-weight:400">ProductDetailScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSProductCard</code> + <code style="font-size:13px">FSScoreScale</code> + one <code style="font-size:13px">FSNutrientRow</code> per nutrient in <code style="font-size:13px">nutrientBars</code> (carbs, fat, protein, salt, fiber — never sugar, which has no bar) + <code style="font-size:13px">FSSceneFooter(.laboratory)</code>. Shared by the Scanner and History tabs.</p>
+    </div>
+
+    <!-- History -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="width:300px;min-height:620px;background:#FBF7EF;border:2px solid #201E1D;border-radius:36px;padding:22px 20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 10px 26px rgba(32,30,29,.12);overflow:hidden">
+        <div style="font-family:Caprasimo,serif;font-size:26px">Historique</div>
+        <div style="background:#F6E0CD;border:1.5px solid #E7C39E;border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:center">
+          <svg width="20" height="20" viewBox="0 0 24 24" style="flex:none"><g stroke="#8C491A" stroke-width="2.4" stroke-linecap="round"><path d="M12 2L2 21h20L12 2z" fill="none"/><path d="M12 9v6M12 18v.01"/></g></svg>
+          <span style="font:600 13px Figtree;color:#8C491A;line-height:1.35">Vous êtes hors ligne. Les fiches déjà consultées restent lisibles.</span>
+        </div>
+        <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center">
+          <div style="width:44px;height:44px;border-radius:12px;background:#efefef;flex:none"></div>
+          <div style="flex:1"><div style="font:700 15px Figtree;line-height:1.25">Pâte à tartiner noisettes et cacao</div><div style="font:400 13px Figtree;color:#645C50">Consulté il y a 1 heure</div></div>
+          <div style="width:32px;height:32px;border-radius:9px;background:#E63E11;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:15px">E</div>
+        </div>
+        <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center">
+          <div style="width:44px;height:44px;border-radius:12px;background:#efefef;flex:none"></div>
+          <div style="flex:1"><div style="font:700 15px Figtree;line-height:1.25">Compote de pommes sans sucres ajoutés</div><div style="font:400 13px Figtree;color:#645C50">Consulté hier</div></div>
+          <div style="width:32px;height:32px;border-radius:9px;background:#038141;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Caprasimo,serif;font-size:15px">A</div>
+        </div>
+        <div style="margin-top:auto;font:400 12px Figtree;color:#645C50;text-align:center">Les mascottes gardent un œil sur vos douze derniers produits.</div>
+      </div>
+      <div style="font:600 13px Figtree;color:#8C491A">5 · History — <code style="font-size:12px;font-weight:400">HistoryScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSOfflineBanner</code> when offline, one <code style="font-size:13px">FSHistoryRow</code> per entry (each row owns its own <code style="font-size:13px">Button</code>, no <code style="font-size:13px">NavigationLink</code>), <code style="font-size:13px">FSSceneFooter(.picnic)</code>. Navigation is still a local <code style="font-size:13px">NavigationPath</code>, not yet migrated to a Coordinator.</p>
+    </div>
+
+    <!-- Settings -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="width:300px;min-height:620px;background:#FBF7EF;border:2px solid #201E1D;border-radius:36px;padding:22px 20px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 26px rgba(32,30,29,.12);overflow:hidden">
+        <div style="font-family:Caprasimo,serif;font-size:26px">Réglages</div>
+        <div style="font:600 13px Figtree;letter-spacing:.06em;text-transform:uppercase;color:#645C50">Accessibilité</div>
+        <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" style="flex:none"><circle cx="12" cy="12" r="9" fill="none" stroke="#201E1D" stroke-width="2"/><path d="M12 3v18M3 12h18" stroke="#201E1D" stroke-width="1.4"/></svg><span style="font:700 16px Figtree;flex:1">Contraste élevé</span><span style="font:600 14px Figtree;color:#645C50">Désactivé</span></div>
+          <p style="margin:0 0 4px 30px;font-size:13px;line-height:1.4;color:#645C50">iOS ne permet pas de modifier ce réglage depuis l'application.</p>
+          <div style="margin-left:30px;font:700 13px Figtree;color:#8C491A">Ouvrir les Réglages iOS</div>
+        </div>
+        <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:14px;display:flex;align-items:flex-start;gap:10px">
+          <svg width="20" height="20" viewBox="0 0 24 24" style="flex:none;margin-top:1px"><path d="M4 12h16M4 12a8 8 0 0116 0M4 12a8 8 0 0016 0" fill="none" stroke="#201E1D" stroke-width="2" stroke-linecap="round"/></svg>
+          <div style="flex:1"><div style="font:700 16px Figtree">Réduire les animations</div><div style="font:400 13px Figtree;color:#645C50;margin-top:2px">Limite les mouvements et transitions à l'écran.</div></div>
+          <div style="width:44px;height:26px;border-radius:13px;background:#E2D8C6;flex:none;position:relative"><div style="position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:11px;background:#fff"></div></div>
+        </div>
+        <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:14px 14px 16px">
+          <div style="font:700 15px Figtree;margin-bottom:10px">Taille du texte</div>
+          <div style="height:6px;border-radius:3px;background:#E2D8C6;position:relative"><div style="position:absolute;left:0;top:-7px;width:20px;height:20px;border-radius:10px;background:#D2432C;box-shadow:0 0 0 4px rgba(210,67,44,.18)"></div></div>
+        </div>
+      </div>
+      <div style="font:600 13px Figtree;color:#8C491A">6 · Settings — <code style="font-size:12px;font-weight:400">SettingsScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">Contrast and "reduce animations" (when forced by the system): read-only <code style="font-size:13px">FSStatusRow</code>. Otherwise an <code style="font-size:13px">FSToggleRow</code>. <code style="font-size:13px">FSTextSizeSlider</code> disables itself and explains why as soon as the system is already at its maximum size.</p>
+    </div>
+
+  </div>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Contrast and motion — the real system signal</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Neither increased contrast nor system reduce-motion is an in-house setting: both are read straight from iOS. The app only adds a toggle where iOS doesn't let it act from inside the app itself.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:700 15px Figtree">Increased contrast</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">@Environment(\.colorSchemeContrast) == .increased</code> drives everything: thickened borders (<code style="font-size:13px">FSMetrics.borderWidth(for:)</code>/<code style="font-size:13px">borderWidthStrong(for:)</code>), switch to <code style="font-size:13px">fsBorderStrong</code> / <code style="font-size:13px">fsAccentSoftStrong</code>, bumped font weight (<code style="font-size:13px">Font.fsBodyHeavy</code>). Settings only shows a status and a shortcut to iOS; the Nutri-Score never changes.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:700 15px Figtree">Reduce motion</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">The system signal <code style="font-size:13px">accessibilityReduceMotion</code> is read-only on the SwiftUI side. When it's already on, Settings shows it as a status; otherwise an <code style="font-size:13px">FSToggleRow</code> drives an app-only <code style="font-size:13px">EnvironmentKey</code> (<code style="font-size:13px">appReduceAnimations</code>) read by <code style="font-size:13px">.appAnimation()</code> — the two signals are OR-combined everywhere in the app.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:700 15px Figtree">Every change is announced</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">Flipping a system status while Settings is open moves VoiceOver focus onto it (<code style="font-size:13px">@AccessibilityFocusState</code>) and fires <code style="font-size:13px">FSAnnounce.say(...)</code> — which only speaks while VoiceOver is running, with a 0.35 s delay to let focus settle.</p>
+    </div>
+  </div>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Dynamic Type: the system always wins</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Settings' slider isn't a floor pushed on top of the system — it's a twelve-notch window onto the same scale as <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">UIContentSizeCategory</code>, held in a single table (<code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">AppDynamicTypeScale</code>).</p>
+  <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:22px 24px;margin-bottom:20px;overflow-x:auto">
+    <div style="display:flex;gap:6px;min-width:760px">
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xSmall</div><div style="font:400 12px Figtree;color:#645C50">0.7</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">Small</div><div style="font:400 12px Figtree;color:#645C50">0.8</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">Medium</div><div style="font:400 12px Figtree;color:#645C50">0.9</div></div>
+      <div style="flex:1;text-align:center;background:#F6E0CD;border-radius:8px;padding:2px 0"><div style="font:700 13px Figtree;color:#8C491A">Large</div><div style="font:400 12px Figtree;color:#8C491A">1.0 · default</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xLarge</div><div style="font:400 12px Figtree;color:#645C50">1.1</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xxLarge</div><div style="font:400 12px Figtree;color:#645C50">1.2</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xxxLarge</div><div style="font:400 12px Figtree;color:#645C50">1.3</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">AX1</div><div style="font:400 12px Figtree;color:#645C50">1.4</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">AX2</div><div style="font:400 12px Figtree;color:#645C50">1.5</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">AX3</div><div style="font:400 12px Figtree;color:#645C50">1.6</div></div>
+      <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">AX4</div><div style="font:400 12px Figtree;color:#645C50">1.7</div></div>
+      <div style="flex:1;text-align:center;background:#E8F0DC;border-radius:8px;padding:2px 0"><div style="font:700 13px Figtree;color:#3F5024">AX5</div><div style="font:400 12px Figtree;color:#3F5024">1.8 · max</div></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:56px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px">
+      <span style="font:700 15px Figtree">Recalibrates, never frozen</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">recalibrateTextScale()</code> runs on launch, on every return to foreground, and on every system change — in both directions.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px">
+      <span style="font:700 15px Figtree">Honest ceiling</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">The slider disables itself and explains why ("Votre appareil utilise déjà la plus grande taille de texte possible" — "Your device is already using the largest available text size") only once the system is already at AX5 — never before.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px">
+      <span style="font:700 15px Figtree">The keypad holds up at AX5</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">FSKeypad</code> keeps a minimum height independent from the barcode field; overflow scrolls instead of clipping the bottom row — fixed 2026-09-11 on iPhone SE.</p>
+    </div>
+  </div>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">VoiceOver and haptics</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Every state transition has a sound or vibration channel, not just a visual one.</p>
+  <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:4px 24px;margin-bottom:56px">
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Camera enabled</span><span style="flex:1;font:400 15px Figtree">VoiceOver announcement as soon as camera authorization turns "authorized".</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Product found</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">FSHaptics.play(.scanSuccess)</code> + announcement "Produit trouvé. Balayez pour ouvrir sa fiche." ("Product found. Swipe to open its detail page.")</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Not found</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">.scanFailure</code> — "Ce code n'existe pas encore dans la base." ("This code isn't in the database yet.")</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Offline</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">.warning</code> — "Les douze dernières fiches restent consultables." ("The last twelve entries stay viewable.")</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Settings</span><span style="flex:1;font:400 15px Figtree">Any contrast or motion change forced by the system is announced and receives VoiceOver focus, as long as the screen is visible.</span></div>
+  </div>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">What this document doesn't cover</h2>
+  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0 0 8px;max-width:70ch">Color tokens, the Nutri-Score, nutrient patterns, the six mascots, and the three vignettes are documented in <code style="font-size:15px">design-system-reference.dc.html</code> — this page doesn't redescribe them.</p>
+  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0;max-width:70ch">Open backlog: migrating History/Settings to Coordinator + Router (following the pattern already in place on the Scanner side), see <code style="font-size:15px">.claude/memory/memory_feature.md</code>.</p>
+
+</div>
+</x-dc>
+</body>
+</html>

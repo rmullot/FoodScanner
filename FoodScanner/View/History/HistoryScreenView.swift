@@ -10,7 +10,7 @@ import SwiftUI
 import FoodScannerUI
 
 struct HistoryScreenView: View {
-    @StateObject private var model = HistoryScreenModel()
+    @StateObject private var model = HistoryViewModel()
     @State private var path = NavigationPath()
 
     var body: some View {
@@ -79,11 +79,11 @@ private struct HistoryDetailLoader: View {
     var body: some View {
         Group {
             if let food {
-                ProductDetailScreenView(model: FoodDetailModel(food: food))
+                ProductDetailScreenView(model: FoodDetailViewModel(food: food))
             } else {
                 ProgressView()
                     .task {
-                        food = await RealmManager.sharedInstance.food(barcode: barcode)
+                        food = await InjectionManager.shared.cacheManager.food(barcode: barcode)
                     }
             }
         }

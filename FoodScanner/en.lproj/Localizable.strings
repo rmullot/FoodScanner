@@ -18,8 +18,15 @@
 
 // MARK: - Settings
 
-"settings.high_contrast_title" = "High Contrast";
-"settings.high_contrast_explanation" = "Strengthens borders and text for better readability.";
+"settings.accessibility_section_title" = "Accessibility";
+"settings.contrast_title" = "High Contrast";
+"settings.state_enabled" = "On";
+"settings.state_disabled" = "Off";
+"settings.state_enabled_system_managed" = "On (system setting)";
+"settings.contrast_system_managed_caption" = "iOS does not allow changing this setting from within the app.";
+"settings.open_IOS_settings" = "Open iOS Settings";
+"settings.reduce_animations_system_managed_caption" = "iOS “Reduce Motion” is on. The app follows it automatically.";
+"settings.text_size_system_maximum_caption" = "Your device already uses the largest possible text size (system setting). The slider can't go any further.";
 "settings.reduce_animations_title" = "Reduce Animations";
 "settings.reduce_animations_explanation" = "Limits on-screen motion and transitions.";
 

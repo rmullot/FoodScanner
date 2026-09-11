@@ -52,9 +52,9 @@ Every comment/doc comment you write is in English, like the code. Every new Swif
 
 ## Phase 5 — Service injection, mockability, then tests
 
-- Have services injected (replacing direct access to `.sharedInstance` singletons with injection via the DI mechanism put in place in phase 4) — delegate to `mvvmc-architecture-orchestrator`.
-- Make sure everything that can reasonably be mocked (network access, Realm, camera/reachability) is, via an injectable protocol.
-- **Very last**, once injection is in place and validated: delegate writing unit tests (and UI tests if views were touched in the migrated scope) to `test-suite-engineer`. Never have tests written before this phase's injection/mockability is in place — a test written against code still coupled to a hardcoded singleton would be fragile and need redoing.
+- Service injection via `InjectionManager` is already the project-wide norm (no singletons/`.sharedInstance` remain per CLAUDE.md) — this phase now only applies if the scope you're converging (phases 1–4) reintroduced or left behind a singleton/hardcoded dependency. If it didn't, say so explicitly and move straight to the mockability check below rather than inventing injection work that isn't needed.
+- Make sure everything that can reasonably be mocked (network access, Realm, camera/reachability) is, via an injectable protocol — delegate any gap to `mvvmc-architecture-orchestrator`.
+- **Very last**, once injection/mockability is confirmed: delegate writing unit tests (and UI tests if views were touched in the migrated scope) to `test-suite-engineer`. Never have tests written before this phase's mockability check is done — a test written against code still coupled to a hardcoded singleton would be fragile and need redoing.
 
 ## Commit and reporting discipline
 
