@@ -45,19 +45,45 @@ final class CameraPreviewUIView: UIView {
         super.init(frame: frame)
         setupSession()
         setupTapToFocus()
+        setupOrientationObserver()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupSession()
         setupTapToFocus()
+        setupOrientationObserver()
+    }
+
+    deinit {
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         videoPreviewLayer?.frame = layer.bounds
-        let isLandscape = UIDevice.current.orientation == .landscapeRight || UIDevice.current.orientation == .landscapeLeft
-        let angle: CGFloat = isLandscape ? 0 : 90
+        updateVideoRotationAngle()
+    }
+
+    private func setupOrientationObserver() {
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateVideoRotationAngle),
+            name: UIDevice.orientationDidChangeNotification,
+            object: nil
+        )
+    }
+
+    @objc private func updateVideoRotationAngle() {
+        let angle: CGFloat
+        switch UIDevice.current.orientation {
+        case .landscapeLeft: angle = 0
+        case .landscapeRight: angle = 180
+        case .portraitUpsideDown: angle = 270
+        default: angle = 90
+        }
         if let connection = videoPreviewLayer?.connection, connection.isVideoRotationAngleSupported(angle) {
             connection.videoRotationAngle = angle
         }
