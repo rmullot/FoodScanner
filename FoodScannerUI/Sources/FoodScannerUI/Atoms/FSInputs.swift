@@ -226,7 +226,7 @@ public struct FSToggleRow: View {
         .padding(FSMetrics.space4)
         .frame(minHeight: FSMetrics.minTouchTarget)
         .fsCard(radius: FSMetrics.radiusMedium)
-        .onChange(of: isOn) { _ in FSHaptics.play(.selection) }
+        .onChange(of: isOn) { FSHaptics.play(.selection) }
     }
 }
 

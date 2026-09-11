@@ -169,7 +169,7 @@ public struct FSScanStatusBanner: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("\(state.title). \(state.detail)")
             .accessibilityHint(FSL10n.ProductCard.ScanStatus.foundHint)
-            .onChange(of: state) { newValue in
+            .onChange(of: state) { _, newValue in
                 FSAnnounce.say("\(newValue.title). \(newValue.detail)")
                 FSHaptics.play(.scanSuccess)
             }
@@ -177,7 +177,7 @@ public struct FSScanStatusBanner: View {
             content
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("\(state.title). \(state.detail)")
-                .onChange(of: state) { newValue in
+                .onChange(of: state) { _, newValue in
                     FSAnnounce.say("\(newValue.title). \(newValue.detail)")
                     switch newValue {
                     case .found: FSHaptics.play(.scanSuccess)

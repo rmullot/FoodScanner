@@ -56,8 +56,11 @@ final class CameraPreviewUIView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         videoPreviewLayer?.frame = layer.bounds
-        videoPreviewLayer?.connection?.videoOrientation = UIDevice.current.orientation == .landscapeRight
-            || UIDevice.current.orientation == .landscapeLeft ? .landscapeLeft : .portrait
+        let isLandscape = UIDevice.current.orientation == .landscapeRight || UIDevice.current.orientation == .landscapeLeft
+        let angle: CGFloat = isLandscape ? 0 : 90
+        if let connection = videoPreviewLayer?.connection, connection.isVideoRotationAngleSupported(angle) {
+            connection.videoRotationAngle = angle
+        }
     }
 
     private func setupSession() {

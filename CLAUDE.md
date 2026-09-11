@@ -6,14 +6,14 @@ Guidance for Claude Code working in this repository.
 
 FoodScanner is an iOS app (Swift, SwiftUI) that scans a product barcode (or accepts a typed one), fetches nutrition data from Open Food Facts (`https://world.openfoodfacts.org/api/v0/product/<barcode>.json`), caches it in Realm, and shows a nutrient breakdown (Nutri-Score badge + proportion bars).
 
-- Deployment target: **iOS 17.0**. View models still use `ObservableObject` / `@Published`; migrating them to `@Observable` is deferred (`memory_feature.md`).
+- Deployment target: **iOS 17.0**. View models still use `ObservableObject` / `@Published`; migrating them to `@Observable` is deferred (`.claude/memory/memory_feature.md`).
 - Dependencies via **Swift Package Manager**. Local package **FoodScannerUI** is the design system (tokens, atoms, molecules); every screen imports it.
 - App uses the SwiftUI lifecycle: `FoodScannerApp` (`@main`, `App`) → `RootView`, a pure SwiftUI `TabView` with three tabs. No `AppDelegate`/`SceneDelegate`. `RootView` applies `appWideAccessibilitySettings()` and hosts the first-launch onboarding `.fullScreenCover`. Navigation is per-flow: the Scanner tab runs through a `Coordinator` + `Router` (`FoodScanner/View/Coordinator/`) that owns the `NavigationStack` path; History still owns a local `NavigationPath`. No `UINavigationController` anywhere.
 - Concurrency is `async`/`await` + actors. No GCD / completion handlers in the Managers layer.
 
 ## Backlog memory files
 
-Four running backlog files at the repo root hold the still-open follow-up points per area: `memory_cybersecurity.md`, `memory_design.md`, `memory_testing.md`, `memory_feature.md`.
+Four running backlog files in `.claude/memory/` hold the still-open follow-up points per area: `memory_cybersecurity.md`, `memory_design.md`, `memory_testing.md`, `memory_feature.md`.
 
 - **Before starting a task**, read the file(s) matching its area and fold any relevant open point into the plan.
 - **When a point is resolved**, delete its entry from the file in the same change.

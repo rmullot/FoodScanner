@@ -56,9 +56,6 @@
 		9E01D2000000000000000009 /* ScannerViewModelInjectedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D1000000000000000009 /* ScannerViewModelInjectedTests.swift */; };
 		9E01D200000000000000000A /* ErrorManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D100000000000000000A /* ErrorManagerTests.swift */; };
 		9E01D200000000000000000B /* CacheManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E01D100000000000000000B /* CacheManagerTests.swift */; };
-		AB01D2000000000000000001 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000001 /* RouterTests.swift */; };
-		AB01D2000000000000000002 /* ScannerCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */; };
-		AB01D2000000000000000003 /* ScannerViewModelNetworkActivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */; };
 		9E01D200000000000000000C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02AC261B2FEAC60F00CF77F7 /* RealmSwift */; };
 		9E02D2000000000000000001 /* ScannerKeypadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E02D1000000000000000001 /* ScannerKeypadUITests.swift */; };
 		9E02D2000000000000000002 /* SettingsAccessibilityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E02D1000000000000000002 /* SettingsAccessibilityUITests.swift */; };
@@ -69,12 +66,15 @@
 		AA0000000000000000000401 /* ReachabilitySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000402 /* ReachabilitySource.swift */; };
 		AA0000000000000000000501 /* AlertPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000502 /* AlertPresenting.swift */; };
 		AA0000000000000000000601 /* SystemAccessibilityProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000602 /* SystemAccessibilityProviding.swift */; };
+		AB01D2000000000000000001 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000001 /* RouterTests.swift */; };
+		AB01D2000000000000000002 /* ScannerCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */; };
+		AB01D2000000000000000003 /* ScannerViewModelNetworkActivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */; };
+		BB0000000000000000000101 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000001 /* Router.swift */; };
+		BB0000000000000000000102 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000002 /* ScannerCoordinator.swift */; };
 		BBA88B8B807B4348960CC011 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06667DA213DC407D8E0DF274 /* ImageCacheManager.swift */; };
 		C407742B11E3444880CC7A75 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06084189CE5046A49038D59D /* SettingsViewModel.swift */; };
 		C922D834B6DD4A49908DE920 /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7329399F6A440119FD25897 /* ScannerViewModel.swift */; };
 		D07F6AB48F824DF7A776105E /* HistoryScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418184FDD1664094BD0269A0 /* HistoryScreenView.swift */; };
-		BB0000000000000000000101 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000001 /* Router.swift */; };
-		BB0000000000000000000102 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000002 /* ScannerCoordinator.swift */; };
 		EC3EC6D58008461791D16F1B /* FoodDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C365AC362849B4AE26DAEC /* FoodDetailViewModel.swift */; };
 		F86F313518C64D86A2D95815 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18BBBB14FFC4E9B8F44E790 /* CameraPreviewView.swift */; };
 /* End PBXBuildFile section */
@@ -164,10 +164,10 @@
 		7B48430330535C6F009C5F12 /* swiftui-uikit-engineer.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "swiftui-uikit-engineer.md"; sourceTree = "<group>"; };
 		7B48430430535C6F009C5F12 /* technical-debt-migration-orchestrator.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "technical-debt-migration-orchestrator.md"; sourceTree = "<group>"; };
 		7B48430530535C6F009C5F12 /* test-suite-engineer.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "test-suite-engineer.md"; sourceTree = "<group>"; };
-		7B48430730535DFE009C5F12 /* memory_cybersecurity.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_cybersecurity.md; sourceTree = SOURCE_ROOT; };
-		7B48430830535DFE009C5F12 /* memory_design.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_design.md; sourceTree = SOURCE_ROOT; };
-		7B48430930535DFE009C5F12 /* memory_feature.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_feature.md; sourceTree = SOURCE_ROOT; };
-		7B48430A30535DFE009C5F12 /* memory_testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_testing.md; sourceTree = SOURCE_ROOT; };
+		7B48430730535DFE009C5F12 /* memory_cybersecurity.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_cybersecurity.md; sourceTree = "<group>"; };
+		7B48430830535DFE009C5F12 /* memory_design.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_design.md; sourceTree = "<group>"; };
+		7B48430930535DFE009C5F12 /* memory_feature.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_feature.md; sourceTree = "<group>"; };
+		7B48430A30535DFE009C5F12 /* memory_testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_testing.md; sourceTree = "<group>"; };
 		7B93FDCA303DFC2B004CFD1A /* FoodScanner Accessible.dc.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "FoodScanner Accessible.dc.html"; sourceTree = "<group>"; };
 		7B93FDCB303DFC2B004CFD1A /* FoodScannerUI Doc.dc.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "FoodScannerUI Doc.dc.html"; sourceTree = "<group>"; };
 		80808FECA3C64513A39D1CA1 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -187,9 +187,6 @@
 		9E01D1000000000000000009 /* ScannerViewModelInjectedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModelInjectedTests.swift; sourceTree = "<group>"; };
 		9E01D100000000000000000A /* ErrorManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManagerTests.swift; sourceTree = "<group>"; };
 		9E01D100000000000000000B /* CacheManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManagerTests.swift; sourceTree = "<group>"; };
-		AB01D1000000000000000001 /* RouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
-		AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinatorTests.swift; sourceTree = "<group>"; };
-		AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModelNetworkActivityTests.swift; sourceTree = "<group>"; };
 		9E02D1000000000000000001 /* ScannerKeypadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerKeypadUITests.swift; sourceTree = "<group>"; };
 		9E02D1000000000000000002 /* SettingsAccessibilityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAccessibilityUITests.swift; sourceTree = "<group>"; };
 		A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
@@ -199,10 +196,13 @@
 		AA0000000000000000000402 /* ReachabilitySource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilitySource.swift; sourceTree = "<group>"; };
 		AA0000000000000000000502 /* AlertPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenting.swift; sourceTree = "<group>"; };
 		AA0000000000000000000602 /* SystemAccessibilityProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemAccessibilityProviding.swift; sourceTree = "<group>"; };
+		AB01D1000000000000000001 /* RouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
+		AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinatorTests.swift; sourceTree = "<group>"; };
+		AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModelNetworkActivityTests.swift; sourceTree = "<group>"; };
 		B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = SOURCE_ROOT; };
-		C18BBBB14FFC4E9B8F44E790 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		BB0000000000000000000001 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		BB0000000000000000000002 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
+		C18BBBB14FFC4E9B8F44E790 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		D7329399F6A440119FD25897 /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
 		E7F832218EDE4F63B73BE442 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -239,15 +239,6 @@
 			path = Scanner;
 			sourceTree = "<group>";
 		};
-		BB0000000000000000000009 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				BB0000000000000000000001 /* Router.swift */,
-				BB0000000000000000000002 /* ScannerCoordinator.swift */,
-			);
-			path = Coordinator;
-			sourceTree = "<group>";
-		};
 		3B1F6C1CDE8F4EBF9C3A0E11 /* FoodDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,7 +260,7 @@
 		4126129C37953CC35B825392 /* Claude */ = {
 			isa = PBXGroup;
 			children = (
-				7B48430630535DD8009C5F12 /* Extern Memory */,
+				7B48430630535DD8009C5F12 /* memory */,
 				7B93FDC5303DF8F8004CFD1A /* agents */,
 				02AC26322FEAE55300CF77F7 /* CLAUDE.md */,
 			);
@@ -434,7 +425,7 @@
 			path = "Open Source Code";
 			sourceTree = "<group>";
 		};
-		7B48430630535DD8009C5F12 /* Extern Memory */ = {
+		7B48430630535DD8009C5F12 /* memory */ = {
 			isa = PBXGroup;
 			children = (
 				7B48430730535DFE009C5F12 /* memory_cybersecurity.md */,
@@ -442,7 +433,8 @@
 				7B48430930535DFE009C5F12 /* memory_feature.md */,
 				7B48430A30535DFE009C5F12 /* memory_testing.md */,
 			);
-			path = "Extern Memory";
+			name = memory;
+			path = .claude/memory;
 			sourceTree = "<group>";
 		};
 		7B93FDC5303DF8F8004CFD1A /* agents */ = {
@@ -478,6 +470,15 @@
 				A498FD0E92C03F6A0EDF61A0 /* .swiftlint.yml */,
 			);
 			name = SwiftLint;
+			sourceTree = "<group>";
+		};
+		BB0000000000000000000009 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000001 /* Router.swift */,
+				BB0000000000000000000002 /* ScannerCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		BED289B68EE64C55881A4B94 /* Generated */ = {
