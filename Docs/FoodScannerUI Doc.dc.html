@@ -22,7 +22,7 @@
 <div style="font-family:Figtree,system-ui,sans-serif;color:#201E1D;background:#F4EEE2;padding:56px 48px 96px;max-width:1180px;margin:0 auto">
 
   <header style="display:flex;flex-direction:column;gap:14px;margin-bottom:44px">
-    <span style="font:700 12px/1 Figtree;letter-spacing:.18em;text-transform:uppercase;color:#645C50">Design system · iOS 16 · SwiftUI</span>
+    <span style="font:700 12px/1 Figtree;letter-spacing:.18em;text-transform:uppercase;color:#645C50">Design system · iOS 17 · SwiftUI</span>
     <h1 style="font-family:Caprasimo,serif;font-weight:400;font-size:56px;line-height:1.02;margin:0">FoodScannerUI</h1>
     <p style="font-size:20px;line-height:1.5;max-width:62ch;margin:0;color:#3C382F;text-wrap:pretty">La charte de FoodScanner en code : deux palettes saisonnières, le Nutri-Score officiel, des motifs qui doublent chaque couleur, et six mascottes-aliments. Une page, deux niveaux de lecture.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
@@ -66,6 +66,7 @@
         <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#6E7F4F;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsFat</span><span style="font:400 11px Figtree;color:#645C50">huile d'olive</span></div>
         <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#8F2F24;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsProtein</span><span style="font:400 11px Figtree;color:#645C50">haricot rouge</span></div>
         <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#7D9152;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsFiber</span><span style="font:400 11px Figtree;color:#645C50">petit pois</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#8A9AA6;border:1px solid rgba(0,0,0,.08)"></div><span style="font:600 12px Figtree">fsSalt</span><span style="font:400 11px Figtree;color:#645C50">ardoise</span></div>
       </div>
     </div>
 
@@ -83,9 +84,30 @@
         <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#A9713A;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsFat</span><span style="font:400 11px Figtree;color:#C0B6A5">noix</span></div>
         <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#6E8145;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsProtein</span><span style="font:400 11px Figtree;color:#C0B6A5">chou</span></div>
         <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#8A6A3B;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsFiber</span><span style="font:400 11px Figtree;color:#C0B6A5">châtaigne</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:12px;background:#A9B6C0;border:1px solid rgba(255,255,255,.12)"></div><span style="font:600 12px Figtree">fsSalt</span><span style="font:400 11px Figtree;color:#C0B6A5">ardoise</span></div>
       </div>
     </div>
   </div>
+
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Contraste renforcé</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:66ch">Piloté par le vrai signal système <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">@Environment(\.colorSchemeContrast)</code> — aucun interrupteur maison. Le Nutri-Score reste inchangé ; les contrôles épaississent leur liseré et basculent vers deux tokens dédiés.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:20px">
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:10px;background:#F4CEBC;border:2px solid #2A251E"></div><span style="font:600 15px Figtree">fsBorderStrong</span></div>
+      <p style="margin:0;font-size:15px;line-height:1.45;color:#645C50">Liseré quasi-ink pour les contrôles (boutons, clavier, champ code-barres) sous contraste renforcé.</p>
+    </div>
+    <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:10px;background:#F4CEBC;border:2px solid #E2D8C6"></div><span style="font:600 15px Figtree">fsAccentSoftStrong</span></div>
+      <p style="margin:0;font-size:15px;line-height:1.45;color:#645C50">Aplat teinté renforcé — distingue la touche « effacer » du clavier des touches numériques sous contraste renforcé.</p>
+    </div>
+  </div>
+  <sc-if value="{{ showDev }}" hint-placeholder-val="{{ true }}">
+    <pre style="background:#201E1D;color:#F2EAD2;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.6;overflow:auto;margin:0 0 56px">@Environment(\.fsResolvedContrast) private var contrast   <span style="color:#A9B6C0">// système OR override preview</span>
+
+FSMetrics.borderWidth(for: contrast)          <span style="color:#A9B6C0">// épaisseur standard</span>
+FSMetrics.borderWidthStrong(for: contrast)    <span style="color:#A9B6C0">// épaisseur des boutons pleins</span>
+.fsCard()                                     <span style="color:#A9B6C0">// FSCardModifier, contrast-aware</span></pre>
+  </sc-if>
 
   <sc-if value="{{ showDev }}" hint-placeholder-val="{{ true }}">
     <pre style="background:#201E1D;color:#F2EAD2;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.6;overflow:auto;margin:0 0 56px">FSGalleryView()
@@ -143,7 +165,7 @@ FSNutriScore(letter: food.grade)       <span style="color:#A9B6C0">// init depui
   </div>
 
   <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Motifs des nutriments</h2>
-  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:66ch">Cinq motifs, cinq nutriments. La couleur donne la saison, le motif porte l'information.</p>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:66ch">Cinq motifs, cinq nutriments — <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">FSNutrient</code> n'a que ces cinq cas. La couleur donne la saison, le motif porte l'information. Le sucre n'a ni couleur ni motif : c'est une valeur en texte simple, jamais une barre.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px">
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px">
       <div style="width:52px;height:52px;border-radius:11px;background:repeating-linear-gradient(90deg,#C9A548 0 6px,#8a7030 6px 9px);border:1px solid rgba(0,0,0,.12)"></div>
@@ -190,6 +212,7 @@ FSNutrient.protein.seasonalSource(.springSummer)     <span style="color:#A9B6C0"
         <span><strong>FSToggleRow</strong>, <strong>FSTextSizeSlider</strong></span>
         <span><strong>FSPattern</strong>, <strong>FSPatternSwatch</strong></span>
         <span><strong>FSMascot</strong>, <strong>FSMascotRow</strong></span>
+        <span><strong>FSStatusRow</strong> — ligne système en lecture seule</span>
       </div>
     </div>
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
@@ -197,7 +220,8 @@ FSNutrient.protein.seasonalSource(.springSummer)     <span style="color:#A9B6C0"
       <div style="display:flex;flex-direction:column;gap:8px;font:400 16px/1.4 Figtree">
         <span><strong>FSProductCard</strong> — identité + score + encart de saison</span>
         <span><strong>FSSeasonalHint</strong> — mascotte + conseil</span>
-        <span><strong>FSNutrientRow</strong>, <strong>FSNutrientRing</strong>, <strong>FSNutrientLegend</strong></span>
+        <span><strong>FSNutrientRow</strong>, <strong>FSNutrientLegend</strong></span>
+        <span><strong>FSNutrientRing</strong> — existe, volontairement inutilisée dans l'app</span>
         <span><strong>FSScanStatusBanner</strong> — 5 états, haptique + VoiceOver</span>
         <span><strong>FSHistoryRow</strong>, <strong>FSOfflineBanner</strong></span>
         <span><strong>FSSceneFooter</strong> — labo, pique-nique, chalet</span>
