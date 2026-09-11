@@ -8,20 +8,6 @@
 
 import SwiftUI
 
-/// Non-interactive, read-only row mirroring a system setting the app cannot change.
-/// Visual parity with `FSToggleRow`: same `fsCard(radius: FSMetrics.radiusMedium)`,
-/// `FSMetrics.space4` padding, `FSMetrics.minTouchTarget` minimum height, optional
-/// leading 20 pt `Color.fsLeaf` SF Symbol in a 28 pt-wide slot.
-///
-/// The status line is a single static-text VoiceOver stop (label = title,
-/// value = value, caption folded into the hint). An optional trailing `FSButton`
-/// below it stays a normal focusable button. `statusIdentifier`, when set, is
-/// applied to the status element itself, and `actionIdentifier`, when set, is
-/// forwarded to the button as its `accessibilityIdentifier` for UI tests (a
-/// no-op when no `action` is supplied). The two identifiers are independent, so
-/// consumers never need a row-level identifier that would shadow the inner
-/// button in XCUITest. No async work: every string is caller-supplied and
-/// already localized.
 public struct FSStatusRow: View {
     private let title: String
     private let value: String
@@ -92,9 +78,6 @@ public struct FSStatusRow: View {
         .fsCard(radius: FSMetrics.radiusMedium)
     }
 
-    /// With an action button the caption stays contextual to it and is safe as a
-    /// hint; with no button the caption is the only guidance, so it is folded into
-    /// the value to survive VoiceOver's "Hints off" setting.
     private var accessibleValue: String {
         guard action == nil, let caption, !caption.isEmpty else { return value }
         return "\(value). \(caption)"

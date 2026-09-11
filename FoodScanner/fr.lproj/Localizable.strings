@@ -27,7 +27,7 @@
 "settings.contrast_system_managed_caption" = "iOS ne permet pas de modifier ce réglage depuis l'application.";
 "settings.open_IOS_settings" = "Ouvrir les Réglages iOS";
 "settings.reduce_animations_system_managed_caption" = "Le réglage « Réduire les animations » d'iOS est actif. L'application le respecte automatiquement.";
-"settings.text_size_system_floor_caption" = "Votre appareil utilise déjà une grande taille de texte (réglage système). Le curseur ne peut que l'agrandir.";
+"settings.text_size_system_maximum_caption" = "Votre appareil utilise déjà la plus grande taille de texte possible (réglage système). Le curseur ne peut pas aller plus loin.";
 "settings.reduce_animations_title" = "Réduire les animations";
 "settings.reduce_animations_explanation" = "Limite les mouvements et transitions à l'écran.";
 

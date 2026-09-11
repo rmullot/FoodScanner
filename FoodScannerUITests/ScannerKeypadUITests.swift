@@ -7,13 +7,6 @@
 
 import XCTest
 
-/// UI journey for the Scanner manual-entry panel: reveal the keypad, confirm every
-/// key and the pinned "Chercher ce produit" button stay on screen and hittable, then type a
-/// full barcode and confirm the primary button enables.
-///
-/// Queries target stable `.accessibilityIdentifier` values set in production
-/// (`keypad.key.<digit>`, `keypad.key.delete`, `keypad.validate`,
-/// `scanner.toggleKeypad`, `onboarding.skip`), so the tests are locale-independent.
 final class ScannerKeypadUITests: XCTestCase {
 
     private let barcode = "3017620422003"
@@ -28,9 +21,6 @@ final class ScannerKeypadUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    /// The app presents `OnboardingView` as a first-launch `.fullScreenCover`; dismiss it
-    /// (without granting the camera) so the Scanner screen and its manual-entry panel are
-    /// reachable. A no-op on subsequent launches where onboarding was already completed.
     private func dismissOnboardingIfPresent(in app: XCUIApplication) {
         let skipOnboarding = app.buttons["onboarding.skip"]
         if skipOnboarding.waitForExistence(timeout: 10) {
@@ -115,10 +105,6 @@ final class ScannerKeypadUITests: XCTestCase {
 
     // MARK: - Large Dynamic Type
 
-    /// Forces an accessibility content-size category via the simulator-honored
-    /// `-UIPreferredContentSizeCategoryName` launch argument and re-checks that the
-    /// pinned "Chercher ce produit" button is still on screen and hittable when the flexing key
-    /// grid is at its tallest.
     func test_withAccessibilityContentSize_validateButtonRemainsHittable() {
         let app = makeApp(extraLaunchArguments: [
             "-UIPreferredContentSizeCategoryName",
@@ -147,12 +133,6 @@ final class ScannerKeypadUITests: XCTestCase {
 
     // MARK: - AX5 on the smallest device does not clip live controls
 
-    /// Accessibility-reviewer recommendation: the keypad reveal is now wrapped in a
-    /// `.clipped()` `ZStack`. On the smallest supported screen (run this suite on the
-    /// iPhone SE 3rd gen destination) with the largest Dynamic Type
-    /// (`UICTContentSizeCategoryAccessibility5`), a live key mid-grid and the pinned
-    /// validate button must still be present and hittable — i.e. the clip container
-    /// crops nothing interactive.
     func test_atAX5OnSmallDevice_midGridKeyAndValidateAreNotClipped() {
         let app = makeApp(extraLaunchArguments: [
             "-UIPreferredContentSizeCategoryName",

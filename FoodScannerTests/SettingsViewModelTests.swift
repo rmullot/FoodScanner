@@ -25,8 +25,6 @@ final class SettingsViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    /// Spins the main run loop briefly so a `changesPublisher` emission delivered
-    /// via `.receive(on: DispatchQueue.main)` reaches the SUT before assertions.
     private func pumpMainRunLoop() {
         let done = expectation(description: "run loop pumped")
         DispatchQueue.main.async { done.fulfill() }
@@ -48,10 +46,23 @@ final class SettingsViewModelTests: XCTestCase {
         XCTAssertTrue(SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).reduceAnimations)
     }
 
-    func test_textScale_isPersistedAndReadBack() {
-        SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).textScale = 1.5
+    func test_textScale_isPersistedWithinASession() {
+        let fake = SystemAccessibilityFake()
+        let sut = SettingsViewModel(systemAccessibility: fake)
 
-        XCTAssertEqual(SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).textScale, 1.5)
+        sut.textScale = 1.3
+
+        XCTAssertEqual(sut.textScale, 1.3)
+    }
+
+    /// A stale local value from a previous session must not survive a fresh launch:
+    /// `init` always recalibrates onto whatever the system reports right now.
+    func test_textScale_recalibratesOnLaunchRegardlessOfPersistedValue() {
+        SettingsViewModel(systemAccessibility: SystemAccessibilityFake()).textScale = 1.8
+
+        let sut = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .large))
+
+        XCTAssertEqual(sut.textScale, 1.0)
     }
 
     // MARK: - Seeding from the system seam
@@ -115,33 +126,51 @@ final class SettingsViewModelTests: XCTestCase {
         XCTAssertTrue(onOn.effectiveReduceAnimations)
     }
 
-    // MARK: - Text-scale floor mapping
+    // MARK: - Text-scale recalibration
 
-    func test_systemTextScaleFloor_mapsRepresentativeCategories() {
+    func test_textScale_matchesSystemCategoryOnInit() {
         let cases: [(UIContentSizeCategory, Double)] = [
             (.medium, 0.9),
             (.large, 1.0),
-            (.extraLarge, 1.2),
-            (.accessibilityMedium, 1.8),
-            (.accessibilityExtraExtraExtraLarge, 2.0)
+            (.extraLarge, 1.1),
+            (.accessibilityMedium, 1.4),
+            (.accessibilityExtraExtraExtraLarge, 1.8)
         ]
 
         for (category, expected) in cases {
             let sut = SettingsViewModel(systemAccessibility: SystemAccessibilityFake(contentSizeCategory: category))
-            XCTAssertEqual(sut.systemTextScaleFloor, expected, "floor for \(category)")
+            XCTAssertEqual(sut.textScale, expected, "scale for \(category)")
         }
     }
 
-    func test_effectiveTextScale_isMaxOfSliderAndSystemFloor() {
-        let highFloor = SettingsViewModel(
-            systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .accessibilityMedium))
-        highFloor.textScale = 1.0
-        XCTAssertEqual(highFloor.effectiveTextScale, 1.8)
+    /// Recalibration overwrites the local value in *either* direction: a user who had
+    /// diverged from the system setting loses that divergence once the system itself
+    /// moves, whether up or down.
+    func test_textScale_recalibratesInEitherDirectionOnSystemChange() {
+        let fake = SystemAccessibilityFake(contentSizeCategory: .accessibilityMedium)
+        let sut = SettingsViewModel(systemAccessibility: fake)
+        sut.textScale = 1.0
 
-        let highSlider = SettingsViewModel(
-            systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .large))
-        highSlider.textScale = 1.5
-        XCTAssertEqual(highSlider.effectiveTextScale, 1.5)
+        fake.preferredContentSizeCategory = .small
+        fake.emitChange()
+        pumpMainRunLoop()
+        XCTAssertEqual(sut.textScale, 0.8)
+
+        sut.textScale = 0.8
+        fake.preferredContentSizeCategory = .accessibilityExtraExtraExtraLarge
+        fake.emitChange()
+        pumpMainRunLoop()
+        XCTAssertEqual(sut.textScale, 1.8)
+    }
+
+    func test_systemTextSizeIsAtMaximum_onlyAtTheLastSystemCategory() {
+        let atMax = SettingsViewModel(
+            systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .accessibilityExtraExtraExtraLarge))
+        XCTAssertTrue(atMax.systemTextSizeIsAtMaximum)
+
+        let belowMax = SettingsViewModel(
+            systemAccessibility: SystemAccessibilityFake(contentSizeCategory: .accessibilityExtraExtraLarge))
+        XCTAssertFalse(belowMax.systemTextSizeIsAtMaximum)
     }
 
     // MARK: - Accessibility-size detection

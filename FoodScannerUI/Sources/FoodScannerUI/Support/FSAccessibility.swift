@@ -66,18 +66,11 @@ private struct FSIncreasedContrastOverrideKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    /// Preview-only escape hatch: the system `colorSchemeContrast` value is
-    /// read-only and cannot be forced in a `PreviewProvider`, so components OR it
-    /// with this flag to render their increased-contrast variant in previews.
     var fsIncreasedContrastOverride: Bool {
         get { self[FSIncreasedContrastOverrideKey.self] }
         set { self[FSIncreasedContrastOverrideKey.self] = newValue }
     }
 
-    /// The design system's effective contrast level: the system
-    /// `colorSchemeContrast`, OR-ed with the preview-only override above so a
-    /// component renders its increased-contrast variant in a `PreviewProvider`.
-    /// Single source of truth for every `FS*` atom, molecule, and `fsCard`.
     var fsResolvedContrast: ColorSchemeContrast {
         (colorSchemeContrast == .increased || fsIncreasedContrastOverride) ? .increased : .standard
     }

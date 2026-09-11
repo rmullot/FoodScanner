@@ -9,7 +9,6 @@ import Combine
 import UIKit
 @testable import FoodScanner
 
-/// In-memory `CacheProviding` fake recording every interaction.
 final class CacheManagerFake: CacheProviding, @unchecked Sendable {
     private(set) var storage: [String: FoodStruct] = [:]
     private(set) var updatedFoods: [FoodStruct] = []
@@ -37,7 +36,6 @@ final class CacheManagerFake: CacheProviding, @unchecked Sendable {
     }
 }
 
-/// `WebServiceProviding` stub returning a canned result or error.
 final class WebServiceStub: WebServiceProviding, @unchecked Sendable {
     var result: Result<FoodStruct, Error> = .failure(WebServiceError.notInCache)
     private(set) var requestedBarcodes: [String] = []
@@ -53,7 +51,6 @@ final class WebServiceStub: WebServiceProviding, @unchecked Sendable {
     }
 }
 
-/// `ReachabilityProviding` fake with a mutable, publishable online mode.
 final class ReachabilityFake: ReachabilityProviding {
     private let subject: CurrentValueSubject<OnlineMode, Never>
 
@@ -72,7 +69,6 @@ final class ReachabilityFake: ReachabilityProviding {
     }
 }
 
-/// `NetworkActivityTracking` spy counting balance of start/finish calls.
 @MainActor
 final class NetworkActivitySpy: NetworkActivityTracking {
     private let isActiveSubject = CurrentValueSubject<Bool, Never>(false)
@@ -106,7 +102,6 @@ final class NetworkActivitySpy: NetworkActivityTracking {
     }
 }
 
-/// `ReachabilitySource` fake with settable reachability and radio access technologies.
 final class ReachabilitySourceFake: ReachabilitySource {
     var isReachable: Bool = true
     var currentRadioAccessTechnologies: [String: String]?
@@ -122,7 +117,6 @@ final class ReachabilitySourceFake: ReachabilitySource {
     }
 }
 
-/// `AlertPresenting` spy recording every `present` invocation.
 final class AlertPresenterSpy: AlertPresenting {
     private(set) var invocations: [(title: String, message: String, style: UIAlertController.Style)] = []
 
@@ -131,9 +125,6 @@ final class AlertPresenterSpy: AlertPresenting {
     }
 }
 
-/// `SystemAccessibilityProviding` fake with mutable system state and a manual
-/// `changesPublisher` trigger, so notification-driven refresh can be tested
-/// without touching real `UIAccessibility` state.
 @MainActor
 final class SystemAccessibilityFake: SystemAccessibilityProviding {
     var isReduceMotionEnabled: Bool
@@ -157,7 +148,6 @@ final class SystemAccessibilityFake: SystemAccessibilityProviding {
     }
 }
 
-/// `ImageCaching` stub returning a fixed image for any URL.
 final class ImageCacheStub: ImageCaching, @unchecked Sendable {
     var imageToReturn: UIImage?
     private(set) var requestedURLs: [String] = []

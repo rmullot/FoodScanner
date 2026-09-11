@@ -69,6 +69,7 @@
 		AB01D2000000000000000001 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000001 /* RouterTests.swift */; };
 		AB01D2000000000000000002 /* ScannerCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */; };
 		AB01D2000000000000000003 /* ScannerViewModelNetworkActivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */; };
+		AB01D2000000000000000004 /* AppAccessibilitySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000004 /* AppAccessibilitySettingsTests.swift */; };
 		BB0000000000000000000101 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000001 /* Router.swift */; };
 		BB0000000000000000000102 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000002 /* ScannerCoordinator.swift */; };
 		BBA88B8B807B4348960CC011 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06667DA213DC407D8E0DF274 /* ImageCacheManager.swift */; };
@@ -199,6 +200,7 @@
 		AB01D1000000000000000001 /* RouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinatorTests.swift; sourceTree = "<group>"; };
 		AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModelNetworkActivityTests.swift; sourceTree = "<group>"; };
+		AB01D1000000000000000004 /* AppAccessibilitySettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAccessibilitySettingsTests.swift; sourceTree = "<group>"; };
 		B38D7A5F8D4D84E5144CD33E /* swiftgen.yml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = SOURCE_ROOT; };
 		BB0000000000000000000001 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		BB0000000000000000000002 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				AB01D1000000000000000001 /* RouterTests.swift */,
 				AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */,
 				AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */,
+				AB01D1000000000000000004 /* AppAccessibilitySettingsTests.swift */,
 				7AC16F48217E1E3400C4B381 /* Info.plist */,
 			);
 			path = FoodScannerTests;
@@ -750,11 +753,7 @@
 				"  exit 0",
 				"fi",
 				"",
-				"cd \"${SRCROOT}\" && \"$SWIFTLINT_BIN\" lint",
-				"# Never fail the build over lint findings (no --strict); this phase is",
-				"# feedback-only, so always exit 0 regardless of swiftlint's own exit code",
-				"# (e.g. a rule configured at \"error\" severity still returns non-zero).",
-				"exit 0",
+				"cd \"${SRCROOT}\" && \"$SWIFTLINT_BIN\" lint --strict",
 				"",
 			);
 		};
@@ -828,6 +827,7 @@
 				AB01D2000000000000000001 /* RouterTests.swift in Sources */,
 				AB01D2000000000000000002 /* ScannerCoordinatorTests.swift in Sources */,
 				AB01D2000000000000000003 /* ScannerViewModelNetworkActivityTests.swift in Sources */,
+				AB01D2000000000000000004 /* AppAccessibilitySettingsTests.swift in Sources */,
 			);
 		};
 		7AC16F49217E1E3400C4B381 /* Sources */ = {

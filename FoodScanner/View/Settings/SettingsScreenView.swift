@@ -33,14 +33,16 @@ struct SettingsScreenView: View {
                         .appAnimation(.default, value: model.reduceAnimationsForcedBySystem)
 
                     VStack(alignment: .leading, spacing: FSMetrics.space3) {
-                        FSTextSizeSlider(scale: $model.textScale, lowerBound: model.systemTextScaleFloor)
+                        FSTextSizeSlider(scale: $model.textScale)
+                            .disabled(model.systemTextSizeIsAtMaximum)
+                            .opacity(model.systemTextSizeIsAtMaximum ? 0.4 : 1)
                             .accessibilityIdentifier("settings.textSizeSlider")
-                            .accessibilityHint(model.systemConstrainsTextSize
-                                ? Text(L10n.Settings.textSizeSystemFloorCaption)
+                            .accessibilityHint(model.systemTextSizeIsAtMaximum
+                                ? Text(L10n.Settings.textSizeSystemMaximumCaption)
                                 : Text(""))
 
-                        if model.systemConstrainsTextSize {
-                            Text(L10n.Settings.textSizeSystemFloorCaption)
+                        if model.systemTextSizeIsAtMaximum {
+                            Text(L10n.Settings.textSizeSystemMaximumCaption)
                                 .font(.fsCaption)
                                 .foregroundStyle(Color.fsInkSecondary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -55,12 +57,16 @@ struct SettingsScreenView: View {
             .background(Color.fsBackground)
             .navigationTitle(L10n.Common.tabSettings)
             .navigationBarTitleDisplayMode(.large)
-            .dynamicTypeSize(...AppDynamicTypeScale.dynamicTypeSize(for: model.effectiveTextScale))
+            .dynamicTypeSize(...AppDynamicTypeScale.dynamicTypeSize(for: model.textScale))
         }
         .onAppear { isVisible = true }
         .onDisappear { isVisible = false }
         .onChange(of: scenePhase) { _, phase in
-            if phase != .active { isVisible = false }
+            if phase == .active {
+                model.recalibrateTextScale()
+            } else {
+                isVisible = false
+            }
         }
         .onChange(of: model.reduceAnimationsForcedBySystem) { _, forced in
             guard isVisible else { return }

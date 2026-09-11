@@ -34,6 +34,8 @@ final class SettingsViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.refreshSystemState() }
             .store(in: &cancellables)
+
+        recalibrateTextScale()
     }
 
     /// The reduce-animations behavior is currently imposed by the system: the
@@ -44,40 +46,32 @@ final class SettingsViewModel: ObservableObject {
     /// with the read-only system setting.
     var effectiveReduceAnimations: Bool { systemReduceMotionEnabled || reduceAnimations }
 
-    /// System Dynamic Type category acts as a floor: the app slider can only
-    /// enlarge text beyond it, never shrink below it.
     var systemContentSizeIsAccessibilitySize: Bool {
         systemContentSizeCategory.isAccessibilityCategory
     }
 
-    /// Lower bound for the in-app text-size slider, derived from the current
-    /// system Dynamic Type category so the app override can only enlarge text.
-    var systemTextScaleFloor: Double {
-        switch systemContentSizeCategory {
-        case .extraSmall, .small, .medium: return 0.9
-        case .large: return 1.0
-        case .extraLarge: return 1.2
-        case .extraExtraLarge: return 1.4
-        case .extraExtraExtraLarge: return 1.6
-        case .accessibilityMedium: return 1.8
-        case .accessibilityLarge: return 1.9
-        case .accessibilityExtraLarge: return 1.95
-        case .accessibilityExtraExtraLarge: return 1.98
-        case .accessibilityExtraExtraExtraLarge: return 2.0
-        default: return 1.0
-        }
+    /// True once the system is already at its own largest text size: there is no
+    /// room left for the in-app slider to go any further, so it is disabled.
+    var systemTextSizeIsAtMaximum: Bool {
+        AppDynamicTypeScale.isSystemAtMaximum(systemContentSizeCategory)
     }
-
-    /// Effective slider value once the system floor is applied.
-    var effectiveTextScale: Double { max(textScale, systemTextScaleFloor) }
-
-    /// The system Dynamic Type category constrains the in-app slider (its floor
-    /// sits above the 1.0 baseline), so the rationale caption must be shown.
-    var systemConstrainsTextSize: Bool { systemTextScaleFloor > 1.0 }
 
     private func refreshSystemState() {
         systemReduceMotionEnabled = systemAccessibility.isReduceMotionEnabled
         systemIncreasedContrastEnabled = systemAccessibility.isIncreasedContrastEnabled
         systemContentSizeCategory = systemAccessibility.preferredContentSizeCategory
+        recalibrateTextScale()
+    }
+
+    /// Re-syncs the slider onto the live system setting: called on init (app launch),
+    /// whenever the system category changes, and whenever the app returns to the
+    /// foreground (`SettingsScreenView` calls this on `scenePhase` becoming `.active`).
+    /// `textScale` is `@AppStorage`, not `@Published`, so mutating it alone wouldn't
+    /// redraw the view — `objectWillChange` is sent explicitly.
+    func recalibrateTextScale() {
+        let systemScale = AppDynamicTypeScale.scale(for: systemContentSizeCategory)
+        guard textScale != systemScale else { return }
+        objectWillChange.send()
+        textScale = systemScale
     }
 }

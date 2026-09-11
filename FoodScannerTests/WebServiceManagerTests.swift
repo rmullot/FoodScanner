@@ -8,7 +8,6 @@
 import XCTest
 @testable import FoodScanner
 
-/// Intercepts `URLSession.shared` traffic so `WebServiceManager` never hits the network.
 class StubURLProtocol: URLProtocol {
     nonisolated(unsafe) static var responseData: Data?
     nonisolated(unsafe) static var failWithError: Error?

@@ -12,10 +12,6 @@ enum ScannerRoute: Hashable {
     case productDetail(FoodStruct)
 }
 
-/// Drives the Scanner tab: owns the `ScannerViewModel`, turns the "product
-/// found" intent into a push, and builds the product-detail screen with its
-/// view model. `ScannerScreenView` only receives a plain closure and stays
-/// unaware that a coordinator exists.
 @MainActor
 final class ScannerCoordinator: Coordinator, ObservableObject {
     let router: Router<ScannerRoute>

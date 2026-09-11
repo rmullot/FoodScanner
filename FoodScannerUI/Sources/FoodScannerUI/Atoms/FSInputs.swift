@@ -83,17 +83,8 @@ public struct FSBarcodeField: View {
     }
 }
 
-/// Accessible numeric keypad: adaptive 4x3 key grid above a pinned primary button.
-/// Key height clamps 44 pt (min touch target) … 72 pt (comfortable ceiling); the
-/// grid scrolls once its compressed height still overflows, while the validate
-/// button stays laid out below the scroll region and never scrolls off. Key glyph
-/// is 28 pt bold with a 19/28 minimum scale factor (19 pt floor at default Dynamic
-/// Type). Width clamps to 420 pt. Haptic feedback, explicit VoiceOver labels.
-///
-/// Contains a `GeometryReader`, so it has **no intrinsic height**: the caller MUST
-/// constrain this view's height (`.frame(height:)` / `.frame(maxHeight:)`) and
-/// offer at least `FSMetrics.keypadMinRegionHeight`; in an unbounded container it
-/// consumes all vertical space.
+/// Key height clamps 44 pt (min touch target) … 72 pt (comfortable ceiling);
+/// key glyph is 28 pt bold with a 19 pt minimum scale floor. Width clamps to 420 pt.
 public struct FSKeypad: View {
     @Binding private var code: String
     private let onValidate: () -> Void
@@ -233,31 +224,18 @@ public struct FSToggleRow: View {
 
 public struct FSTextSizeSlider: View {
     @Binding private var scale: Double
-    private let lowerBound: Double
 
-    /// `lowerBound` clamps the slider to the live system Dynamic Type floor
-    /// (the in-app override may only enlarge, never shrink below system).
-    /// Upper bound stays pinned at 2.0 (AX5). `lower` is only ever pulled down to
-    /// keep at least one `step` of travel when the system is already at (or within
-    /// one step of) AX5 — it never discards a floor between 1.9 and 2.0.
-    public init(scale: Binding<Double>, lowerBound: Double = 0.9) {
+    public init(scale: Binding<Double>) {
         self._scale = scale
-        self.lowerBound = lowerBound
     }
 
-    private static let upperBound = 2.0
+    /// Matches `AppDynamicTypeScale`'s step table 1:1 (one `UIContentSizeCategory` per
+    /// 0.1 step, `.large` anchored at 1.0): the app owns whether/why the control is
+    /// disabled (system already at its maximum), this component just renders the range.
+    private static let lowerBound = 0.7
+    private static let upperBound = 1.8
     private static let step = 0.1
-
-    private var range: ClosedRange<Double> {
-        let lower = Swift.min(lowerBound, Self.upperBound - Self.step)
-        return lower...Self.upperBound
-    }
-
-    /// True once the usable span is a single step: the slider becomes a dead
-    /// control, so it is disabled and dimmed while still exposing its value.
-    private var isCollapsed: Bool {
-        range.upperBound - range.lowerBound < Self.step + .ulpOfOne
-    }
+    private static let range = lowerBound...upperBound
 
     public var body: some View {
         VStack(alignment: .leading, spacing: FSMetrics.space3) {
@@ -267,7 +245,7 @@ public struct FSTextSizeSlider: View {
 
             HStack(spacing: FSMetrics.space3) {
                 Text("A").font(.fsText(15, weight: .bold)).accessibilityHidden(true)
-                Slider(value: $scale, in: range, step: Self.step) {
+                Slider(value: $scale, in: Self.range, step: Self.step) {
                     Text(FSL10n.TextSizeSlider.label)
                 } minimumValueLabel: {
                     EmptyView()
@@ -276,8 +254,6 @@ public struct FSTextSizeSlider: View {
                 }
                 .tint(Color.fsLeaf)
                 .accessibilityValue(FSL10n.TextSizeSlider.valuePercent(String(Int(scale * 100))))
-                .disabled(isCollapsed)
-                .opacity(isCollapsed ? 0.4 : 1)
                 Text("A").font(.fsText(28, weight: .bold)).accessibilityHidden(true)
             }
 
@@ -342,12 +318,14 @@ struct FSKeypad_Previews: PreviewProvider {
 struct FSTextSizeSlider_Previews: PreviewProvider {
     private struct Demo: View {
         @State private var free = 1.0
-        @State private var clamped = 1.7
+        @State private var atSystemMaximum = 1.8
 
         var body: some View {
             VStack(spacing: FSMetrics.space4) {
                 FSTextSizeSlider(scale: $free)
-                FSTextSizeSlider(scale: $clamped, lowerBound: 1.6)
+                FSTextSizeSlider(scale: $atSystemMaximum)
+                    .disabled(true)
+                    .opacity(0.4)
             }
             .padding(FSMetrics.space4)
             .background(Color.fsBackground)

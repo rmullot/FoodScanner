@@ -7,17 +7,6 @@
 
 import XCTest
 
-/// UI journey for the reworked Réglages accessibility section: the contrast row is
-/// read-only status plus an "Ouvrir les Réglages iOS" button, the reduce-animations
-/// row is an interactive toggle in the default simulator state (system Reduce Motion
-/// off), and the text-size slider is present.
-///
-/// Queries target stable `.accessibilityIdentifier` values set in production
-/// (`settings.contrastStatus`, `settings.reduceAnimationsToggle`,
-/// `settings.reduceAnimationsStatus`, `settings.textSizeSlider`), so the tests are
-/// locale-independent. The contrast row's inner "Ouvrir les Réglages iOS" button
-/// carries `settings.openIOSSettings`, independently reachable from the
-/// `settings.contrastStatus` status line.
 final class SettingsAccessibilityUITests: XCTestCase {
 
     override func setUp() {

@@ -8,10 +8,6 @@
 import Combine
 import UIKit
 
-/// Read-only seam over the live iOS system accessibility state that the app
-/// mirrors in Settings. iOS exposes no API to mutate these settings, so the
-/// protocol is deliberately get-only; `changesPublisher` fires whenever one of
-/// the mirrored values changes while the app is foregrounded.
 @MainActor
 protocol SystemAccessibilityProviding: AnyObject {
     var isReduceMotionEnabled: Bool { get }
