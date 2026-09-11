@@ -111,6 +111,7 @@
 
 /* Begin PBXFileReference section */
 		02AC26322FEAE55300CF77F7 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = SOURCE_ROOT; };
+		9902F990482F9C500DB78EE3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		02AC26352FEAE5A500CF77F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		06084189CE5046A49038D59D /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		06667DA213DC407D8E0DF274 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
@@ -169,8 +170,34 @@
 		7B48430830535DFE009C5F12 /* memory_design.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_design.md; sourceTree = "<group>"; };
 		7B48430930535DFE009C5F12 /* memory_feature.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_feature.md; sourceTree = "<group>"; };
 		7B48430A30535DFE009C5F12 /* memory_testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = memory_testing.md; sourceTree = "<group>"; };
-		7B93FDCA303DFC2B004CFD1A /* FoodScanner Accessible.dc.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "FoodScanner Accessible.dc.html"; sourceTree = "<group>"; };
-		7B93FDCB303DFC2B004CFD1A /* FoodScannerUI Doc.dc.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "FoodScannerUI Doc.dc.html"; sourceTree = "<group>"; };
+		7B7E949C30542E1D0022B7F7 /* app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon.png"; sourceTree = "<group>"; };
+		7B7E94D8305436060022B7F7 /* settings-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-light.png"; sourceTree = "<group>"; };
+		7B7E94C1305436060022B7F7 /* history-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history-empty.png"; sourceTree = "<group>"; };
+		7B7E94C2305436060022B7F7 /* history-list-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history-list-dark.png"; sourceTree = "<group>"; };
+		7B7E94C3305436060022B7F7 /* history-list-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history-list-light.png"; sourceTree = "<group>"; };
+		7B7E94C4305436060022B7F7 /* onboarding-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboarding-dark.png"; sourceTree = "<group>"; };
+		7B7E94C5305436060022B7F7 /* onboarding-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboarding-light.png"; sourceTree = "<group>"; };
+		7B7E94C6305436060022B7F7 /* product-detail-dark-footer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "product-detail-dark-footer.png"; sourceTree = "<group>"; };
+		7B7E94C7305436060022B7F7 /* product-detail-dark-top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "product-detail-dark-top.png"; sourceTree = "<group>"; };
+		7B7E94C8305436060022B7F7 /* product-detail-light-footer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "product-detail-light-footer.png"; sourceTree = "<group>"; };
+		7B7E94C9305436060022B7F7 /* product-detail-light-top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "product-detail-light-top.png"; sourceTree = "<group>"; };
+		7B7E94CA305436060022B7F7 /* scanner-found-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-found-dark.png"; sourceTree = "<group>"; };
+		7B7E94CB305436060022B7F7 /* scanner-found-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-found-light.png"; sourceTree = "<group>"; };
+		7B7E94CC305436060022B7F7 /* scanner-idle-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-idle-dark.png"; sourceTree = "<group>"; };
+		7B7E94CD305436060022B7F7 /* scanner-idle-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-idle-light.png"; sourceTree = "<group>"; };
+		7B7E94CE305436060022B7F7 /* scanner-keypad-empty-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-keypad-empty-dark.png"; sourceTree = "<group>"; };
+		7B7E94CF305436060022B7F7 /* scanner-keypad-empty-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-keypad-empty-light.png"; sourceTree = "<group>"; };
+		7B7E94D0305436060022B7F7 /* scanner-keypad-focused-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-keypad-focused-dark.png"; sourceTree = "<group>"; };
+		7B7E94D1305436060022B7F7 /* scanner-keypad-focused-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-keypad-focused-light.png"; sourceTree = "<group>"; };
+		7B7E94D2305436060022B7F7 /* scanner-keypad-invalid-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-keypad-invalid-dark.png"; sourceTree = "<group>"; };
+		7B7E94D3305436060022B7F7 /* scanner-keypad-invalid-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-keypad-invalid-light.png"; sourceTree = "<group>"; };
+		7B7E94D4305436060022B7F7 /* scanner-notfound-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-notfound-dark.png"; sourceTree = "<group>"; };
+		7B7E94D5305436060022B7F7 /* scanner-notfound-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanner-notfound-light.png"; sourceTree = "<group>"; };
+		7B7E94D6305436060022B7F7 /* settings-accessibility.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-accessibility.png"; sourceTree = "<group>"; };
+		7B7E94D7305436060022B7F7 /* settings-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-dark.png"; sourceTree = "<group>"; };
+		7B7E94D9305437700022B7F7 /* user-journey.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "user-journey.md"; sourceTree = "<group>"; };
+		7B93FDCA303DFC2B004CFD1A /* accessibility-reference.dc.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "accessibility-reference.dc.html"; sourceTree = "<group>"; };
+		7B93FDCB303DFC2B004CFD1A /* design-system-reference.dc.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "design-system-reference.dc.html"; sourceTree = "<group>"; };
 		80808FECA3C64513A39D1CA1 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		8960EDA4ECFE467ABE60120E /* RealmEncryptionKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmEncryptionKeyStore.swift; sourceTree = "<group>"; };
 		91C365AC362849B4AE26DAEC /* FoodDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDetailViewModel.swift; sourceTree = "<group>"; };
@@ -264,9 +291,18 @@
 			children = (
 				7B48430630535DD8009C5F12 /* memory */,
 				7B93FDC5303DF8F8004CFD1A /* agents */,
+				3FA3A7B6ED4D1D24DB0CFB17 /* project-reference */,
 				02AC26322FEAE55300CF77F7 /* CLAUDE.md */,
 			);
 			name = Claude;
+			sourceTree = "<group>";
+		};
+		3FA3A7B6ED4D1D24DB0CFB17 /* project-reference */ = {
+			isa = PBXGroup;
+			children = (
+				9902F990482F9C500DB78EE3 /* README.md */,
+			);
+			path = .claude/project-reference;
 			sourceTree = "<group>";
 		};
 		7A6307AE21867BE600845E47 /* Model */ = {
@@ -440,6 +476,45 @@
 			path = .claude/memory;
 			sourceTree = "<group>";
 		};
+		7B7E949D30542E1D0022B7F7 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				7B7E949C30542E1D0022B7F7 /* app-icon.png */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
+		7B7E94A030542E1D0022B7F7 /* screenshots */ = {
+			isa = PBXGroup;
+			children = (
+				7B7E94C1305436060022B7F7 /* history-empty.png */,
+				7B7E94C2305436060022B7F7 /* history-list-dark.png */,
+				7B7E94C3305436060022B7F7 /* history-list-light.png */,
+				7B7E94C4305436060022B7F7 /* onboarding-dark.png */,
+				7B7E94C5305436060022B7F7 /* onboarding-light.png */,
+				7B7E94C6305436060022B7F7 /* product-detail-dark-footer.png */,
+				7B7E94C7305436060022B7F7 /* product-detail-dark-top.png */,
+				7B7E94C8305436060022B7F7 /* product-detail-light-footer.png */,
+				7B7E94C9305436060022B7F7 /* product-detail-light-top.png */,
+				7B7E94CA305436060022B7F7 /* scanner-found-dark.png */,
+				7B7E94CB305436060022B7F7 /* scanner-found-light.png */,
+				7B7E94CC305436060022B7F7 /* scanner-idle-dark.png */,
+				7B7E94CD305436060022B7F7 /* scanner-idle-light.png */,
+				7B7E94CE305436060022B7F7 /* scanner-keypad-empty-dark.png */,
+				7B7E94CF305436060022B7F7 /* scanner-keypad-empty-light.png */,
+				7B7E94D0305436060022B7F7 /* scanner-keypad-focused-dark.png */,
+				7B7E94D1305436060022B7F7 /* scanner-keypad-focused-light.png */,
+				7B7E94D2305436060022B7F7 /* scanner-keypad-invalid-dark.png */,
+				7B7E94D3305436060022B7F7 /* scanner-keypad-invalid-light.png */,
+				7B7E94D4305436060022B7F7 /* scanner-notfound-dark.png */,
+				7B7E94D5305436060022B7F7 /* scanner-notfound-light.png */,
+				7B7E94D6305436060022B7F7 /* settings-accessibility.png */,
+				7B7E94D7305436060022B7F7 /* settings-dark.png */,
+				7B7E94D8305436060022B7F7 /* settings-light.png */,
+			);
+			path = screenshots;
+			sourceTree = "<group>";
+		};
 		7B93FDC5303DF8F8004CFD1A /* agents */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,8 +536,11 @@
 		7B93FDC9303DFC10004CFD1A /* Docs */ = {
 			isa = PBXGroup;
 			children = (
-				7B93FDCA303DFC2B004CFD1A /* FoodScanner Accessible.dc.html */,
-				7B93FDCB303DFC2B004CFD1A /* FoodScannerUI Doc.dc.html */,
+				7B7E94D9305437700022B7F7 /* user-journey.md */,
+				7B7E949D30542E1D0022B7F7 /* img */,
+				7B7E94A030542E1D0022B7F7 /* screenshots */,
+				7B93FDCA303DFC2B004CFD1A /* accessibility-reference.dc.html */,
+				7B93FDCB303DFC2B004CFD1A /* design-system-reference.dc.html */,
 			);
 			path = Docs;
 			sourceTree = "<group>";

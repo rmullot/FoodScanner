@@ -1,10 +1,10 @@
 # FoodScanner
 
-<img src="Docs/img/app-icon.png" alt="FoodScanner app icon" width="128">
+![FoodScanner app icon](Docs/img/app-icon.png)
 
 FoodScanner is a mobile app for iPhone that lets you scan the barcode on a food package (or type it in by hand) and instantly see nutrition information about that product, like calories, a Nutri-Score badge, and a nutrient breakdown shown as proportion bars. It fetches this information from an online food database, and it remembers products you've already looked up so you can see them again even without an internet connection.
 
-The app is built with Swift and SwiftUI, driven by the local `FoodScannerUI` design-system package (tokens, atoms, molecules), on top of a small set of "Manager" services (`WebServiceManager`, `ParserManager`, `RealmManager`, `ReachabilityManager`, `NetworkActivityManager`, `ErrorManager`) that are wired together by a single composition root, `InjectionManager`, and handed to consumers behind protocols rather than through singletons. Each screen has its own `ObservableObject` view model (`<Screen>ViewModel`) exposing `@Published` state and `async` methods, with its services constructor-injected — there's no shared closure/delegate binding pattern. Navigation is a 3-tab root (`RootTabBarController`: Scanner / Historique / Réglages); each tab's `UIHostingController` hosts its screen directly, and each screen owns its own `NavigationStack` (no extra UIKit `UINavigationController` wrapper, which used to duplicate the navigation title bar). Barcode data flows from `ScannerScreenView` through `ScannerViewModel`, `WebServiceManager` (Open Food Facts API, `async throws`), and `ParserManager` (JSON decoding into `Codable`/`Sendable` structs), before `RealmManager` — an `actor` — persists it as Realm objects (`Food`/`Nutrient`) and the app navigates to the product/nutrients screens; on network or parse failure the app falls back to the local Realm cache. Text size and reduce-animations preferences chosen in Réglages propagate app-wide (`Extensions/AppAccessibilitySettings.swift`), applied at each tab's root rather than staying local to the Settings screen. Dependencies (Realm, FoodScannerUI) are managed via Swift Package Manager.
+The app is built with Swift and SwiftUI, driven by the local `FoodScannerUI` design-system package (tokens, atoms, molecules), on top of a small set of "Manager" services (`WebServiceManager`, `ParserManager`, `CacheManager`, `ReachabilityManager`, `NetworkActivityManager`, `ErrorManager`, `ImageCacheManager`, `SystemAccessibilityManager`) that are wired together by a single composition root, `InjectionManager`, and handed to consumers behind protocols rather than through singletons. Each screen has its own `ObservableObject` view model (`<Screen>ViewModel`) exposing `@Published` state and `async` methods, with its services constructor-injected. Navigation is a pure SwiftUI `TabView` root (`RootView`, three tabs: Scanner / Historique / Réglages) — no `UIHostingController`/`UINavigationController` anywhere. The Scanner tab runs through a `Coordinator` + `Router` that owns its `NavigationStack`; History still owns a local `NavigationPath`. Barcode data flows from `ScannerScreenView` through `ScannerViewModel`, `WebServiceManager` (Open Food Facts API, `async throws`), and `ParserManager` (JSON decoding into `Codable`/`Sendable` structs), before `CacheManager` — an `actor` — persists it as Realm objects (`Food`/`Nutrient`) and the app navigates to the product detail screen; on network or parse failure the app falls back to the local Realm cache. Text size and reduce-animations preferences chosen in Réglages propagate app-wide (`Extensions/AppAccessibilitySettings.swift`), applied at each tab's hosting-controller root rather than staying local to the Settings screen. Dependencies (Realm, FoodScannerUI) are managed via Swift Package Manager.
 
 - Deployment target: iOS 17.0
 - Dependencies are managed via **Swift Package Manager** (resolved by the `FoodScanner.xcodeproj`, not the workspace).
@@ -17,8 +17,16 @@ The app is built with Swift and SwiftUI, driven by the local `FoodScannerUI` des
 
 ## Screenshots
 
-| History (empty state) | Accessibility settings |
+Real captures, light and dark theme, sorted by screen — see [`Docs/user-journey.md`](Docs/user-journey.md) for the full set (onboarding, every Scanner state, product detail, history, settings). A couple of highlights:
+
+| History | Settings |
 | --- | --- |
-| <img src="Docs/screenshots/history-empty.png" alt="Historique screen with no products yet, showing the seasonal picnic footer illustration" width="300"> | <img src="Docs/screenshots/settings-accessibility.png" alt="Réglages screen with high-contrast toggle, reduce-animations toggle, and text-size slider" width="300"> |
+| ![History screen with a viewed product and the seasonal picnic footer illustration](Docs/screenshots/history-list-light.png) | ![Settings screen with high-contrast status, reduce-animations toggle, and text-size slider](Docs/screenshots/settings-light.png) |
 
 Both screens use the `FoodScannerUI` design system (≥19 pt text, ≥44 pt tap targets, Dynamic Type to AX5) and the seasonal spring-summer palette. The text-size and reduce-animations choices in Réglages propagate app-wide.
+
+## Further reading
+
+- [`Docs/design-system-reference.dc.html`](Docs/design-system-reference.dc.html) — the `FoodScannerUI` design-system reference (tokens, Nutri-Score, patterns, mascots).
+- [`Docs/accessibility-reference.dc.html`](Docs/accessibility-reference.dc.html) — how the app's accessibility features actually behave today (VoiceOver, contrast, Dynamic Type).
+- [`Docs/user-journey.md`](Docs/user-journey.md) — every screen/state, light and dark, in order of the user journey.

@@ -100,8 +100,6 @@ Enforced design rules, audited on every screen change:
 - Text ≥ 19pt, tap targets ≥ 44pt, Dynamic Type to AX5, nothing truncated at max text size.
 - **No component does its own async work** — it receives already-resolved values (e.g. `FSProductCard(thumbnail: Image?)`); loading/caching is the app's job.
 
-`FoodScannerUI/MIGRATION.md` has the original screen-by-screen mapping.
-
 ## Conventions
 
 - **No singletons / no `sharedInstance`.** A new service gets a protocol, an `InjectionManager` property, and a `nil`-defaulted constructor parameter on its view-model consumers.
@@ -113,6 +111,7 @@ Enforced design rules, audited on every screen change:
 - `CacheManager` is an actor — never let a Realm `Object`/`List` cross an async boundary; convert to a `Sendable` struct first. `Food`/`Nutrient` are created/mutated only through `CacheManager`.
 - UIKit↔SwiftUI and Realm↔design-system bridging belongs in the app (e.g. `FoodBridge.swift`), never in the package.
 - Accessibility settings from `SettingsScreenView` (text size, reduce animations) are app-scoped: propagated by `AppAccessibilitySettings.swift` (`View.appWideAccessibilitySettings()`) at each tab's hosting-controller root. "Reduce animations" uses an app-only `EnvironmentKey` `appReduceAnimations` via `View.appAnimation(_:value:)` (system `\.accessibilityReduceMotion` is read-only). High-contrast **is** wired up, driven by the real system signal `@Environment(\.colorSchemeContrast) == .increased` (no custom contrast toggle): design-system controls (`FSButton`, `FSIconButton`, `FSKeypad`, `FSBarcodeField`) thicken their borders via `FSMetrics.borderWidth(for:)` / `borderWidthStrong(for:)`, swap to the `Color.fsBorderStrong` / `Color.fsAccentSoftStrong` tokens, and bump label/glyph weight (`Font.fsBodyHeavy`). Nutri-Score colors stay untouched. `fsCard()` is contrast-aware too, via `FSCardModifier` reading `\.fsResolvedContrast` (the shared resolver on `EnvironmentValues`: system `\.colorSchemeContrast` OR-ed with the preview-only `fsIncreasedContrastOverride`); under increased contrast it swaps to `Color.fsBorderStrong` at `FSMetrics.borderWidthStrongIncreased`. Atoms read the same `\.fsResolvedContrast` resolver.
+- **`Docs/` filenames are English and OS-portable** (no spaces, no accents, `kebab-case.ext`) — content may quote the app's real French UI strings, but headings/prose/filenames stay English. Any such file gets added to `FoodScanner.xcodeproj/project.pbxproj` as a file reference only (`PBXFileReference` + group entry) — never wired into a build phase. Full rationale in `~/.claude/project-standards.md`; `xcode-project-manager` (account-level agent) enforces and fixes drift.
 
 ## Agents
 
@@ -126,3 +125,8 @@ Enforced design rules, audited on every screen change:
 - `test-suite-engineer` — writes tests after implementation is green: unit always, UI only if views changed, performance only if asked. Never touches production code.
 - `localization-engineer` — maintains the two localization layers (see Localization).
 - `technical-debt-migration-orchestrator` — all technical-debt work (legacy Obj-C, misspelled symbols, storyboards, pre-MVVM code, non-injected singletons). 5 strictly sequential phases, one `techdebt/phase-<n>-*` branch each, human validation + merge to `develop` between phases. Never merges/pushes/opens a PR itself.
+- `xcode-project-manager` — **account-level** agent (`~/.claude/agents/`, not project-local), reusable across repos. Adds new `Docs/`-style files to `project.pbxproj` as file references only (never a build-phase member), enforces the English/OS-portable filename rule above, and maintains `.claude/project-reference/` (index of this project's agents + other config files). Invoke it whenever docs/design/screenshot files are added or renamed, or when the Xcode group under `Docs/` drifts from what's on disk.
+
+## Project reference index
+
+`.claude/project-reference/README.md` indexes this project's agents and config files (lint configs, codegen configs, memory/backlog files) for fast orientation. Kept current by `xcode-project-manager`; update it yourself in the same change if you add/remove/rename an agent or a config file and don't want to wait.

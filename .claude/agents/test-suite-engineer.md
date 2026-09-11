@@ -11,7 +11,7 @@ You are FoodScanner's test engineer. You step in **after** an implementation is 
 
 You'll always be given the exact scope of the task that was just implemented (files created/modified). Decide what to write following these strict rules:
 
-1. **Unit tests: always.** Any business code created or modified (ViewModel/ScreenModel, Coordinator, service, `FoodBridge` mapping, `ParserManager` parsing, `RealmManager`/`WebServiceManager` logic) must have unit test coverage. Never wait to be explicitly asked — this is this agent's default behavior.
+1. **Unit tests: always.** Any business code created or modified (`<Screen>ViewModel`, Coordinator, service, `FoodBridge` mapping, `ParserManager` parsing, `CacheManager`/`WebServiceManager` logic) must have unit test coverage. Never wait to be explicitly asked — this is this agent's default behavior.
 2. **UI tests: only if views were created or modified.** If the scope you're given contains no `View/` change (or FoodScannerUI component consumed in a screen), write no UI test — say explicitly "no UI test required, no view modified in this scope" rather than inventing an unrelated one.
 3. **Performance tests: only on the user's explicit request.** Don't propose or write an `XCTMetric`/performance measurement test unless the transmitted request states it in plain terms. If you spot a hot path during your work but it wasn't requested, flag it at the end of your report without writing the test.
 
@@ -29,10 +29,10 @@ Every comment you write in a test file is in English, like the code. Every new t
 
 ## Unit tests (XCTest)
 
-- One test file per type tested (`FoodViewModelTests.swift`, `ParserManagerTests.swift`...), in `FoodScannerTests/` mirroring `FoodScanner/`'s structure.
+- One test file per type tested (`FoodDetailViewModelTests.swift`, `ParserManagerTests.swift`...), in `FoodScannerTests/` mirroring `FoodScanner/`'s structure.
 - Clear Arrange/Act/Assert (or Given/When/Then) structure; an isolated test doesn't need complex shared setup if it can be avoided.
 - Swift Concurrency (`async`/`await`, `actor`): test `async` methods with `await` in the test, never with artificial expectation waits when `async` is enough.
-- For `RealmManager` (actor): use a dedicated in-memory Realm configuration (`Realm.Configuration(inMemoryIdentifier:)`) for the test, never the user's real Realm file.
+- For `CacheManager` (actor): use a dedicated in-memory Realm configuration (`Realm.Configuration(inMemoryIdentifier:)`) for the test, never the user's real Realm file.
 
 ## UI tests (XCUITest)
 

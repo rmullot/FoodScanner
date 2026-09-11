@@ -22,34 +22,34 @@
 <div style="font-family:Figtree,system-ui,sans-serif;color:#201E1D;background:#F4EEE2;padding:56px 48px 96px;max-width:1180px;margin:0 auto">
 
   <header style="display:flex;flex-direction:column;gap:14px;margin-bottom:44px">
-    <span style="font:700 12px/1 Figtree;letter-spacing:.18em;text-transform:uppercase;color:#645C50">Référence · iOS 17 · SwiftUI · RGAA 4.1.2</span>
-    <h1 style="font-family:Caprasimo,serif;font-weight:400;font-size:56px;line-height:1.02;margin:0">FoodScanner, accessible aujourd'hui</h1>
-    <p style="font-size:20px;line-height:1.5;max-width:66ch;margin:0;color:#3C382F;text-wrap:pretty">Comment l'app se comporte réellement, écran par écran : ce que lit VoiceOver, ce que déclenche le contraste augmenté, ce que fait le curseur de taille de texte face au réglage système. Reflète le code du dépôt, pas une proposition.</p>
+    <span style="font:700 12px/1 Figtree;letter-spacing:.18em;text-transform:uppercase;color:#645C50">Reference · iOS 17 · SwiftUI · RGAA 4.1.2</span>
+    <h1 style="font-family:Caprasimo,serif;font-weight:400;font-size:56px;line-height:1.02;margin:0">FoodScanner, accessible today</h1>
+    <p style="font-size:20px;line-height:1.5;max-width:66ch;margin:0;color:#3C382F;text-wrap:pretty">How the app actually behaves, screen by screen: what VoiceOver reads, what increased contrast triggers, what the text-size slider does against the system setting. Reflects the repo's code, not a proposal.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Corps 19 pt minimum</span>
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Cibles 44–60 pt</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">19 pt body minimum</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">44–60 pt targets</span>
       <span style="display:inline-flex;align-items:center;gap:6px;background:#E8F0DC;color:#3F5024;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Dynamic Type → AX5</span>
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#F6E0CD;color:#8C491A;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Couleur + motif + texte</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#F6E0CD;color:#8C491A;border-radius:999px;padding:7px 14px;font:600 14px Figtree">Color + pattern + text</span>
     </div>
   </header>
 
   <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:16px">
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
       <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Architecture</div>
-      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">SwiftUI pur, cycle de vie <code style="font-size:14px">App</code>/<code style="font-size:14px">TabView</code> depuis <code style="font-size:14px">RootView</code>. Onglet Scanner sur <code style="font-size:14px">ScannerCoordinator</code> + <code style="font-size:14px">Router&lt;ScannerRoute&gt;</code> ; Historique garde une <code style="font-size:14px">NavigationPath</code> locale.</p>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Pure SwiftUI, <code style="font-size:14px">App</code>/<code style="font-size:14px">TabView</code> lifecycle from <code style="font-size:14px">RootView</code>. Scanner tab on <code style="font-size:14px">ScannerCoordinator</code> + <code style="font-size:14px">Router&lt;ScannerRoute&gt;</code>; History still keeps a local <code style="font-size:14px">NavigationPath</code>.</p>
     </div>
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
-      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Contraste et mouvement</div>
-      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Aucun interrupteur maison : contraste augmenté lit <code style="font-size:14px">colorSchemeContrast</code>, réduction du mouvement système est en lecture seule, une bascule app-only complète ce que le système ne permet pas d'activer depuis l'app.</p>
+      <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Contrast and motion</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">No in-house switch: increased contrast reads <code style="font-size:14px">colorSchemeContrast</code>, system reduce-motion is read-only, an app-only toggle fills the gap where the system doesn't let the app turn it on.</p>
     </div>
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:20px">
       <div style="font:700 12px Figtree;letter-spacing:.14em;text-transform:uppercase;color:#645C50;margin-bottom:8px">Dynamic Type</div>
-      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Le curseur de Réglages se recalibre sur la catégorie système à chaque lancement, retour au premier plan ou changement iOS — il ne fait jamais moins que le système, jamais un doublon incohérent.</p>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Settings' slider recalibrates against the system category on every launch, foreground return, or iOS change — it never falls below the system, never an inconsistent duplicate.</p>
     </div>
   </section>
 
-  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:40px 0 6px">Le parcours</h2>
-  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 24px;max-width:70ch">Six écrans, thème clair / palette printemps-été. Chaque maquette reprend les composants <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">FoodScannerUI</code> réellement utilisés dans la vue correspondante et les chaînes exactes de <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">Localizable.strings</code>.</p>
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:40px 0 6px">The journey</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 24px;max-width:70ch">Six screens, light theme / spring-summer palette. Each mockup reuses the <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">FoodScannerUI</code> components actually used in the matching view, and the exact strings from <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">Localizable.strings</code> — shown here in French, the app's source locale.</p>
 
   <div style="display:flex;flex-wrap:wrap;gap:28px;margin-bottom:12px">
 
@@ -67,7 +67,7 @@
         </div>
       </div>
       <div style="font:600 13px Figtree;color:#8C491A">1 · Onboarding — <code style="font-size:12px;font-weight:400">OnboardingView</code></div>
-      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">Demande l'accès caméra une seule fois. Refus → bouton devient « Ouvrir les Réglages » + message explicatif. « Continuer sans la caméra » reste toujours accessible : la saisie manuelle marche sans jamais demander l'autorisation.</p>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">Asks for camera access once. Denied → the button becomes "Ouvrir les Réglages" ("Open Settings") + an explanatory message. "Continuer sans la caméra" ("Continue without the camera") stays reachable at all times: manual entry works without ever requesting the permission.</p>
     </div>
 
     <!-- Scanner aiming -->
@@ -86,8 +86,8 @@
           </div>
         </div>
       </div>
-      <div style="font:600 13px Figtree;color:#8C491A">2 · Scanner, visée — <code style="font-size:12px;font-weight:400">ScannerScreenView</code></div>
-      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSScanStatusBanner(.aiming)</code> en surimpression ; carte du bas en <code style="font-size:13px">fsCard()</code> avec <code style="font-size:13px">FSButton</code> (pavé, rôle discret) et <code style="font-size:13px">FSIconButton</code> (torche). Le pavé <code style="font-size:13px">FSKeypad</code> déroule sous le champ sans jamais réduire la zone de frappe, même à AX5.</p>
+      <div style="font:600 13px Figtree;color:#8C491A">2 · Scanner, aiming — <code style="font-size:12px;font-weight:400">ScannerScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSScanStatusBanner(.aiming)</code> overlaid; bottom card is <code style="font-size:13px">fsCard()</code> with an <code style="font-size:13px">FSButton</code> (keypad, quiet role) and an <code style="font-size:13px">FSIconButton</code> (torch). The <code style="font-size:13px">FSKeypad</code> unfolds under the field without ever shrinking the tap area, even at AX5.</p>
     </div>
 
     <!-- Scanner found -->
@@ -99,11 +99,11 @@
         </div>
         <div style="position:absolute;bottom:22px;left:22px;right:22px;background:rgba(32,30,29,.85);border-radius:20px;padding:16px 18px;display:flex;gap:10px">
           <div style="height:40px;flex:1;border-radius:999px;background:rgba(249,244,237,.12);color:#F9F4ED;display:flex;align-items:center;justify-content:center;gap:6px;font:600 14px Figtree"><svg width="16" height="16" viewBox="0 0 24 24"><g stroke="#F9F4ED" stroke-width="2.5" stroke-linecap="round"><path d="M4 6v12M8 6v12M12 6v12M16 6v12M20 6v12"/></g></svg>Pavé numérique</div>
-          <div style="width:40px;height:40px;border-radius:999px;background:rgba(249,244,237,.12);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M13 2L5 14h5l-1 8 8-12h-5l1-8z" fill="none" stroke="#F9F4ED" stroke-width="2.2" stroke-linejoin="round"/></svg></div>
+            <div style="width:40px;height:40px;border-radius:999px;background:rgba(249,244,237,.12);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M13 2L5 14h5l-1 8 8-12h-5l1-8z" fill="none" stroke="#F9F4ED" stroke-width="2.2" stroke-linejoin="round"/></svg></div>
         </div>
       </div>
-      <div style="font:600 13px Figtree;color:#8C491A">3 · Scanner, trouvé — <code style="font-size:12px;font-weight:400">FSScanStatusBanner(.found)</code></div>
-      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">La bannière passe au vert <code style="font-size:13px">fsLeaf</code>, joue <code style="font-size:13px">FSHaptics.play(.scanSuccess)</code>, et <code style="font-size:13px">UIAccessibility.post(.announcement, "Produit trouvé. Balayez pour ouvrir sa fiche.")</code>. Taper la bannière ouvre la fiche via le <code style="font-size:13px">Router</code>.</p>
+      <div style="font:600 13px Figtree;color:#8C491A">3 · Scanner, found — <code style="font-size:12px;font-weight:400">FSScanStatusBanner(.found)</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">The banner turns <code style="font-size:13px">fsLeaf</code> green, plays <code style="font-size:13px">FSHaptics.play(.scanSuccess)</code>, and posts <code style="font-size:13px">UIAccessibility.post(.announcement, "Produit trouvé. Balayez pour ouvrir sa fiche.")</code> ("Product found. Swipe to open its detail page."). Tapping the banner opens the detail screen via the <code style="font-size:13px">Router</code>.</p>
     </div>
 
   </div>
@@ -136,8 +136,8 @@
         </div>
         <div style="margin-top:auto;font:400 12px Figtree;color:#645C50;text-align:center">Nos mascottes décryptent les infos nutritionnelles grâce à Open Food Facts.</div>
       </div>
-      <div style="font:600 13px Figtree;color:#8C491A">4 · Fiche produit — <code style="font-size:12px;font-weight:400">ProductDetailScreenView</code></div>
-      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSProductCard</code> + <code style="font-size:13px">FSScoreScale</code> + une <code style="font-size:13px">FSNutrientRow</code> par nutriment de <code style="font-size:13px">nutrientBars</code> (glucides, lipides, protéines, sel, fibres — jamais le sucre, qui n'a pas de barre) + <code style="font-size:13px">FSSceneFooter(.laboratory)</code>. Partagée par l'onglet Scanner et l'onglet Historique.</p>
+      <div style="font:600 13px Figtree;color:#8C491A">4 · Product detail — <code style="font-size:12px;font-weight:400">ProductDetailScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSProductCard</code> + <code style="font-size:13px">FSScoreScale</code> + one <code style="font-size:13px">FSNutrientRow</code> per nutrient in <code style="font-size:13px">nutrientBars</code> (carbs, fat, protein, salt, fiber — never sugar, which has no bar) + <code style="font-size:13px">FSSceneFooter(.laboratory)</code>. Shared by the Scanner and History tabs.</p>
     </div>
 
     <!-- History -->
@@ -160,8 +160,8 @@
         </div>
         <div style="margin-top:auto;font:400 12px Figtree;color:#645C50;text-align:center">Les mascottes gardent un œil sur vos douze derniers produits.</div>
       </div>
-      <div style="font:600 13px Figtree;color:#8C491A">5 · Historique — <code style="font-size:12px;font-weight:400">HistoryScreenView</code></div>
-      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSOfflineBanner</code> quand hors-ligne, une <code style="font-size:13px">FSHistoryRow</code> par entrée (chaque ligne porte son propre <code style="font-size:13px">Button</code>, pas de <code style="font-size:13px">NavigationLink</code>), <code style="font-size:13px">FSSceneFooter(.picnic)</code>. La navigation reste une <code style="font-size:13px">NavigationPath</code> locale, pas encore migrée vers un Coordinator.</p>
+      <div style="font:600 13px Figtree;color:#8C491A">5 · History — <code style="font-size:12px;font-weight:400">HistoryScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px"><code style="font-size:13px">FSOfflineBanner</code> when offline, one <code style="font-size:13px">FSHistoryRow</code> per entry (each row owns its own <code style="font-size:13px">Button</code>, no <code style="font-size:13px">NavigationLink</code>), <code style="font-size:13px">FSSceneFooter(.picnic)</code>. Navigation is still a local <code style="font-size:13px">NavigationPath</code>, not yet migrated to a Coordinator.</p>
     </div>
 
     <!-- Settings -->
@@ -184,37 +184,37 @@
           <div style="height:6px;border-radius:3px;background:#E2D8C6;position:relative"><div style="position:absolute;left:0;top:-7px;width:20px;height:20px;border-radius:10px;background:#D2432C;box-shadow:0 0 0 4px rgba(210,67,44,.18)"></div></div>
         </div>
       </div>
-      <div style="font:600 13px Figtree;color:#8C491A">6 · Réglages — <code style="font-size:12px;font-weight:400">SettingsScreenView</code></div>
-      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">Contraste et « réduire les animations » (quand forcé par le système) : <code style="font-size:13px">FSStatusRow</code> lecture seule. Sinon <code style="font-size:13px">FSToggleRow</code>. <code style="font-size:13px">FSTextSizeSlider</code> se désactive et s'explique dès que le système est déjà à sa taille maximale.</p>
+      <div style="font:600 13px Figtree;color:#8C491A">6 · Settings — <code style="font-size:12px;font-weight:400">SettingsScreenView</code></div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#645C50;max-width:300px">Contrast and "reduce animations" (when forced by the system): read-only <code style="font-size:13px">FSStatusRow</code>. Otherwise an <code style="font-size:13px">FSToggleRow</code>. <code style="font-size:13px">FSTextSizeSlider</code> disables itself and explains why as soon as the system is already at its maximum size.</p>
     </div>
 
   </div>
 
-  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Contraste et mouvement — le vrai signal système</h2>
-  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Ni le contraste augmenté ni la réduction du mouvement système ne sont des réglages maison : les deux se lisent directement depuis iOS. L'app n'ajoute une bascule que là où iOS ne permet pas d'agir depuis l'app elle-même.</p>
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Contrast and motion — the real system signal</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Neither increased contrast nor system reduce-motion is an in-house setting: both are read straight from iOS. The app only adds a toggle where iOS doesn't let it act from inside the app itself.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px">
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
-      <span style="font:700 15px Figtree">Contraste augmenté</span>
-      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">@Environment(\.colorSchemeContrast) == .increased</code> pilote tout : liserés épaissis (<code style="font-size:13px">FSMetrics.borderWidth(for:)</code>/<code style="font-size:13px">borderWidthStrong(for:)</code>), bascule vers <code style="font-size:13px">fsBorderStrong</code> / <code style="font-size:13px">fsAccentSoftStrong</code>, poids de police relevé (<code style="font-size:13px">Font.fsBodyHeavy</code>). Réglages n'affiche qu'un statut et un raccourci vers iOS ; le Nutri-Score ne change jamais.</p>
+      <span style="font:700 15px Figtree">Increased contrast</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">@Environment(\.colorSchemeContrast) == .increased</code> drives everything: thickened borders (<code style="font-size:13px">FSMetrics.borderWidth(for:)</code>/<code style="font-size:13px">borderWidthStrong(for:)</code>), switch to <code style="font-size:13px">fsBorderStrong</code> / <code style="font-size:13px">fsAccentSoftStrong</code>, bumped font weight (<code style="font-size:13px">Font.fsBodyHeavy</code>). Settings only shows a status and a shortcut to iOS; the Nutri-Score never changes.</p>
     </div>
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
-      <span style="font:700 15px Figtree">Réduire le mouvement</span>
-      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">Le signal système <code style="font-size:13px">accessibilityReduceMotion</code> est en lecture seule côté SwiftUI. Quand il est déjà actif, Réglages l'affiche en statut ; sinon une <code style="font-size:13px">FSToggleRow</code> pilote une <code style="font-size:13px">EnvironmentKey</code> app-only (<code style="font-size:13px">appReduceAnimations</code>) lue par <code style="font-size:13px">.appAnimation()</code> — les deux signaux sont combinés en OR partout dans l'app.</p>
+      <span style="font:700 15px Figtree">Reduce motion</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">The system signal <code style="font-size:13px">accessibilityReduceMotion</code> is read-only on the SwiftUI side. When it's already on, Settings shows it as a status; otherwise an <code style="font-size:13px">FSToggleRow</code> drives an app-only <code style="font-size:13px">EnvironmentKey</code> (<code style="font-size:13px">appReduceAnimations</code>) read by <code style="font-size:13px">.appAnimation()</code> — the two signals are OR-combined everywhere in the app.</p>
     </div>
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px">
-      <span style="font:700 15px Figtree">Chaque changement est annoncé</span>
-      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">Basculer un statut système pendant que Réglages est ouvert déplace le focus VoiceOver dessus (<code style="font-size:13px">@AccessibilityFocusState</code>) et déclenche <code style="font-size:13px">FSAnnounce.say(...)</code> — qui ne parle que si VoiceOver tourne, avec un délai de 0,35 s pour laisser le focus se poser.</p>
+      <span style="font:700 15px Figtree">Every change is announced</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">Flipping a system status while Settings is open moves VoiceOver focus onto it (<code style="font-size:13px">@AccessibilityFocusState</code>) and fires <code style="font-size:13px">FSAnnounce.say(...)</code> — which only speaks while VoiceOver is running, with a 0.35 s delay to let focus settle.</p>
     </div>
   </div>
 
-  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Dynamic Type : le système passe toujours en premier</h2>
-  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Le curseur de Réglages n'est pas un plancher qu'on pousse par-dessus le système — c'est une fenêtre à douze crans sur la même échelle que <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">UIContentSizeCategory</code>, tenue dans une seule table (<code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">AppDynamicTypeScale</code>).</p>
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Dynamic Type: the system always wins</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Settings' slider isn't a floor pushed on top of the system — it's a twelve-notch window onto the same scale as <code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">UIContentSizeCategory</code>, held in a single table (<code style="background:#E8F0DC;padding:2px 6px;border-radius:5px;font-size:16px">AppDynamicTypeScale</code>).</p>
   <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:22px 24px;margin-bottom:20px;overflow-x:auto">
     <div style="display:flex;gap:6px;min-width:760px">
       <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xSmall</div><div style="font:400 12px Figtree;color:#645C50">0.7</div></div>
       <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">Small</div><div style="font:400 12px Figtree;color:#645C50">0.8</div></div>
       <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">Medium</div><div style="font:400 12px Figtree;color:#645C50">0.9</div></div>
-      <div style="flex:1;text-align:center;background:#F6E0CD;border-radius:8px;padding:2px 0"><div style="font:700 13px Figtree;color:#8C491A">Large</div><div style="font:400 12px Figtree;color:#8C491A">1.0 · défaut</div></div>
+      <div style="flex:1;text-align:center;background:#F6E0CD;border-radius:8px;padding:2px 0"><div style="font:700 13px Figtree;color:#8C491A">Large</div><div style="font:400 12px Figtree;color:#8C491A">1.0 · default</div></div>
       <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xLarge</div><div style="font:400 12px Figtree;color:#645C50">1.1</div></div>
       <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xxLarge</div><div style="font:400 12px Figtree;color:#645C50">1.2</div></div>
       <div style="flex:1;text-align:center"><div style="font:700 13px Figtree">xxxLarge</div><div style="font:400 12px Figtree;color:#645C50">1.3</div></div>
@@ -227,32 +227,32 @@
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:56px">
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px">
-      <span style="font:700 15px Figtree">Se recalibre, jamais figé</span>
-      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">recalibrateTextScale()</code> tourne au lancement, à chaque retour au premier plan et à chaque changement système — dans les deux sens.</p>
+      <span style="font:700 15px Figtree">Recalibrates, never frozen</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">recalibrateTextScale()</code> runs on launch, on every return to foreground, and on every system change — in both directions.</p>
     </div>
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px">
-      <span style="font:700 15px Figtree">Plafond honnête</span>
-      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">Le curseur se désactive et s'explique (« Votre appareil utilise déjà la plus grande taille de texte possible ») uniquement quand le système est déjà à AX5 — jamais avant.</p>
+      <span style="font:700 15px Figtree">Honest ceiling</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50">The slider disables itself and explains why ("Votre appareil utilise déjà la plus grande taille de texte possible" — "Your device is already using the largest available text size") only once the system is already at AX5 — never before.</p>
     </div>
     <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px">
-      <span style="font:700 15px Figtree">Le clavier tient à AX5</span>
-      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">FSKeypad</code> garde une hauteur minimale indépendante du champ code-barres ; le débordement défile au lieu de rogner la rangée du bas — correctif du 11/09/2026 sur iPhone SE.</p>
+      <span style="font:700 15px Figtree">The keypad holds up at AX5</span>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:#645C50"><code style="font-size:13px">FSKeypad</code> keeps a minimum height independent from the barcode field; overflow scrolls instead of clipping the bottom row — fixed 2026-09-11 on iPhone SE.</p>
     </div>
   </div>
 
-  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">VoiceOver et haptique</h2>
-  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Chaque transition d'état a un canal sonore ou vibratoire, pas seulement visuel.</p>
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">VoiceOver and haptics</h2>
+  <p style="font-size:18px;line-height:1.5;color:#3C382F;margin:0 0 20px;max-width:70ch">Every state transition has a sound or vibration channel, not just a visual one.</p>
   <div style="background:#fff;border:1.5px solid #E2D8C6;border-radius:20px;padding:4px 24px;margin-bottom:56px">
-    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Caméra activée</span><span style="flex:1;font:400 15px Figtree">Annonce VoiceOver dès que l'autorisation caméra passe à « autorisée ».</span></div>
-    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Produit trouvé</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">FSHaptics.play(.scanSuccess)</code> + annonce « Produit trouvé. Balayez pour ouvrir sa fiche. »</span></div>
-    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Introuvable</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">.scanFailure</code> — « Ce code n'existe pas encore dans la base. »</span></div>
-    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Hors ligne</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">.warning</code> — « Les douze dernières fiches restent consultables. »</span></div>
-    <div style="display:flex;gap:16px;align-items:center;padding:16px 0"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Réglages</span><span style="flex:1;font:400 15px Figtree">Tout changement de contraste ou de mouvement forcé par le système est annoncé et reçoit le focus VoiceOver, à condition que l'écran soit visible.</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Camera enabled</span><span style="flex:1;font:400 15px Figtree">VoiceOver announcement as soon as camera authorization turns "authorized".</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Product found</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">FSHaptics.play(.scanSuccess)</code> + announcement "Produit trouvé. Balayez pour ouvrir sa fiche." ("Product found. Swipe to open its detail page.")</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Not found</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">.scanFailure</code> — "Ce code n'existe pas encore dans la base." ("This code isn't in the database yet.")</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid #E2D8C6"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Offline</span><span style="flex:1;font:400 15px Figtree"><code style="font-size:13px">.warning</code> — "Les douze dernières fiches restent consultables." ("The last twelve entries stay viewable.")</span></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px 0"><span style="flex:none;width:120px;font:700 14px Figtree;color:#645C50">Settings</span><span style="flex:1;font:400 15px Figtree">Any contrast or motion change forced by the system is announced and receives VoiceOver focus, as long as the screen is visible.</span></div>
   </div>
 
-  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">Ce que ce document ne couvre pas</h2>
-  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0 0 8px;max-width:70ch">Les tokens de couleur, le Nutri-Score, les motifs de nutriments, les six mascottes et les trois saynètes sont documentés dans <code style="font-size:15px">FoodScannerUI Doc.dc.html</code> — cette page ne les redécrit pas.</p>
-  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0;max-width:70ch">Backlog ouvert : migration Historique/Réglages vers Coordinator + Router (suit le pattern déjà en place côté Scanner), voir <code style="font-size:15px">.claude/memory/memory_feature.md</code>.</p>
+  <h2 style="font-family:Caprasimo,serif;font-weight:400;font-size:34px;margin:0 0 6px">What this document doesn't cover</h2>
+  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0 0 8px;max-width:70ch">Color tokens, the Nutri-Score, nutrient patterns, the six mascots, and the three vignettes are documented in <code style="font-size:15px">design-system-reference.dc.html</code> — this page doesn't redescribe them.</p>
+  <p style="font-size:16px;line-height:1.5;color:#645C50;margin:0;max-width:70ch">Open backlog: migrating History/Settings to Coordinator + Router (following the pattern already in place on the Scanner side), see <code style="font-size:15px">.claude/memory/memory_feature.md</code>.</p>
 
 </div>
 </x-dc>

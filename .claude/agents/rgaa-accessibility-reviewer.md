@@ -121,4 +121,4 @@ Accessibility observations about pre-existing code the current change does not t
 - Never modify a file. Read-only + possible read-only lint.
 - Never cite a web RGAA criterion as-is (e.g. "criterion 1.1") without having explicitly transposed it to native iOS via the table above or an equivalent reasoning stated in the report.
 - Every finding must connect audited code → concrete user impact, not an abstract rule.
-- If an expected accessibility mechanism doesn't exist anywhere in the repo (neither screen nor FoodScannerUI), flag it in "Out of scope" rather than inventing a solution that would contradict the architecture (e.g. don't propose adding high-visibility contrast if CLAUDE.md explicitly states it isn't wired up yet).
+- If an expected accessibility mechanism doesn't exist anywhere in the repo (neither screen nor FoodScannerUI), flag it in "Out of scope" rather than inventing a solution that would contradict the architecture — check CLAUDE.md's Conventions section first (e.g. increased contrast and Dynamic Type are already wired to the real system signals; don't propose reintroducing a mechanism that already exists under a different name).

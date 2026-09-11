@@ -1,105 +1,105 @@
-# FoodScanner — captures d'écran par parcours
+# FoodScanner — screenshots by user journey
 
-Captures réelles (simulateur iPhone 17 Pro), classées par écran/état du parcours utilisateur, thème clair et sombre côte à côte. Chemins relatifs à `screenshots/`.
+Real captures (iPhone 17 Pro simulator), sorted by screen/state of the user journey, light and dark theme side by side. Paths relative to `screenshots/`.
 
 ## 1 · Onboarding
 
-Premier lancement, avant toute autorisation caméra (`OnboardingView`).
+First launch, before any camera authorization (`OnboardingView`).
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Onboarding clair](screenshots/onboarding-light.png) | ![Onboarding sombre](screenshots/onboarding-dark.png) |
+| ![Onboarding light](screenshots/onboarding-light.png) | ![Onboarding dark](screenshots/onboarding-dark.png) |
 
 ## 2 · Scanner
 
-Onglet par défaut au lancement suivant (`ScannerScreenView`). Un seul écran, plusieurs états superposés selon `model.banner` et `showsKeypad`.
+Default tab on every subsequent launch (`ScannerScreenView`). A single screen, several states overlaid depending on `model.banner` and `showsKeypad`.
 
-### 2.1 — Repos (pas de bannière, pavé fermé)
+### 2.1 — Idle (no banner, keypad closed)
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Scanner repos clair](screenshots/scanner-idle-light.png) | ![Scanner repos sombre](screenshots/scanner-idle-dark.png) |
+| ![Scanner idle light](screenshots/scanner-idle-light.png) | ![Scanner idle dark](screenshots/scanner-idle-dark.png) |
 
-### 2.2 — Pavé numérique ouvert, champ vide
+### 2.2 — Keypad open, empty field
 
-`FSBarcodeField` affiche un exemple de code en placeholder ; le bouton « Chercher ce produit » reste désactivé (opacité réduite) tant qu'aucun code n'est saisi.
+`FSBarcodeField` shows a sample code as a placeholder; the "Chercher ce produit" button stays disabled (reduced opacity) until a code is entered.
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Pavé vide clair](screenshots/scanner-keypad-empty-light.png) | ![Pavé vide sombre](screenshots/scanner-keypad-empty-dark.png) |
+| ![Empty keypad light](screenshots/scanner-keypad-empty-light.png) | ![Empty keypad dark](screenshots/scanner-keypad-empty-dark.png) |
 
-### 2.3 — Pavé numérique, code invalide
+### 2.3 — Keypad, invalid code
 
-Code trop court (`65558`) : bouton d'effacement (×) dans le champ, message d'erreur inline (icône + texte accent) : « Un code-barres compte entre 8 et 14 chiffres. »
+Code too short (`65558`): clear button (×) inside the field, inline error message (icon + accent-colored text): "Un code-barres compte entre 8 et 14 chiffres." ("A barcode is between 8 and 14 digits.")
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Pavé invalide clair](screenshots/scanner-keypad-invalid-light.png) | ![Pavé invalide sombre](screenshots/scanner-keypad-invalid-dark.png) |
+| ![Invalid keypad light](screenshots/scanner-keypad-invalid-light.png) | ![Invalid keypad dark](screenshots/scanner-keypad-invalid-dark.png) |
 
-### 2.4 — Pavé numérique, champ actif + bannière « introuvable »
+### 2.4 — Keypad, focused field + "not found" banner
 
-Champ avec le focus (liseré épaissi + curseur), superposé à la bannière `FSScanStatusBanner(.notFound)` du scan précédent.
+Field with focus (thickened border + cursor), overlaid on the `FSScanStatusBanner(.notFound)` banner left over from the previous scan.
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Pavé focus clair](screenshots/scanner-keypad-focused-light.png) | ![Pavé focus sombre](screenshots/scanner-keypad-focused-dark.png) |
+| ![Focused keypad light](screenshots/scanner-keypad-focused-light.png) | ![Focused keypad dark](screenshots/scanner-keypad-focused-dark.png) |
 
-### 2.5 — Bannière « produit introuvable »
+### 2.5 — "Product not found" banner
 
-`FSScanStatusBanner(.notFound)` — pastille orange « ? », liseré accent. « Ce code n'existe pas encore dans la base. Vous pouvez l'ajouter. »
+`FSScanStatusBanner(.notFound)` — orange "?" badge, accent-colored border. "Ce code n'existe pas encore dans la base. Vous pouvez l'ajouter." ("This code isn't in the database yet. You can add it.")
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Introuvable clair](screenshots/scanner-notfound-light.png) | ![Introuvable sombre](screenshots/scanner-notfound-dark.png) |
+| ![Not found light](screenshots/scanner-notfound-light.png) | ![Not found dark](screenshots/scanner-notfound-dark.png) |
 
-### 2.6 — Bannière « produit trouvé »
+### 2.6 — "Product found" banner
 
-`FSScanStatusBanner(.found)` — pastille verte ✓, liseré `fsLeaf`. Tapable pour ouvrir la fiche produit.
+`FSScanStatusBanner(.found)` — green ✓ badge, `fsLeaf` border. Tappable to open the product detail screen.
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Trouvé clair](screenshots/scanner-found-light.png) | ![Trouvé sombre](screenshots/scanner-found-dark.png) |
+| ![Found light](screenshots/scanner-found-light.png) | ![Found dark](screenshots/scanner-found-dark.png) |
 
-## 3 · Fiche produit (Nutriments)
+## 3 · Product detail (Nutriments)
 
-Poussée depuis le Scanner ou l'Historique (`ProductDetailScreenView`). Deux captures par thème : le haut de l'écran, puis le bas après défilement (`FSSceneFooter(.laboratory)`, sous la barre d'onglets flottante).
+Pushed from the Scanner or History tab (`ProductDetailScreenView`). Two captures per theme: the top of the screen, then the bottom after scrolling (`FSSceneFooter(.laboratory)`, under the floating tab bar).
 
-### 3.1 — Haut : carte produit, échelle Nutri-Score, nutriments
+### 3.1 — Top: product card, Nutri-Score scale, nutrients
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Fiche produit haut clair](screenshots/product-detail-light-top.png) | ![Fiche produit haut sombre](screenshots/product-detail-dark-top.png) |
+| ![Product detail top, light](screenshots/product-detail-light-top.png) | ![Product detail top, dark](screenshots/product-detail-dark-top.png) |
 
-### 3.2 — Bas : saynète laboratoire + légende
+### 3.2 — Bottom: laboratory scene + caption
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Fiche produit bas clair](screenshots/product-detail-light-footer.png) | ![Fiche produit bas sombre](screenshots/product-detail-dark-footer.png) |
+| ![Product detail bottom, light](screenshots/product-detail-light-footer.png) | ![Product detail bottom, dark](screenshots/product-detail-dark-footer.png) |
 
-## 4 · Historique
+## 4 · History
 
-`HistoryScreenView` — liste des produits déjà consultés + `FSSceneFooter(.picnic)`.
+`HistoryScreenView` — list of already-viewed products + `FSSceneFooter(.picnic)`.
 
-### 4.1 — Vide
+### 4.1 — Empty
 
-| Clair |
+| Light |
 |---|
-| ![Historique vide](screenshots/history-empty.png) |
+| ![Empty history](screenshots/history-empty.png) |
 
-### 4.2 — Avec un produit consulté
+### 4.2 — With a viewed product
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Historique clair](screenshots/history-list-light.png) | ![Historique sombre](screenshots/history-list-dark.png) |
+| ![History light](screenshots/history-list-light.png) | ![History dark](screenshots/history-list-dark.png) |
 
-## 5 · Réglages
+## 5 · Settings
 
-`SettingsScreenView` — contraste (statut système lecture seule), réduction des animations, taille du texte.
+`SettingsScreenView` — contrast (read-only system status), reduce animations, text size.
 
-| Clair | Sombre |
+| Light | Dark |
 |---|---|
-| ![Réglages clair](screenshots/settings-light.png) | ![Réglages sombre](screenshots/settings-dark.png) |
+| ![Settings light](screenshots/settings-light.png) | ![Settings dark](screenshots/settings-dark.png) |
 
 ---
 
-`screenshots/settings-accessibility.png` (09/02) n'est pas repris ci-dessus : il montre une ancienne version de l'écran où « Contraste élevé » était un interrupteur actionnable, ce qui ne correspond plus au code actuel (statut système en lecture seule, voir §5). À supprimer ou reprendre si une nouvelle capture est faite dans cet état.
+`screenshots/settings-accessibility.png` (09/02) is not included above: it shows an older version of the screen where "Contraste élevé" was an actionable toggle, which no longer matches the current code (read-only system status, see §5). Remove it, or replace it if a new capture is taken in that state.
