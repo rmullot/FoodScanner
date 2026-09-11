@@ -36,11 +36,11 @@ public enum FSMetrics {
     /// 72 pt — comfortable ceiling for an adaptive keypad key; it grows from the
     /// 44 pt touch-target floor up to this before stopping.
     public static let keypadKeyMaxHeight: CGFloat = 72
-    /// 172 pt — shortest usable keypad region: 2 key rows at the 44 pt floor + 1
-    /// gap + the validate button (`controlHeight`) + its top gap. Consumers must
-    /// offer `FSKeypad` at least this much height.
+    /// 284 pt — shortest usable keypad region: the real 4 key rows at the 44 pt
+    /// floor + 3 inter-row gaps + the validate button (`controlHeight`) + its top
+    /// gap. Consumers must offer `FSKeypad` at least this much height.
     public static let keypadMinRegionHeight: CGFloat =
-        minTouchTarget * 2 + space3 + controlHeight + space3
+        minTouchTarget * 4 + space3 * 3 + controlHeight + space3
     /// 420 pt — keypad width ceiling so keys stay phone-proportioned on iPad / wide panes.
     public static let keypadMaxWidth: CGFloat = 420
 

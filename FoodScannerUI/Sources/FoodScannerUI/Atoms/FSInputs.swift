@@ -119,6 +119,7 @@ public struct FSKeypad: View {
 
             FSButton(FSL10n.Keypad.submitButton, systemImage: FSSymbol.search, action: onValidate)
                 .disabled(code.count < 8)
+                .lineLimit(1)
                 .accessibilityIdentifier("keypad.validate")
         }
         .frame(maxWidth: FSMetrics.keypadMaxWidth)
