@@ -83,9 +83,3 @@ final class ParserManagerTests: XCTestCase {
         }
     }
 }
-
-extension ParserError: Equatable {
-    public static func == (lhs: ParserError, rhs: ParserError) -> Bool {
-        String(describing: lhs) == String(describing: rhs)
-    }
-}
