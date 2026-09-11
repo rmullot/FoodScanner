@@ -75,7 +75,11 @@ final class ReachabilityFake: ReachabilityProviding {
 /// `NetworkActivityTracking` spy counting balance of start/finish calls.
 @MainActor
 final class NetworkActivitySpy: NetworkActivityTracking {
-    private(set) var isActive: Bool = false
+    private let isActiveSubject = CurrentValueSubject<Bool, Never>(false)
+    var isActivePublisher: AnyPublisher<Bool, Never> { isActiveSubject.eraseToAnyPublisher() }
+    private(set) var isActive: Bool = false {
+        didSet { isActiveSubject.send(isActive) }
+    }
     private(set) var startCount = 0
     private(set) var finishCount = 0
     private(set) var disableCount = 0

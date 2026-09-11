@@ -8,7 +8,7 @@ FoodScanner is an iOS app (Swift, SwiftUI) that scans a product barcode (or acce
 
 - Deployment target: **iOS 17.0**. View models still use `ObservableObject` / `@Published`; migrating them to `@Observable` is deferred (`memory_feature.md`).
 - Dependencies via **Swift Package Manager**. Local package **FoodScannerUI** is the design system (tokens, atoms, molecules); every screen imports it.
-- App root is a `UITabBarController` (`RootTabBarController`) hosting three `UIHostingController` tabs — a UIKit bridge left from the old iOS 16 floor; replacing it with a SwiftUI `TabView` is tracked in `memory_feature.md`. Each hosting controller hosts its screen directly; every screen owns its own `NavigationStack` (no `UINavigationController` wrapper).
+- App uses the SwiftUI lifecycle: `FoodScannerApp` (`@main`, `App`) → `RootView`, a pure SwiftUI `TabView` with three tabs. No `AppDelegate`/`SceneDelegate`. `RootView` applies `appWideAccessibilitySettings()` and hosts the first-launch onboarding `.fullScreenCover`. Navigation is per-flow: the Scanner tab runs through a `Coordinator` + `Router` (`FoodScanner/View/Coordinator/`) that owns the `NavigationStack` path; History still owns a local `NavigationPath`. No `UINavigationController` anywhere.
 - Concurrency is `async`/`await` + actors. No GCD / completion handlers in the Managers layer.
 
 ## Backlog memory files
@@ -44,12 +44,13 @@ Each screen has an `ObservableObject` view model `<Screen>ViewModel` (`@Publishe
 
 ### View (`FoodScanner/View/`, one folder per tab/screen)
 
-- `Scanner/` — `ScannerScreenView` (AVFoundation capture via `CameraPreviewView`, `FSBarcodeField` / `FSKeypad` manual entry) + `ScannerViewModel`.
+- `Scanner/` — `ScannerScreenView` (AVFoundation capture via `CameraPreviewView`, `FSBarcodeField` / `FSKeypad` manual entry) + `ScannerViewModel`. Coordinator-agnostic: it takes its VM plus an `onProductFound` closure; the `NavigationStack` and destination live in `ScannerCoordinatorView`.
+- `Coordinator/` — `Router<Route>` (owns a typed nav stack), `Coordinator` protocol, `ScannerCoordinator` + `ScannerCoordinatorView` (build the Scanner flow's screens/VMs, translate intents to `router.push`). Views never reference these types.
 - `FoodDetail/` — `ProductDetailScreenView` (`FSProductCard`, `FSNutrientRow`) + `FoodDetailViewModel`, shared by the Scanner and History tabs.
 - `History/` — `HistoryScreenView` (`FSHistoryRow`, `FSOfflineBanner`, `FSSceneFooter`) + `HistoryViewModel`. `FSHistoryRow` owns its `Button` (takes an `action` closure), so navigation is a `NavigationStack(path:)` bound to a local `NavigationPath` the row appends to — not a `NavigationLink`.
 - `Settings/` — `SettingsScreenView` (`FSToggleRow`, `FSStatusRow`, `FSTextSizeSlider`, `@AppStorage`-backed) + `SettingsViewModel` (mirrors live system accessibility state via injected `SystemAccessibilityProviding`; system-imposed settings render as read-only `FSStatusRow`s).
-- `Onboarding/OnboardingView.swift` — first-launch permissions screen, a `.fullScreenCover` from the root.
-- `RootTabBarController.swift` — the only UIKit view controller.
+- `Onboarding/OnboardingView.swift` — first-launch permissions screen, a `.fullScreenCover` from `RootView`.
+- `RootView.swift` — the SwiftUI `TabView` root (lives in `FoodScanner/`, next to `FoodScannerApp.swift`).
 
 ### Model (`FoodScanner/Model/`)
 
@@ -115,7 +116,7 @@ Enforced design rules, audited on every screen change:
 
 ## Agents
 
-- `mvvmc-architecture-orchestrator` — entry point for any non-trivial feature/refactor. Referent for MVVM-C + DI, testability, TDD/SOLID/Clean Architecture, design-system compliance. Plans and delegates (to `swiftui-uikit-engineer`, the reviewers, `test-suite-engineer`). Converges touched code toward MVVM-C + DI; doesn't mass-migrate unprompted (no Coordinator layer yet).
+- `mvvmc-architecture-orchestrator` — entry point for any non-trivial feature/refactor. Referent for MVVM-C + DI, testability, TDD/SOLID/Clean Architecture, design-system compliance. Plans and delegates (to `swiftui-uikit-engineer`, the reviewers, `test-suite-engineer`). Converges touched code toward MVVM-C + DI; doesn't mass-migrate unprompted. Coordinator + `Router` layer exists for the Scanner flow (`FoodScanner/View/Coordinator/`); History/Settings not yet migrated.
 - `swiftui-uikit-engineer` — implements/consumes the design system inside app screens. Fine to call directly for a small self-contained visual change; it self-audits with the reviewers below before concluding.
 - `design-system-engineer` — builds/extends the **package itself** (tokens/atoms/molecules), choosing SwiftUI/UIKit/Metal per component; also owns brand identity (app icon in `FoodScanner/Assets.xcassets/AppIcon.appiconset/` — every size, no alpha, no baked corners) and flags stale App Store screenshots.
 - `design-system-reviewer` — read-only audit of consumer code vs. the package + Apple HIG + supported iOS/device range.

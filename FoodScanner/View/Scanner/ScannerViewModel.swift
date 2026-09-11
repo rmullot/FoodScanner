@@ -17,24 +17,34 @@ final class ScannerViewModel: ObservableObject {
     @Published var banner: FSScanStatusBanner.State?
     @Published var lampActivated: Bool = false
     @Published private(set) var scannedFood: FoodStruct?
+    @Published private(set) var isNetworkActive: Bool = false
 
     private var barcode: String = ""
     private var food: FoodStruct?
 
     private let webService: WebServiceProviding
     private let reachability: ReachabilityProviding
+    private let networkActivity: NetworkActivityTracking
     private var reachabilityCancellable: AnyCancellable?
+    private var networkActivityCancellable: AnyCancellable?
 
     init(webService: WebServiceProviding? = nil,
-         reachability: ReachabilityProviding? = nil) {
+         reachability: ReachabilityProviding? = nil,
+         networkActivity: NetworkActivityTracking? = nil) {
         self.webService = webService ?? InjectionManager.shared.webService
         self.reachability = reachability ?? InjectionManager.shared.reachability
+        self.networkActivity = networkActivity ?? InjectionManager.shared.networkActivity
         let reachability = self.reachability
         reachabilityCancellable = reachability.onlineModePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] onlineMode in
                 guard onlineMode == .offline else { return }
                 self?.banner = .offline
+            }
+        networkActivityCancellable = self.networkActivity.isActivePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isActive in
+                self?.isNetworkActive = isActive
             }
     }
 

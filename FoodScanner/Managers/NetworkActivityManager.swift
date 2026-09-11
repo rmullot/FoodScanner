@@ -6,12 +6,15 @@
 //  Copyright © 2018 Romain Mullot. All rights reserved.
 //
 
+import Combine
 import Foundation
 
 @MainActor
 public final class NetworkActivityManager: ObservableObject, NetworkActivityTracking {
 
     @Published private(set) var isActive: Bool = false
+
+    var isActivePublisher: AnyPublisher<Bool, Never> { $isActive.eraseToAnyPublisher() }
 
     private var countRequest: Int = 0
 

@@ -29,6 +29,7 @@ protocol ReachabilityProviding: AnyObject {
 @MainActor
 protocol NetworkActivityTracking: AnyObject, Sendable {
     var isActive: Bool { get }
+    var isActivePublisher: AnyPublisher<Bool, Never> { get }
     @discardableResult func newRequestStarted() -> Int
     @discardableResult func requestFinished() -> Int
     func disableActivityIndicator()
