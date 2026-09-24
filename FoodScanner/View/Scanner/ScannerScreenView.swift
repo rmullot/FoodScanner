@@ -12,6 +12,8 @@ import FoodScannerUI
 struct ScannerScreenView: View {
     @ObservedObject private var model: ScannerViewModel
     private let onProductFound: (FoodStruct) -> Void
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @State private var code: String = ""
     @State private var showsKeypad: Bool = false
     @State private var cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
@@ -21,7 +23,46 @@ struct ScannerScreenView: View {
         self.onProductFound = onProductFound
     }
 
+    private var layout: ScannerLayout {
+        ScannerLayout(horizontalSizeClass: horizontalSizeClass, verticalSizeClass: verticalSizeClass)
+    }
+
     var body: some View {
+        GeometryReader { proxy in
+            if layout.isSideBySide {
+                HStack(spacing: 0) {
+                    cameraArea
+                    inputPanel(containerHeight: proxy.size.height)
+                        .frame(maxWidth: FSMetrics.keypadMaxWidth + FSMetrics.space10 * 2)
+                        .frame(maxHeight: .infinity, alignment: .bottom)
+                }
+            } else {
+                cameraArea
+                    .overlay(alignment: .bottom) {
+                        inputPanel(containerHeight: proxy.size.height)
+                    }
+            }
+        }
+        .navigationTitle(L10n.Common.tabScanner)
+        .navigationBarTitleDisplayMode(.large)
+        .onChange(of: model.banner) { _, newBanner in
+            if case .found = newBanner {
+                UIAccessibility.post(notification: .announcement,
+                                      argument: L10n.Scanner.productFoundAnnouncement)
+            }
+        }
+        .onDisappear {
+            model.forceSwitchOffLamp()
+        }
+        .onAppear {
+            updateCameraAuthorizationStatus()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            updateCameraAuthorizationStatus()
+        }
+    }
+
+    private var cameraArea: some View {
         ZStack(alignment: .top) {
             if cameraAuthorizationStatus == .authorized {
                 CameraPreviewView { barcode in
@@ -49,73 +90,59 @@ struct ScannerScreenView: View {
                     .padding(.horizontal, FSMetrics.space3)
                     .padding(.top, FSMetrics.space3)
             }
+        }
+    }
 
-            GeometryReader { proxy in
-                VStack {
-                    Spacer()
+    private func inputPanel(containerHeight: CGFloat) -> some View {
+        ViewThatFits(in: .vertical) {
+            panelBody(containerHeight: containerHeight)
+            ScrollView { panelBody(containerHeight: containerHeight) }
+        }
+    }
 
-                    VStack(spacing: 0) {
-                        ZStack {
-                            if showsKeypad {
-                                ScrollView {
-                                    VStack(spacing: FSMetrics.space3) {
-                                        FSBarcodeField(code: $code)
+    private func panelBody(containerHeight: CGFloat) -> some View {
+        VStack(spacing: 0) {
+            ZStack {
+                if showsKeypad {
+                    ScrollView {
+                        VStack(spacing: FSMetrics.space3) {
+                            FSBarcodeField(code: $code)
 
-                                        FSKeypad(code: $code) {
-                                            model.getFoodInformations(barcode: code)
-                                        }
-                                        .frame(height: max(FSMetrics.keypadMinRegionHeight, proxy.size.height * 0.45))
-                                    }
-                                    .padding(.horizontal, FSMetrics.space2)
-                                    .padding(.bottom, FSMetrics.space3)
-                                }
-                                .frame(maxHeight: proxy.size.height * 0.75)
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                            FSKeypad(code: $code) {
+                                model.getFoodInformations(barcode: code)
                             }
+                            .frame(height: layout.keypadHeight(containerHeight: containerHeight))
                         }
-                        .clipped()
-
-                        HStack {
-                            FSButton(showsKeypad ? L10n.Scanner.hideKeypadButton : L10n.Scanner.showKeypadButton,
-                                     role: .quiet,
-                                     systemImage: SFSymbol.keypad) {
-                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                                                 to: nil, from: nil, for: nil)
-                                showsKeypad.toggle()
-                            }
-                            .accessibilityIdentifier("scanner.toggleKeypad")
-                            FSIconButton(systemImage: model.lampActivated ? SFSymbol.flashlightOn : SFSymbol.flashlightOff,
-                                         label: model.lampActivated ? L10n.Scanner.lampOffLabel : L10n.Scanner.lampOnLabel) {
-                                model.toggleLamp()
-                            }
-                        }
-                        .background(Color.fsSurface)
+                        .padding(.horizontal, FSMetrics.space2)
+                        .padding(.bottom, FSMetrics.space3)
                     }
-                    .appAnimation(.easeInOut, value: showsKeypad)
-                    .padding(FSMetrics.space4)
-                    .fsCard(radius: FSMetrics.radiusLarge)
-                    .padding(.horizontal, FSMetrics.space3)
-                    .padding(.bottom, FSMetrics.space4)
+                    .frame(maxHeight: layout.panelMaxHeight(containerHeight: containerHeight))
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
-        }
-        .navigationTitle(L10n.Common.tabScanner)
-        .navigationBarTitleDisplayMode(.large)
-        .onChange(of: model.banner) { _, newBanner in
-            if case .found = newBanner {
-                UIAccessibility.post(notification: .announcement,
-                                      argument: L10n.Scanner.productFoundAnnouncement)
+            .clipped()
+
+            HStack {
+                FSButton(showsKeypad ? L10n.Scanner.hideKeypadButton : L10n.Scanner.showKeypadButton,
+                         role: .quiet,
+                         systemImage: SFSymbol.keypad) {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                     to: nil, from: nil, for: nil)
+                    showsKeypad.toggle()
+                }
+                .accessibilityIdentifier("scanner.toggleKeypad")
+                FSIconButton(systemImage: model.lampActivated ? SFSymbol.flashlightOn : SFSymbol.flashlightOff,
+                             label: model.lampActivated ? L10n.Scanner.lampOffLabel : L10n.Scanner.lampOnLabel) {
+                    model.toggleLamp()
+                }
             }
+            .background(Color.fsSurface)
         }
-        .onDisappear {
-            model.forceSwitchOffLamp()
-        }
-        .onAppear {
-            updateCameraAuthorizationStatus()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-            updateCameraAuthorizationStatus()
-        }
+        .appAnimation(.easeInOut, value: showsKeypad)
+        .padding(FSMetrics.space4)
+        .fsCard(radius: FSMetrics.radiusLarge)
+        .padding(.horizontal, FSMetrics.space3)
+        .padding(.bottom, FSMetrics.space4)
     }
 
     private func onFoundTap(for banner: FSScanStatusBanner.State) -> (() -> Void)? {
@@ -177,6 +204,13 @@ struct ScannerScreenView: View {
         ScannerScreenView(model: ScannerViewModel(), onProductFound: { _ in })
     }
     .preferredColorScheme(.dark)
+}
+
+#Preview("iPad paysage", traits: .landscapeLeft) {
+    NavigationStack {
+        ScannerScreenView(model: ScannerViewModel(), onProductFound: { _ in })
+    }
+    .environment(\.horizontalSizeClass, .regular)
 }
 
 #Preview("Accessibilité XL") {

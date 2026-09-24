@@ -12,21 +12,66 @@ import FoodScannerUI
 struct HistoryScreenView: View {
     @StateObject private var model = HistoryViewModel()
     @State private var path = NavigationPath()
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
+        Group {
+            if horizontalSizeClass == .regular {
+                splitView
+            } else {
+                stackView
+            }
+        }
+        .onChange(of: horizontalSizeClass) { _, _ in
+            path = NavigationPath()
+            model.selectedBarcode = nil
+        }
+    }
+
+    private var stackView: some View {
         NavigationStack(path: $path) {
-            HistoryListContent(items: model.items,
-                                isOffline: model.isOffline,
-                                onSelect: { path.append($0) })
-                .navigationTitle(L10n.Common.tabHistory)
-                .navigationBarTitleDisplayMode(.large)
+            list(onSelect: { path.append($0) })
                 .navigationDestination(for: String.self) { barcode in
-                    HistoryDetailLoader(barcode: barcode)
-                }
-                .task {
-                    await model.load()
+                    HistoryDetailLoader(barcode: barcode, model: model)
                 }
         }
+    }
+
+    private var splitView: some View {
+        NavigationSplitView {
+            list(onSelect: {
+                model.selectedBarcode = $0
+                UIAccessibility.post(notification: .screenChanged, argument: nil)
+            })
+        } detail: {
+            if let barcode = model.selectedBarcode {
+                NavigationStack {
+                    HistoryDetailLoader(barcode: barcode, model: model)
+                }
+                .id(barcode)
+            } else {
+                Text(L10n.History.selectPlaceholder)
+                    .font(.fsBody)
+                    .foregroundStyle(Color.fsInkSecondary)
+                    .multilineTextAlignment(.center)
+                    .padding(FSMetrics.space6)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.fsBackground)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityIdentifier("history.detailPlaceholder")
+            }
+        }
+    }
+
+    private func list(onSelect: @escaping (String) -> Void) -> some View {
+        HistoryListContent(items: model.items,
+                           isOffline: model.isOffline,
+                           onSelect: onSelect)
+            .navigationTitle(L10n.Common.tabHistory)
+            .navigationBarTitleDisplayMode(.large)
+            .task {
+                await model.load()
+            }
     }
 }
 
@@ -60,6 +105,7 @@ private struct HistoryListContent: View {
                 FSSceneFooter(.picnic, caption: L10n.History.footerCaption)
             }
             .padding(FSMetrics.space5)
+            .fsReadableContentWidth()
         }
         .background(Color.fsBackground)
     }
@@ -74,6 +120,7 @@ private struct HistoryListContent: View {
 
 private struct HistoryDetailLoader: View {
     let barcode: String
+    let model: HistoryViewModel
     @State private var food: FoodStruct?
 
     var body: some View {
@@ -83,7 +130,7 @@ private struct HistoryDetailLoader: View {
             } else {
                 ProgressView()
                     .task {
-                        food = await InjectionManager.shared.cacheManager.food(barcode: barcode)
+                        food = await model.food(barcode: barcode)
                     }
             }
         }
@@ -129,4 +176,9 @@ private extension Array where Element == FoodSummary {
             .navigationTitle("Historique")
     }
     .environment(\.dynamicTypeSize, .accessibility5)
+}
+
+#Preview("iPad", traits: .landscapeLeft) {
+    HistoryScreenView()
+        .environment(\.horizontalSizeClass, .regular)
 }

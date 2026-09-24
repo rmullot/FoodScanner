@@ -51,8 +51,7 @@ struct SettingsScreenView: View {
                     }
                 }
                 .padding(FSMetrics.space5)
-                .frame(maxWidth: 640, alignment: .leading)
-                .frame(maxWidth: .infinity)
+                .fsReadableContentWidth()
             }
             .background(Color.fsBackground)
             .navigationTitle(L10n.Common.tabSettings)

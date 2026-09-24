@@ -14,11 +14,11 @@ Running backlog of still-open design-system points. Remove an entry the same cha
 - Fix: expose a single `Equatable` accessibility snapshot + a composed announcement string on `SettingsViewModel`; observe that one value in the view and announce once. Touches the VM contract + `SettingsViewModelTests`, so out of scope for the initial fix.
 - Surfaced by: design-system-reviewer + rgaa-accessibility-reviewer during the Settings accessibility rework.
 
-### No readable-width container modifier
-FoodScannerUI has no `fsReadableWidth()` equivalent, so full-width SwiftUI screens (Settings, History, Product detail) stretch edge-to-edge on iPad / iPad Split View / large landscape.
-- Affected: all app screens built on `ScrollView` + `VStack`
-- Fix: add a `fsReadableContentWidth()` view modifier to the package (max content width + centering, tuned to the type sizes) and apply it at each screen root.
-- Surfaced by: design-system-reviewer during the Settings accessibility rework.
+### iPhone Duo APIs (ReservedRegion, ArrangementView) not adopted yet
+The HIG iPhone Duo page (`designing-for-iphone-duo`) and the developer article `TechnologyOverviews/preparing-your-app-for-iphone-duo` recommend `ReservedRegion` (keep custom content clear of the fold / cameras) and `ArrangementView` for two-pane layouts. Both are iOS/iPadOS 27.1+; local Xcode is 27.0 with no Duo simulator, and the deployment target is 17.0.
+- Affected: `FoodScanner/View/Scanner/ScannerScreenView.swift` (camera + keypad layout), History master/detail
+- Fix: once an Xcode with the 27.1 SDK is installed, adopt them behind `#available(iOS 27.1, *)` with the size-class layout as fallback; use `toolbarVerticalEdge` / `ToolbarItemPlacement` / `visibilityPriority` for bars; test with Device Hub. Read pages via `apple-docs-referent` (`tutorials/data/...md`).
+- Surfaced by: iPhone Duo adaptive-layout planning.
 
 ### FSKeypad disabled submit button lacks an accessibilityHint / enable announcement
 Since the `FSBarcodeField` / `FSKeypad` submit-button merge, the keypad's bottom button ("Chercher ce produit", `keypad.validate`) is the only manual-entry submit path. While `code.count < 8` it is disabled with no `accessibilityHint` explaining the 8–14 digit requirement, and VoiceOver gets no announcement when `code` crosses 8 digits and the button becomes enabled.

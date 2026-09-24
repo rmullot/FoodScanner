@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB01D2000000000000000120 /* FSMetricsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000120 /* FSMetricsTests.swift */; };
+		AB01D2000000000000000110 /* ToolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000110 /* ToolTests.swift */; };
+		AB01D2000000000000000100 /* ScannerLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01D1000000000000000100 /* ScannerLayoutTests.swift */; };
 		02AC261C2FEAC60F00CF77F7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02AC261B2FEAC60F00CF77F7 /* RealmSwift */; };
 		1A2B3C4D5E6F70810A0B0C0E /* AppAccessibilitySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F70810A0B0C0D /* AppAccessibilitySettings.swift */; };
 		1A55461E8D884A0BA28F49C8 /* RealmEncryptionKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960EDA4ECFE467ABE60120E /* RealmEncryptionKeyStore.swift */; };
@@ -74,6 +77,7 @@
 		BB0000000000000000000102 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000002 /* ScannerCoordinator.swift */; };
 		BBA88B8B807B4348960CC011 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06667DA213DC407D8E0DF274 /* ImageCacheManager.swift */; };
 		C407742B11E3444880CC7A75 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06084189CE5046A49038D59D /* SettingsViewModel.swift */; };
+		A1B2C3D4E5F60718293A4B5C /* ScannerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5D /* ScannerLayout.swift */; };
 		C922D834B6DD4A49908DE920 /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7329399F6A440119FD25897 /* ScannerViewModel.swift */; };
 		D07F6AB48F824DF7A776105E /* HistoryScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418184FDD1664094BD0269A0 /* HistoryScreenView.swift */; };
 		EC3EC6D58008461791D16F1B /* FoodDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C365AC362849B4AE26DAEC /* FoodDetailViewModel.swift */; };
@@ -110,6 +114,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AB01D1000000000000000120 /* FSMetricsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSMetricsTests.swift; sourceTree = "<group>"; };
+		AB01D1000000000000000110 /* ToolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTests.swift; sourceTree = "<group>"; };
+		AB01D1000000000000000100 /* ScannerLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLayoutTests.swift; sourceTree = "<group>"; };
 		02AC26322FEAE55300CF77F7 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = SOURCE_ROOT; };
 		9902F990482F9C500DB78EE3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		02AC26352FEAE5A500CF77F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -232,6 +239,7 @@
 		BB0000000000000000000001 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		BB0000000000000000000002 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
 		C18BBBB14FFC4E9B8F44E790 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5D /* ScannerLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLayout.swift; sourceTree = "<group>"; };
 		D7329399F6A440119FD25897 /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
 		E7F832218EDE4F63B73BE442 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -261,6 +269,7 @@
 		357298BD515C4C7DABDB35C6 /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
+				A1B2C3D4E5F60718293A4B5D /* ScannerLayout.swift */,
 				D7329399F6A440119FD25897 /* ScannerViewModel.swift */,
 				0FFFC98B96294C96A944752B /* ScannerScreenView.swift */,
 				C18BBBB14FFC4E9B8F44E790 /* CameraPreviewView.swift */,
@@ -396,6 +405,9 @@
 				9E01D100000000000000000A /* ErrorManagerTests.swift */,
 				9E01D100000000000000000B /* CacheManagerTests.swift */,
 				AB01D1000000000000000001 /* RouterTests.swift */,
+				AB01D1000000000000000120 /* FSMetricsTests.swift */,
+				AB01D1000000000000000110 /* ToolTests.swift */,
+				AB01D1000000000000000100 /* ScannerLayoutTests.swift */,
 				AB01D1000000000000000002 /* ScannerCoordinatorTests.swift */,
 				AB01D1000000000000000003 /* ScannerViewModelNetworkActivityTests.swift */,
 				AB01D1000000000000000004 /* AppAccessibilitySettingsTests.swift */,
@@ -875,6 +887,7 @@
 				AA0000000000000000000201 /* SFSymbols.swift in Sources */,
 				BB0000000000000000000101 /* Router.swift in Sources */,
 				BB0000000000000000000102 /* ScannerCoordinator.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5C /* ScannerLayout.swift in Sources */,
 				C922D834B6DD4A49908DE920 /* ScannerViewModel.swift in Sources */,
 				1FCAF1D4268E4FD3ABD64867 /* ScannerScreenView.swift in Sources */,
 				F86F313518C64D86A2D95815 /* CameraPreviewView.swift in Sources */,
@@ -903,6 +916,9 @@
 				9E01D200000000000000000A /* ErrorManagerTests.swift in Sources */,
 				9E01D200000000000000000B /* CacheManagerTests.swift in Sources */,
 				AB01D2000000000000000001 /* RouterTests.swift in Sources */,
+				AB01D2000000000000000120 /* FSMetricsTests.swift in Sources */,
+				AB01D2000000000000000110 /* ToolTests.swift in Sources */,
+				AB01D2000000000000000100 /* ScannerLayoutTests.swift in Sources */,
 				AB01D2000000000000000002 /* ScannerCoordinatorTests.swift in Sources */,
 				AB01D2000000000000000003 /* ScannerViewModelNetworkActivityTests.swift in Sources */,
 				AB01D2000000000000000004 /* AppAccessibilitySettingsTests.swift in Sources */,

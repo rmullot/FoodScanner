@@ -16,6 +16,9 @@ Project-level (`.claude/agents/`):
 - **test-suite-engineer** — writes unit/UI/performance tests after implementation is green; never touches production code.
 - **localization-engineer** — maintains the app's and package's two independent localization layers.
 - **technical-debt-migration-orchestrator** — all technical-debt work, 5 strictly sequential phases with human validation between them.
+- **apple-docs-referent** — read-only referent for Apple's HIG and developer documentation, read as Markdown via the `tutorials/data/<path>.md` URL rewrite; consulted by the orchestrator, the engineers and the design-system reviewer.
+
+Apple-authored skills (`.claude/skills/`, exported via `xcrun agent skills export`): `swiftui-specialist`, `swiftui-whats-new-27`, `uikit-app-modernization`, `device-interaction`.
 
 Account-level (`~/.claude/agents/`, relevant to this project):
 

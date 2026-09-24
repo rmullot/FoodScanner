@@ -60,4 +60,27 @@ final class HistoryViewModelTests: XCTestCase {
 
         XCTAssertTrue(sut.items.isEmpty)
     }
+
+    func test_selectedBarcode_startsNil() {
+        let sut = HistoryViewModel(cacheManager: CacheManagerFake(), reachability: ReachabilityFake())
+
+        XCTAssertNil(sut.selectedBarcode)
+    }
+
+    func test_food_whenCached_returnsFood() async {
+        let food = FoodStruct(barcode: "123", imageURL: "", name: "Produit", lastUpdate: 0, nutriscoreGrade: nil, nutrients: [])
+        let sut = HistoryViewModel(cacheManager: CacheManagerFake(initial: [food]), reachability: ReachabilityFake())
+
+        let result = await sut.food(barcode: "123")
+
+        XCTAssertEqual(result?.barcode, "123")
+    }
+
+    func test_food_whenNotCached_returnsNil() async {
+        let sut = HistoryViewModel(cacheManager: CacheManagerFake(), reachability: ReachabilityFake())
+
+        let result = await sut.food(barcode: "999")
+
+        XCTAssertNil(result)
+    }
 }

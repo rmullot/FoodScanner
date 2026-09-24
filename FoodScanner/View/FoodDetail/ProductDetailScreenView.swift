@@ -43,6 +43,7 @@ struct ProductDetailScreenView: View {
                 FSSceneFooter(.laboratory, caption: L10n.ProductDetail.footerCaption)
             }
             .padding(FSMetrics.space5)
+            .fsReadableContentWidth()
         }
         .background(Color.fsBackground)
         .navigationTitle(L10n.Nutrients.title)

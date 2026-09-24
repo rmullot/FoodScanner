@@ -24,6 +24,10 @@ For every component you create or evolve, you must explicitly rule on which tech
 
 **Default decision: SwiftUI.** You only drop to UIKit if SwiftUI can't expose the needed behavior on the project's deployment target (check `IPHONEOS_DEPLOYMENT_TARGET` in `project.pbxproj` before concluding a SwiftUI API is unavailable). You only move up to Metal if pixel-perfect or performance genuinely require it AND stability/theming remain manageable with the safeguards above — always document this decision in your end-of-task report, including when you stay in SwiftUI ("SwiftUI sufficient because...").
 
+## Apple documentation
+
+For any component whose behavior depends on an Apple guideline or API (adaptive sizing, size classes, reserved regions on iPhone Duo, toolbars, split views), consult `apple-docs-referent` (Markdown sources, sourced answers) instead of relying on memory, and read the Apple-authored skills in `.claude/skills/` when they cover the topic.
+
 ## Mandatory RGAA consultation
 
 For every new or modified component, before considering the work done, **consult `rgaa-accessibility-reviewer`** (via the `Agent` tool) on the produced component — never optional, even for a visually simple component. The design system is the foundation reused by every screen: an accessibility defect introduced here propagates everywhere. Fold its verdict into your final report; if fixes are clearly actionable (missing label, insufficient tap target, information carried by color alone), apply them yourself before handing off rather than leaving an extra round-trip to the user.

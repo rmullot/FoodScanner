@@ -41,6 +41,7 @@
 "history.empty_state" = "Aucun produit consulté pour l'instant.";
 "history.footer_caption" = "Les mascottes gardent un œil sur vos douze derniers produits.";
 "history.subtitle_format" = "Consulté %@";
+"history.select_placeholder" = "Sélectionnez un produit dans l'historique pour afficher son détail.";
 
 // MARK: - Product Detail
 
