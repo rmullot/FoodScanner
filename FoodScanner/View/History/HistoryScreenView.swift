@@ -58,7 +58,7 @@ struct HistoryScreenView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.fsBackground)
                     .accessibilityElement(children: .combine)
-                    .accessibilityIdentifier("history.detailPlaceholder")
+                    .accessibilityIdentifier(.historyDetailPlaceholder)
             }
         }
     }

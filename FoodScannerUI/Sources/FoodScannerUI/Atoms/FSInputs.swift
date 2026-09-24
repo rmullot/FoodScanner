@@ -111,7 +111,7 @@ public struct FSKeypad: View {
             FSButton(FSL10n.Keypad.submitButton, systemImage: FSSymbol.search, action: onValidate)
                 .disabled(code.count < 8)
                 .lineLimit(1)
-                .accessibilityIdentifier("keypad.validate")
+                .fsAccessibilityIdentifier(.keypadValidate)
         }
         .frame(maxWidth: FSMetrics.keypadMaxWidth)
     }
@@ -176,7 +176,7 @@ public struct FSKeypad: View {
         }
         .buttonStyle(FSPressStyle())
         .accessibilityLabel(key == "⌫" ? FSL10n.Keypad.deleteHint : key)
-        .accessibilityIdentifier(key == "⌫" ? "keypad.key.delete" : "keypad.key.\(key)")
+        .fsAccessibilityIdentifier(key == "⌫" ? .keypadKeyDelete : .keypadKey(key))
     }
 }
 

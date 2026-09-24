@@ -36,7 +36,7 @@ struct SettingsScreenView: View {
                         FSTextSizeSlider(scale: $model.textScale)
                             .disabled(model.systemTextSizeIsAtMaximum)
                             .opacity(model.systemTextSizeIsAtMaximum ? 0.4 : 1)
-                            .accessibilityIdentifier("settings.textSizeSlider")
+                            .accessibilityIdentifier(.settingsTextSizeSlider)
                             .accessibilityHint(model.systemTextSizeIsAtMaximum
                                 ? Text(L10n.Settings.textSizeSystemMaximumCaption)
                                 : Text(""))
@@ -88,9 +88,9 @@ struct SettingsScreenView: View {
                         : L10n.Settings.stateDisabled,
                     caption: L10n.Settings.contrastSystemManagedCaption,
                     systemImage: SFSymbol.highContrast,
-                    statusIdentifier: "settings.contrastStatus",
+                    statusIdentifier: AccessibilityID.settingsContrastStatus.identifier,
                     action: (L10n.Settings.openIOSSettings, { openIOSSettings() }),
-                    actionIdentifier: "settings.openIOSSettings")
+                    actionIdentifier: AccessibilityID.settingsOpenIOSSettings.identifier)
     }
 
     @ViewBuilder
@@ -100,13 +100,13 @@ struct SettingsScreenView: View {
                         value: L10n.Settings.stateEnabledSystemManaged,
                         caption: L10n.Settings.reduceAnimationsSystemManagedCaption,
                         systemImage: SFSymbol.reduceMotion,
-                        statusIdentifier: "settings.reduceAnimationsStatus")
+                        statusIdentifier: AccessibilityID.settingsReduceAnimationsStatus.identifier)
         } else {
             FSToggleRow(L10n.Settings.reduceAnimationsTitle,
                         explanation: L10n.Settings.reduceAnimationsExplanation,
                         systemImage: SFSymbol.reduceMotion,
                         isOn: $model.reduceAnimations)
-                .accessibilityIdentifier("settings.reduceAnimationsToggle")
+                .accessibilityIdentifier(.settingsReduceAnimationsToggle)
         }
     }
 

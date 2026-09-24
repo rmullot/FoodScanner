@@ -25,6 +25,7 @@ The Coordinator + `Router` layer (`FoodScanner/View/Coordinator/`) currently dri
 `hasSeenOnboarding` is `@AppStorage`-backed with no launch-argument / launch-environment override, so a UI test cannot force the first-run `.fullScreenCover` on/off deterministically. Existing UI tests just run past it.
 - Affected: `FoodScanner/RootView.swift`, `FoodScannerUITests/`
 - Fix: honour a launch argument (e.g. `-resetOnboarding`) in `RootView`/`FoodScannerApp` to clear the flag, so `test-suite-engineer` can add an onboarding-dismiss journey.
+- Workaround today (manual checks): `xcrun simctl spawn <udid> defaults write com.MULLOTRomainEI.FoodScanner hasSeenOnboarding -bool true`. `ScannerScreenView` now also reads `hasSeenOnboarding` to refresh the camera authorization state when onboarding finishes; revisit if a Coordinator/VM should own that signal.
 - Owner: mvvmc-architecture-orchestrator
 
 ### App runs on the SwiftUI lifecycle with no App/Scene delegate

@@ -13,8 +13,8 @@ import UIKit
 
 @MainActor
 final class SettingsViewModel: ObservableObject {
-    @AppStorage("settings.reduceAnimations") var reduceAnimations: Bool = false
-    @AppStorage("settings.textScale") var textScale: Double = 1.0
+    @AppStorage(.settingsReduceAnimations) var reduceAnimations: Bool = false
+    @AppStorage(.settingsTextScale) var textScale: Double = 1.0
 
     @Published private(set) var systemReduceMotionEnabled: Bool
     @Published private(set) var systemIncreasedContrastEnabled: Bool

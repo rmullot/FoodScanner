@@ -15,7 +15,7 @@ struct RootView: View {
         case settings
     }
 
-    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @AppStorage(.hasSeenOnboarding) private var hasSeenOnboarding = false
     @StateObject private var settingsModel = SettingsViewModel()
     @StateObject private var scannerCoordinator = ScannerCoordinator()
     @State private var selectedTab: Tab = .scanner
@@ -46,17 +46,17 @@ struct RootView: View {
             ScannerCoordinatorView(coordinator: scannerCoordinator)
                 .tabItem { Label(L10n.Common.tabScanner, systemImage: SFSymbol.scannerTab) }
                 .tag(Tab.scanner)
-                .accessibilityIdentifier("tab.scanner")
+                .accessibilityIdentifier(.tabScanner)
 
             HistoryScreenView()
                 .tabItem { Label(L10n.Common.tabHistory, systemImage: SFSymbol.historyTab) }
                 .tag(Tab.history)
-                .accessibilityIdentifier("tab.history")
+                .accessibilityIdentifier(.tabHistory)
 
             SettingsScreenView(model: settingsModel)
                 .tabItem { Label(L10n.Common.tabSettings, systemImage: SFSymbol.settingsTab) }
                 .tag(Tab.settings)
-                .accessibilityIdentifier("tab.settings")
+                .accessibilityIdentifier(.tabSettings)
         }
         .tint(Color.fsAccent)
         .appWideAccessibilitySettings()

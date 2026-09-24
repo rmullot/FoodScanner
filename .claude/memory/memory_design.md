@@ -14,6 +14,12 @@ Running backlog of still-open design-system points. Remove an entry the same cha
 - Fix: expose a single `Equatable` accessibility snapshot + a composed announcement string on `SettingsViewModel`; observe that one value in the view and announce once. Touches the VM contract + `SettingsViewModelTests`, so out of scope for the initial fix.
 - Surfaced by: design-system-reviewer + rgaa-accessibility-reviewer during the Settings accessibility rework.
 
+### Scanner panel overflows below the tab bar in portrait on iOS 27
+Reproduced on the iOS 27.0 iPhone 17 with the keypad open: the input panel is taller than the space above the floating tab bar (toggle button at y≈886 in an 874pt window), and with the camera unauthorized the "En attente de l'autorisation caméra" text is covered by the panel. Landscape was fixed (two-column panel, bottom-anchored, nav bar hidden); portrait is being reworked: camera as a background layer, status area + panel stacked in a `VStack` inside the `GeometryReader`, panel height capped by `ScannerLayout.panelMaxHeight`. The container height reported by the `GeometryReader` in portrait is not yet explained (landscape reports the safe-area height correctly: 750×260, top 78, bottom 64).
+- Affected: `FoodScanner/View/Scanner/ScannerScreenView.swift`, `FoodScanner/View/Scanner/ScannerLayout.swift`
+- Fix: measure `proxy.size` / `safeAreaInsets` in portrait on iOS 27, make the panel end exactly at the tab bar's top edge, then validate with `ScannerKeypadUITests` (see `memory_testing.md`).
+- Also open: the `FSMascot` breathing animation (`repeatForever`, scale 1.0-1.04) runs continuously on the Scanner placeholder and the onboarding; reported as "never stops moving" — decide whether to stop it after a few cycles or tie it to an explicit state.
+
 ### iPhone Duo APIs (ReservedRegion, ArrangementView) not adopted yet
 The HIG iPhone Duo page (`designing-for-iphone-duo`) and the developer article `TechnologyOverviews/preparing-your-app-for-iphone-duo` recommend `ReservedRegion` (keep custom content clear of the fold / cameras) and `ArrangementView` for two-pane layouts. Both are iOS/iPadOS 27.1+; local Xcode is 27.0 with no Duo simulator, and the deployment target is 17.0.
 - Affected: `FoodScanner/View/Scanner/ScannerScreenView.swift` (camera + keypad layout), History master/detail

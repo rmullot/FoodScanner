@@ -10,9 +10,11 @@ import FoodScannerUI
 
 struct ScannerLayout: Equatable {
     let isSideBySide: Bool
+    let isCompactHeight: Bool
 
     init(horizontalSizeClass: UserInterfaceSizeClass?, verticalSizeClass: UserInterfaceSizeClass?) {
-        isSideBySide = horizontalSizeClass == .regular || verticalSizeClass == .compact
+        isCompactHeight = verticalSizeClass == .compact
+        isSideBySide = horizontalSizeClass == .regular && !isCompactHeight
     }
 
     func keypadHeight(containerHeight: CGFloat) -> CGFloat {
@@ -22,7 +24,20 @@ struct ScannerLayout: Equatable {
         return max(FSMetrics.keypadMinRegionHeight, available)
     }
 
+    var panelTopPadding: CGFloat {
+        isCompactHeight ? FSMetrics.space2 : 0
+    }
+
+    var panelBottomPadding: CGFloat {
+        isCompactHeight ? FSMetrics.space2 : FSMetrics.space4
+    }
+
+    func panelMaxWidth(showsKeypad: Bool) -> CGFloat {
+        let columns: CGFloat = isCompactHeight && showsKeypad ? 2 : 1
+        return FSMetrics.keypadMaxWidth * columns + FSMetrics.space10 * 2
+    }
+
     func panelMaxHeight(containerHeight: CGFloat) -> CGFloat {
-        isSideBySide ? containerHeight : containerHeight * 0.75
+        isSideBySide || isCompactHeight ? containerHeight : containerHeight * 0.85
     }
 }

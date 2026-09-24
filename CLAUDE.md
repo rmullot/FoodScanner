@@ -32,6 +32,8 @@ xcodebuild -scheme FoodScanner -destination 'platform=iOS Simulator,name=iPhone 
 
 `FoodScannerTests/` holds a real unit suite (service-protocol test doubles in `TestDoubles.swift`); `FoodScannerUITests/` holds XCUITests.
 
+Simulator gotchas (Xcode 27): two `iPhone 17` simulators exist (iOS 26.5 and 27.0), so pin the destination with `id=<udid>` or `,OS=27.0`. `xcodebuild test` can silently reuse a stale UI-test bundle (symptoms: `Executed 0 tests` for a new class, failure line numbers from the old file) — rerun with a fresh `-derivedDataPath`. To reach the Scanner without onboarding: `xcrun simctl spawn <udid> defaults write com.MULLOTRomainEI.FoodScanner hasSeenOnboarding -bool true`; reset camera state with `xcrun simctl privacy <udid> reset all <bundle id>`. Layout work must be checked on iOS 27 (floating tab bar) in portrait and landscape, not only on iOS 26.5.
+
 ## SPM dependencies
 
 Declared in `FoodScanner.xcodeproj/project.pbxproj`:
@@ -44,7 +46,7 @@ Each screen has an `ObservableObject` view model `<Screen>ViewModel` (`@Publishe
 
 ### View (`FoodScanner/View/`, one folder per tab/screen)
 
-- `Scanner/` — `ScannerScreenView` (AVFoundation capture via `CameraPreviewView`, `FSBarcodeField` / `FSKeypad` manual entry) + `ScannerViewModel`. Coordinator-agnostic: it takes its VM plus an `onProductFound` closure; the `NavigationStack` and destination live in `ScannerCoordinatorView`.
+- `Scanner/` — `ScannerScreenView` (AVFoundation capture via `CameraPreviewView`, `FSBarcodeField` / `FSKeypad` manual entry) + `ScannerViewModel`. Coordinator-agnostic: it takes its VM plus an `onProductFound` closure; the `NavigationStack` and destination live in `ScannerCoordinatorView`. Layout is size-class driven (`ScannerLayout`): camera as a full-bleed background layer, status/placeholder area and input panel stacked inside the safe area (side by side only at regular width + non-compact height, i.e. iPad / iPhone Duo inner display); at compact height with the keypad open the panel goes two-column and the navigation bar is hidden. Never use `UIScreen.main.bounds` or `UIDevice.orientation` for layout; camera rotation goes through `AVCaptureDevice.RotationCoordinator`.
 - `Coordinator/` — `Router<Route>` (owns a typed nav stack), `Coordinator` protocol, `ScannerCoordinator` + `ScannerCoordinatorView` (build the Scanner flow's screens/VMs, translate intents to `router.push`). Views never reference these types.
 - `FoodDetail/` — `ProductDetailScreenView` (`FSProductCard`, `FSNutrientRow`) + `FoodDetailViewModel`, shared by the Scanner and History tabs.
 - `History/` — `HistoryScreenView` (`FSHistoryRow`, `FSOfflineBanner`, `FSSceneFooter`) + `HistoryViewModel`. `FSHistoryRow` owns its `Button` (takes an `action` closure), so at compact width navigation is a `NavigationStack(path:)` bound to a local `NavigationPath` the row appends to — not a `NavigationLink` — and at regular width (iPad, iPhone Duo inner display) a `NavigationSplitView` shows the list beside the same `ProductDetailScreenView`.
@@ -102,6 +104,7 @@ Enforced design rules, audited on every screen change:
 
 ## Conventions
 
+- **No string literals for storage keys or accessibility identifiers.** `@AppStorage` keys live in `AppStorageKey` (`@AppStorage(.hasSeenOnboarding)`), app identifiers in `AccessibilityID` (`.accessibilityIdentifier(.tabScanner)`), package identifiers in `FSAccessibilityID` (keypad, status rows). The UI-test target compiles `AccessibilityID.swift` and `FSAccessibilityID.swift` so tests use the same enums; add new keys/ids there, never inline.
 - **No singletons / no `sharedInstance`.** A new service gets a protocol, an `InjectionManager` property, and a `nil`-defaulted constructor parameter on its view-model consumers.
 - **Code docs and comments are English**; user-facing strings stay French. `.claude/` files (this file, every `.claude/agents/*.md` incl. frontmatter) are English regardless of the request language.
 - **No comments in code**, four exceptions only: (1) `// SECURITY: ...` on security-relevant logic, (2) `// TODO: ...` for real outstanding work, (3) `// MARK:` navigation markers, (4) a `///` doc comment stating a **design-system visual constant** (a color's role/appearance, a pt size, a spacing/radius/touch-target value) — not narration. Enforced by the `no_explanatory_comments` SwiftLint rule; fix the comment, never `// swiftlint:disable` it. The copyright header is exempt.
