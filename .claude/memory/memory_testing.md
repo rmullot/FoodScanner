@@ -17,3 +17,8 @@ The `FoodScannerUI` scheme is not configured for the test action, and `swift tes
 Editing a `FoodScannerUITests` source (or adding a class) sometimes isn't recompiled: `Executed 0 tests` for the new class, assertion line numbers from the previous file version, debug output never written.
 - Affected: local workflow and any script that runs `-only-testing:FoodScannerUITests/...`
 - Fix: use a dedicated `-derivedDataPath` (worked reliably) or clean the UI-test target; find the actual cause before relying on incremental UI-test runs.
+
+### No iPad / landscape / Split View UI coverage
+The adaptive layout (Scanner side by side at regular width, two-column keypad at compact height, History `NavigationSplitView`) is only covered by unit tests on `ScannerLayout`/`HistoryViewModel` and manual simulator checks; no XCUITest rotates the device or runs on an iPad, and iPad Split View 1/3, 1/2, 2/3 was never checked.
+- Affected: `FoodScannerUITests/`, `.github/workflows/ios.yml`
+- Fix: add landscape (iPhone) and iPad UI tests (open keypad, validate reachable, History list + detail side by side) and run Split View manually once; pin an iPad destination in CI if it is cheap enough.

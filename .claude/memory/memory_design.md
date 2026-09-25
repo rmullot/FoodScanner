@@ -14,6 +14,11 @@ Running backlog of still-open design-system points. Remove an entry the same cha
 - Fix: expose a single `Equatable` accessibility snapshot + a composed announcement string on `SettingsViewModel`; observe that one value in the view and announce once. Touches the VM contract + `SettingsViewModelTests`, so out of scope for the initial fix.
 - Surfaced by: design-system-reviewer + rgaa-accessibility-reviewer during the Settings accessibility rework.
 
+### Scanner on iPad portrait and the camera placeholder while the keypad is open
+Two unconfirmed design decisions: (1) iPad portrait (regular width, regular height) uses the side-by-side Scanner layout by design; the design reviewer asked whether the stacked layout is preferred there. (2) In portrait on iPhone with the keypad open only ~100pt remains for the status area, so the "En attente de l'autorisation caméra" placeholder is hidden entirely (title-only variant doesn't fit).
+- Affected: `FoodScanner/View/Scanner/ScannerLayout.swift`, `FoodScanner/View/Scanner/ScannerScreenView.swift`
+- Fix: confirm both choices with the design owner; if needed, show the title-only variant by shrinking the panel padding or moving the hint into the panel.
+
 ### FSMascot breathing animation never stops
 `FSMascot` runs a `repeatForever` scale animation (1.0-1.04, 1.6s) as long as it is on screen (Scanner camera-authorization placeholder, onboarding). It was reported as "never stops moving".
 - Affected: `FoodScannerUI/Sources/FoodScannerUI/Atoms/FSMascot.swift`
