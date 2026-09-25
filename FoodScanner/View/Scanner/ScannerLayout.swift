@@ -38,6 +38,6 @@ struct ScannerLayout: Equatable {
     }
 
     func panelMaxHeight(containerHeight: CGFloat) -> CGFloat {
-        isSideBySide || isCompactHeight ? containerHeight : containerHeight * 0.85
+        isSideBySide || isCompactHeight ? containerHeight : containerHeight * 0.93
     }
 }

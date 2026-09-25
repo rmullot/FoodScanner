@@ -17,6 +17,7 @@ struct ScannerScreenView: View {
     @AppStorage(.hasSeenOnboarding) private var hasSeenOnboarding = false
     @State private var code: String = ""
     @State private var showsKeypad: Bool = false
+    @State private var panelHeight: CGFloat = 0
     @State private var cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
 
     init(model: ScannerViewModel, onProductFound: @escaping (FoodStruct) -> Void) {
@@ -40,8 +41,9 @@ struct ScannerScreenView: View {
                             .frame(maxHeight: .infinity, alignment: .bottom)
                     }
                 } else {
-                    VStack(spacing: 0) {
+                    ZStack(alignment: .bottom) {
                         statusArea
+                            .padding(.bottom, panelHeight)
                         inputPanel(containerHeight: proxy.size.height)
                             .frame(maxWidth: layout.panelMaxWidth(showsKeypad: showsKeypad))
                     }
@@ -90,8 +92,9 @@ struct ScannerScreenView: View {
                 ZStack(alignment: .top) {
                     if cameraAuthorizationStatus != .authorized {
                         ViewThatFits(in: .vertical) {
-                            cameraUnavailablePlaceholder(showsMascot: true)
-                            cameraUnavailablePlaceholder(showsMascot: false)
+                            cameraUnavailablePlaceholder(showsMascot: true, showsHint: true)
+                            cameraUnavailablePlaceholder(showsMascot: false, showsHint: true)
+                            cameraUnavailablePlaceholder(showsMascot: false, showsHint: false)
                         }
                     }
 
@@ -121,7 +124,14 @@ struct ScannerScreenView: View {
         ViewThatFits(in: .vertical) {
             panelBody(containerHeight: containerHeight)
             ScrollView { panelBody(containerHeight: containerHeight) }
+                .scrollBounceBehavior(.basedOnSize)
         }
+        .background {
+            GeometryReader { geometry in
+                Color.clear.preference(key: PanelHeightKey.self, value: geometry.size.height)
+            }
+        }
+        .onPreferenceChange(PanelHeightKey.self) { panelHeight = $0 }
         .frame(maxHeight: layout.panelMaxHeight(containerHeight: containerHeight), alignment: .bottom)
     }
 
@@ -211,7 +221,7 @@ struct ScannerScreenView: View {
         }
     }
 
-    private func cameraUnavailablePlaceholder(showsMascot: Bool) -> some View {
+    private func cameraUnavailablePlaceholder(showsMascot: Bool, showsHint: Bool) -> some View {
         VStack(spacing: FSMetrics.space4) {
             Spacer()
 
@@ -227,11 +237,13 @@ struct ScannerScreenView: View {
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text(L10n.Scanner.manualEntryHint)
-                .font(.fsBody)
-                .foregroundStyle(Color.fsInkSecondary)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
+            if showsHint {
+                Text(L10n.Scanner.manualEntryHint)
+                    .font(.fsBody)
+                    .foregroundStyle(Color.fsInkSecondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
             Spacer()
         }
@@ -280,5 +292,13 @@ private struct PanelCard: ViewModifier {
             .padding(.horizontal, FSMetrics.space3)
             .padding(.top, topPadding)
             .padding(.bottom, bottomPadding)
+    }
+}
+
+private struct PanelHeightKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }

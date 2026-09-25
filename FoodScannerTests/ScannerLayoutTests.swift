@@ -43,7 +43,7 @@ final class ScannerLayoutTests: XCTestCase {
     func test_panelMaxHeight_stackedLeavesRoomForCamera() {
         let layout = ScannerLayout(horizontalSizeClass: .compact, verticalSizeClass: .regular)
 
-        XCTAssertEqual(layout.panelMaxHeight(containerHeight: 800), 680)
+        XCTAssertEqual(layout.panelMaxHeight(containerHeight: 800), 744)
     }
 
     func test_panelMaxHeight_compactHeightIsFullContainer() {
