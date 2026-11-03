@@ -32,4 +32,4 @@ Account-level (`~/.claude/agents/`, relevant to this project):
 - **`swiftgen.yml`** (repo root) — app-side codegen config (`Generated/Strings.swift`, `Asset.*`, `SFSymbol.*`).
 - **`FoodScanner/SFSymbols.yml`** — app-side SF Symbols declarations feeding the app's SwiftGen run.
 - **`FoodScannerUI/swiftgen.yml`** — package-side codegen config (`FSL10n.*`, `FSAsset.*`, `FSSymbol.*`); regeneration documented in `FoodScannerUI/README.md`.
-- **`FoodScanner.xcodeproj/project.pbxproj`** — the Xcode project file itself; non-build documentation (`Docs/`) is wired in here as file references only, see `xcode-project-manager` above.
+- **`FoodScanner.xcodeproj/project.xcproj`** — the Xcode project file itself; non-build documentation (`Docs/`) is wired in here as file references only, see `xcode-project-manager` above.

@@ -36,7 +36,7 @@ Simulator gotchas (Xcode 27): two `iPhone 17` simulators exist (iOS 26.5 and 27.
 
 ## SPM dependencies
 
-Declared in `FoodScanner.xcodeproj/project.pbxproj`:
+Declared in `FoodScanner.xcodeproj/project.xcproj`:
 - `realm-swift` — pinned to exact version **20.0.5**, imported as `RealmSwift`.
 - `FoodScannerUI` — local design-system package.
 
@@ -114,7 +114,7 @@ Enforced design rules, audited on every screen change:
 - `CacheManager` is an actor — never let a Realm `Object`/`List` cross an async boundary; convert to a `Sendable` struct first. `Food`/`Nutrient` are created/mutated only through `CacheManager`.
 - UIKit↔SwiftUI and Realm↔design-system bridging belongs in the app (e.g. `FoodBridge.swift`), never in the package.
 - Accessibility settings from `SettingsScreenView` (text size, reduce animations) are app-scoped: propagated by `AppAccessibilitySettings.swift` (`View.appWideAccessibilitySettings()`) at each tab's hosting-controller root. "Reduce animations" uses an app-only `EnvironmentKey` `appReduceAnimations` via `View.appAnimation(_:value:)` (system `\.accessibilityReduceMotion` is read-only). High-contrast **is** wired up, driven by the real system signal `@Environment(\.colorSchemeContrast) == .increased` (no custom contrast toggle): design-system controls (`FSButton`, `FSIconButton`, `FSKeypad`, `FSBarcodeField`) thicken their borders via `FSMetrics.borderWidth(for:)` / `borderWidthStrong(for:)`, swap to the `Color.fsBorderStrong` / `Color.fsAccentSoftStrong` tokens, and bump label/glyph weight (`Font.fsBodyHeavy`). Nutri-Score colors stay untouched. `fsCard()` is contrast-aware too, via `FSCardModifier` reading `\.fsResolvedContrast` (the shared resolver on `EnvironmentValues`: system `\.colorSchemeContrast` OR-ed with the preview-only `fsIncreasedContrastOverride`); under increased contrast it swaps to `Color.fsBorderStrong` at `FSMetrics.borderWidthStrongIncreased`. Atoms read the same `\.fsResolvedContrast` resolver.
-- **`Docs/` filenames are English and OS-portable** (no spaces, no accents, `kebab-case.ext`) — content may quote the app's real French UI strings, but headings/prose/filenames stay English. Any such file gets added to `FoodScanner.xcodeproj/project.pbxproj` as a file reference only (`PBXFileReference` + group entry) — never wired into a build phase. Full rationale in `~/.claude/project-standards.md`; `xcode-project-manager` (account-level agent) enforces and fixes drift.
+- **`Docs/` filenames are English and OS-portable** (no spaces, no accents, `kebab-case.ext`) — content may quote the app's real French UI strings, but headings/prose/filenames stay English. Any such file gets added to `FoodScanner.xcodeproj/project.xcproj` as a file reference only (`PBXFileReference` + group entry) — never wired into a build phase. Full rationale in `~/.claude/project-standards.md`; `xcode-project-manager` (account-level agent) enforces and fixes drift.
 
 ## Agents
 
@@ -130,7 +130,7 @@ Enforced design rules, audited on every screen change:
 - `test-suite-engineer` — writes tests after implementation is green: unit always, UI only if views changed, performance only if asked. Never touches production code.
 - `localization-engineer` — maintains the two localization layers (see Localization).
 - `technical-debt-migration-orchestrator` — all technical-debt work (legacy Obj-C, misspelled symbols, storyboards, pre-MVVM code, non-injected singletons). 5 strictly sequential phases, one `techdebt/phase-<n>-*` branch each, human validation + merge to `develop` between phases. Never merges/pushes/opens a PR itself.
-- `xcode-project-manager` — **account-level** agent (`~/.claude/agents/`, not project-local), reusable across repos. Adds new `Docs/`-style files to `project.pbxproj` as file references only (never a build-phase member), enforces the English/OS-portable filename rule above, and maintains `.claude/project-reference/` (index of this project's agents + other config files). Invoke it whenever docs/design/screenshot files are added or renamed, or when the Xcode group under `Docs/` drifts from what's on disk.
+- `xcode-project-manager` — **account-level** agent (`~/.claude/agents/`, not project-local), reusable across repos. Adds new `Docs/`-style files to `project.xcproj` as file references only (never a build-phase member), enforces the English/OS-portable filename rule above, and maintains `.claude/project-reference/` (index of this project's agents + other config files). Invoke it whenever docs/design/screenshot files are added or renamed, or when the Xcode group under `Docs/` drifts from what's on disk.
 
 ## Project reference index
 

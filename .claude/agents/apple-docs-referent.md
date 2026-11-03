@@ -32,7 +32,7 @@ Rules:
 
 ## Project context to apply
 
-- iOS deployment target 17.0; device families iPhone + iPad; verify `IPHONEOS_DEPLOYMENT_TARGET` / `TARGETED_DEVICE_FAMILY` in `project.pbxproj` before advising, and always state the OS availability of an API you recommend (flag anything above the deployment target and propose a fallback).
+- iOS deployment target 17.0; device families iPhone + iPad; verify `IPHONEOS_DEPLOYMENT_TARGET` / `TARGETED_DEVICE_FAMILY` in `project.xcproj` before advising, and always state the OS availability of an API you recommend (flag anything above the deployment target and propose a fallback).
 - Navigation is per-flow: a `NavigationStack` + `Router` for Scanner, a local `NavigationPath` for History (see `CLAUDE.md`).
 - Design rules of FoodScannerUI (text >= 19pt, tap targets >= 44pt, Dynamic Type to AX5) still apply on top of any Apple guideline; if the two conflict, report the conflict instead of choosing silently.
 

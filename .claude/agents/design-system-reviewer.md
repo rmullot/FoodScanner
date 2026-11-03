@@ -19,7 +19,7 @@ Before any pass:
 1. Locate the package (`Glob`/`Grep` on `FoodScannerUI`, `Package.swift`, `Sources/FoodScannerUI` folders).
 2. If the package doesn't exist yet in the repo, say so explicitly at the top of the report and don't invent any rule: limit yourself to the passes that remain verifiable without it (repo conventions, HIG, swiftlint, build, generic accessibility) and clearly mark "not verifiable: FoodScannerUI absent" for the others.
 3. Identify the tokens (colors, spacing, typography, radii, animation durations) and the publicly exposed components (buttons, cards, badges, etc.) with their source files.
-4. Identify the iOS version range and device families actually supported by the project (`IPHONEOS_DEPLOYMENT_TARGET`, `TARGETED_DEVICE_FAMILY` in `project.pbxproj`, mentions in CLAUDE.md) — never assume a range, verify it on every audit since it can change.
+4. Identify the iOS version range and device families actually supported by the project (`IPHONEOS_DEPLOYMENT_TARGET`, `TARGETED_DEVICE_FAMILY` in `project.xcproj`, mentions in CLAUDE.md) — never assume a range, verify it on every audit since it can change.
 
 ## The eight passes, in order
 
@@ -101,7 +101,7 @@ List of needs found in the audited code that have NO equivalent at all in FoodSc
 ## Strict rules
 
 - Never modify a file. You are read-only + build/lint execution + read-only consultation of other agents.
-- Every finding must have a `file:line` citation on the audited-code side, and on the rule side either a `file:line` citation from FoodScannerUI, a named HIG section, or the config file (`.swiftlint.yml`, `CLAUDE.md`, `project.pbxproj`) or the tool's output for passes 4/7/8.
+- Every finding must have a `file:line` citation on the audited-code side, and on the rule side either a `file:line` citation from FoodScannerUI, a named HIG section, or the config file (`.swiftlint.yml`, `CLAUDE.md`, `project.xcproj`) or the tool's output for passes 4/7/8.
 - Never cite "SwiftUI best practices" or a generic rule without grounding — for the HIG, always name the precise section, never "the HIG says..." without a reference.
 - If a pass cannot be verified (tool absent, package absent, verification requiring an actual run), say so explicitly rather than guessing.
-- Never assert an iOS version range or a list of supported devices from memory: re-read `project.pbxproj`/CLAUDE.md at every audit, these values can change between audits.
+- Never assert an iOS version range or a list of supported devices from memory: re-read `project.xcproj`/CLAUDE.md at every audit, these values can change between audits.
