@@ -63,8 +63,8 @@ struct ScannerScreenView: View {
         .onDisappear {
             model.forceSwitchOffLamp()
         }
-        .onAppear {
-            updateCameraAuthorizationStatus()
+        .task(id: hasSeenOnboarding) {
+            await requestCameraAuthorizationIfNeeded()
         }
         .onChange(of: hasSeenOnboarding) { _, _ in
             updateCameraAuthorizationStatus()
@@ -209,6 +209,13 @@ struct ScannerScreenView: View {
             guard let food = model.scannedFood else { return }
             onProductFound(food)
         }
+    }
+
+    private func requestCameraAuthorizationIfNeeded() async {
+        updateCameraAuthorizationStatus()
+        guard hasSeenOnboarding, cameraAuthorizationStatus == .notDetermined else { return }
+        _ = await AVCaptureDevice.requestAccess(for: .video)
+        updateCameraAuthorizationStatus()
     }
 
     private func updateCameraAuthorizationStatus() {
