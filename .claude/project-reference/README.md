@@ -16,6 +16,9 @@ Project-level (`.claude/agents/`):
 - **test-suite-engineer** — writes unit/UI/performance tests after implementation is green; never touches production code.
 - **localization-engineer** — maintains the app's and package's two independent localization layers.
 - **technical-debt-migration-orchestrator** — all technical-debt work, 5 strictly sequential phases with human validation between them.
+- **apple-docs-referent** — read-only referent for Apple's HIG and developer documentation, read as Markdown via the `tutorials/data/<path>.md` URL rewrite; consulted by the orchestrator, the engineers and the design-system reviewer.
+
+Apple-authored skills (`.claude/skills/`, exported via `xcrun agent skills export`): `swiftui-specialist`, `swiftui-whats-new-27`, `uikit-app-modernization`, `device-interaction`.
 
 Account-level (`~/.claude/agents/`, relevant to this project):
 
@@ -29,4 +32,4 @@ Account-level (`~/.claude/agents/`, relevant to this project):
 - **`swiftgen.yml`** (repo root) — app-side codegen config (`Generated/Strings.swift`, `Asset.*`, `SFSymbol.*`).
 - **`FoodScanner/SFSymbols.yml`** — app-side SF Symbols declarations feeding the app's SwiftGen run.
 - **`FoodScannerUI/swiftgen.yml`** — package-side codegen config (`FSL10n.*`, `FSAsset.*`, `FSSymbol.*`); regeneration documented in `FoodScannerUI/README.md`.
-- **`FoodScanner.xcodeproj/project.pbxproj`** — the Xcode project file itself; non-build documentation (`Docs/`) is wired in here as file references only, see `xcode-project-manager` above.
+- **`FoodScanner.xcodeproj/project.xcproj`** — the Xcode project file itself; non-build documentation (`Docs/`) is wired in here as file references only, see `xcode-project-manager` above.

@@ -13,6 +13,7 @@ import Combine
 final class HistoryViewModel: ObservableObject {
     @Published private(set) var items: [FoodSummary] = []
     @Published private(set) var isOffline: Bool = false
+    @Published var selectedBarcode: String?
 
     private let cacheManager: CacheProviding
     private let reachability: ReachabilityProviding
@@ -32,5 +33,9 @@ final class HistoryViewModel: ObservableObject {
 
     func load() async {
         items = await cacheManager.allFoodSummaries()
+    }
+
+    func food(barcode: String) async -> FoodStruct? {
+        await cacheManager.food(barcode: barcode)
     }
 }

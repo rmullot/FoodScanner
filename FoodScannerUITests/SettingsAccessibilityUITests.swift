@@ -14,7 +14,7 @@ final class SettingsAccessibilityUITests: XCTestCase {
     }
 
     private func dismissOnboardingIfPresent(in app: XCUIApplication) {
-        let skipOnboarding = app.buttons["onboarding.skip"]
+        let skipOnboarding = app.buttons[AccessibilityID.onboardingSkip.identifier]
         if skipOnboarding.waitForExistence(timeout: 10) {
             skipOnboarding.tap()
         }
@@ -35,13 +35,13 @@ final class SettingsAccessibilityUITests: XCTestCase {
     func test_contrastRow_showsStatusAndHittableOpenSettingsButton() {
         let app = openSettingsTab()
 
-        let contrastStatusText = app.staticTexts["settings.contrastStatus"]
+        let contrastStatusText = app.staticTexts[AccessibilityID.settingsContrastStatus.identifier]
         XCTAssertTrue(contrastStatusText.waitForExistence(timeout: 5),
                       "The read-only contrast status line should exist and expose a state string")
         XCTAssertFalse(contrastStatusText.label.isEmpty,
                        "The contrast status line should carry a non-empty state label")
 
-        let openIOSSettings = app.buttons["settings.openIOSSettings"]
+        let openIOSSettings = app.buttons[AccessibilityID.settingsOpenIOSSettings.identifier]
         XCTAssertTrue(openIOSSettings.waitForExistence(timeout: 5),
                       "The \"Ouvrir les Réglages iOS\" button should exist inside the contrast row")
         XCTAssertTrue(openIOSSettings.isHittable,
@@ -51,12 +51,12 @@ final class SettingsAccessibilityUITests: XCTestCase {
     func test_reduceAnimations_isAnInteractiveToggleInDefaultSimulatorState() {
         let app = openSettingsTab()
 
-        let toggle = app.switches["settings.reduceAnimationsToggle"]
+        let toggle = app.switches[AccessibilityID.settingsReduceAnimationsToggle.identifier]
         XCTAssertTrue(toggle.waitForExistence(timeout: 5),
                       "With system Reduce Motion off the reduce-animations row should be an interactive toggle")
         XCTAssertTrue(toggle.isHittable, "The reduce-animations toggle should be hittable")
 
-        let forcedRow = app.descendants(matching: .any)["settings.reduceAnimationsStatus"]
+        let forcedRow = app.descendants(matching: .any)[AccessibilityID.settingsReduceAnimationsStatus.identifier]
         XCTAssertFalse(forcedRow.exists,
                        "The forced read-only reduce-animations row must be absent when system Reduce Motion is off")
 
@@ -66,7 +66,7 @@ final class SettingsAccessibilityUITests: XCTestCase {
     func test_textSizeSlider_exists() {
         let app = openSettingsTab()
 
-        let slider = app.sliders["settings.textSizeSlider"]
+        let slider = app.sliders[AccessibilityID.settingsTextSizeSlider.identifier]
         XCTAssertTrue(slider.waitForExistence(timeout: 5),
                       "The text-size slider should be present on the Réglages screen")
         XCTAssertTrue(slider.isHittable, "The text-size slider should be hittable")

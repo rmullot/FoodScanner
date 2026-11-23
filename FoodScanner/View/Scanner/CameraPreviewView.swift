@@ -39,51 +39,39 @@ final class CameraPreviewUIView: UIView {
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     private var captureMetadataOutput = AVCaptureMetadataOutput()
     private var barCodeFrameView: UIView?
+    private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
+    private var rotationObservation: NSKeyValueObservation?
     private let sessionQueue = DispatchQueue(label: "com.foodscanner.cameraSession")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSession()
         setupTapToFocus()
-        setupOrientationObserver()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupSession()
         setupTapToFocus()
-        setupOrientationObserver()
-    }
-
-    deinit {
-        UIDevice.current.endGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.removeObserver(self)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         videoPreviewLayer?.frame = layer.bounds
-        updateVideoRotationAngle()
     }
 
-    private func setupOrientationObserver() {
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateVideoRotationAngle),
-            name: UIDevice.orientationDidChangeNotification,
-            object: nil
-        )
-    }
-
-    @objc private func updateVideoRotationAngle() {
-        let angle: CGFloat
-        switch UIDevice.current.orientation {
-        case .landscapeLeft: angle = 0
-        case .landscapeRight: angle = 180
-        case .portraitUpsideDown: angle = 270
-        default: angle = 90
+    private func setupRotationCoordinator(device: AVCaptureDevice, previewLayer: AVCaptureVideoPreviewLayer) {
+        let coordinator = AVCaptureDevice.RotationCoordinator(device: device, previewLayer: previewLayer)
+        rotationCoordinator = coordinator
+        applyRotationAngle(coordinator.videoRotationAngleForHorizonLevelPreview)
+        rotationObservation = coordinator.observe(\.videoRotationAngleForHorizonLevelPreview,
+                                                  options: [.new]) { [weak self] _, change in
+            guard let angle = change.newValue else { return }
+            DispatchQueue.main.async { self?.applyRotationAngle(angle) }
         }
+    }
+
+    private func applyRotationAngle(_ angle: CGFloat) {
         if let connection = videoPreviewLayer?.connection, connection.isVideoRotationAngleSupported(angle) {
             connection.videoRotationAngle = angle
         }
@@ -100,6 +88,7 @@ final class CameraPreviewUIView: UIView {
             previewLayer.videoGravity = .resizeAspectFill
             layer.addSublayer(previewLayer)
             videoPreviewLayer = previewLayer
+            setupRotationCoordinator(device: captureDevice, previewLayer: previewLayer)
         } catch {
             print(error)
             return

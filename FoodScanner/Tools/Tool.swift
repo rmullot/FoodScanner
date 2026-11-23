@@ -10,8 +10,8 @@ import UIKit
 
 class Tool {
 
-    static func getBestPicture(resolutions: [String]) -> String {
-        let height = Int(UIScreen.main.bounds.size.height)
+    static func getBestPicture(resolutions: [String], containerHeight: CGFloat) -> String {
+        let height = Int(containerHeight)
         var chosenRes: Int = 0
         var chosenResolution: String = ""
         for resolution in resolutions {

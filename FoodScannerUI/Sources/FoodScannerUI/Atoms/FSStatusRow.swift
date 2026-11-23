@@ -120,7 +120,7 @@ struct FSStatusRow_Previews: PreviewProvider {
                             value: "Très grand",
                             caption: "Réglée dans Réglages iOS › Affichage et luminosité.",
                             systemImage: "textformat.size",
-                            statusIdentifier: "statusRow.textSize.status")
+                            statusIdentifier: FSAccessibilityID.statusRowTextSizeStatus.identifier)
 
                 FSStatusRow("Réduire les animations",
                             value: "Activé",
@@ -131,7 +131,7 @@ struct FSStatusRow_Previews: PreviewProvider {
                             caption: "Réglée dans Réglages iOS. Ouvrez-les pour l’ajuster.",
                             systemImage: "textformat.size",
                             action: ("Ouvrir Réglages", {}),
-                            actionIdentifier: "statusRow.textSize.openSettings")
+                            actionIdentifier: FSAccessibilityID.statusRowTextSizeOpenSettings.identifier)
 
                 FSStatusRow("Contraste élevé",
                             value: "Désactivé",

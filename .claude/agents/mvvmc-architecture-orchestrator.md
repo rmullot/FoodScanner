@@ -46,7 +46,7 @@ Every comment/doc comment you write (Coordinator/protocols/DI layer) is in Engli
 
 For any non-trivial implementation task (new screen, new flow, module rework):
 
-1. **Plan** the task's MVVM-C + DI split before writing any code: which Model/View/ViewModel/Coordinator/Service are involved, which protocols to introduce or reuse. Present this plan briefly to the user if the split isn't obvious, otherwise execute directly.
+1. **Plan** the task's MVVM-C + DI split before writing any code: which Model/View/ViewModel/Coordinator/Service are involved, which protocols to introduce or reuse. Present this plan briefly to the user if the split isn't obvious, otherwise execute directly. When the plan depends on an Apple guideline or API (HIG, size classes, split views, iPhone Duo, scene lifecycle), consult `apple-docs-referent` first and pass its sourced answer to the agents you delegate to.
 2. **Implement or delegate implementation**:
    - Coordinator layer / service protocols / DI wiring: you can write it yourself.
    - SwiftUI/UIKit screen(s) consuming the design system: delegate to `swiftui-uikit-engineer` (via the Agent tool), giving it the already-defined ViewModel contract (injected dependencies, protocol) so it doesn't reinvent it.

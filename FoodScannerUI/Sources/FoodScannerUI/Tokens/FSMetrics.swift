@@ -44,6 +44,8 @@ public enum FSMetrics {
     /// 420 pt — keypad width ceiling so keys stay phone-proportioned on iPad / wide panes.
     public static let keypadMaxWidth: CGFloat = 420
 
+    /// 640 pt — readable content column ceiling so text screens don't stretch edge to edge on iPad / iPhone Duo inner display.
+    public static let readableContentMaxWidth: CGFloat = 640
     public static let borderWidth: CGFloat = 1.5
     public static let borderWidthStrong: CGFloat = 2
     /// 2.5 pt — hairline border thickened for increased colour contrast.
@@ -69,6 +71,12 @@ public extension View {
     func fsMinTouchTarget() -> some View {
         frame(minWidth: FSMetrics.minTouchTarget, minHeight: FSMetrics.minTouchTarget)
             .contentShape(Rectangle())
+    }
+
+    /// Caps the content to `FSMetrics.readableContentMaxWidth`, centred in the container.
+    func fsReadableContentWidth() -> some View {
+        frame(maxWidth: FSMetrics.readableContentMaxWidth, alignment: .leading)
+            .frame(maxWidth: .infinity)
     }
 
     func fsCard(radius: CGFloat = FSMetrics.radiusLarge) -> some View {

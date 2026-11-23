@@ -40,6 +40,7 @@
 "history.empty_state" = "No products viewed yet.";
 "history.footer_caption" = "The mascots are keeping an eye on your last twelve products.";
 "history.subtitle_format" = "Viewed %@";
+"history.select_placeholder" = "Select a product from the history to see its details.";
 
 // MARK: - Product Detail
 

@@ -87,8 +87,8 @@ final class AppWideAccessibilitySettingsModel: ObservableObject {
 }
 
 private struct AppWideAccessibilitySettings: ViewModifier {
-    @AppStorage("settings.textScale") private var textScale: Double = 1.0
-    @AppStorage("settings.reduceAnimations") private var reduceAnimations: Bool = false
+    @AppStorage(.settingsTextScale) private var textScale: Double = 1.0
+    @AppStorage(.settingsReduceAnimations) private var reduceAnimations: Bool = false
     @StateObject private var model = AppWideAccessibilitySettingsModel()
     @Environment(\.scenePhase) private var scenePhase
 

@@ -61,6 +61,7 @@ Stop and ask the user (don't guess) if:
 - The task asks you to pass a managed Realm object across a layer boundary (view/ViewModel) without going through `CacheManager`.
 - The task implies History or Settings needs a Coordinator (currently local `NavigationPath`) — confirm scope with the user or hand off to `mvvmc-architecture-orchestrator` rather than introducing one unprompted.
 - An accessibility question (VoiceOver label, focus order, alternative to a camera/visual flow, state-change announcement) has no obvious answer in the repo: consult `rgaa-accessibility-reviewer` (advice mode) rather than guessing.
+- An Apple guideline or API question (HIG rule, size classes, split views, toolbars, iPhone Duo reserved regions, API availability) has no answer in the repo: consult `apple-docs-referent` rather than relying on memory, and read the Apple-authored skills in `.claude/skills/` (`swiftui-specialist`, `swiftui-whats-new-27`, `uikit-app-modernization`, `device-interaction`) for the matching topic.
 - A personal-data question (new data collected/stored/transmitted, new third party, retention period, deletion) has no obvious answer in the repo: consult `rgpd-privacy-reviewer` (advice mode) rather than guessing.
 
 ## End of task: mandatory audit
